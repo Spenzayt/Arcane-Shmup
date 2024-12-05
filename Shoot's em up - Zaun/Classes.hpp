@@ -6,6 +6,204 @@
 #include <string>
 #include <windows.h>
 
+class Entities {
+protected:
+	int E_coordX = 0;
+	int E_coordY = 0;
+	int E_health = 0;
+	bool E_isAlive = true;
+	bool E_isAttacking = false;
+	bool E_isHit = false;
+	bool E_isDying = false;
+	bool E_isDead = false;
+	std::string E_name;
+
+public:
+
+	Entities(bool A) : E_health(), E_coordX(), E_coordY(), E_isAlive(A) {}
+
+	~Entities() {
+		std::cout << E_name << " est détruit";
+	}
+
+	virtual int losePV(int damage) {
+		E_health -= damage;
+		if (E_health <= 0) {
+			E_health = 0;
+			E_isAlive = false;
+		}
+		return E_health;
+	}
+	virtual int getHealth() {
+		return E_health;
+	}
+	virtual int getCoordX() {
+		return E_coordX;
+	}
+	virtual int setCoordX(int X) {
+		E_coordX += X;
+		return E_coordX;
+	}
+	virtual int getCoordY() {
+		return E_coordY;
+	}
+	virtual int setCoordY(int Y) {
+		E_coordY += Y;
+		return E_coordY;
+	}
+	virtual std::string getName() {
+		return E_name;
+	}
+	virtual bool getAlive() {
+		return E_isAlive;
+	}
+	virtual int heal() {
+		E_health += 30;
+		return E_health;
+	}
+	virtual int setHealth(int pv) {
+		E_health = pv;
+		return E_health;
+	}
+	virtual int HealthReset(int pv) {
+		E_health = pv;
+		return E_health;
+	}
+	virtual bool LifeReset() {
+		E_isAlive = true;
+		return E_isAlive;
+	}
+};
+
+class Character : public Entities {
+protected:
+	std::string c_name;
+	int c_coordX;
+	int	c_coordY;
+	int c_health;
+	bool c_isAlive = true;
+
+public:
+	Character(std::string n, int CX, int CY, int h) : c_name(n), c_coordX(CX), c_coordY(CY), c_health(h), Entities(true) {}
+
+	int losePV(int damage) override {
+		c_health -= damage;
+		if (c_health <= 0) {
+			c_health = 0;
+			c_isAlive = false;
+		}
+		return c_health;
+	}
+	int getHealth() override {
+		return c_health;
+	}
+	int getCoordX() override {
+		return c_coordX;
+	}
+	int setCoordX(int X) override {
+		c_coordX += X;
+		return c_coordX;
+	}
+	int getCoordY() override {
+		return c_coordY;
+	}
+	int setCoordY(int Y) override {
+		c_coordY += Y;
+		return c_coordY;
+	}
+	std::string getName() override {
+		return c_name;
+	}
+	bool getAlive() override {
+		return c_isAlive;
+	}
+	int heal() override {
+		c_health++;
+		return c_health;
+	}
+	int setHealth(int pv) override {
+		c_health = pv;
+		return c_health;
+	}
+	int HealthReset(int pv) override {
+		c_health = pv;
+		return c_health;
+	}
+	bool LifeReset() {
+		c_isAlive = true;
+		return c_isAlive;
+	}
+}; //Character Char_Class;
+
+class Enemies : public Entities {
+protected:
+	std::string e_name;
+	int e_coordX, e_coordY;
+	int e_health;
+	bool e_isAlive = true;
+
+
+public:
+	Enemies(std::string n, int CX, int CY, int h) : e_name(n), e_coordX(CX), e_coordY(CY), e_health(h), Entities(true) {}
+
+	int losePV(int damage) override {
+		e_health -= damage;
+		if (e_health <= 0) {
+			e_health = 0;
+			e_isAlive = false;
+		}
+		return e_health;
+	}
+	int getHealth() override {
+		return e_health;
+	}
+	int getCoordX() override {
+		return e_coordX;
+	}
+	int setCoordX(int X) override {
+		e_coordX += X;
+		return e_coordX;
+	}
+	int getCoordY() override {
+		return e_coordY;
+	}
+	int setCoordY(int Y) override {
+		e_coordY += Y;
+		return e_coordY;
+	}
+	std::string getName() override {
+		return e_name;
+	}
+	bool getAlive() override {
+		return e_isAlive;
+	}
+	int heal() override {
+		e_health++;
+		return e_health;
+	}
+	int setHealth(int pv) override {
+		e_health = pv;
+		return e_health;
+	}
+	int HealthReset(int pv) override {
+		e_health = pv;
+		return e_health;
+	}
+	bool LifeReset() {
+		e_isAlive = true;
+		return e_isAlive;
+	}
+};// Enemies Enem_Class;
+
+
+class Ekko : public Character {
+public:
+	Ekko() : Character("Ekko", 225, 625, 500) {}
+
+
+};
+
+
 class Game {
 
 public : 
@@ -54,7 +252,7 @@ public :
 		if (!ekkoStruct.ekko_anim_isAttacking) {
 			if (ekko_anim.x * 128 >= ekko_walk_texture.getSize().x) // boucle qui permet de revenir a la premiere slide de l'anim
 				ekko_anim.x = 0;
-			// ici, ce code permet de creer l'animation Idle du personnage
+			// ici, ce code permet de creer l'animation de marche du personnage
 			ekko_walk_sprite.setTextureRect(sf::IntRect(ekko_anim.x * 128, 0, 128, 128));
 			window.draw(ekko_walk_sprite);
 			//////////////////////////////
@@ -79,6 +277,7 @@ public :
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
 		{
+			//ekko_walk_sprite.setPosition(Char_Class += 10, 10);
 			ekko_walk_sprite.move(-10.f, 0.f);
 			ekko_Attack_sprite.move(-10.f, 0.f);
 		}
@@ -102,38 +301,3 @@ public :
 		}
 	}
 }; Game game;
-
-class Entities {
-protected : 
-	int E_coordX = 0;
-	int E_coordY = 0;
-	int E_health = 0;
-	bool E_isAlive = true;
-	bool E_isAttacking = false;
-	bool E_isHit = false;
-	bool E_isDying = false;
-	bool E_isDead = false;
-	std::string name;
-
-public : 
-
-	Entities(int h, std::string n, bool A) : E_health(h), name(n), E_isAlive(A) {}
-
-	~Entities() {
-		std::cout << name << " est détruit";
-	}
-
-	virtual bool getAlive() {
-		return E_isAlive;
-	}
-};
-
-class Character {
-public : 
-
-};
-
-class Enemies {
-
-};
-
