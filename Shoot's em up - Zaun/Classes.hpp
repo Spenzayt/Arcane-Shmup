@@ -206,7 +206,7 @@ public:
 
 class Game {
 
-public : 
+public:
 
 	sf::RenderWindow window;
 	sf::Texture ekko_walk_texture;
@@ -225,7 +225,7 @@ public :
 	}; Ekko ekkoStruct;
 
 	void init() {
-		window.create(sf::VideoMode(1920, 1080), "Chapitre 1, Zaun : La bataille des nations");
+		window.create(sf::VideoMode(1920, 1080), "Zaun : La bataille des nations", Style::Fullscreen);
 		window.setFramerateLimit(60);
 	}
 
@@ -239,7 +239,7 @@ public :
 		ekko_walk_sprite.setPosition(225, 100);
 		/////////////////
 		if (!ekko_Attack_texture.loadFromFile("assets\\characters\\ekko\\Ekko_Attack_128.png")) {
-			std::cout << "ekkoAttack est pas chargé bro" << std::endl << std::endl; 
+			std::cout << "ekkoAttack est pas chargé bro" << std::endl << std::endl;
 		}
 		ekko_Attack_texture.setSmooth(true);
 
@@ -248,7 +248,7 @@ public :
 		ekko_Attack_sprite.setPosition(225, 100);
 	}
 
-	void printWindow() {	
+	void printWindow() {
 		if (!ekkoStruct.ekko_anim_isAttacking) {
 			if (ekko_anim.x * 128 >= ekko_walk_texture.getSize().x) // boucle qui permet de revenir a la premiere slide de l'anim
 				ekko_anim.x = 0;
@@ -259,7 +259,7 @@ public :
 		}
 
 		if (ekkoStruct.ekko_anim_isAttacking) {
-			if (ekko_anim_Attack.x * 128 >= ekko_Attack_texture.getSize().x) 
+			if (ekko_anim_Attack.x * 128 >= ekko_Attack_texture.getSize().x)
 				ekko_anim_Attack.x = 0;
 
 			ekko_Attack_sprite.setTextureRect(sf::IntRect(ekko_anim_Attack.x * 128, 0, 128, 128));
