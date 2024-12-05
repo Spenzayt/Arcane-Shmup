@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <SFML/Graphics.hpp>
 
 class Game {
@@ -8,6 +8,7 @@ public :
 	sf::RenderWindow window;
 	sf::Texture ekko_walk_texture;
 	sf::Sprite ekko_walk_sprite;
+	sf::Vector2i ekko_anim;
 
 
 	void init() {
@@ -16,8 +17,8 @@ public :
 	}
 
 	void initAnimations() {
-		if (!ekko_walk_texture.loadFromFile("../assets/characters/ekko/Ekko_walk_128_V42.png")) {
-			std::cout << "ekko est pas chargé bro" << std::endl << std::endl; // Erreur si le fichier est introuvable
+		if (!ekko_walk_texture.loadFromFile("Ekko_walk_128_V42.png")) {
+			std::cout << "ekko est pas chargÃ© bro" << std::endl << std::endl; // Erreur si le fichier est introuvable
 		}
 		ekko_walk_texture.setSmooth(true);
 		ekko_walk_sprite.setTexture(ekko_walk_texture);
@@ -26,6 +27,10 @@ public :
 	}
 
 	void printWindow() {
+		if (ekko_anim.x * 128 >= ekko_walk_texture.getSize().x) // boucle qui permet de revenir a la premiere slide de l'anim
+			ekko_anim.x = 0;
+		// ici, ce code permet de creer l'animation Idle du personnage
+		ekko_walk_sprite.setTextureRect(sf::IntRect(ekko_anim.x * 128, 0, 128, 128));
 		window.draw(ekko_walk_sprite);
 	}
 
@@ -74,7 +79,7 @@ public :
 	Entities(int h, std::string n) : E_health(h), name(n) {}
 
 	~Entities() {
-		std::cout << name << " est détruit";
+		std::cout << name << " est dÃ©truit";
 	}
 };
 
