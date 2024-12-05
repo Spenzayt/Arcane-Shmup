@@ -1,12 +1,9 @@
-#include "Classes.hpp"
-#include "Animation & Images.hpp"
 #include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-#include <windows.h>
-#include <thread>
-#include <chrono>
-#include <vector>
-#include <string>
+#include <iostream>
+#include "parallax.hpp"
+
+using namespace std;
+using namespace sf;
 
 int main() {
     game.init();
@@ -43,5 +40,14 @@ int main() {
         game.printWindow();
         game.window.display();
 
+        background1.update(deltaTime.asSeconds());
+        background2.update(deltaTime.asSeconds());
+
+        window.clear();
+        background2.draw(window);
+        background1.draw(window);
+        window.display();
     }
+
+    return 0;
 }
