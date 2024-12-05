@@ -17,7 +17,7 @@ public :
 	}
 
 	void initAnimations() {
-		if (!ekko_walk_texture.loadFromFile("Ekko_walk_128_V42.png")) {
+		if (!ekko_walk_texture.loadFromFile("assets\\characters\\ekko\\Ekko_walk_128_V42.png")) {
 			std::cout << "ekko est pas chargé bro" << std::endl << std::endl; // Erreur si le fichier est introuvable
 		}
 		ekko_walk_texture.setSmooth(true);
@@ -27,6 +27,7 @@ public :
 	}
 
 	void printWindow() {
+		ekko_anim.x++;
 		if (ekko_anim.x * 128 >= ekko_walk_texture.getSize().x) // boucle qui permet de revenir a la premiere slide de l'anim
 			ekko_anim.x = 0;
 		// ici, ce code permet de creer l'animation Idle du personnage
