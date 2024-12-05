@@ -1,27 +1,35 @@
-#include "Classes.hpp"
-#include "Animation & Images.hpp"
 #include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-#include <windows.h>
-#include <thread>
-#include <chrono>
-#include <vector>
-#include <string>
+#include <iostream>
+#include "parallax.hpp"
+
+using namespace std;
+using namespace sf;
 
 int main() {
-    game.init();
-    game.initAnimations();
-    // Boucle principale
-    while (game.window.isOpen()) {
-        sf::Event event;
-        while (game.window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
-                game.window.close(); // Fermer la fenêtre
-        }
-        game.Command();
-        game.window.clear();
-        game.printWindow();
-        game.window.display();
+    RenderWindow window(VideoMode(1920, 1080), "Effet de Parallaxe", Style::Fullscreen);
 
+    ParallaxBackground background1("../assets/backgrounds/ground-zaun.png", 150.0f, 530, 1, 0.6);
+    ParallaxBackground background2("../assets/backgrounds/background-zaun.jpeg", 20.0f, -1700, 2, 2);
+
+    Clock clock;
+    while (window.isOpen()) {
+        Time deltaTime = clock.restart();
+
+        Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == Event::Closed) {
+                window.close();
+            }
+        }
+
+        background1.update(deltaTime.asSeconds());
+        background2.update(deltaTime.asSeconds());
+
+        window.clear();
+        background2.draw(window);
+        background1.draw(window);
+        window.display();
     }
+
+    return 0;
 }
