@@ -6,6 +6,3 @@
 #include <vector>
 #include <string>
 
-void ekkoDesign() {
-
-}

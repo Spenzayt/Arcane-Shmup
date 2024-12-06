@@ -7,6 +7,14 @@
 #include <chrono>
 #include <vector>
 #include <string>
+#include <iostream>
+#include "Classes.hpp"
+#include "Animation & Images.hpp"
+#include <thread>
+#include <chrono>
+#include <vector>
+#include <string>
+#include <windows.h>
 
 int main() {
     game.init();
@@ -22,6 +30,19 @@ int main() {
         game.window.clear();
         game.printWindow();
         game.window.display();
+        background1.update(deltaTime.asSeconds());
+        background2.update(deltaTime.asSeconds());
 
+        window.clear();
+        background2.draw(window);
+        background1.draw(window);
+        window.display();
+        background1.update(deltaTime.asSeconds());
+        background2.update(deltaTime.asSeconds());
+
+        window.clear();
+        background2.draw(window);
+        background1.draw(window);
+        window.display();
     }
 }
