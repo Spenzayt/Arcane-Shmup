@@ -7,10 +7,6 @@ using namespace sf;
 ParallaxBackground::ParallaxBackground(const string& textureFile, float speed, int y, float scaleX, float scaleY) : m_speed(speed) {
     if (!m_texture.loadFromFile(textureFile)) {
         cerr << "Erreur de chargement de la texture! Utilisation d'une texture par défaut." << endl;
-        if (!m_texture.loadFromFile("default_texture.png")) {
-            cerr << "Erreur critique : Impossible de charger la texture par défaut!" << endl;
-            exit(EXIT_FAILURE);
-        }
     }
 
     m_sprite1.setTexture(m_texture);
