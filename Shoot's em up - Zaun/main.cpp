@@ -4,13 +4,12 @@
 #include "Classes.hpp"
 #include "menu.hpp"
 
-
 using namespace std;
 using namespace sf;
 
 int mainGame() {
 
-    ParallaxBackground background1("assets/backgrounds/ground-zaun.png", 150.0f, 530, 1, 0.6);
+    ParallaxBackground background1("assets/backgrounds/ground-zaun.png", 150.0f, 410, 1, 0.8);
     ParallaxBackground background2("assets/backgrounds/background-zaun.jpeg", 20.0f, -1700, 2, 2);
 
     Clock clock;
@@ -27,25 +26,9 @@ int mainGame() {
         Event event;
         while (game.window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
-                game.window.close(); // Fermer la fenêtre
+                game.window.close(); // Fermer la fen�tre
         }
         game.Command();
-        game.window.clear();
-        auto nowTime = chrono::steady_clock::now();
-        if (nowTime >= startTime + waitTime) {
-            game.ekko_anim.x++;
-            startTime = nowTime;
-        }
-        auto nowAttTime = chrono::steady_clock::now();
-        if (nowAttTime >= startAttTime + waitAttTime) {
-            game.ekko_anim_Attack.x++;
-            if (game.ekko_S.ekko_anim_isAttacking) game.ekko_S.countAnimAtk++;
-            if (game.ekko_S.countAnimAtk == 12) {
-                game.ekko_S.ekko_anim_isAttacking = false;
-                game.ekko_S.countAnimAtk = 0;
-            }
-            startAttTime = nowAttTime;
-        }
 #pragma region Background
         background1.update(deltaTime.asSeconds());
         background2.update(deltaTime.asSeconds());
@@ -54,8 +37,32 @@ int mainGame() {
         background1.draw(game.window);
 
 #pragma endregion Background
-
         game.dontExitFromScreen();
+        auto nowTime = chrono::steady_clock::now();
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) waitTime = chrono::milliseconds(20);
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) waitTime = chrono::milliseconds(20);
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) waitTime = chrono::milliseconds(20);
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) waitTime = chrono::milliseconds(20);
+        else {
+            waitTime = chrono::milliseconds(70);
+        }
+        if (nowTime >= startTime + waitTime) {
+            game.ekko_anim.x++;
+            startTime = nowTime;
+        }
+        if (game.ekko_S.ekko_anim_isAttacking) {
+            auto nowAttTime = chrono::steady_clock::now();
+            if (nowAttTime >= startAttTime + waitAttTime) {
+                game.ekko_S.countAnimAtk++;
+                game.ekko_anim_Attack.x++;
+                if (game.ekko_S.countAnimAtk == 12) {
+                    game.ekko_S.countAnimAtk = 0;
+                    game.ekko_S.ekko_anim_isAttacking = false;
+                }
+                startAttTime = nowAttTime;
+            }
+        }
+
         game.printWindow();
         game.window.display();
     }

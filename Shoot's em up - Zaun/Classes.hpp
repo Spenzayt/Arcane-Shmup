@@ -243,9 +243,14 @@ public:
 
 	void dontExitFromScreen() {
 		if (ekko_walk_sprite.getPosition().x <= 0) ekko_walk_sprite.setPosition(sf::Vector2f(0, ekko_walk_sprite.getPosition().y));
-		if (ekko_walk_sprite.getPosition().y <= 0) ekko_walk_sprite.setPosition(sf::Vector2f(ekko_walk_sprite.getPosition().x, 0));
+		if (ekko_walk_sprite.getPosition().y <= 530) ekko_walk_sprite.setPosition(sf::Vector2f(ekko_walk_sprite.getPosition().x, 530));
 		if (ekko_walk_sprite.getPosition().x >= 1920 - ekko_walk_sprite.getGlobalBounds().width) ekko_walk_sprite.setPosition(sf::Vector2f(1920 - ekko_walk_sprite.getGlobalBounds().width, ekko_walk_sprite.getPosition().y));
 		if (ekko_walk_sprite.getPosition().y >= 1080 - ekko_walk_sprite.getGlobalBounds().height) ekko_walk_sprite.setPosition(sf::Vector2f(ekko_walk_sprite.getPosition().x, 1080 - ekko_walk_sprite.getGlobalBounds().height));
+		
+		if (ekko_Attack_sprite.getPosition().x <= 0) ekko_Attack_sprite.setPosition(sf::Vector2f(0, ekko_Attack_sprite.getPosition().y));
+		if (ekko_Attack_sprite.getPosition().y <= 530) ekko_Attack_sprite.setPosition(sf::Vector2f(ekko_Attack_sprite.getPosition().x, 530));
+		if (ekko_Attack_sprite.getPosition().x >= 1920 - ekko_Attack_sprite.getGlobalBounds().width) ekko_Attack_sprite.setPosition(sf::Vector2f(1920 - ekko_Attack_sprite.getGlobalBounds().width, ekko_Attack_sprite.getPosition().y));
+		if (ekko_Attack_sprite.getPosition().y >= 1080 - ekko_Attack_sprite.getGlobalBounds().height) ekko_Attack_sprite.setPosition(sf::Vector2f(ekko_Attack_sprite.getPosition().x, 1080 - ekko_Attack_sprite.getGlobalBounds().height));
 	}
 
 	void initAnimations() {
@@ -273,9 +278,16 @@ public:
 		if (!ekko_S.ekko_anim_isAttacking) {
 			if (ekko_anim.x * 128 >= ekko_walk_texture.getSize().x) // boucle qui permet de revenir a la premiere slide de l'anim
 				ekko_anim.x = 0;
-			// ici, ce code permet de creer l'animation de marche du personnage
-			ekko_walk_sprite.setTextureRect(sf::IntRect(ekko_anim.x * 128, 0, 128, 128));
-			window.draw(ekko_walk_sprite);
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+			{
+				ekko_walk_sprite.setTextureRect(sf::IntRect(ekko_anim.x * 128, 0, -128, 128));
+				window.draw(ekko_walk_sprite);
+			}
+			else {
+				ekko_walk_sprite.setTextureRect(sf::IntRect(ekko_anim.x * 128, 0, 128, 128));
+				window.draw(ekko_walk_sprite);
+			}
 			//////////////////////////////
 		}
 

@@ -1,4 +1,4 @@
-﻿#include "Parallax.hpp"
+#include "Parallax.hpp"
 #include <iostream>
 
 using namespace std;
