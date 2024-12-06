@@ -78,12 +78,13 @@ public:
 class Character : public Entities {
 protected:
 	std::string c_name;
-	int c_coordX;
-	int	c_coordY;
+	int c_coordX = 225;
+	int	c_coordY = 800;
 	int c_health;
 	bool c_isAlive = true;
 
 public:
+	Character() : Entities(true) {}
 	Character(std::string n, int CX, int CY, int h) : c_name(n), c_coordX(CX), c_coordY(CY), c_health(h), Entities(true) {}
 
 	int losePV(int damage) override {
@@ -133,7 +134,9 @@ public:
 		c_isAlive = true;
 		return c_isAlive;
 	}
-}; //Character Char_Class;
+}; Character Char_Class;
+
+
 
 class Enemies : public Entities {
 protected:
@@ -193,20 +196,17 @@ public:
 		e_isAlive = true;
 		return e_isAlive;
 	}
-};// Enemies Enem_Class;
-
+};
 
 class Ekko : public Character {
 public:
-	Ekko() : Character("Ekko", 225, 625, 500) {}
+	Ekko() : Character("Ekko", 225, 800, 100) {}
 
 
 };
 
-
 class Game {
-
-public : 
+public:
 
 	sf::RenderWindow window;
 	sf::Texture ekko_walk_texture;
@@ -218,15 +218,34 @@ public :
 	sf::Sprite ekko_Attack_sprite;
 	sf::Vector2i ekko_anim_Attack;
 
-
 	struct Ekko {
+		bool isAttacking = false;
 		bool ekko_anim_isAttacking = false;
-		int countAnimAttack = 0;
-	}; Ekko ekkoStruct;
+		bool isHealing = false;
+		bool isHit = false;
+		bool ekko_anim_isHit = false;
+		bool isDying = false;
+		bool ekko_anim_isDying = false;
+		bool printBody = false;
+		int countAnimAtk = 0;
+		int countAnimHeal = 0;
+		int countAnimHit = 0;
+		int countAnimDeath = 0;
+		int DeathCount = 0;
+	}; Ekko ekko_S;
+
+
 
 	void init() {
-		window.create(sf::VideoMode(1920, 1080), "Chapitre 1, Zaun : La bataille des nations");
+		window.create(sf::VideoMode(1920, 1080), "Zaun : La bataille des nations");
 		window.setFramerateLimit(60);
+	}
+
+	void dontExitFromScreen() {
+		if (ekko_walk_sprite.getPosition().x <= 0) ekko_walk_sprite.setPosition(sf::Vector2f(0, ekko_walk_sprite.getPosition().y));
+		if (ekko_walk_sprite.getPosition().y <= 0) ekko_walk_sprite.setPosition(sf::Vector2f(ekko_walk_sprite.getPosition().x, 0));
+		if (ekko_walk_sprite.getPosition().x >= 1920 - ekko_walk_sprite.getGlobalBounds().width) ekko_walk_sprite.setPosition(sf::Vector2f(1920 - ekko_walk_sprite.getGlobalBounds().width, ekko_walk_sprite.getPosition().y));
+		if (ekko_walk_sprite.getPosition().y >= 1080 - ekko_walk_sprite.getGlobalBounds().height) ekko_walk_sprite.setPosition(sf::Vector2f(ekko_walk_sprite.getPosition().x, 1080 - ekko_walk_sprite.getGlobalBounds().height));
 	}
 
 	void initAnimations() {
@@ -236,20 +255,22 @@ public :
 		ekko_walk_texture.setSmooth(true);
 		ekko_walk_sprite.setTexture(ekko_walk_texture);
 		ekko_walk_sprite.setTextureRect(sf::IntRect(128, 0, 128, 128));
-		ekko_walk_sprite.setPosition(225, 100);
+		ekko_walk_sprite.setPosition(Char_Class.getCoordX(), Char_Class.getCoordY());
+
 		/////////////////
 		if (!ekko_Attack_texture.loadFromFile("assets\\characters\\ekko\\Ekko_Attack_128.png")) {
-			std::cout << "ekkoAttack est pas chargé bro" << std::endl << std::endl; 
+			std::cout << "ekkoAttack est pas chargé bro" << std::endl << std::endl;
 		}
 		ekko_Attack_texture.setSmooth(true);
 
 		ekko_Attack_sprite.setTexture(ekko_Attack_texture);
 		ekko_Attack_sprite.setTextureRect(sf::IntRect(128, 0, 128, 128));
-		ekko_Attack_sprite.setPosition(225, 100);
+		ekko_Attack_sprite.setPosition(Char_Class.getCoordX(), Char_Class.getCoordY());
 	}
 
-	void printWindow() {	
-		if (!ekkoStruct.ekko_anim_isAttacking) {
+
+	void printWindow() {
+		if (!ekko_S.ekko_anim_isAttacking) {
 			if (ekko_anim.x * 128 >= ekko_walk_texture.getSize().x) // boucle qui permet de revenir a la premiere slide de l'anim
 				ekko_anim.x = 0;
 			// ici, ce code permet de creer l'animation de marche du personnage
@@ -258,8 +279,8 @@ public :
 			//////////////////////////////
 		}
 
-		if (ekkoStruct.ekko_anim_isAttacking) {
-			if (ekko_anim_Attack.x * 128 >= ekko_Attack_texture.getSize().x) 
+		if (ekko_S.ekko_anim_isAttacking) {
+			if (ekko_anim_Attack.x * 128 >= ekko_Attack_texture.getSize().x)
 				ekko_anim_Attack.x = 0;
 
 			ekko_Attack_sprite.setTextureRect(sf::IntRect(ekko_anim_Attack.x * 128, 0, 128, 128));
@@ -272,7 +293,7 @@ public :
 
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
-			ekkoStruct.ekko_anim_isAttacking = true;
+			ekko_S.ekko_anim_isAttacking = true;
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
