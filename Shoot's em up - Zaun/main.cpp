@@ -2,16 +2,16 @@
 #include <iostream>
 #include "parallax.hpp"
 #include "Classes.hpp"
-#include "parallax.hpp"
+#include "menu.hpp"
 
 
 using namespace std;
 using namespace sf;
 
-int main() {
+int mainGame() {
 
-    ParallaxBackground background1("../assets/backgrounds/ground-zaun.png", 150.0f, 530, 1, 0.6);
-    ParallaxBackground background2("../assets/backgrounds/background-zaun.jpeg", 20.0f, -1700, 2, 2);
+    ParallaxBackground background1("assets/backgrounds/ground-zaun.png", 150.0f, 530, 1, 0.6);
+    ParallaxBackground background2("assets/backgrounds/background-zaun.jpeg", 20.0f, -1700, 2, 2);
 
     Clock clock;
 
@@ -46,17 +46,28 @@ int main() {
             }
             startAttTime = nowAttTime;
         }
-
-        game.printWindow();
-
+#pragma region Background
         background1.update(deltaTime.asSeconds());
         background2.update(deltaTime.asSeconds());
 
         background2.draw(game.window);
         background1.draw(game.window);
 
+#pragma endregion Background
+
+        game.dontExitFromScreen();
+        game.printWindow();
         game.window.display();
     }
 
     return 0;
+}
+
+int main() {
+    Menu menu;
+    menu.run_menu();
+    if (menu.isPlaySelected()) {
+        mainGame();
+    }
+    return EXIT_SUCCESS;
 }

@@ -78,12 +78,13 @@ public:
 class Character : public Entities {
 protected:
 	std::string c_name;
-	int c_coordX;
-	int	c_coordY;
+	int c_coordX = 225;
+	int	c_coordY = 800;
 	int c_health;
 	bool c_isAlive = true;
 
 public:
+	Character() : Entities(true) {}
 	Character(std::string n, int CX, int CY, int h) : c_name(n), c_coordX(CX), c_coordY(CY), c_health(h), Entities(true) {}
 
 	int losePV(int damage) override {
@@ -133,7 +134,9 @@ public:
 		c_isAlive = true;
 		return c_isAlive;
 	}
-};
+}; Character Char_Class;
+
+
 
 class Enemies : public Entities {
 protected:
@@ -197,7 +200,7 @@ public:
 
 class Ekko : public Character {
 public:
-	Ekko() : Character("Ekko", 225, 625, 500) {}
+	Ekko() : Character("Ekko", 225, 800, 100) {}
 
 
 };
@@ -234,28 +237,37 @@ public:
 
 
 	void init() {
-		window.create(sf::VideoMode(1920, 1080), "Zaun : La bataille des nations");
+		window.create(VideoMode(1920, 1080), "Zaun : La bataille des nations", sf::Style::Fullscreen);
 		window.setFramerateLimit(60);
 	}
 
+	void dontExitFromScreen() {
+		if (ekko_walk_sprite.getPosition().x <= 0) ekko_walk_sprite.setPosition(sf::Vector2f(0, ekko_walk_sprite.getPosition().y));
+		if (ekko_walk_sprite.getPosition().y <= 0) ekko_walk_sprite.setPosition(sf::Vector2f(ekko_walk_sprite.getPosition().x, 0));
+		if (ekko_walk_sprite.getPosition().x >= 1920 - ekko_walk_sprite.getGlobalBounds().width) ekko_walk_sprite.setPosition(sf::Vector2f(1920 - ekko_walk_sprite.getGlobalBounds().width, ekko_walk_sprite.getPosition().y));
+		if (ekko_walk_sprite.getPosition().y >= 1080 - ekko_walk_sprite.getGlobalBounds().height) ekko_walk_sprite.setPosition(sf::Vector2f(ekko_walk_sprite.getPosition().x, 1080 - ekko_walk_sprite.getGlobalBounds().height));
+	}
+
 	void initAnimations() {
-		if (!ekko_walk_texture.loadFromFile("C:\\Users\\quent\\source\\repos\\Arcane-Shoot-s-em-up\\Shoot's em up - Zaun\\assets\\characters\\ekko\\Ekko_walk_128_V42.png")) {
+		if (!ekko_walk_texture.loadFromFile("assets\\characters\\ekko\\Ekko_walk_128_V42.png")) {
 			std::cout << "ekko est pas chargé bro" << std::endl << std::endl; // Erreur si le fichier est introuvable
 		}
 		ekko_walk_texture.setSmooth(true);
 		ekko_walk_sprite.setTexture(ekko_walk_texture);
 		ekko_walk_sprite.setTextureRect(sf::IntRect(128, 0, 128, 128));
-		ekko_walk_sprite.setPosition(225, 100);
+		ekko_walk_sprite.setPosition(Char_Class.getCoordX(), Char_Class.getCoordY());
+
 		/////////////////
-		if (!ekko_Attack_texture.loadFromFile("C:\\Users\\quent\\source\\repos\\Arcane-Shoot-s-em-up\\Shoot's em up - Zaun\\assets\\characters\\ekko\\Ekko_Attack_128.png")) {
+		if (!ekko_Attack_texture.loadFromFile("assets\\characters\\ekko\\Ekko_Attack_128.png")) {
 			std::cout << "ekkoAttack est pas chargé bro" << std::endl << std::endl;
 		}
 		ekko_Attack_texture.setSmooth(true);
 
 		ekko_Attack_sprite.setTexture(ekko_Attack_texture);
 		ekko_Attack_sprite.setTextureRect(sf::IntRect(128, 0, 128, 128));
-		ekko_Attack_sprite.setPosition(225, 100);
+		ekko_Attack_sprite.setPosition(Char_Class.getCoordX(), Char_Class.getCoordY());
 	}
+
 
 	void printWindow() {
 		if (!ekko_S.ekko_anim_isAttacking) {
