@@ -195,15 +195,12 @@ public:
 	}
 };
 
-
 class Ekko : public Character {
 public:
 	Ekko() : Character("Ekko", 225, 625, 500) {}
 
 
 };
-
-
 
 class Game {
 public:

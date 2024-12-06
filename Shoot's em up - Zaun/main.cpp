@@ -39,10 +39,10 @@ int main() {
         auto nowAttTime = chrono::steady_clock::now();
         if (nowAttTime >= startAttTime + waitAttTime) {
             game.ekko_anim_Attack.x++;
-            if (game.ekkoStruct.ekko_anim_isAttacking) game.ekkoStruct.countAnimAttack++;
-            if (game.ekkoStruct.countAnimAttack == 12) {
-                game.ekkoStruct.ekko_anim_isAttacking = false;
-                game.ekkoStruct.countAnimAttack = 0;
+            if (game.ekko_S.ekko_anim_isAttacking) game.ekko_S.countAnimAtk++;
+            if (game.ekko_S.countAnimAtk == 12) {
+                game.ekko_S.ekko_anim_isAttacking = false;
+                game.ekko_S.countAnimAtk = 0;
             }
             startAttTime = nowAttTime;
         }
@@ -52,8 +52,8 @@ int main() {
         background1.update(deltaTime.asSeconds());
         background2.update(deltaTime.asSeconds());
 
-        background2.draw(window);
-        background1.draw(window);
+        background2.draw(game.window);
+        background1.draw(game.window);
 
         game.window.display();
     }
