@@ -84,6 +84,7 @@ protected:
 	bool c_isAlive = true;
 
 public:
+	Character():Entities(true) {}
 	Character(std::string n, int CX, int CY, int h) : c_name(n), c_coordX(CX), c_coordY(CY), c_health(h), Entities(true) {}
 
 	int losePV(int damage) override {
@@ -133,7 +134,9 @@ public:
 		c_isAlive = true;
 		return c_isAlive;
 	}
-};
+}; Character Char_Class;
+
+
 
 class Enemies : public Entities {
 protected:
@@ -245,7 +248,8 @@ public:
 		ekko_walk_texture.setSmooth(true);
 		ekko_walk_sprite.setTexture(ekko_walk_texture);
 		ekko_walk_sprite.setTextureRect(sf::IntRect(128, 0, 128, 128));
-		ekko_walk_sprite.setPosition(225, 800);
+		ekko_walk_sprite.setPosition(Char_Class.getCoordX(), Char_Class.getCoordY());
+
 		/////////////////
 		if (!ekko_Attack_texture.loadFromFile("assets\\characters\\ekko\\Ekko_Attack_128.png")) {
 			std::cout << "ekkoAttack est pas chargé bro" << std::endl << std::endl;
@@ -254,7 +258,7 @@ public:
 
 		ekko_Attack_sprite.setTexture(ekko_Attack_texture);
 		ekko_Attack_sprite.setTextureRect(sf::IntRect(128, 0, 128, 128));
-		ekko_Attack_sprite.setPosition(225, 800);
+		ekko_Attack_sprite.setPosition(Char_Class.getCoordX(), Char_Class.getCoordY());
 	}
 
 	void printWindow() {
