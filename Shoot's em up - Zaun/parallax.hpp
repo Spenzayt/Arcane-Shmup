@@ -1,4 +1,4 @@
-#ifndef PARALLAXBACKGROUND_HPP
+﻿#ifndef PARALLAXBACKGROUND_HPP
 #define PARALLAXBACKGROUND_HPP
 
 #include <SFML/Graphics.hpp>

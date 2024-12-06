@@ -1,13 +1,13 @@
-#include <SFML/Graphics.hpp>
+ï»¿#include <SFML/Graphics.hpp>
 #include <iostream>
 #include "parallax.hpp"
 #include "Classes.hpp"
-
+#include "menu.hpp"
 
 using namespace std;
 using namespace sf;
 
-int main() {
+int mainGame() {
 
     ParallaxBackground background1("assets/backgrounds/ground-zaun.png", 150.0f, 410, 1, 0.8);
     ParallaxBackground background2("assets/backgrounds/background-zaun.jpeg", 20.0f, -1700, 2, 2);
@@ -26,7 +26,7 @@ int main() {
         Event event;
         while (game.window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
-                game.window.close(); // Fermer la fenêtre
+                game.window.close(); // Fermer la fenï¿½tre
         }
         game.Command();
 #pragma region Background
@@ -62,9 +62,19 @@ int main() {
                 startAttTime = nowAttTime;
             }
         }
+
         game.printWindow();
         game.window.display();
     }
 
     return 0;
+}
+
+int main() {
+    Menu menu;
+    menu.run_menu();
+    if (menu.isPlaySelected()) {
+        mainGame();
+    }
+    return EXIT_SUCCESS;
 }
