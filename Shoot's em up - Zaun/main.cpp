@@ -45,24 +45,17 @@ int main() {
             }
             startAttTime = nowAttTime;
         }
-
+#pragma region Background
         background1.update(deltaTime.asSeconds());
         background2.update(deltaTime.asSeconds());
 
         background2.draw(game.window);
         background1.draw(game.window);
 
-        if (game.ekko_walk_sprite.getPosition().x <= 0) game.ekko_walk_sprite.setPosition(sf::Vector2f(0, game.ekko_walk_sprite.getPosition().y));
+#pragma endregion Background
 
-        if (game.ekko_walk_sprite.getPosition().y <= 0) game.ekko_walk_sprite.setPosition(sf::Vector2f(game.ekko_walk_sprite.getPosition().x, 0));
-
-        if (game.ekko_walk_sprite.getPosition().x >= 1920 - game.ekko_walk_sprite.getGlobalBounds().width) game.ekko_walk_sprite.setPosition(sf::Vector2f(1920 - game.ekko_walk_sprite.getGlobalBounds().width, game.ekko_walk_sprite.getPosition().y));
-
-        if (game.ekko_walk_sprite.getPosition().y >= 1080 - game.ekko_walk_sprite.getGlobalBounds().height) game.ekko_walk_sprite.setPosition(sf::Vector2f(game.ekko_walk_sprite.getPosition().x, 1080 - game.ekko_walk_sprite.getGlobalBounds().height));
-
+        game.dontExitFromScreen();
         game.printWindow();
-
-
         game.window.display();
     }
 
