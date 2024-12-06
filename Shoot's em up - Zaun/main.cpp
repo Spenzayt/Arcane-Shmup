@@ -10,8 +10,8 @@ using namespace sf;
 
 int main() {
 
-    ParallaxBackground background1("../assets/backgrounds/ground-zaun.png", 150.0f, 530, 1, 0.6);
-    ParallaxBackground background2("../assets/backgrounds/background-zaun.jpeg", 20.0f, -1700, 2, 2);
+    ParallaxBackground background1("assets/backgrounds/ground-zaun.png", 150.0f, 530, 1, 0.6);
+    ParallaxBackground background2("assets/backgrounds/background-zaun.jpeg", 20.0f, -1700, 2, 2);
 
     Clock clock;
 
@@ -47,13 +47,14 @@ int main() {
             startAttTime = nowAttTime;
         }
 
-        game.printWindow();
-
         background1.update(deltaTime.asSeconds());
         background2.update(deltaTime.asSeconds());
 
         background2.draw(game.window);
         background1.draw(game.window);
+
+        game.printWindow();
+
 
         game.window.display();
     }

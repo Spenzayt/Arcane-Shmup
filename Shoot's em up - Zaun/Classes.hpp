@@ -197,7 +197,7 @@ public:
 
 class Ekko : public Character {
 public:
-	Ekko() : Character("Ekko", 225, 625, 500) {}
+	Ekko() : Character("Ekko", 225, 800, 100) {}
 
 
 };
@@ -239,22 +239,22 @@ public:
 	}
 
 	void initAnimations() {
-		if (!ekko_walk_texture.loadFromFile("C:\\Users\\quent\\source\\repos\\Arcane-Shoot-s-em-up\\Shoot's em up - Zaun\\assets\\characters\\ekko\\Ekko_walk_128_V42.png")) {
+		if (!ekko_walk_texture.loadFromFile("assets\\characters\\ekko\\Ekko_walk_128_V42.png")) {
 			std::cout << "ekko est pas chargé bro" << std::endl << std::endl; // Erreur si le fichier est introuvable
 		}
 		ekko_walk_texture.setSmooth(true);
 		ekko_walk_sprite.setTexture(ekko_walk_texture);
 		ekko_walk_sprite.setTextureRect(sf::IntRect(128, 0, 128, 128));
-		ekko_walk_sprite.setPosition(225, 100);
+		ekko_walk_sprite.setPosition(225, 800);
 		/////////////////
-		if (!ekko_Attack_texture.loadFromFile("C:\\Users\\quent\\source\\repos\\Arcane-Shoot-s-em-up\\Shoot's em up - Zaun\\assets\\characters\\ekko\\Ekko_Attack_128.png")) {
+		if (!ekko_Attack_texture.loadFromFile("assets\\characters\\ekko\\Ekko_Attack_128.png")) {
 			std::cout << "ekkoAttack est pas chargé bro" << std::endl << std::endl;
 		}
 		ekko_Attack_texture.setSmooth(true);
 
 		ekko_Attack_sprite.setTexture(ekko_Attack_texture);
 		ekko_Attack_sprite.setTextureRect(sf::IntRect(128, 0, 128, 128));
-		ekko_Attack_sprite.setPosition(225, 100);
+		ekko_Attack_sprite.setPosition(225, 800);
 	}
 
 	void printWindow() {
