@@ -39,6 +39,13 @@ int main() {
 #pragma endregion Background
         game.dontExitFromScreen();
         auto nowTime = chrono::steady_clock::now();
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) waitTime = chrono::milliseconds(20);
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) waitTime = chrono::milliseconds(20);
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) waitTime = chrono::milliseconds(20);
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) waitTime = chrono::milliseconds(20);
+        else {
+            waitTime = chrono::milliseconds(70);
+        }
         if (nowTime >= startTime + waitTime) {
             game.ekko_anim.x++;
             startTime = nowTime;

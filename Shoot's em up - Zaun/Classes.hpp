@@ -278,9 +278,16 @@ public:
 		if (!ekko_S.ekko_anim_isAttacking) {
 			if (ekko_anim.x * 128 >= ekko_walk_texture.getSize().x) // boucle qui permet de revenir a la premiere slide de l'anim
 				ekko_anim.x = 0;
-			// ici, ce code permet de creer l'animation de marche du personnage
-			ekko_walk_sprite.setTextureRect(sf::IntRect(ekko_anim.x * 128, 0, 128, 128));
-			window.draw(ekko_walk_sprite);
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+			{
+				ekko_walk_sprite.setTextureRect(sf::IntRect(ekko_anim.x * 128, 0, -128, 128));
+				window.draw(ekko_walk_sprite);
+			}
+			else {
+				ekko_walk_sprite.setTextureRect(sf::IntRect(ekko_anim.x * 128, 0, 128, 128));
+				window.draw(ekko_walk_sprite);
+			}
 			//////////////////////////////
 		}
 
