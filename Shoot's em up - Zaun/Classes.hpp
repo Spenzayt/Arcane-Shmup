@@ -133,7 +133,7 @@ public:
 		c_isAlive = true;
 		return c_isAlive;
 	}
-}; 
+};
 
 class Enemies : public Entities {
 protected:
@@ -193,7 +193,7 @@ public:
 		e_isAlive = true;
 		return e_isAlive;
 	}
-}; 
+};
 
 
 class Ekko : public Character {
@@ -203,66 +203,6 @@ public:
 
 };
 
-
-public:
-	Enemies(std::string n, int CX, int CY, int h) : e_name(n), e_coordX(CX), e_coordY(CY), e_health(h), Entities(true) {}
-
-	int losePV(int damage) override {
-		e_health -= damage;
-		if (e_health <= 0) {
-			e_health = 0;
-			e_isAlive = false;
-		}
-		return e_health;
-	}
-	int getHealth() override {
-		return e_health;
-	}
-	int getCoordX() override {
-		return e_coordX;
-	}
-	int setCoordX(int X) override {
-		e_coordX += X;
-		return e_coordX;
-	}
-	int getCoordY() override {
-		return e_coordY;
-	}
-	int setCoordY(int Y) override {
-		e_coordY += Y;
-		return e_coordY;
-	}
-	std::string getName() override {
-		return e_name;
-	}
-	bool getAlive() override {
-		return e_isAlive;
-	}
-	int heal() override {
-		e_health++;
-		return e_health;
-	}
-	int setHealth(int pv) override {
-		e_health = pv;
-		return e_health;
-	}
-	int HealthReset(int pv) override {
-		e_health = pv;
-		return e_health;
-	}
-	bool LifeReset() {
-		e_isAlive = true;
-		return e_isAlive;
-	}
-};// Enemies Enem_Class;
-
-
-class Ekko : public Character {
-public:
-	Ekko() : Character("Ekko", 225, 625, 500) {}
-
-
-};
 
 
 class Game {
