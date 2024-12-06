@@ -246,6 +246,11 @@ public:
 		if (ekko_walk_sprite.getPosition().y <= 530) ekko_walk_sprite.setPosition(sf::Vector2f(ekko_walk_sprite.getPosition().x, 530));
 		if (ekko_walk_sprite.getPosition().x >= 1920 - ekko_walk_sprite.getGlobalBounds().width) ekko_walk_sprite.setPosition(sf::Vector2f(1920 - ekko_walk_sprite.getGlobalBounds().width, ekko_walk_sprite.getPosition().y));
 		if (ekko_walk_sprite.getPosition().y >= 1080 - ekko_walk_sprite.getGlobalBounds().height) ekko_walk_sprite.setPosition(sf::Vector2f(ekko_walk_sprite.getPosition().x, 1080 - ekko_walk_sprite.getGlobalBounds().height));
+		
+		if (ekko_Attack_sprite.getPosition().x <= 0) ekko_Attack_sprite.setPosition(sf::Vector2f(0, ekko_Attack_sprite.getPosition().y));
+		if (ekko_Attack_sprite.getPosition().y <= 530) ekko_Attack_sprite.setPosition(sf::Vector2f(ekko_Attack_sprite.getPosition().x, 530));
+		if (ekko_Attack_sprite.getPosition().x >= 1920 - ekko_Attack_sprite.getGlobalBounds().width) ekko_Attack_sprite.setPosition(sf::Vector2f(1920 - ekko_Attack_sprite.getGlobalBounds().width, ekko_Attack_sprite.getPosition().y));
+		if (ekko_Attack_sprite.getPosition().y >= 1080 - ekko_Attack_sprite.getGlobalBounds().height) ekko_Attack_sprite.setPosition(sf::Vector2f(ekko_Attack_sprite.getPosition().x, 1080 - ekko_Attack_sprite.getGlobalBounds().height));
 	}
 
 	void initAnimations() {

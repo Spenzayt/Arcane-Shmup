@@ -29,6 +29,15 @@ int main() {
                 game.window.close(); // Fermer la fenêtre
         }
         game.Command();
+#pragma region Background
+        background1.update(deltaTime.asSeconds());
+        background2.update(deltaTime.asSeconds());
+
+        background2.draw(game.window);
+        background1.draw(game.window);
+
+#pragma endregion Background
+        game.dontExitFromScreen();
         auto nowTime = chrono::steady_clock::now();
         if (nowTime >= startTime + waitTime) {
             game.ekko_anim.x++;
@@ -39,21 +48,12 @@ int main() {
             if (nowAttTime >= startAttTime + waitAttTime) {
                 game.ekko_S.countAnimAtk++;
                 if (game.ekko_S.countAnimAtk == 12) {
-                    game.ekko_S.ekko_anim_isAttacking = false;
                     game.ekko_S.countAnimAtk = 0;
+                    game.ekko_S.ekko_anim_isAttacking = false;
                 }
                 startAttTime = nowAttTime;
             }
         }
-#pragma region Background
-        background1.update(deltaTime.asSeconds());
-        background2.update(deltaTime.asSeconds());
-
-        background2.draw(game.window);
-        background1.draw(game.window);
-
-#pragma endregion Background
-        game.dontExitFromScreen();
         game.printWindow();
         game.window.display();
     }
