@@ -9,7 +9,7 @@ using namespace sf;
 
 int mainGame() {
 
-    ParallaxBackground background1("assets/backgrounds/ground-zaun.png", 150.0f, 410, 1, 0.8);
+    ParallaxBackground background1("assets/backgrounds/ground-zaun.png", 150.0f, 410, 1, 1);
     ParallaxBackground background2("assets/backgrounds/background-zaun.jpeg", 20.0f, -1700, 2, 2);
 
     Clock clock;

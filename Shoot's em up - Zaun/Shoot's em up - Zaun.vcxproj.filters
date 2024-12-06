@@ -10,6 +10,12 @@
     <ClCompile Include="parallax.cpp">
       <Filter>CPP</Filter>
     </ClCompile>
+    <ClCompile Include="Class_Entities.cpp">
+      <Filter>CPP</Filter>
+    </ClCompile>
+    <ClCompile Include="Class_Character.cpp">
+      <Filter>CPP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="parallax.hpp">
@@ -21,7 +27,15 @@
     <ClInclude Include="Animation &amp; Images.hpp">
       <Filter>HPP</Filter>
     </ClInclude>
-    <ClInclude Include="menu.hpp" />
+    <ClInclude Include="menu.hpp">
+      <Filter>HPP</Filter>
+    </ClInclude>
+    <ClInclude Include="Class_Entities.hpp">
+      <Filter>HPP</Filter>
+    </ClInclude>
+    <ClInclude Include="Class_Character.hpp">
+      <Filter>HPP</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CPP">
