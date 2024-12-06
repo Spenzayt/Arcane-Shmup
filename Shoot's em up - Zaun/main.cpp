@@ -47,6 +47,7 @@ int main() {
             auto nowAttTime = chrono::steady_clock::now();
             if (nowAttTime >= startAttTime + waitAttTime) {
                 game.ekko_S.countAnimAtk++;
+                game.ekko_anim_Attack.x++;
                 if (game.ekko_S.countAnimAtk == 12) {
                     game.ekko_S.countAnimAtk = 0;
                     game.ekko_S.ekko_anim_isAttacking = false;
