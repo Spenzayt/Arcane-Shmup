@@ -18,9 +18,12 @@
     <ClCompile Include="main.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="parallax.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClCompile>
+=======
+>>>>>>> b9cb4c1606a5f9d27fa452357833eff3086995be
     <ClCompile Include="parallax.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
@@ -30,6 +33,9 @@
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Classes.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="parallax.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>

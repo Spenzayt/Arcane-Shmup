@@ -141,11 +141,15 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="parallax.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="parallax.hpp" />
+=======
+>>>>>>> b9cb4c1606a5f9d27fa452357833eff3086995be
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation &amp; Images.hpp" />
     <ClInclude Include="Classes.hpp" />
+    <ClInclude Include="parallax.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
