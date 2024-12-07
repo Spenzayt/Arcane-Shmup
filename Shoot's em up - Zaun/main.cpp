@@ -36,7 +36,6 @@ int mainGame() {
                 game.window.close(); // Fermer la fen�tre
         }
 
-        Ekko_Class.ekkoCommand();
 
 #pragma region Background
         background1.update(deltaTime.asSeconds());
@@ -47,6 +46,9 @@ int mainGame() {
 
 #pragma endregion Background
 
+#pragma region Ekko
+
+        Ekko_Class.ekkoCommand();
         Ekko_Class.ekkoDontExitFromScreen();
 
         auto nowTime = chrono::steady_clock::now();
@@ -68,6 +70,7 @@ int mainGame() {
                 Ekko_Class.ekko_anim_Auto_Attack.x++;
                 if (Ekko_Class.ekko_S.countAnimAtk == 1) {
                     Ekko_Class.bullets.push_back(sf::CircleShape());
+                    Ekko_Class.bullets.back().setFillColor(sf::Color::Transparent);
                     Ekko_Class.bullets.back().setRadius(10);
                     Ekko_Class.bullets.back().setPosition(Ekko_Class.ekko_Auto_Attack_sprite.getPosition().x + 128, Ekko_Class.ekko_Auto_Attack_sprite.getPosition().y + 32);
                 }
@@ -84,7 +87,13 @@ int mainGame() {
         for (int i = 0; i < Ekko_Class.bullets.size(); i++) {
             game.window.draw(Ekko_Class.bullets[i]);
             Ekko_Class.bullets[i].move(20, 0);
+            Ekko_Class.ekko_Bullet_Auto_Attack_sprite.setPosition(Ekko_Class.bullets[i].getPosition().x -30, Ekko_Class.bullets[i].getPosition().y -6);
+            game.window.draw(Ekko_Class.ekko_Bullet_Auto_Attack_sprite);
+            Ekko_Class.ekko_Bullet_Auto_Attack_sprite.move(20, 0);
         }
+
+#pragma endregion Ekko
+
         game.window.display();
     }
 

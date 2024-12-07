@@ -54,7 +54,7 @@ void Ekko::bulletInit() {
 
 	ekko_Bullet_Auto_Attack_sprite.setTexture(ekko_Bullet_Auto_Attack_texture);
 	ekko_Bullet_Auto_Attack_sprite.setTextureRect(sf::IntRect(32, 0, -32, 32));
-	ekko_Bullet_Auto_Attack_sprite.setPosition(Char_Class.getCoordX() + 128, Char_Class.getCoordY() + 32);
+	ekko_Bullet_Auto_Attack_sprite.setPosition(ekko_Auto_Attack_sprite.getPosition().x + 128, ekko_Auto_Attack_sprite.getPosition().y -32);
 }
 
 void Ekko::ekkoCommand() {
@@ -66,7 +66,6 @@ void Ekko::ekkoCommand() {
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
 	{
-		//ekko_walk_sprite.setPosition(Char_Class += 10, 10);
 		ekko_walk_sprite.move(-10.f, 0.f);
 		ekko_Auto_Attack_sprite.move(-10.f, 0.f);
 	}
