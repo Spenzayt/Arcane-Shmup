@@ -139,13 +139,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Class_Ekko.cpp" />
+    <ClCompile Include="Class_Character.cpp" />
+    <ClCompile Include="Class_Entities.cpp" />
+    <ClCompile Include="Class_Enemies.cpp" />
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="parallax.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Animation &amp; Images.hpp" />
+    <ClInclude Include="Class_Character.hpp" />
+    <ClInclude Include="Class_Ekko.hpp" />
+    <ClInclude Include="Class_Entities.hpp" />
     <ClInclude Include="Classes.hpp" />
+    <ClInclude Include="Class_Enemies.hpp" />
     <ClInclude Include="menu.hpp" />
     <ClInclude Include="parallax.hpp" />
   </ItemGroup>
