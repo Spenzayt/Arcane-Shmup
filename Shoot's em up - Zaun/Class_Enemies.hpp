@@ -1,16 +1,16 @@
 #include "Class_Entities.hpp"
 
-class Character : public Entities {
+class Enemies : public Entities {
 protected:
-	std::string c_name;
-	int c_coordX = 225;
-	int	c_coordY = 800;
-	int c_health;
-	bool c_isAlive = true;
+	std::string e_name;
+	int e_coordX, e_coordY;
+	int e_health;
+	bool e_isAlive = true;
+
 
 public:
-	Character();
-	Character(std::string n, int CX, int CY, int h);
+	Enemies();
+	Enemies(std::string n, int CX, int CY, int h);
 
 	int losePV(int damage) override;
 	int getHealth() override;
@@ -24,6 +24,4 @@ public:
 	int setHealth(int pv) override;
 	int HealthReset(int pv) override;
 	bool LifeReset();
-}; Character Char_Class;
-
-
+}; Enemies Enn_Class;

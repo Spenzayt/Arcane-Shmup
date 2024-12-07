@@ -2,9 +2,7 @@
 
 Character::Character() : Entities(true) {}
 
-Character::Character(std::string n, int CX, int CY, int h) : c_name(n), c_coordX(CX), c_coordY(CY), c_health(h), Entities(true) {
-
-}
+Character::Character(std::string n, int CX, int CY, int h) : c_name(n), c_coordX(CX), c_coordY(CY), c_health(h), Entities(true) {}
 
 int Character::losePV(int damage) {
 	c_health -= damage;
@@ -53,5 +51,3 @@ bool Character::LifeReset() {
 	c_isAlive = true;
 	return c_isAlive;
 }
-
-Character Char_Class;

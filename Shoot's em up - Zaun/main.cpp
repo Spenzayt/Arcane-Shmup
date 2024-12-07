@@ -1,8 +1,9 @@
 ﻿#include <SFML/Graphics.hpp>
 #include <iostream>
 #include "parallax.hpp"
-#include "Classes.hpp"
 #include "menu.hpp"
+#include "Classes.hpp"
+#include "Class_Ekko.hpp"
 
 using namespace std;
 using namespace sf;
@@ -15,7 +16,7 @@ int mainGame() {
     Clock clock;
 
     game.init();
-    game.initAnimations();
+    Ekko_Class.ekkoInitAnimations();
     auto startTime = chrono::steady_clock::now();
     auto waitTime = chrono::milliseconds(70);
     auto startAttTime = chrono::steady_clock::now();
@@ -28,7 +29,7 @@ int mainGame() {
             if (event.type == sf::Event::Closed)
                 game.window.close(); // Fermer la fen�tre
         }
-        game.Command();
+        Ekko_Class.ekkoCommand();
 #pragma region Background
         background1.update(deltaTime.asSeconds());
         background2.update(deltaTime.asSeconds());
@@ -37,7 +38,7 @@ int mainGame() {
         background1.draw(game.window);
 
 #pragma endregion Background
-        game.dontExitFromScreen();
+        Ekko_Class.ekkoDontExitFromScreen();
         auto nowTime = chrono::steady_clock::now();
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) waitTime = chrono::milliseconds(20);
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) waitTime = chrono::milliseconds(20);
@@ -47,23 +48,23 @@ int mainGame() {
             waitTime = chrono::milliseconds(70);
         }
         if (nowTime >= startTime + waitTime) {
-            game.ekko_anim.x++;
+            Ekko_Class.ekko_anim.x++;
             startTime = nowTime;
         }
-        if (game.ekko_S.ekko_anim_isAttacking) {
+        if (ekko_S.ekko_anim_isAttacking) {
             auto nowAttTime = chrono::steady_clock::now();
             if (nowAttTime >= startAttTime + waitAttTime) {
-                game.ekko_S.countAnimAtk++;
-                game.ekko_anim_Attack.x++;
-                if (game.ekko_S.countAnimAtk == 12) {
-                    game.ekko_S.countAnimAtk = 0;
-                    game.ekko_S.ekko_anim_isAttacking = false;
+                ekko_S.countAnimAtk++;
+                Ekko_Class.ekko_anim_Attack.x++;
+                if (ekko_S.countAnimAtk == 12) {
+                    ekko_S.countAnimAtk = 0;
+                    ekko_S.ekko_anim_isAttacking = false;
                 }
                 startAttTime = nowAttTime;
             }
         }
 
-        game.printWindow();
+        Ekko_Class.ekkoPrintWindow();
         game.window.display();
     }
 
