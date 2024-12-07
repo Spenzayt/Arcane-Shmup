@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <windows.h>
+#include "Class_Ekko.hpp"
 
 
 class Game {

@@ -148,7 +148,6 @@
     <ClCompile Include="parallax.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Animation &amp; Images.hpp" />
     <ClInclude Include="Class_Character.hpp" />
     <ClInclude Include="Class_Ekko.hpp" />
     <ClInclude Include="Class_Entities.hpp" />

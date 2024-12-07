@@ -12,6 +12,22 @@ public:
 	Character();
 	Character(std::string n, int CX, int CY, int h);
 
+	struct Ekko_S {
+		bool isAttacking = false;
+		bool ekko_anim_isAttacking = false;
+		bool isHealing = false;
+		bool isHit = false;
+		bool ekko_anim_isHit = false;
+		bool isDying = false;
+		bool ekko_anim_isDying = false;
+		bool printBody = false;
+		int countAnimAtk = 0;
+		int countAnimHeal = 0;
+		int countAnimHit = 0;
+		int countAnimDeath = 0;
+		int DeathCount = 0;
+	}; Ekko_S ekko_S;
+
 	int losePV(int damage) override;
 	int getHealth() override;
 	int getCoordX() override;
@@ -24,6 +40,6 @@ public:
 	int setHealth(int pv) override;
 	int HealthReset(int pv) override;
 	bool LifeReset();
-}; Character Char_Class;
+}; 
 
 

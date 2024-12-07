@@ -1,20 +1,4 @@
 #include "Class_Character.hpp"
-struct Ekko_S {
-	bool isAttacking = false;
-	bool ekko_anim_isAttacking = false;
-	bool isHealing = false;
-	bool isHit = false;
-	bool ekko_anim_isHit = false;
-	bool isDying = false;
-	bool ekko_anim_isDying = false;
-	bool printBody = false;
-	int countAnimAtk = 0;
-	int countAnimHeal = 0;
-	int countAnimHit = 0;
-	int countAnimDeath = 0;
-	int DeathCount = 0;
-}; Ekko_S ekko_S;
-
 
 class Ekko : public Character {
 public:
@@ -23,15 +7,25 @@ public:
 	sf::Vector2i ekko_anim;
 
 
-	sf::Texture ekko_Attack_texture;
+	/*sf::Texture ekko_Attack_texture;
 	sf::Sprite ekko_Attack_sprite;
-	sf::Vector2i ekko_anim_Attack;
+	sf::Vector2i ekko_anim_Attack;*/
 
-	Ekko() : Character("Ekko", 225, 800, 100) {}
+	sf::Texture ekko_Auto_Attack_texture;
+	sf::Sprite ekko_Auto_Attack_sprite;
+	sf::Vector2i ekko_anim_Auto_Attack;
+
+	sf::Texture ekko_Bullet_Auto_Attack_texture;
+	sf::Sprite ekko_Bullet_Auto_Attack_sprite;
+	sf::Vector2i ekko_anim_Bullet_Auto_Attack;
+
+	vector<sf::CircleShape> bullets;
+
+	Ekko();
 
 	void ekkoDontExitFromScreen();
 	void ekkoInitAnimations();
-	void ekkoPrintWindow();
+	void ekkoPrintWindow(sf::RenderWindow& window);
 	void ekkoCommand();
-
-}; Ekko Ekko_Class;
+	void bulletInit();
+};
