@@ -166,23 +166,21 @@ int mainGame() {
                 Soldier_Class.SoldierBullets.back().setPosition(Soldier_Class.soldier_walk_sprite.getPosition().x, Soldier_Class.soldier_walk_sprite.getPosition().y + 80);
             }
 
-            if (Soldier_Class.soldier_S.countAnimAtk == 10) {
+            if (Soldier_Class.soldier_anim.x * 200 >= Soldier_Class.soldier_walk_texture.getSize().x + 200) {
+                Soldier_Class.soldier_anim.x = 2;
                 Soldier_Class.soldier_S.countAnimAtk = 0;
             }
-
-            if (Soldier_Class.soldier_anim.x * 200 >= Soldier_Class.soldier_walk_texture.getSize().x + 200) // boucle qui permet de revenir a la premiere slide de l'anim
-                Soldier_Class.soldier_anim.x = 2;
             S_startTime = S_nowTime;
         }
 
         Soldier_Class.soldierPrintWindow(game.window);
 
         for (int i = 0; i < Soldier_Class.SoldierBullets.size(); i++) {
-            Soldier_Class.SoldierBullets[i].move(-30, 0);
+            Soldier_Class.SoldierBullets[i].move(-15, 0);
             game.window.draw(Soldier_Class.SoldierBullets[i]);
-             /*Soldier_Class.soldier_Bullet_Auto_Attack_sprite.setPosition(Soldier_Class.SoldierBullets[i].getPosition().x - 30, Soldier_Class.SoldierBullets[i].getPosition().y - 6);
-             game.window.draw(Soldier_Class.soldier_Bullet_Auto_Attack_sprite);
-             Soldier_Class.soldier_Bullet_Auto_Attack_sprite.move(-30, 0);*/
+            /*Soldier_Class.soldier_Bullet_Auto_Attack_sprite.setPosition(Soldier_Class.SoldierBullets[i].getPosition().x - 30, Soldier_Class.SoldierBullets[i].getPosition().y - 6);
+            game.window.draw(Soldier_Class.soldier_Bullet_Auto_Attack_sprite);
+            Soldier_Class.soldier_Bullet_Auto_Attack_sprite.move(-30, 0);*/
         }
 
         game.window.display();
