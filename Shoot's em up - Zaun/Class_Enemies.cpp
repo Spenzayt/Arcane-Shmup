@@ -157,19 +157,20 @@ void Soldier::soldierDontExitFromScreen() {
 }
 
 void Soldier::soldierBulletInit() {
-	/*if (!ekko_Bullet_Auto_Attack_texture.loadFromFile("assets\\characters\\ekko\\AutotAttackEkko.png")) {
-		std::cout << "ekkoBulletAutoAttack est pas chargé bro" << std::endl << std::endl;
+	if (!soldier_Bullet_Auto_Attack_texture.loadFromFile("assets\\characters\\Soldier\\soldierBullets.png")) {
+		std::cout << "soldierBullets est pas chargé bro" << std::endl << std::endl;
 	}
-	ekko_Bullet_Auto_Attack_texture.setSmooth(true);
+	soldier_Bullet_Auto_Attack_texture.setSmooth(true);
 
-	ekko_Bullet_Auto_Attack_sprite.setTexture(ekko_Bullet_Auto_Attack_texture);
-	ekko_Bullet_Auto_Attack_sprite.setTextureRect(sf::IntRect(32, 0, -32, 32));
-	ekko_Bullet_Auto_Attack_sprite.setPosition(marcus_walk_sprite.getPosition().x + 128, marcus_walk_sprite.getPosition().y - 32);*/
+	soldier_Bullet_Auto_Attack_sprite.setTexture(soldier_Bullet_Auto_Attack_texture);
+	soldier_Bullet_Auto_Attack_sprite.setTextureRect(sf::IntRect(32, 0, -32, 16));
+	soldier_Bullet_Auto_Attack_sprite.setPosition(soldier_walk_sprite.getPosition().x + 5, soldier_walk_sprite.getPosition().y + 80);
 }
 
 void Soldier::soldierPrintWindow(sf::RenderWindow& window) {
 	soldier_walk_sprite.setTextureRect(sf::IntRect(soldier_anim.x * 200, 0, -200, 200));
 	window.draw(soldier_walk_sprite);
+
 	//////////////////////////////
 
 	/*if (ekko_S.ekko_anim_isAttacking) {
