@@ -21,6 +21,7 @@ int mainGame() {
     Marcus_Class.marcusInitAnimations();
     Ekko_Class.bulletInit();
     Marcus_Class.marcusBulletInit();
+    Ekko_Class.initializeSpells();
 
     auto startTime = chrono::steady_clock::now();
     auto waitTime = chrono::milliseconds(70);
@@ -28,6 +29,8 @@ int mainGame() {
     auto waitAttTime = chrono::milliseconds(50);
     auto startReadyToAttackTime = chrono::steady_clock::now();
     auto waitReadyToAttackTime = chrono::seconds(1);
+    auto startDashTime = chrono::steady_clock::now();
+    auto waitDashTime = chrono::milliseconds(10);
 
     auto M_startTime = chrono::steady_clock::now();
     auto M_waitTime = chrono::milliseconds(70);
@@ -59,6 +62,8 @@ int mainGame() {
 
         Ekko_Class.ekkoCommand();
         Ekko_Class.ekkoDontExitFromScreen();
+        Ekko_Class.updatePositionHistory();
+        Ekko_Class.updateTeleport();
 
         auto nowTime = chrono::steady_clock::now();
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) waitTime = chrono::milliseconds(20);
@@ -100,7 +105,6 @@ int mainGame() {
             game.window.draw(Ekko_Class.ekko_Bullet_Auto_Attack_sprite);
             Ekko_Class.ekko_Bullet_Auto_Attack_sprite.move(20, 0);
         }
-
 #pragma endregion Ekko
 
 #pragma region Marcus
