@@ -16,15 +16,21 @@
     <ClCompile Include="Class_Character.cpp">
       <Filter>CPP</Filter>
     </ClCompile>
+    <ClCompile Include="Class_Marcus.cpp">
+      <Filter>CPP</Filter>
+    </ClCompile>
+    <ClCompile Include="Class_Ekko.cpp">
+      <Filter>CPP</Filter>
+    </ClCompile>
+    <ClCompile Include="Class_Enemies.cpp">
+      <Filter>CPP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="parallax.hpp">
       <Filter>HPP</Filter>
     </ClInclude>
     <ClInclude Include="Classes.hpp">
-      <Filter>HPP</Filter>
-    </ClInclude>
-    <ClInclude Include="Animation &amp; Images.hpp">
       <Filter>HPP</Filter>
     </ClInclude>
     <ClInclude Include="menu.hpp">
@@ -34,6 +40,15 @@
       <Filter>HPP</Filter>
     </ClInclude>
     <ClInclude Include="Class_Character.hpp">
+      <Filter>HPP</Filter>
+    </ClInclude>
+    <ClInclude Include="Class_Ekko.hpp">
+      <Filter>HPP</Filter>
+    </ClInclude>
+    <ClInclude Include="Class_Enemies.hpp">
+      <Filter>HPP</Filter>
+    </ClInclude>
+    <ClInclude Include="Class_Marcus.hpp">
       <Filter>HPP</Filter>
     </ClInclude>
   </ItemGroup>

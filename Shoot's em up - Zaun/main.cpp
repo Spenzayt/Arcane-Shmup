@@ -1,5 +1,4 @@
-﻿#include <SFML/Graphics.hpp>
-#include <iostream>
+﻿#include <iostream>
 #include "parallax.hpp"
 #include "menu.hpp"
 #include "Classes.hpp"
@@ -8,6 +7,7 @@ using namespace std;
 using namespace sf;
 
 Ekko Ekko_Class;
+Marcus Marcus_Class;
 
 int mainGame() {
 
@@ -18,7 +18,9 @@ int mainGame() {
 
     game.init();
     Ekko_Class.ekkoInitAnimations();
+    Marcus_Class.marcusInitAnimations();
     Ekko_Class.bulletInit();
+    Marcus_Class.marcusBulletInit();
 
     auto startTime = chrono::steady_clock::now();
     auto waitTime = chrono::milliseconds(70);
@@ -26,6 +28,13 @@ int mainGame() {
     auto waitAttTime = chrono::milliseconds(50);
     auto startReadyToAttackTime = chrono::steady_clock::now();
     auto waitReadyToAttackTime = chrono::seconds(1);
+
+    auto M_startTime = chrono::steady_clock::now();
+    auto M_waitTime = chrono::milliseconds(70);
+    /*auto M_startAttTime = chrono::steady_clock::now();
+    auto M_waitAttTime = chrono::milliseconds(50);
+    auto M_startReadyToAttackTime = chrono::steady_clock::now();
+    auto M_waitReadyToAttackTime = chrono::seconds(1);*/
 
 
     while (game.window.isOpen()) {
@@ -87,12 +96,51 @@ int mainGame() {
         for (int i = 0; i < Ekko_Class.bullets.size(); i++) {
             game.window.draw(Ekko_Class.bullets[i]);
             Ekko_Class.bullets[i].move(20, 0);
-            Ekko_Class.ekko_Bullet_Auto_Attack_sprite.setPosition(Ekko_Class.bullets[i].getPosition().x -30, Ekko_Class.bullets[i].getPosition().y -6);
+            Ekko_Class.ekko_Bullet_Auto_Attack_sprite.setPosition(Ekko_Class.bullets[i].getPosition().x - 30, Ekko_Class.bullets[i].getPosition().y - 6);
             game.window.draw(Ekko_Class.ekko_Bullet_Auto_Attack_sprite);
             Ekko_Class.ekko_Bullet_Auto_Attack_sprite.move(20, 0);
         }
 
 #pragma endregion Ekko
+
+#pragma region Marcus
+        Marcus_Class.marcusDontExitFromScreen();
+
+        auto M_nowTime = chrono::steady_clock::now();
+        M_waitTime = chrono::milliseconds(70);
+        if (M_nowTime >= M_startTime + M_waitTime) {
+            Marcus_Class.marcus_anim.x++;
+            M_startTime = M_nowTime;
+        }
+        /*if (Ekko_Class.ekko_S.ekko_anim_isAttacking) {
+            auto nowAttTime = chrono::steady_clock::now();
+            if (nowAttTime >= startAttTime + waitAttTime) {
+                Ekko_Class.ekko_S.countAnimAtk++;
+                Ekko_Class.ekko_anim_Auto_Attack.x++;
+                if (Ekko_Class.ekko_S.countAnimAtk == 1) {
+                    Ekko_Class.bullets.push_back(sf::CircleShape());
+                    Ekko_Class.bullets.back().setFillColor(sf::Color::Transparent);
+                    Ekko_Class.bullets.back().setRadius(10);
+                    Ekko_Class.bullets.back().setPosition(Ekko_Class.ekko_Auto_Attack_sprite.getPosition().x + 128, Ekko_Class.ekko_Auto_Attack_sprite.getPosition().y + 32);
+                }
+                if (Ekko_Class.ekko_S.countAnimAtk == 9) {
+                    Ekko_Class.ekko_S.countAnimAtk = 0;
+                    Ekko_Class.ekko_S.ekko_anim_isAttacking = false;
+                }
+                startAttTime = nowAttTime;
+            }
+        }*/
+
+        Marcus_Class.marcusPrintWindow(game.window);
+
+        /*for (int i = 0; i < Ekko_Class.bullets.size(); i++) {
+            game.window.draw(Ekko_Class.bullets[i]);
+            Ekko_Class.bullets[i].move(20, 0);
+            Ekko_Class.ekko_Bullet_Auto_Attack_sprite.setPosition(Ekko_Class.bullets[i].getPosition().x - 30, Ekko_Class.bullets[i].getPosition().y - 6);
+            game.window.draw(Ekko_Class.ekko_Bullet_Auto_Attack_sprite);
+            Ekko_Class.ekko_Bullet_Auto_Attack_sprite.move(20, 0);
+        }*/
+#pragma endregion Marcus
 
         game.window.display();
     }

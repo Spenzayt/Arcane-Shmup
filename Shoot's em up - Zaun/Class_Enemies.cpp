@@ -1,8 +1,8 @@
 #include "Class_Enemies.hpp"
 
-Enemies::Enemies() : Entities(true) {}
+Enemies::Enemies() {}
 
-Enemies::Enemies(std::string n, int CX, int CY, int h) : e_name(n), e_coordX(CX), e_coordY(CY), e_health(h), Entities(true) {}
+Enemies::Enemies(std::string n, int CX, int CY, int h) : e_name(n), e_coordX(CX), e_coordY(CY), e_health(h) {}
 
 int Enemies::losePV(int damage) {
 	e_health -= damage;
