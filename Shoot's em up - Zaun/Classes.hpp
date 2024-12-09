@@ -10,9 +10,9 @@
 
 
 class Game {
-private :
-	vector<Soldier*> soldiers;
 public:
+
+	vector<Soldier*> soldiers;
 
 	~Game() {
 		for (auto soldier : soldiers)
@@ -37,4 +37,18 @@ public:
 		}
 	}
 
-}; Game game;
+	void Death() {
+		for (auto everySoldiers = soldiers.begin(); everySoldiers != soldiers.end(); ) { 
+			auto soldiers = *everySoldiers;
+			if (soldiers->getAlive() == false) {
+				cout << " (" << soldiers->getCoordX() << ", " << soldiers->getCoordY() << ")" << " est mort." << endl << endl;
+				delete soldiers;
+				//everySoldiers = soldiers.erase(everySoldiers);
+			}
+			else {
+				++everySoldiers;
+			}
+		}
+	}
+
+};
