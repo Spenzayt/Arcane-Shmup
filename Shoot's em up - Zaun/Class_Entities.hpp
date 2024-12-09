@@ -1,4 +1,4 @@
-#include <iostream>
+/*#include <iostream>
 #include <SFML/Graphics.hpp>
 #include <thread>
 #include <chrono>
@@ -37,4 +37,4 @@ public:
 	virtual int setHealth(int pv);
 	virtual int HealthReset(int pv);
 	virtual bool LifeReset();
-};
+};*/

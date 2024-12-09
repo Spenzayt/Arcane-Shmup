@@ -1,8 +1,8 @@
 #include "Class_Character.hpp"
 
-Character::Character() : Entities(true) {}
+Character::Character() {}
 
-Character::Character(std::string n, int CX, int CY, int h) : c_name(n), c_coordX(CX), c_coordY(CY), c_health(h), Entities(true) {}
+Character::Character(std::string n, int CX, int CY, int h) : c_name(n), c_coordX(CX), c_coordY(CY), c_health(h) {}
 
 int Character::losePV(int damage) {
 	c_health -= damage;

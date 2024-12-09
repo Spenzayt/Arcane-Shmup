@@ -14,16 +14,6 @@ void Ekko::ekkoInitAnimations() {
 	ekko_walk_sprite.setPosition(Char_Class.getCoordX(), Char_Class.getCoordY());
 
 	/////////////////
-	/*if (!ekko_Attack_texture.loadFromFile("assets\\characters\\ekko\\Ekko_Attack_128.png")) {
-		std::cout << "ekkoAttack est pas chargé bro" << std::endl << std::endl;
-	}
-	ekko_Attack_texture.setSmooth(true);
-
-	ekko_Attack_sprite.setTexture(ekko_Attack_texture);
-	ekko_Attack_sprite.setTextureRect(sf::IntRect(128, 0, 128, 128));
-	ekko_Attack_sprite.setPosition(Char_Class.getCoordX(), Char_Class.getCoordY());*/
-
-	/////////////////
 	if (!ekko_Auto_Attack_texture.loadFromFile("assets\\characters\\ekko\\Ekko_Auto_Attack_128V3.png")) {
 		std::cout << "ekkoAutoAttack est pas chargé bro" << std::endl << std::endl;
 	}
@@ -54,7 +44,7 @@ void Ekko::bulletInit() {
 
 	ekko_Bullet_Auto_Attack_sprite.setTexture(ekko_Bullet_Auto_Attack_texture);
 	ekko_Bullet_Auto_Attack_sprite.setTextureRect(sf::IntRect(32, 0, -32, 32));
-	ekko_Bullet_Auto_Attack_sprite.setPosition(ekko_Auto_Attack_sprite.getPosition().x + 128, ekko_Auto_Attack_sprite.getPosition().y -32);
+	ekko_Bullet_Auto_Attack_sprite.setPosition(ekko_Auto_Attack_sprite.getPosition().x + 128, ekko_Auto_Attack_sprite.getPosition().y - 32);
 }
 
 void Ekko::ekkoCommand() {

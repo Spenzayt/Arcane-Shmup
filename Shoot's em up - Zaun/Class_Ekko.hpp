@@ -19,7 +19,7 @@ public:
 	sf::Sprite ekko_Bullet_Auto_Attack_sprite;
 	sf::Vector2i ekko_anim_Bullet_Auto_Attack;
 
-	vector<sf::CircleShape> bullets;
+	std::vector<sf::CircleShape> bullets;
 
 	Ekko();
 

@@ -1,4 +1,4 @@
-#include "Class_Entities.hpp"
+/*#include "Class_Entities.hpp"
 
 Entities::Entities(bool A) : E_health(), E_coordX(), E_coordY(), E_isAlive(A) {
 
@@ -51,4 +51,4 @@ int Entities::HealthReset(int pv) {
 bool Entities::LifeReset() {
 	E_isAlive = true;
 	return E_isAlive;
-}
+}*/

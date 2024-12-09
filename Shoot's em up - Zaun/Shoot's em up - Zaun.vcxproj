@@ -143,6 +143,7 @@
     <ClCompile Include="Class_Character.cpp" />
     <ClCompile Include="Class_Entities.cpp" />
     <ClCompile Include="Class_Enemies.cpp" />
+    <ClCompile Include="Class_Marcus.cpp" />
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="parallax.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="Class_Entities.hpp" />
     <ClInclude Include="Classes.hpp" />
     <ClInclude Include="Class_Enemies.hpp" />
+    <ClInclude Include="Class_Marcus.hpp" />
     <ClInclude Include="menu.hpp" />
     <ClInclude Include="parallax.hpp" />
   </ItemGroup>

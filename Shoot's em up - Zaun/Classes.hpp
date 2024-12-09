@@ -6,6 +6,7 @@
 #include <string>
 #include <windows.h>
 #include "Class_Ekko.hpp"
+#include "Class_Marcus.hpp"
 
 
 class Game {
