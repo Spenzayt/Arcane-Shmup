@@ -135,15 +135,16 @@ void Ekko::ekkoCommand() {
 
 void Ekko::ekkoPrintWindow(sf::RenderWindow& window) {
 	if (!ekko_S.ekko_anim_isAttacking) {
-		if (ekko_anim.x * 128 >= ekko_walk_texture.getSize().x) // boucle qui permet de revenir a la premiere slide de l'anim
-			ekko_anim.x = 0;
-
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
 		{
+			if (ekko_anim.x * 128 >= ekko_walk_texture.getSize().x + 118) // boucle qui permet de revenir a la premiere slide de l'anim
+				ekko_anim.x = 2;
 			ekko_walk_sprite.setTextureRect(sf::IntRect(ekko_anim.x * 128, 0, -128, 128));
 			window.draw(ekko_walk_sprite);
 		}
 		else {
+			if (ekko_anim.x * 128 >= ekko_walk_texture.getSize().x) // boucle qui permet de revenir a la premiere slide de l'anim
+				ekko_anim.x = 0;
 			ekko_walk_sprite.setTextureRect(sf::IntRect(ekko_anim.x * 128, 0, 128, 128));
 			window.draw(ekko_walk_sprite);
 		}

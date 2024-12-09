@@ -8,6 +8,7 @@ using namespace sf;
 
 Ekko Ekko_Class;
 Marcus Marcus_Class;
+Soldier Soldier_Class;
 
 int mainGame() {
 
@@ -19,8 +20,10 @@ int mainGame() {
     game.init();
     Ekko_Class.ekkoInitAnimations();
     Marcus_Class.marcusInitAnimations();
+    Soldier_Class.soldierInitAnimations();
     Ekko_Class.bulletInit();
     Marcus_Class.marcusBulletInit();
+    //Soldier_Class.soldierBulletInit();
 
     auto startTime = chrono::steady_clock::now();
     auto waitTime = chrono::milliseconds(70);
@@ -35,6 +38,13 @@ int mainGame() {
     auto M_waitAttTime = chrono::milliseconds(50);
     auto M_startReadyToAttackTime = chrono::steady_clock::now();
     auto M_waitReadyToAttackTime = chrono::seconds(1);*/
+
+    auto S_startTime = chrono::steady_clock::now();
+    auto S_waitTime = chrono::milliseconds(90);
+    auto S_startAttTime = chrono::steady_clock::now();
+    auto S_waitAttTime = chrono::milliseconds(50);
+    auto S_startReadyToAttackTime = chrono::steady_clock::now();
+    auto S_waitReadyToAttackTime = chrono::seconds(1);
 
 
     while (game.window.isOpen()) {
@@ -106,12 +116,12 @@ int mainGame() {
 #pragma region Marcus
         Marcus_Class.marcusDontExitFromScreen();
 
-        auto M_nowTime = chrono::steady_clock::now();
+        /*auto M_nowTime = chrono::steady_clock::now();
         M_waitTime = chrono::milliseconds(70);
         if (M_nowTime >= M_startTime + M_waitTime) {
             Marcus_Class.marcus_anim.x++;
             M_startTime = M_nowTime;
-        }
+        }*/
         /*if (Ekko_Class.ekko_S.ekko_anim_isAttacking) {
             auto nowAttTime = chrono::steady_clock::now();
             if (nowAttTime >= startAttTime + waitAttTime) {
@@ -131,7 +141,7 @@ int mainGame() {
             }
         }*/
 
-        Marcus_Class.marcusPrintWindow(game.window);
+        //Marcus_Class.marcusPrintWindow(game.window);
 
         /*for (int i = 0; i < Ekko_Class.bullets.size(); i++) {
             game.window.draw(Ekko_Class.bullets[i]);
@@ -141,6 +151,18 @@ int mainGame() {
             Ekko_Class.ekko_Bullet_Auto_Attack_sprite.move(20, 0);
         }*/
 #pragma endregion Marcus
+
+        //Soldier_Class.soldierDontExitFromScreen();
+
+        auto S_nowTime = chrono::steady_clock::now();
+        if (S_nowTime >= S_startTime + S_waitTime) {
+            Soldier_Class.soldier_anim.x++;
+            if (Soldier_Class.soldier_anim.x * 200 >= Soldier_Class.soldier_walk_texture.getSize().x + 200) // boucle qui permet de revenir a la premiere slide de l'anim
+                Soldier_Class.soldier_anim.x = 2;
+            S_startTime = S_nowTime;
+        }
+
+        Soldier_Class.soldierPrintWindow(game.window);
 
         game.window.display();
     }

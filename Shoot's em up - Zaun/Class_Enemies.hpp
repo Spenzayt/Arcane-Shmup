@@ -39,12 +39,12 @@ public:
 
 	struct Soldier_S {
 		bool isAttacking = false;
-		bool marcus_anim_isAttacking = false;
+		bool anim_isAttacking = true;
 		bool isHealing = false;
 		bool isHit = false;
-		bool marcus_anim_isHit = false;
+		bool anim_isHit = false;
 		bool isDying = false;
-		bool marcus_anim_isDying = false;
+		bool anim_isDying = false;
 		bool printBody = false;
 		int countAnimAtk = 0;
 		int countAnimHeal = 0;
@@ -108,13 +108,13 @@ public:
 	sf::Sprite ekko_Attack_sprite;
 	sf::Vector2i ekko_anim_Attack;*/
 
-	sf::Texture soldier_Auto_Attack_texture;
+	/*sf::Texture soldier_Auto_Attack_texture;
 	sf::Sprite soldier_Auto_Attack_sprite;
 	sf::Vector2i soldier_anim_Auto_Attack;
 
 	sf::Texture soldier_Bullet_Auto_Attack_texture;
 	sf::Sprite soldier_Bullet_Auto_Attack_sprite;
-	sf::Vector2i soldier_anim_Bullet_Auto_Attack;
+	sf::Vector2i soldier_anim_Bullet_Auto_Attack;*/
 
 	vector<sf::CircleShape> SoldierBullets;
 

@@ -105,15 +105,8 @@ void Marcus::marcusPrintWindow(sf::RenderWindow& window) {
 		if (marcus_anim.x * 512 >= marcus_walk_texture.getSize().x) // boucle qui permet de revenir a la premiere slide de l'anim
 			marcus_anim.x = 0;
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
-		{
-			marcus_walk_sprite.setTextureRect(sf::IntRect(marcus_anim.x * 512, 0, 640, 512));
-			window.draw(marcus_walk_sprite);
-		}
-		else {
-			marcus_walk_sprite.setTextureRect(sf::IntRect(marcus_anim.x * 512, 0, 640, 512));
-			window.draw(marcus_walk_sprite);
-		}
+		marcus_walk_sprite.setTextureRect(sf::IntRect(marcus_anim_Auto_Attack.x * 512, 0, 640, 512));
+		window.draw(marcus_walk_sprite);
 		//////////////////////////////
 	}
 
@@ -129,16 +122,16 @@ void Marcus::marcusPrintWindow(sf::RenderWindow& window) {
 
 
 
-Soldier::Soldier() : Enemies("Soldier", 1600, 800, 1) {}
+Soldier::Soldier() : Enemies("Soldier", 1600, 600, 1) {}
 
 void Soldier::soldierInitAnimations() {
-	if (!soldier_walk_texture.loadFromFile("assets\\characters\\Soldier\\idle.png")) {
+	if (!soldier_walk_texture.loadFromFile("assets\\characters\\Soldier\\attack_200.png")) {
 		std::cout << "soldier est pas chargé bro" << std::endl << std::endl; // Erreur si le fichier est introuvable
 	}
 	soldier_walk_texture.setSmooth(true);
 	soldier_walk_sprite.setTexture(soldier_walk_texture);
-	soldier_walk_sprite.setTextureRect(sf::IntRect(80, 0, 80, 80));
-	soldier_walk_sprite.setPosition(Enemies_Class.getCoordX(), Enemies_Class.getCoordY());
+	soldier_walk_sprite.setTextureRect(sf::IntRect(200, 0, 200, 200));
+	soldier_walk_sprite.setPosition(1600, 600);
 
 	/////////////////
 	/*if (!ekko_Auto_Attack_texture.loadFromFile("assets\\characters\\ekko\\Ekko_Auto_Attack_128V3.png")) {
@@ -175,19 +168,9 @@ void Soldier::soldierBulletInit() {
 }
 
 void Soldier::soldierPrintWindow(sf::RenderWindow& window) {
-	if (!soldier_S.marcus_anim_isAttacking) {
-		if (soldier_anim.x * 512 >= soldier_walk_texture.getSize().x) // boucle qui permet de revenir a la premiere slide de l'anim
-			soldier_anim.x = 0;
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
-		{
-			soldier_walk_sprite.setTextureRect(sf::IntRect(soldier_anim.x * 512, 0, 640, 512));
+	if (soldier_S.anim_isAttacking) {
+			soldier_walk_sprite.setTextureRect(sf::IntRect(soldier_anim.x * 200, 0, -200, 200));
 			window.draw(soldier_walk_sprite);
-		}
-		else {
-			soldier_walk_sprite.setTextureRect(sf::IntRect(soldier_anim.x * 512, 0, 640, 512));
-			window.draw(soldier_walk_sprite);
-		}
 		//////////////////////////////
 	}
 
