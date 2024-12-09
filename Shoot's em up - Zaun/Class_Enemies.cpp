@@ -57,6 +57,8 @@ Enemies Enemies_Class;
 
 Marcus::Marcus() : Enemies("Marcus", 1600, 800, 100) {}
 
+Marcus::~Marcus() {}
+
 void Marcus::marcusInitAnimations() {
 	if (!marcus_walk_texture.loadFromFile("assets\\characters\\marcus\\marcus no move.png")) {
 		std::cout << "marcus est pas chargé bro" << std::endl << std::endl; // Erreur si le fichier est introuvable
@@ -123,6 +125,8 @@ void Marcus::marcusPrintWindow(sf::RenderWindow& window) {
 
 
 Soldier::Soldier() : Enemies("Soldier", 1600, 600, 1) {}
+
+Soldier::~Soldier() {}
 
 void Soldier::soldierInitAnimations() {
 	if (!soldier_walk_texture.loadFromFile("assets\\characters\\Soldier\\attack_200.png")) {

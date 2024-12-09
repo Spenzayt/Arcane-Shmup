@@ -12,6 +12,9 @@ Soldier Soldier_Class;
 
 int mainGame() {
 
+
+
+
     ParallaxBackground background1("assets/backgrounds/ground-zaunV2.png", 150.0f, 630, 1.1, 1.1);
     ParallaxBackground background2("assets/backgrounds/background-zaun.jpeg", 20.0f, -1890, 2, 2);
 
@@ -111,6 +114,9 @@ int mainGame() {
             game.window.draw(Ekko_Class.bullets[i]);
             Ekko_Class.bullets[i].move(20, 0);
             Ekko_Class.ekko_Bullet_Auto_Attack_sprite.setPosition(Ekko_Class.bullets[i].getPosition().x - 30, Ekko_Class.bullets[i].getPosition().y - 6);
+            if (Ekko_Class.ekko_Bullet_Auto_Attack_sprite.getGlobalBounds().width && Ekko_Class.ekko_Bullet_Auto_Attack_sprite.getGlobalBounds().height == (Soldier_Class.soldier_walk_sprite.getGlobalBounds().width && Soldier_Class.soldier_walk_sprite.getGlobalBounds().height)) {
+                delete Soldier();
+            }
 
             Ekko_Class.ekko_Bullet_Auto_Attack_sprite.move(20, 0);
             game.window.draw(Ekko_Class.ekko_Bullet_Auto_Attack_sprite);

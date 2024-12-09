@@ -89,6 +89,8 @@ public:
 	vector<sf::CircleShape> MarcusBullets;
 
 	Marcus();
+	~Marcus();
+
 
 	void marcusDontExitFromScreen();
 	void marcusInitAnimations();
@@ -114,6 +116,8 @@ public:
 	vector<sf::CircleShape> SoldierBullets;
 
 	Soldier();
+
+	~Soldier();
 
 	void soldierDontExitFromScreen();
 	void soldierInitAnimations();
