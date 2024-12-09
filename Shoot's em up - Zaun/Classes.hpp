@@ -5,8 +5,8 @@
 #include <vector>
 #include <string>
 #include <windows.h>
-#include "Class_Ekko.hpp"
-#include "Class_Marcus.hpp"
+#include "Class_Character.hpp"
+#include "Class_Enemies.hpp"
 
 
 class Game {
