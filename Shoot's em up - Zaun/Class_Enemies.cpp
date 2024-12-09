@@ -168,11 +168,9 @@ void Soldier::soldierBulletInit() {
 }
 
 void Soldier::soldierPrintWindow(sf::RenderWindow& window) {
-	if (soldier_S.anim_isAttacking) {
-			soldier_walk_sprite.setTextureRect(sf::IntRect(soldier_anim.x * 200, 0, -200, 200));
-			window.draw(soldier_walk_sprite);
-		//////////////////////////////
-	}
+	soldier_walk_sprite.setTextureRect(sf::IntRect(soldier_anim.x * 200, 0, -200, 200));
+	window.draw(soldier_walk_sprite);
+	//////////////////////////////
 
 	/*if (ekko_S.ekko_anim_isAttacking) {
 		if (ekko_anim_Auto_Attack.x * 128 >= ekko_Auto_Attack_texture.getSize().x)

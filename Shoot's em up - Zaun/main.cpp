@@ -42,7 +42,7 @@ int mainGame() {
     auto S_startTime = chrono::steady_clock::now();
     auto S_waitTime = chrono::milliseconds(90);
     auto S_startAttTime = chrono::steady_clock::now();
-    auto S_waitAttTime = chrono::milliseconds(50);
+    auto S_waitAttTime = chrono::milliseconds(800);
     auto S_startReadyToAttackTime = chrono::steady_clock::now();
     auto S_waitReadyToAttackTime = chrono::seconds(1);
 
@@ -155,8 +155,21 @@ int mainGame() {
         //Soldier_Class.soldierDontExitFromScreen();
 
         auto S_nowTime = chrono::steady_clock::now();
+
         if (S_nowTime >= S_startTime + S_waitTime) {
             Soldier_Class.soldier_anim.x++;
+            Soldier_Class.soldier_S.countAnimAtk++;
+            if (Soldier_Class.soldier_S.countAnimAtk == 2) {
+                Soldier_Class.SoldierBullets.push_back(sf::CircleShape());
+                Soldier_Class.SoldierBullets.back().setFillColor(sf::Color::Red);
+                Soldier_Class.SoldierBullets.back().setRadius(10);
+                Soldier_Class.SoldierBullets.back().setPosition(Soldier_Class.soldier_walk_sprite.getPosition().x, Soldier_Class.soldier_walk_sprite.getPosition().y + 80);
+            }
+
+            if (Soldier_Class.soldier_S.countAnimAtk == 10) {
+                Soldier_Class.soldier_S.countAnimAtk = 0;
+            }
+
             if (Soldier_Class.soldier_anim.x * 200 >= Soldier_Class.soldier_walk_texture.getSize().x + 200) // boucle qui permet de revenir a la premiere slide de l'anim
                 Soldier_Class.soldier_anim.x = 2;
             S_startTime = S_nowTime;
@@ -164,9 +177,16 @@ int mainGame() {
 
         Soldier_Class.soldierPrintWindow(game.window);
 
+        for (int i = 0; i < Soldier_Class.SoldierBullets.size(); i++) {
+            Soldier_Class.SoldierBullets[i].move(-30, 0);
+            game.window.draw(Soldier_Class.SoldierBullets[i]);
+             /*Soldier_Class.soldier_Bullet_Auto_Attack_sprite.setPosition(Soldier_Class.SoldierBullets[i].getPosition().x - 30, Soldier_Class.SoldierBullets[i].getPosition().y - 6);
+             game.window.draw(Soldier_Class.soldier_Bullet_Auto_Attack_sprite);
+             Soldier_Class.soldier_Bullet_Auto_Attack_sprite.move(-30, 0);*/
+        }
+
         game.window.display();
     }
-
     return 0;
 }
 
