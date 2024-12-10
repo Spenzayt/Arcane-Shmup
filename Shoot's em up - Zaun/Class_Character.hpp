@@ -5,6 +5,8 @@
 #include <vector>
 #include <string>
 #include <windows.h>
+#include <unordered_map>
+#include <deque>
 
 using namespace std;
 
