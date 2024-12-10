@@ -116,20 +116,15 @@ int mainGame() {
             Ekko_Class.ekko_Bullet_Auto_Attack_sprite.setPosition(Ekko_Class.bullets[i].getPosition().x - 30, Ekko_Class.bullets[i].getPosition().y - 6);
 
 
-
-            if ((Ekko_Class.ekko_Bullet_Auto_Attack_sprite.getLocalBounds().width && Ekko_Class.ekko_Bullet_Auto_Attack_sprite.getLocalBounds().height) == (Soldier_Class.soldier_walk_sprite.getLocalBounds().width && Soldier_Class.soldier_walk_sprite.getLocalBounds().height)) {
-                Soldier_Class.soldier_S.isHit = true;
-            }
-            if (Soldier_Class.soldier_S.isHit = true) {
+            if (Ekko_Class.bullets[i].getGlobalBounds().intersects(Soldier_Class.soldier_walk_sprite.getGlobalBounds())) {
                 Soldier_Class.losePV(1);
-                std::cout << "Hit";
-                Soldier_Class.s_isAlive = false;
-                Soldier_Class.soldier_S.isHit = false;
-                Ekko_Class.bullets.erase(Ekko_Class.bullets.begin()+i);
-            }
-            if (Ekko_Class.ekko_Bullet_Auto_Attack_sprite.getPosition().x >= 1920) {
                 Ekko_Class.bullets.erase(Ekko_Class.bullets.begin() + i);
             }
+
+            if (Ekko_Class.ekko_Bullet_Auto_Attack_sprite.getPosition().x >= 1850) {
+                Ekko_Class.bullets.erase(Ekko_Class.bullets.begin() + i);
+            }
+
 
             Ekko_Class.ekko_Bullet_Auto_Attack_sprite.move(20, 0);
             game.window.draw(Ekko_Class.ekko_Bullet_Auto_Attack_sprite);
@@ -208,6 +203,15 @@ int mainGame() {
                 Soldier_Class.SoldierBullets[i].move(-10, 0);
                 game.window.draw(Soldier_Class.SoldierBullets[i]);
                 Soldier_Class.soldier_Bullet_Auto_Attack_sprite.setPosition(Soldier_Class.SoldierBullets[i].getPosition().x + 10, Soldier_Class.SoldierBullets[i].getPosition().y + 2);
+
+                if (Ekko_Class.bullets[i].getGlobalBounds().intersects(Soldier_Class.soldier_walk_sprite.getGlobalBounds())) {
+                    Soldier_Class.losePV(1);
+                    Ekko_Class.bullets.erase(Ekko_Class.bullets.begin() + i);
+                }
+
+                if (Ekko_Class.ekko_Bullet_Auto_Attack_sprite.getPosition().x >= 1850) {
+                    Ekko_Class.bullets.erase(Ekko_Class.bullets.begin() + i);
+                }
 
                 Soldier_Class.soldier_Bullet_Auto_Attack_sprite.move(-10, 0);
                 game.window.draw(Soldier_Class.soldier_Bullet_Auto_Attack_sprite);

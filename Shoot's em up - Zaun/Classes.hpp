@@ -14,7 +14,7 @@ public:
 
 	vector<Soldier*> soldiers;
 	vector<Ekko*> ekkos;
-
+	
 	~Game() {
 		for (auto soldier : soldiers)
 			delete soldier;
@@ -42,18 +42,7 @@ public:
 	}
 
 	void Death() {
-		for (auto everySoldiers = soldiers.begin(); everySoldiers != soldiers.end(); ) { 
-			auto soldiers = *everySoldiers;
-			if (soldiers->getAlive() == false) {
-				cout << " (" << soldiers->getCoordX() << ", " << soldiers->getCoordY() << ")" << " est mort." << endl << endl;
-				soldiers->~Soldier();
-				delete soldiers;
-				//everySoldiers = soldiers.erase(everySoldiers);
-			}
-			else {
-				++everySoldiers;
-			}
-		}
+
 	}
 
 };
