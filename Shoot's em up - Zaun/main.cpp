@@ -23,6 +23,7 @@ int mainGame() {
     Marcus_Class.marcusInitAnimations();
     Soldier_Class.soldierInitAnimations();
     Ekko_Class.bulletInit();
+    Ekko_Class.initializeSpells();
     Marcus_Class.marcusBulletInit();
     Soldier_Class.soldierBulletInit();
     game.addEnemies(1);
@@ -35,13 +36,6 @@ int mainGame() {
     auto waitReadyToAttackTime = chrono::seconds(1);
     auto startDashTime = chrono::steady_clock::now();
     auto waitDashTime = chrono::milliseconds(10);
-
-    auto M_startTime = chrono::steady_clock::now();
-    auto M_waitTime = chrono::milliseconds(70);
-    /*auto M_startAttTime = chrono::steady_clock::now();
-    auto M_waitAttTime = chrono::milliseconds(50);
-    auto M_startReadyToAttackTime = chrono::steady_clock::now();
-    auto M_waitReadyToAttackTime = chrono::seconds(1);*/
 
     auto M_startTime = chrono::steady_clock::now();
     auto M_waitTime = chrono::milliseconds(70);
@@ -126,7 +120,6 @@ int mainGame() {
             Ekko_Class.ekko_Bullet_Auto_Attack_sprite.setPosition(Ekko_Class.bullets[i].getPosition().x - 30, Ekko_Class.bullets[i].getPosition().y - 6);
             if ((Ekko_Class.ekko_Bullet_Auto_Attack_sprite.getGlobalBounds().width && Ekko_Class.ekko_Bullet_Auto_Attack_sprite.getGlobalBounds().height) == (Soldier_Class.soldier_walk_sprite.getLocalBounds().width && Soldier_Class.soldier_walk_sprite.getLocalBounds().height)) {
                 Soldier_Class.losePV(1);
-                std::cout << "Hit";
                 Soldier_Class.s_isAlive = false;
             }
 

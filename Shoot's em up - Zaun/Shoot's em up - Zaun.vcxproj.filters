@@ -16,12 +16,6 @@
     <ClCompile Include="Class_Enemies.cpp">
       <Filter>CPP</Filter>
     </ClCompile>
-    <ClCompile Include="Class_Marcus.cpp">
-      <Filter>CPP</Filter>
-    </ClCompile>
-    <ClCompile Include="Class_Ekko.cpp">
-      <Filter>CPP</Filter>
-    </ClCompile>
     <ClCompile Include="Class_Enemies.cpp">
       <Filter>CPP</Filter>
     </ClCompile>
@@ -42,13 +36,7 @@
     <ClInclude Include="Class_Enemies.hpp">
       <Filter>HPP</Filter>
     </ClInclude>
-    <ClInclude Include="Class_Ekko.hpp">
-      <Filter>HPP</Filter>
-    </ClInclude>
     <ClInclude Include="Class_Enemies.hpp">
-      <Filter>HPP</Filter>
-    </ClInclude>
-    <ClInclude Include="Class_Marcus.hpp">
       <Filter>HPP</Filter>
     </ClInclude>
   </ItemGroup>
