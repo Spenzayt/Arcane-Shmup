@@ -28,7 +28,6 @@ int mainGame() {
     Marcus_Class.marcusBulletInit();
     Soldier_Class.soldierBulletInit();
     game.addEnemies(1);
-    game.addEkko();
     HUD healthBar(100,100, 3);
 
     auto startTime = chrono::steady_clock::now();
@@ -73,38 +72,6 @@ int mainGame() {
 #pragma endregion Background
 
 #pragma region Ekko
-        if (Ekko_Class.getAlive()) {
-            Ekko_Class.ekkoCommand();
-            Ekko_Class.ekkoDontExitFromScreen();
-
-            auto nowTime = chrono::steady_clock::now();
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) waitTime = chrono::milliseconds(20);
-            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) waitTime = chrono::milliseconds(20);
-            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) waitTime = chrono::milliseconds(20);
-            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) waitTime = chrono::milliseconds(20);
-            else {
-                waitTime = chrono::milliseconds(70);
-            }
-            if (nowTime >= startTime + waitTime) {
-                Ekko_Class.ekko_anim.x++;
-                startTime = nowTime;
-            }
-            if (Ekko_Class.ekko_S.ekko_anim_isAttacking) {
-                auto nowAttTime = chrono::steady_clock::now();
-                if (nowAttTime >= startAttTime + waitAttTime) {
-                    Ekko_Class.ekko_S.countAnimAtk++;
-                    Ekko_Class.ekko_anim_Auto_Attack.x++;
-                    if (Ekko_Class.ekko_S.countAnimAtk == 1) {
-                        Ekko_Class.bullets.push_back(sf::CircleShape());
-                        Ekko_Class.bullets.back().setFillColor(sf::Color::Transparent);
-                        Ekko_Class.bullets.back().setRadius(10);
-                        Ekko_Class.bullets.back().setPosition(Ekko_Class.ekko_Auto_Attack_sprite.getPosition().x + 128, Ekko_Class.ekko_Auto_Attack_sprite.getPosition().y + 32);
-                    }
-                    if (Ekko_Class.ekko_S.countAnimAtk == 9) {
-                        Ekko_Class.ekko_S.countAnimAtk = 0;
-                        Ekko_Class.ekko_S.ekko_anim_isAttacking = false;
-                    }
-                    startAttTime = nowAttTime;
 
         Ekko_Class.ekkoCommand();
         Ekko_Class.ekkoDontExitFromScreen();
@@ -142,46 +109,27 @@ int mainGame() {
                     Ekko_Class.ekko_S.countAnimAtk = 0;
                     Ekko_Class.ekko_S.ekko_anim_isAttacking = false;
                 }
+                startAttTime = nowAttTime;
             }
+        }
 
-            Ekko_Class.ekkoPrintWindow(game.window);
+        Ekko_Class.ekkoPrintWindow(game.window);
 
-            /*Ekko_Class.ekko_anim_Bullet_Auto_Attack.x++;
-            if (Ekko_Class.ekko_anim_Bullet_Auto_Attack.x * 32 >= Ekko_Class.ekko_Auto_Attack_texture.getSize().x) // boucle qui permet de revenir a la premiere slide de l'anim
-                Ekko_Class.ekko_anim_Bullet_Auto_Attack.x = 0;*/
+        /*Ekko_Class.ekko_anim_Bullet_Auto_Attack.x++;
+        if (Ekko_Class.ekko_anim_Bullet_Auto_Attack.x * 32 >= Ekko_Class.ekko_Auto_Attack_texture.getSize().x) // boucle qui permet de revenir a la premiere slide de l'anim
+            Ekko_Class.ekko_anim_Bullet_Auto_Attack.x = 0;*/
 
-            for (int i = 0; i < Ekko_Class.bullets.size(); i++) {
-                game.window.draw(Ekko_Class.bullets[i]);
-                Ekko_Class.bullets[i].move(20, 0);
-                Ekko_Class.ekko_Bullet_Auto_Attack_sprite.setPosition(Ekko_Class.bullets[i].getPosition().x - 30, Ekko_Class.bullets[i].getPosition().y - 6);
-
-
-                if (Ekko_Class.bullets[i].getGlobalBounds().intersects(Soldier_Class.soldier_walk_sprite.getGlobalBounds())) {
-                    Soldier_Class.losePV(1);
-                    Ekko_Class.bullets.erase(Ekko_Class.bullets.begin() + i);
-                    Soldier_Class.death();
-                }
-
-                if (Ekko_Class.ekko_Bullet_Auto_Attack_sprite.getPosition().x >= 1850) {
-                    Ekko_Class.bullets.erase(Ekko_Class.bullets.begin() + i);
-                }
-            if ((Ekko_Class.ekko_Bullet_Auto_Attack_sprite.getLocalBounds().width && Ekko_Class.ekko_Bullet_Auto_Attack_sprite.getLocalBounds().height) == (Soldier_Class.soldier_walk_sprite.getLocalBounds().width && Soldier_Class.soldier_walk_sprite.getLocalBounds().height)) {
-                Soldier_Class.soldier_S.isHit = true;
-            }
-            if (Soldier_Class.soldier_S.isHit = true) {
+        for (int i = 0; i < Ekko_Class.bullets.size(); i++) {
+            game.window.draw(Ekko_Class.bullets[i]);
+            Ekko_Class.bullets[i].move(20, 0);
+            Ekko_Class.ekko_Bullet_Auto_Attack_sprite.setPosition(Ekko_Class.bullets[i].getPosition().x - 30, Ekko_Class.bullets[i].getPosition().y - 6);
+            if ((Ekko_Class.ekko_Bullet_Auto_Attack_sprite.getGlobalBounds().width && Ekko_Class.ekko_Bullet_Auto_Attack_sprite.getGlobalBounds().height) == (Soldier_Class.soldier_walk_sprite.getLocalBounds().width && Soldier_Class.soldier_walk_sprite.getLocalBounds().height)) {
                 Soldier_Class.losePV(1);
                 Soldier_Class.s_isAlive = false;
-                Soldier_Class.soldier_S.isHit = false;
-                Ekko_Class.bullets.erase(Ekko_Class.bullets.begin()+i);
-            }
-            if (Ekko_Class.ekko_Bullet_Auto_Attack_sprite.getPosition().x >= 1920) {
-                Ekko_Class.bullets.erase(Ekko_Class.bullets.begin() + i);
             }
 
-
-                Ekko_Class.ekko_Bullet_Auto_Attack_sprite.move(20, 0);
-                game.window.draw(Ekko_Class.ekko_Bullet_Auto_Attack_sprite);
-            }
+            Ekko_Class.ekko_Bullet_Auto_Attack_sprite.move(20, 0);
+            game.window.draw(Ekko_Class.ekko_Bullet_Auto_Attack_sprite);
         }
 #pragma endregion Ekko
 
@@ -224,59 +172,41 @@ int mainGame() {
         }*/
 #pragma endregion Marcus
 
-#pragma region Soldier
+        Soldier_Class.soldierDontExitFromScreen();
 
-        if (Soldier_Class.getAlive() == true) {
-            Soldier_Class.soldierDontExitFromScreen();
+        auto S_nowTime = chrono::steady_clock::now();
 
-            auto S_nowTime = chrono::steady_clock::now();
-
-            if (S_nowTime >= S_startTime + S_waitTime) {
-                Soldier_Class.soldier_anim.x++;
-                Soldier_Class.soldier_S.countAnimAtk++;
-                if (Soldier_Class.soldier_S.countAnimAtk == 2) {
-                    Soldier_Class.SoldierBullets.push_back(sf::CircleShape());
-                    Soldier_Class.SoldierBullets.back().setFillColor(sf::Color::Transparent);
-                    Soldier_Class.SoldierBullets.back().setRadius(10);
-                    Soldier_Class.SoldierBullets.back().setPosition(Soldier_Class.soldier_walk_sprite.getPosition().x, Soldier_Class.soldier_walk_sprite.getPosition().y + 80);
-                }
-
-                if (Soldier_Class.soldier_anim.x * 200 >= Soldier_Class.soldier_walk_texture.getSize().x + 200) {
-                    Soldier_Class.soldier_anim.x = 2;
-                    Soldier_Class.soldier_S.countAnimAtk = 0;
-                }
-                S_startTime = S_nowTime;
+        if (S_nowTime >= S_startTime + S_waitTime) {
+            Soldier_Class.soldier_anim.x++;
+            Soldier_Class.soldier_S.countAnimAtk++;
+            if (Soldier_Class.soldier_S.countAnimAtk == 2) {
+                Soldier_Class.SoldierBullets.push_back(sf::CircleShape());
+                Soldier_Class.SoldierBullets.back().setFillColor(sf::Color::Transparent);
+                Soldier_Class.SoldierBullets.back().setRadius(10);
+                Soldier_Class.SoldierBullets.back().setPosition(Soldier_Class.soldier_walk_sprite.getPosition().x, Soldier_Class.soldier_walk_sprite.getPosition().y + 80);
             }
 
-            Soldier_Class.soldierPrintWindow(game.window);
-
-            /*Soldier_Class.soldier_anim_Bullet_Auto_Attack.x++;
-            if (Soldier_Class.soldier_anim_Bullet_Auto_Attack.x * 32 >= Soldier_Class.soldier_Auto_Attack_texture.getSize().x) // boucle qui permet de revenir a la premiere slide de l'anim
-                Soldier_Class.soldier_anim_Bullet_Auto_Attack.x = 0;*/
-
-            for (int i = 0; i < Soldier_Class.SoldierBullets.size(); i++) {
-                Soldier_Class.SoldierBullets[i].move(-10, 0);
-                game.window.draw(Soldier_Class.SoldierBullets[i]);
-                Soldier_Class.soldier_Bullet_Auto_Attack_sprite.setPosition(Soldier_Class.SoldierBullets[i].getPosition().x + 10, Soldier_Class.SoldierBullets[i].getPosition().y + 2);
-
-                if (Soldier_Class.SoldierBullets[i].getGlobalBounds().intersects(Ekko_Class.ekko_walk_sprite.getGlobalBounds())) {
-                    Ekko_Class.losePV(1);
-                    Soldier_Class.SoldierBullets.erase(Soldier_Class.SoldierBullets.begin() + i);
-                    //Ekko_Class.death();
-                }
-
-                if (Soldier_Class.soldier_Bullet_Auto_Attack_sprite.getPosition().x >= 1850) {
-                    Soldier_Class.SoldierBullets.erase(Soldier_Class.SoldierBullets.begin() + i);
-                }
-
-                Soldier_Class.soldier_Bullet_Auto_Attack_sprite.move(-10, 0);
-                game.window.draw(Soldier_Class.soldier_Bullet_Auto_Attack_sprite);
-
+            if (Soldier_Class.soldier_anim.x * 200 >= Soldier_Class.soldier_walk_texture.getSize().x + 200) {
+                Soldier_Class.soldier_anim.x = 2;
+                Soldier_Class.soldier_S.countAnimAtk = 0;
             }
+            S_startTime = S_nowTime;
         }
 
-#pragma endregion Soldier
+        Soldier_Class.soldierPrintWindow(game.window);
 
+        /*Soldier_Class.soldier_anim_Bullet_Auto_Attack.x++;
+        if (Soldier_Class.soldier_anim_Bullet_Auto_Attack.x * 32 >= Soldier_Class.soldier_Auto_Attack_texture.getSize().x) // boucle qui permet de revenir a la premiere slide de l'anim
+            Soldier_Class.soldier_anim_Bullet_Auto_Attack.x = 0;*/
+
+        for (int i = 0; i < Soldier_Class.SoldierBullets.size(); i++) {
+            Soldier_Class.SoldierBullets[i].move(-10, 0);
+            game.window.draw(Soldier_Class.SoldierBullets[i]);
+            Soldier_Class.soldier_Bullet_Auto_Attack_sprite.setPosition(Soldier_Class.SoldierBullets[i].getPosition().x + 10, Soldier_Class.SoldierBullets[i].getPosition().y + 2);
+
+            Soldier_Class.soldier_Bullet_Auto_Attack_sprite.move(-10, 0);
+            game.window.draw(Soldier_Class.soldier_Bullet_Auto_Attack_sprite);
+        }
 
         game.Death();
         healthBar.draw(game.window);

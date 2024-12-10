@@ -2,9 +2,7 @@
 
 Character::Character() {}
 
-Character::Character(std::string n, int CX, int CY) : c_name(n), c_coordX(CX), c_coordY(CY) {}
-
-Character::~Character() {}
+Character::Character(std::string n, int CX, int CY, int h) : c_name(n), c_coordX(CX), c_coordY(CY), c_health(h) {}
 
 int Character::losePV(int damage) {
 	c_health -= damage;
@@ -60,11 +58,9 @@ Character Char_Class;
 
 Ekko::Ekko() : Character("Ekko", 225, 800, 3) {}
 
-Ekko::~Ekko() {}
-
 void Ekko::ekkoInitAnimations() {
 	if (!ekko_walk_texture.loadFromFile("assets\\characters\\ekko\\Ekko_walk_128_V2.png")) {
-		std::cout << "ekko est pas chargï¿½ bro" << std::endl << std::endl; // Erreur si le fichier est introuvable
+		std::cout << "ekko est pas chargé bro" << std::endl << std::endl; // Erreur si le fichier est introuvable
 	}
 	ekko_walk_texture.setSmooth(true);
 	ekko_walk_sprite.setTexture(ekko_walk_texture);
@@ -73,7 +69,7 @@ void Ekko::ekkoInitAnimations() {
 
 	/////////////////
 	if (!ekko_Auto_Attack_texture.loadFromFile("assets\\characters\\ekko\\Ekko_Auto_Attack_128V3.png")) {
-		std::cout << "ekkoAutoAttack est pas chargï¿½ bro" << std::endl << std::endl;
+		std::cout << "ekkoAutoAttack est pas chargé bro" << std::endl << std::endl;
 	}
 	ekko_Auto_Attack_texture.setSmooth(true);
 
@@ -96,7 +92,7 @@ void Ekko::ekkoDontExitFromScreen() {
 
 void Ekko::bulletInit() {
 	if (!ekko_Bullet_Auto_Attack_texture.loadFromFile("assets\\characters\\ekko\\AutotAttackEkko.png")) {
-		std::cout << "ekkoBulletAutoAttack est pas chargï¿½ bro" << std::endl << std::endl;
+		std::cout << "ekkoBulletAutoAttack est pas chargé bro" << std::endl << std::endl;
 	}
 	ekko_Bullet_Auto_Attack_texture.setSmooth(true);
 
@@ -187,12 +183,6 @@ void Ekko::ekkoPrintWindow(sf::RenderWindow& window) {
 	//////////////////////////////
 }
 
-/*void Ekko::death() {
-	if (Ekko_isAlive) {
-		Ekko::~Ekko();
-	}
-}*/
-
 struct SpellInfo {
 	float cooldownTime;
 	std::chrono::time_point<std::chrono::high_resolution_clock> lastCastTime;
@@ -239,7 +229,7 @@ void Ekko::castSpell(const std::string& spellName) {
 			}
 			else {
 				std::cout << "No position history. Cannot activate X Ult." << std::endl;
-				isTeleporting = false; // Assurez-vous que la tï¿½lï¿½portation est dï¿½sactivï¿½e si l'historique est vide.
+				isTeleporting = false; // Assurez-vous que la téléportation est désactivée si l'historique est vide.
 			}
 		}
 		spells[spellName].lastCastTime = std::chrono::high_resolution_clock::now();
@@ -259,7 +249,7 @@ void Ekko::dash() {
 		direction.y /= length;
 	}
 
-	// Calculer la position finale aprï¿½s le dash
+	// Calculer la position finale après le dash
 	dashTargetPosition = playerPosition + direction * 200.0f;
 
 	// Activer le dash
@@ -269,11 +259,11 @@ void Ekko::dash() {
 
 
 void Ekko::updatePositionHistory() {
-	// Vï¿½rifiez si l'historique doit ï¿½tre mis ï¿½ jour
+	// Vérifiez si l'historique doit être mis à jour
 	if (positionClock.getElapsedTime().asSeconds() >= 0.1f) {
 		// Ajoutez la position actuelle au deque
 		positionHistory.emplace_back(ekko_walk_sprite.getPosition(), positionClock.getElapsedTime());
-		// Gardez uniquement les 4 derniï¿½res secondes
+		// Gardez uniquement les 4 dernières secondes
 		if (positionHistory.size() > 40) {
 			positionHistory.pop_front();
 		}
@@ -284,7 +274,7 @@ void Ekko::updatePositionHistory() {
 void Ekko::updateTeleport() {
 	if (isDashing) {
 		float elapsed = dashingTimer.getElapsedTime().asSeconds();
-		float dashDuration = 0.2f; // Durï¿½e totale du dash en secondes
+		float dashDuration = 0.2f; // Durée totale du dash en secondes
 		if (elapsed >= dashDuration) {
 			// Fin du dash
 			ekko_walk_sprite.setPosition(dashTargetPosition);
@@ -292,7 +282,7 @@ void Ekko::updateTeleport() {
 			isDashing = false;
 		}
 		else {
-			// Interpolation linï¿½aire vers la position cible
+			// Interpolation linéaire vers la position cible
 			sf::Vector2f startPosition = ekko_walk_sprite.getPosition();
 			sf::Vector2f interpolatedPosition = startPosition + (dashTargetPosition - startPosition) * (elapsed / dashDuration);
 
@@ -304,7 +294,7 @@ void Ekko::updateTeleport() {
 	if (isTeleporting) {
 		float t = teleportTimer.getElapsedTime().asSeconds() / 0.5f;
 		if (t >= 1.0f) {
-			// Tï¿½lï¿½portation terminï¿½e
+			// Téléportation terminée
 			sf::Vector2f targetPosition = positionHistory.front().first;
 			ekko_walk_sprite.setPosition(targetPosition);
 			ekko_Auto_Attack_sprite.setPosition(targetPosition);
@@ -321,4 +311,3 @@ void Ekko::updateTeleport() {
 		}
 	}
 }
-

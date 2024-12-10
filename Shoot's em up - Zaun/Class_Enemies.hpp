@@ -13,14 +13,13 @@ protected:
 	std::string e_name;
 	int e_coordX = 1600;
 	int e_coordY = 800;
-	int e_health = 100;
+	int e_health;
 	bool e_isAlive = true;
 
 
 public:
 	Enemies();
-	Enemies(std::string n, int CX, int CY, bool A);
-	~Enemies();
+	Enemies(std::string n, int CX, int CY, int h, bool A);
 
 	struct Marcus_S {
 		bool isAttacking = false;
@@ -71,7 +70,7 @@ public:
 	std::string m_name;
 	int m_coordX = 1600;
 	int m_coordY = 800;
-	int m_health = 200;
+	int m_health;
 	bool m_isAlive = true;
 
 	sf::Texture marcus_walk_texture;
@@ -145,7 +144,6 @@ public:
 	void soldierInitAnimations();
 	void soldierPrintWindow(sf::RenderWindow& window);
 	void soldierBulletInit();
-	void death();
 
 	int losePV(int damage) override;
 	int getHealth() override;
