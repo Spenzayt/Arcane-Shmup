@@ -219,7 +219,7 @@ int mainGame() {
                 Soldier_Class.soldier_Bullet_Auto_Attack_sprite.setPosition(Soldier_Class.SoldierBullets[i].getPosition().x + 10, Soldier_Class.SoldierBullets[i].getPosition().y + 2);
 
                 if (Soldier_Class.SoldierBullets[i].getGlobalBounds().intersects(Ekko_Class.ekko_walk_sprite.getGlobalBounds())) {
-                    Ekko_Class.losePV(1);
+                    healthBar.updateLife(Ekko_Class.losePV(1));
                     Soldier_Class.SoldierBullets.erase(Soldier_Class.SoldierBullets.begin() + i);
                 }
 

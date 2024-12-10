@@ -20,7 +20,6 @@ public:
     void draw(sf::RenderWindow& window);
 
     void updatePosition(int x, int y);
-
 };
 
 #endif
