@@ -2,7 +2,7 @@
 
 Enemies::Enemies() {}
 
-Enemies::Enemies(std::string n, int CX, int CY, int h, bool A) : e_name(n), e_coordX(CX), e_coordY(CY), e_health(h), e_isAlive(A) {}
+Enemies::Enemies(std::string n, int CX, int CY, bool A) : e_name(n), e_coordX(CX), e_coordY(CY), e_isAlive(A) {}
 
 int Enemies::losePV(int damage) {
 	e_health -= damage;
@@ -43,7 +43,7 @@ int Enemies::heal() {
 
 Enemies Enemies_Class;
 
-Marcus::Marcus() : Enemies("Marcus", 1600, 800, 100, true) {}
+Marcus::Marcus() : Enemies("Marcus", 1600, 800, true) {}
 
 Marcus::~Marcus() {}
 
@@ -148,7 +148,7 @@ int Marcus::heal() {
 
 
 
-Soldier::Soldier() : Enemies("Soldier", 1600, 600, 1, true) {}
+Soldier::Soldier() : Enemies("Soldier", 1600, 600, true) {}
 
 Soldier::~Soldier() {}
 
