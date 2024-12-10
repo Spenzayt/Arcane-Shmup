@@ -13,12 +13,12 @@ protected:
 	std::string c_name;
 	int c_coordX = 225;
 	int	c_coordY = 800;
-	int c_health;
+	int c_health = 100;
 	bool c_isAlive = true;
 
 public:
 	Character();
-	Character(std::string n, int CX, int CY, int h);
+	Character(std::string n, int CX, int CY);
 
 	struct Ekko_S {
 		bool isAttacking = false;
@@ -74,6 +74,7 @@ public:
 	Ekko();
 
 	void ekkoDontExitFromScreen();
+	void bulletDontExitFromScreen();
 	void ekkoInitAnimations();
 	void ekkoPrintWindow(sf::RenderWindow& window);
 	void ekkoCommand();
