@@ -173,6 +173,8 @@ int mainGame() {
         }*/
 #pragma endregion Marcus
 
+#pragma region Soldier
+
         if (Soldier_Class.getAlive() == true) {
             Soldier_Class.soldierDontExitFromScreen();
 
@@ -221,6 +223,9 @@ int mainGame() {
 
             }
         }
+
+#pragma endregion Soldier
+
         game.window.display();
     }
     return 0;
