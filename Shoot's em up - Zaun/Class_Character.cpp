@@ -166,8 +166,8 @@ void Ekko::ekkoPrintWindow(sf::RenderWindow& window) {
 }
 
 
-void Ekko::death() {
+/*void Ekko::death() {
 	if (Ekko_isAlive) {
 		Ekko::~Ekko();
 	}
-}
+}*/

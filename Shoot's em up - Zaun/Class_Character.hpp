@@ -88,6 +88,6 @@ public:
 	void ekkoPrintWindow(sf::RenderWindow& window);
 	void ekkoCommand();
 	void bulletInit();
-	void death();
+	//void death();
 };
 
