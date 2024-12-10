@@ -10,10 +10,10 @@
     <ClCompile Include="parallax.cpp">
       <Filter>CPP</Filter>
     </ClCompile>
-    <ClCompile Include="Class_Entities.cpp">
+    <ClCompile Include="Class_Character.cpp">
       <Filter>CPP</Filter>
     </ClCompile>
-    <ClCompile Include="Class_Character.cpp">
+    <ClCompile Include="Class_Enemies.cpp">
       <Filter>CPP</Filter>
     </ClCompile>
     <ClCompile Include="Class_Marcus.cpp">
@@ -36,10 +36,10 @@
     <ClInclude Include="menu.hpp">
       <Filter>HPP</Filter>
     </ClInclude>
-    <ClInclude Include="Class_Entities.hpp">
+    <ClInclude Include="Class_Character.hpp">
       <Filter>HPP</Filter>
     </ClInclude>
-    <ClInclude Include="Class_Character.hpp">
+    <ClInclude Include="Class_Enemies.hpp">
       <Filter>HPP</Filter>
     </ClInclude>
     <ClInclude Include="Class_Ekko.hpp">

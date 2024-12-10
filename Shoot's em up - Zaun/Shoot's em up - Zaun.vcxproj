@@ -139,9 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Class_Ekko.cpp" />
     <ClCompile Include="Class_Character.cpp" />
-    <ClCompile Include="Class_Entities.cpp" />
     <ClCompile Include="Class_Enemies.cpp" />
     <ClCompile Include="Class_Marcus.cpp" />
     <ClCompile Include="menu.cpp" />
@@ -150,8 +148,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Class_Character.hpp" />
-    <ClInclude Include="Class_Ekko.hpp" />
-    <ClInclude Include="Class_Entities.hpp" />
     <ClInclude Include="Classes.hpp" />
     <ClInclude Include="Class_Enemies.hpp" />
     <ClInclude Include="Class_Marcus.hpp" />
