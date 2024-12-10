@@ -22,6 +22,8 @@ public:
 	Character();
 	Character(std::string n, int CX, int CY);
 
+	~Character();
+
 	struct Ekko_S {
 		bool isAttacking = false;
 		bool ekko_anim_isAttacking = false;
@@ -71,16 +73,25 @@ public:
 	sf::Sprite ekko_Bullet_Auto_Attack_sprite;
 	sf::Vector2i ekko_anim_Bullet_Auto_Attack;
 
+	std::string Ekko_name;
+	int Ekko_coordX = 225;
+	int	Ekko_coordY = 800;
+	int Ekko_health = 3;
+	bool Ekko_isAlive = true;
+
 	std::vector<sf::CircleShape> bullets;
 
 	Ekko();
 
+	~Ekko();
+
 	void ekkoDontExitFromScreen();
-	void bulletDontExitFromScreen();
 	void ekkoInitAnimations();
 	void ekkoPrintWindow(sf::RenderWindow& window);
 	void ekkoCommand();
 	void bulletInit();
+	//void death();
+
 	void initializeSpells();
 	void castSpell(const std::string& spellName);;
 	void dash();

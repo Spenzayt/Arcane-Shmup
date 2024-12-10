@@ -4,6 +4,8 @@ Enemies::Enemies() {}
 
 Enemies::Enemies(std::string n, int CX, int CY, bool A) : e_name(n), e_coordX(CX), e_coordY(CY), e_isAlive(A) {}
 
+Enemies::~Enemies() {}
+
 int Enemies::losePV(int damage) {
 	e_health -= damage;
 	if (e_health <= 0) {
@@ -245,4 +247,9 @@ bool Soldier::getAlive() {
 int Soldier::heal() {
 	s_health++;
 	return s_health;
+}
+void Soldier::death() {
+	if (s_isAlive) {
+		Soldier::~Soldier();
+	}
 }
