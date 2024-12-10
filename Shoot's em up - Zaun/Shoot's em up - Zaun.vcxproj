@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="Class_Character.cpp" />
     <ClCompile Include="Class_Enemies.cpp" />
+    <ClCompile Include="hud.cpp" />
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="parallax.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="Class_Character.hpp" />
     <ClInclude Include="Classes.hpp" />
     <ClInclude Include="Class_Enemies.hpp" />
+    <ClInclude Include="hud.hpp" />
     <ClInclude Include="menu.hpp" />
     <ClInclude Include="parallax.hpp" />
   </ItemGroup>

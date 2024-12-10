@@ -16,6 +16,12 @@
     <ClCompile Include="Class_Enemies.cpp">
       <Filter>CPP</Filter>
     </ClCompile>
+    <ClCompile Include="Class_Enemies.cpp">
+      <Filter>CPP</Filter>
+    </ClCompile>
+    <ClCompile Include="hud.cpp">
+      <Filter>CPP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="parallax.hpp">
@@ -33,6 +39,10 @@
     <ClInclude Include="Class_Enemies.hpp">
       <Filter>HPP</Filter>
     </ClInclude>
+    <ClInclude Include="Class_Enemies.hpp">
+      <Filter>HPP</Filter>
+    </ClInclude>
+    <ClInclude Include="hud.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CPP">

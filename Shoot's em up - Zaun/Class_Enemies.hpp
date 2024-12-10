@@ -1,5 +1,5 @@
-#include <iostream>
 #include <SFML/Graphics.hpp>
+#include <iostream>
 #include <thread>
 #include <chrono>
 #include <vector>

@@ -2,6 +2,7 @@
 #include "parallax.hpp"
 #include "menu.hpp"
 #include "Classes.hpp"
+#include "hud.hpp"
 
 using namespace std;
 using namespace sf;
@@ -23,10 +24,12 @@ int mainGame() {
     Marcus_Class.marcusInitAnimations();
     Soldier_Class.soldierInitAnimations();
     Ekko_Class.bulletInit();
+    Ekko_Class.initializeSpells();
     Marcus_Class.marcusBulletInit();
     Soldier_Class.soldierBulletInit();
     game.addEnemies(1);
     game.addEkko();
+    HUD healthBar(100,100, 3);
 
     auto startTime = chrono::steady_clock::now();
     auto waitTime = chrono::milliseconds(70);
@@ -34,6 +37,8 @@ int mainGame() {
     auto waitAttTime = chrono::milliseconds(50);
     auto startReadyToAttackTime = chrono::steady_clock::now();
     auto waitReadyToAttackTime = chrono::seconds(1);
+    auto startDashTime = chrono::steady_clock::now();
+    auto waitDashTime = chrono::milliseconds(10);
 
     auto M_startTime = chrono::steady_clock::now();
     auto M_waitTime = chrono::milliseconds(70);
@@ -48,7 +53,6 @@ int mainGame() {
     auto S_waitAttTime = chrono::milliseconds(800);
     auto S_startReadyToAttackTime = chrono::steady_clock::now();
     auto S_waitReadyToAttackTime = chrono::seconds(1);
-
 
     while (game.window.isOpen()) {
         Time deltaTime = clock.restart();
@@ -101,6 +105,42 @@ int mainGame() {
                         Ekko_Class.ekko_S.ekko_anim_isAttacking = false;
                     }
                     startAttTime = nowAttTime;
+
+        Ekko_Class.ekkoCommand();
+        Ekko_Class.ekkoDontExitFromScreen();
+        Ekko_Class.updatePositionHistory();
+        Ekko_Class.updateTeleport();
+
+        int xHealth = Ekko_Class.ekko_walk_sprite.getPosition().x-10;
+        int yHeatlh = Ekko_Class.ekko_walk_sprite.getPosition().y-15;
+        healthBar.updatePosition(xHealth, yHeatlh);
+
+        auto nowTime = chrono::steady_clock::now();
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) waitTime = chrono::milliseconds(20);
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) waitTime = chrono::milliseconds(20);
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) waitTime = chrono::milliseconds(20);
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) waitTime = chrono::milliseconds(20);
+        else {
+            waitTime = chrono::milliseconds(70);
+        }
+        if (nowTime >= startTime + waitTime) {
+            Ekko_Class.ekko_anim.x++;
+            startTime = nowTime;
+        }
+        if (Ekko_Class.ekko_S.ekko_anim_isAttacking) {
+            auto nowAttTime = chrono::steady_clock::now();
+            if (nowAttTime >= startAttTime + waitAttTime) {
+                Ekko_Class.ekko_S.countAnimAtk++;
+                Ekko_Class.ekko_anim_Auto_Attack.x++;
+                if (Ekko_Class.ekko_S.countAnimAtk == 1) {
+                    Ekko_Class.bullets.push_back(sf::CircleShape());
+                    Ekko_Class.bullets.back().setFillColor(sf::Color::Transparent);
+                    Ekko_Class.bullets.back().setRadius(10);
+                    Ekko_Class.bullets.back().setPosition(Ekko_Class.ekko_Auto_Attack_sprite.getPosition().x + 128, Ekko_Class.ekko_Auto_Attack_sprite.getPosition().y + 32);
+                }
+                if (Ekko_Class.ekko_S.countAnimAtk == 9) {
+                    Ekko_Class.ekko_S.countAnimAtk = 0;
+                    Ekko_Class.ekko_S.ekko_anim_isAttacking = false;
                 }
             }
 
@@ -125,13 +165,24 @@ int mainGame() {
                 if (Ekko_Class.ekko_Bullet_Auto_Attack_sprite.getPosition().x >= 1850) {
                     Ekko_Class.bullets.erase(Ekko_Class.bullets.begin() + i);
                 }
+            if ((Ekko_Class.ekko_Bullet_Auto_Attack_sprite.getLocalBounds().width && Ekko_Class.ekko_Bullet_Auto_Attack_sprite.getLocalBounds().height) == (Soldier_Class.soldier_walk_sprite.getLocalBounds().width && Soldier_Class.soldier_walk_sprite.getLocalBounds().height)) {
+                Soldier_Class.soldier_S.isHit = true;
+            }
+            if (Soldier_Class.soldier_S.isHit = true) {
+                Soldier_Class.losePV(1);
+                Soldier_Class.s_isAlive = false;
+                Soldier_Class.soldier_S.isHit = false;
+                Ekko_Class.bullets.erase(Ekko_Class.bullets.begin()+i);
+            }
+            if (Ekko_Class.ekko_Bullet_Auto_Attack_sprite.getPosition().x >= 1920) {
+                Ekko_Class.bullets.erase(Ekko_Class.bullets.begin() + i);
+            }
 
 
                 Ekko_Class.ekko_Bullet_Auto_Attack_sprite.move(20, 0);
                 game.window.draw(Ekko_Class.ekko_Bullet_Auto_Attack_sprite);
             }
         }
-
 #pragma endregion Ekko
 
 #pragma region Marcus
@@ -226,6 +277,9 @@ int mainGame() {
 
 #pragma endregion Soldier
 
+
+        game.Death();
+        healthBar.draw(game.window);
         game.window.display();
     }
     return 0;
