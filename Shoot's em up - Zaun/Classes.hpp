@@ -28,12 +28,7 @@ public:
 
 	void addEnemies(int soldierNumber) {
 		for (int i = 0; i < soldierNumber; i++) {
-			int classes = rand() % 8;
-			switch (classes) {
-			case 0:
-				soldiers.push_back(new Soldier());
-				break;
-			}
+			soldiers.push_back(new Soldier());
 		}
 	}
 
@@ -42,6 +37,7 @@ public:
 			auto soldiers = *everySoldiers;
 			if (soldiers->getAlive() == false) {
 				cout << " (" << soldiers->getCoordX() << ", " << soldiers->getCoordY() << ")" << " est mort." << endl << endl;
+				soldiers->~Soldier();
 				delete soldiers;
 				//everySoldiers = soldiers.erase(everySoldiers);
 			}

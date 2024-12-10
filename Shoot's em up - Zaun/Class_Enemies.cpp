@@ -2,7 +2,7 @@
 
 Enemies::Enemies() {}
 
-Enemies::Enemies(std::string n, int CX, int CY, int h) : e_name(n), e_coordX(CX), e_coordY(CY), e_health(h) {}
+Enemies::Enemies(std::string n, int CX, int CY, int h, bool A) : e_name(n), e_coordX(CX), e_coordY(CY), e_health(h), e_isAlive(A) {}
 
 int Enemies::losePV(int damage) {
 	e_health -= damage;
@@ -39,23 +39,11 @@ int Enemies::heal() {
 	e_health++;
 	return e_health;
 }
-int Enemies::setHealth(int pv) {
-	e_health = pv;
-	return e_health;
-}
-int Enemies::HealthReset(int pv) {
-	e_health = pv;
-	return e_health;
-}
-bool Enemies::LifeReset() {
-	e_isAlive = true;
-	return e_isAlive;
-}
 
 
 Enemies Enemies_Class;
 
-Marcus::Marcus() : Enemies("Marcus", 1600, 800, 100) {}
+Marcus::Marcus() : Enemies("Marcus", 1600, 800, 100, true) {}
 
 Marcus::~Marcus() {}
 
@@ -122,9 +110,45 @@ void Marcus::marcusPrintWindow(sf::RenderWindow& window) {
 	//////////////////////////////
 }
 
+int Marcus::losePV(int damage) {
+	m_health -= damage;
+	if (m_health <= 0) {
+		m_health = 0;
+		m_isAlive = false;
+	}
+	return m_health;
+}
+int Marcus::getHealth() {
+	return m_health;
+}
+int Marcus::getCoordX() {
+	return m_coordX;
+}
+int Marcus::setCoordX(int X) {
+	m_coordX += X;
+	return m_coordX;
+}
+int Marcus::getCoordY() {
+	return m_coordY;
+}
+int Marcus::setCoordY(int Y) {
+	m_coordY += Y;
+	return m_coordY;
+}
+std::string Marcus::getName() {
+	return m_name;
+}
+bool Marcus::getAlive() {
+	return m_isAlive;
+}
+int Marcus::heal() {
+	m_health++;
+	return m_health;
+}
 
 
-Soldier::Soldier() : Enemies("Soldier", 1600, 600, 1) {}
+
+Soldier::Soldier() : Enemies("Soldier", 1600, 600, 1, true) {}
 
 Soldier::~Soldier() {}
 
@@ -185,4 +209,40 @@ void Soldier::soldierPrintWindow(sf::RenderWindow& window) {
 		window.draw(marcus_walk_sprite);
 	}*/
 	//////////////////////////////
+}
+
+int Soldier::losePV(int damage) {
+	s_health -= damage;
+	if (s_health <= 0) {
+		s_health = 0;
+		s_isAlive = false;
+	}
+	return s_health;
+}
+int Soldier::getHealth() {
+	return s_health;
+}
+int Soldier::getCoordX() {
+	return s_coordX;
+}
+int Soldier::setCoordX(int X) {
+	s_coordX += X;
+	return s_coordX;
+}
+int Soldier::getCoordY() {
+	return s_coordY;
+}
+int Soldier::setCoordY(int Y) {
+	s_coordY += Y;
+	return s_coordY;
+}
+std::string Soldier::getName() {
+	return s_name;
+}
+bool Soldier::getAlive() {
+	return s_isAlive;
+}
+int Soldier::heal() {
+	s_health++;
+	return s_health;
 }

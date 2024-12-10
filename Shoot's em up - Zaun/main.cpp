@@ -13,9 +13,6 @@ Game game;
 
 int mainGame() {
 
-
-
-
     ParallaxBackground background1("assets/backgrounds/ground-zaunV2.png", 150.0f, 630, 1.1, 1.1);
     ParallaxBackground background2("assets/backgrounds/background-zaun.jpeg", 20.0f, -1890, 2, 2);
 
@@ -28,6 +25,7 @@ int mainGame() {
     Ekko_Class.bulletInit();
     Marcus_Class.marcusBulletInit();
     Soldier_Class.soldierBulletInit();
+    game.addEnemies(1);
 
     auto startTime = chrono::steady_clock::now();
     auto waitTime = chrono::milliseconds(70);
@@ -115,8 +113,10 @@ int mainGame() {
             game.window.draw(Ekko_Class.bullets[i]);
             Ekko_Class.bullets[i].move(20, 0);
             Ekko_Class.ekko_Bullet_Auto_Attack_sprite.setPosition(Ekko_Class.bullets[i].getPosition().x - 30, Ekko_Class.bullets[i].getPosition().y - 6);
-            if (Ekko_Class.ekko_Bullet_Auto_Attack_sprite.getGlobalBounds().width && Ekko_Class.ekko_Bullet_Auto_Attack_sprite.getGlobalBounds().height == (Soldier_Class.soldier_walk_sprite.getGlobalBounds().width && Soldier_Class.soldier_walk_sprite.getGlobalBounds().height)) {
+            if ((Ekko_Class.ekko_Bullet_Auto_Attack_sprite.getGlobalBounds().width && Ekko_Class.ekko_Bullet_Auto_Attack_sprite.getGlobalBounds().height) == (Soldier_Class.soldier_walk_sprite.getLocalBounds().width && Soldier_Class.soldier_walk_sprite.getLocalBounds().height)) {
                 Soldier_Class.losePV(1);
+                std::cout << "Hit";
+                Soldier_Class.s_isAlive = false;
             }
 
             Ekko_Class.ekko_Bullet_Auto_Attack_sprite.move(20, 0);

@@ -19,7 +19,7 @@ protected:
 
 public:
 	Enemies();
-	Enemies(std::string n, int CX, int CY, int h);
+	Enemies(std::string n, int CX, int CY, int h, bool A);
 
 	struct Marcus_S {
 		bool isAttacking = false;
@@ -53,22 +53,26 @@ public:
 		int DeathCount = 0;
 	}; Soldier_S soldier_S;
 
-	int losePV(int damage);
-	int getHealth();
-	int getCoordX();
-	int setCoordX(int X);
-	int getCoordY();
-	int setCoordY(int Y);
-	std::string getName();
-	bool getAlive();
-	int heal();
-	int setHealth(int pv);
-	int HealthReset(int pv);
-	bool LifeReset();
+	virtual int losePV(int damage);
+	virtual int getHealth();
+	virtual int getCoordX();
+	virtual int setCoordX(int X);
+	virtual int getCoordY();
+	virtual int setCoordY(int Y);
+	virtual std::string getName();
+	virtual bool getAlive();
+	virtual int heal();
 };
 
 class Marcus : public Enemies {
 public:
+
+	std::string m_name;
+	int m_coordX = 1600;
+	int m_coordY = 800;
+	int m_health;
+	bool m_isAlive = true;
+
 	sf::Texture marcus_walk_texture;
 	sf::Sprite marcus_walk_sprite;
 	sf::Vector2i marcus_anim;
@@ -96,11 +100,28 @@ public:
 	void marcusInitAnimations();
 	void marcusPrintWindow(sf::RenderWindow& window);
 	void marcusBulletInit();
+
+	int losePV(int damage) override;
+	int getHealth() override;
+	int getCoordX()override;
+	int setCoordX(int X)override;
+	int getCoordY()override;
+	int setCoordY(int Y)override;
+	std::string getName()override;
+	bool getAlive()override;
+	int heal()override;
 };
 
 
 class Soldier : public Enemies {
 public:
+
+	std::string s_name;
+	int s_coordX = 1600;
+	int s_coordY = 800;
+	int s_health = 1;
+	bool s_isAlive = true;
+
 	sf::Texture soldier_walk_texture;
 	sf::Sprite soldier_walk_sprite;
 	sf::Vector2i soldier_anim;
@@ -123,4 +144,14 @@ public:
 	void soldierInitAnimations();
 	void soldierPrintWindow(sf::RenderWindow& window);
 	void soldierBulletInit();
+
+	int losePV(int damage) override;
+	int getHealth() override;
+	int getCoordX()override;
+	int setCoordX(int X)override;
+	int getCoordY()override;
+	int setCoordY(int Y)override;
+	std::string getName()override;
+	bool getAlive()override;
+	int heal()override;
 };
