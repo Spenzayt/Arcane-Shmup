@@ -119,7 +119,6 @@ int mainGame() {
                 if (Ekko_Class.bullets[i].getGlobalBounds().intersects(Soldier_Class.soldier_walk_sprite.getGlobalBounds())) {
                     Soldier_Class.losePV(1);
                     Ekko_Class.bullets.erase(Ekko_Class.bullets.begin() + i);
-                    Soldier_Class.death();
                 }
 
                 if (Ekko_Class.ekko_Bullet_Auto_Attack_sprite.getPosition().x >= 1850) {
@@ -211,7 +210,6 @@ int mainGame() {
                 if (Soldier_Class.SoldierBullets[i].getGlobalBounds().intersects(Ekko_Class.ekko_walk_sprite.getGlobalBounds())) {
                     Ekko_Class.losePV(1);
                     Soldier_Class.SoldierBullets.erase(Soldier_Class.SoldierBullets.begin() + i);
-                    Ekko_Class.death();
                 }
 
                 if (Soldier_Class.soldier_Bullet_Auto_Attack_sprite.getPosition().x >= 1850) {
