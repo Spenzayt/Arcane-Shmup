@@ -69,65 +69,67 @@ int mainGame() {
 #pragma endregion Background
 
 #pragma region Ekko
+        if (Ekko_Class.getAlive()) {
+            Ekko_Class.ekkoCommand();
+            Ekko_Class.ekkoDontExitFromScreen();
 
-        Ekko_Class.ekkoCommand();
-        Ekko_Class.ekkoDontExitFromScreen();
-
-        auto nowTime = chrono::steady_clock::now();
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) waitTime = chrono::milliseconds(20);
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) waitTime = chrono::milliseconds(20);
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) waitTime = chrono::milliseconds(20);
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) waitTime = chrono::milliseconds(20);
-        else {
-            waitTime = chrono::milliseconds(70);
-        }
-        if (nowTime >= startTime + waitTime) {
-            Ekko_Class.ekko_anim.x++;
-            startTime = nowTime;
-        }
-        if (Ekko_Class.ekko_S.ekko_anim_isAttacking) {
-            auto nowAttTime = chrono::steady_clock::now();
-            if (nowAttTime >= startAttTime + waitAttTime) {
-                Ekko_Class.ekko_S.countAnimAtk++;
-                Ekko_Class.ekko_anim_Auto_Attack.x++;
-                if (Ekko_Class.ekko_S.countAnimAtk == 1) {
-                    Ekko_Class.bullets.push_back(sf::CircleShape());
-                    Ekko_Class.bullets.back().setFillColor(sf::Color::Transparent);
-                    Ekko_Class.bullets.back().setRadius(10);
-                    Ekko_Class.bullets.back().setPosition(Ekko_Class.ekko_Auto_Attack_sprite.getPosition().x + 128, Ekko_Class.ekko_Auto_Attack_sprite.getPosition().y + 32);
+            auto nowTime = chrono::steady_clock::now();
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) waitTime = chrono::milliseconds(20);
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) waitTime = chrono::milliseconds(20);
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) waitTime = chrono::milliseconds(20);
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) waitTime = chrono::milliseconds(20);
+            else {
+                waitTime = chrono::milliseconds(70);
+            }
+            if (nowTime >= startTime + waitTime) {
+                Ekko_Class.ekko_anim.x++;
+                startTime = nowTime;
+            }
+            if (Ekko_Class.ekko_S.ekko_anim_isAttacking) {
+                auto nowAttTime = chrono::steady_clock::now();
+                if (nowAttTime >= startAttTime + waitAttTime) {
+                    Ekko_Class.ekko_S.countAnimAtk++;
+                    Ekko_Class.ekko_anim_Auto_Attack.x++;
+                    if (Ekko_Class.ekko_S.countAnimAtk == 1) {
+                        Ekko_Class.bullets.push_back(sf::CircleShape());
+                        Ekko_Class.bullets.back().setFillColor(sf::Color::Transparent);
+                        Ekko_Class.bullets.back().setRadius(10);
+                        Ekko_Class.bullets.back().setPosition(Ekko_Class.ekko_Auto_Attack_sprite.getPosition().x + 128, Ekko_Class.ekko_Auto_Attack_sprite.getPosition().y + 32);
+                    }
+                    if (Ekko_Class.ekko_S.countAnimAtk == 9) {
+                        Ekko_Class.ekko_S.countAnimAtk = 0;
+                        Ekko_Class.ekko_S.ekko_anim_isAttacking = false;
+                    }
+                    startAttTime = nowAttTime;
                 }
-                if (Ekko_Class.ekko_S.countAnimAtk == 9) {
-                    Ekko_Class.ekko_S.countAnimAtk = 0;
-                    Ekko_Class.ekko_S.ekko_anim_isAttacking = false;
+            }
+
+            Ekko_Class.ekkoPrintWindow(game.window);
+
+            /*Ekko_Class.ekko_anim_Bullet_Auto_Attack.x++;
+            if (Ekko_Class.ekko_anim_Bullet_Auto_Attack.x * 32 >= Ekko_Class.ekko_Auto_Attack_texture.getSize().x) // boucle qui permet de revenir a la premiere slide de l'anim
+                Ekko_Class.ekko_anim_Bullet_Auto_Attack.x = 0;*/
+
+            for (int i = 0; i < Ekko_Class.bullets.size(); i++) {
+                game.window.draw(Ekko_Class.bullets[i]);
+                Ekko_Class.bullets[i].move(20, 0);
+                Ekko_Class.ekko_Bullet_Auto_Attack_sprite.setPosition(Ekko_Class.bullets[i].getPosition().x - 30, Ekko_Class.bullets[i].getPosition().y - 6);
+
+
+                if (Ekko_Class.bullets[i].getGlobalBounds().intersects(Soldier_Class.soldier_walk_sprite.getGlobalBounds())) {
+                    Soldier_Class.losePV(1);
+                    Ekko_Class.bullets.erase(Ekko_Class.bullets.begin() + i);
+                    Soldier_Class.death();
                 }
-                startAttTime = nowAttTime;
+
+                if (Ekko_Class.ekko_Bullet_Auto_Attack_sprite.getPosition().x >= 1850) {
+                    Ekko_Class.bullets.erase(Ekko_Class.bullets.begin() + i);
+                }
+
+
+                Ekko_Class.ekko_Bullet_Auto_Attack_sprite.move(20, 0);
+                game.window.draw(Ekko_Class.ekko_Bullet_Auto_Attack_sprite);
             }
-        }
-
-        Ekko_Class.ekkoPrintWindow(game.window);
-
-        /*Ekko_Class.ekko_anim_Bullet_Auto_Attack.x++;
-        if (Ekko_Class.ekko_anim_Bullet_Auto_Attack.x * 32 >= Ekko_Class.ekko_Auto_Attack_texture.getSize().x) // boucle qui permet de revenir a la premiere slide de l'anim
-            Ekko_Class.ekko_anim_Bullet_Auto_Attack.x = 0;*/
-
-        for (int i = 0; i < Ekko_Class.bullets.size(); i++) {
-            game.window.draw(Ekko_Class.bullets[i]);
-            Ekko_Class.bullets[i].move(20, 0);
-            Ekko_Class.ekko_Bullet_Auto_Attack_sprite.setPosition(Ekko_Class.bullets[i].getPosition().x - 30, Ekko_Class.bullets[i].getPosition().y - 6);
-
-
-            if (Ekko_Class.bullets[i].getGlobalBounds().intersects(Soldier_Class.soldier_walk_sprite.getGlobalBounds())) {
-                Soldier_Class.losePV(1);
-                Ekko_Class.bullets.erase(Ekko_Class.bullets.begin() + i);
-            }
-
-            if (Ekko_Class.ekko_Bullet_Auto_Attack_sprite.getPosition().x >= 1850) {
-                Ekko_Class.bullets.erase(Ekko_Class.bullets.begin() + i);
-            }
-
-
-            Ekko_Class.ekko_Bullet_Auto_Attack_sprite.move(20, 0);
-            game.window.draw(Ekko_Class.ekko_Bullet_Auto_Attack_sprite);
         }
 
 #pragma endregion Ekko
@@ -204,13 +206,14 @@ int mainGame() {
                 game.window.draw(Soldier_Class.SoldierBullets[i]);
                 Soldier_Class.soldier_Bullet_Auto_Attack_sprite.setPosition(Soldier_Class.SoldierBullets[i].getPosition().x + 10, Soldier_Class.SoldierBullets[i].getPosition().y + 2);
 
-                if (Ekko_Class.bullets[i].getGlobalBounds().intersects(Soldier_Class.soldier_walk_sprite.getGlobalBounds())) {
-                    Soldier_Class.losePV(1);
-                    Ekko_Class.bullets.erase(Ekko_Class.bullets.begin() + i);
+                if (Soldier_Class.SoldierBullets[i].getGlobalBounds().intersects(Ekko_Class.ekko_walk_sprite.getGlobalBounds())) {
+                    Ekko_Class.losePV(1);
+                    Soldier_Class.SoldierBullets.erase(Soldier_Class.SoldierBullets.begin() + i);
+                    Ekko_Class.death();
                 }
 
-                if (Ekko_Class.ekko_Bullet_Auto_Attack_sprite.getPosition().x >= 1850) {
-                    Ekko_Class.bullets.erase(Ekko_Class.bullets.begin() + i);
+                if (Soldier_Class.soldier_Bullet_Auto_Attack_sprite.getPosition().x >= 1850) {
+                    Soldier_Class.SoldierBullets.erase(Soldier_Class.SoldierBullets.begin() + i);
                 }
 
                 Soldier_Class.soldier_Bullet_Auto_Attack_sprite.move(-10, 0);
@@ -218,8 +221,6 @@ int mainGame() {
 
             }
         }
-
-        game.Death();
         game.window.display();
     }
     return 0;

@@ -40,9 +40,4 @@ public:
 		ekkos.push_back(new Ekko());
 		cout << "création de Ekko" << endl << endl;
 	}
-
-	void Death() {
-
-	}
-
 };

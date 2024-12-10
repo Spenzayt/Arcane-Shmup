@@ -20,6 +20,7 @@ protected:
 public:
 	Enemies();
 	Enemies(std::string n, int CX, int CY, bool A);
+	~Enemies();
 
 	struct Marcus_S {
 		bool isAttacking = false;
@@ -144,6 +145,7 @@ public:
 	void soldierInitAnimations();
 	void soldierPrintWindow(sf::RenderWindow& window);
 	void soldierBulletInit();
+	void death();
 
 	int losePV(int damage) override;
 	int getHealth() override;
