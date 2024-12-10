@@ -2,7 +2,9 @@
 
 Character::Character() {}
 
-Character::Character(std::string n, int CX, int CY, int h) : c_name(n), c_coordX(CX), c_coordY(CY), c_health(h) {}
+Character::Character(std::string n, int CX, int CY) : c_name(n), c_coordX(CX), c_coordY(CY) {}
+
+Character::~Character() {}
 
 int Character::losePV(int damage) {
 	c_health -= damage;
@@ -56,7 +58,9 @@ bool Character::LifeReset() {
 
 Character Char_Class;
 
-Ekko::Ekko() : Character("Ekko", 225, 800, 3) {}
+Ekko::Ekko() : Character("Ekko", 225, 800) {}
+
+Ekko::~Ekko() {}
 
 void Ekko::ekkoInitAnimations() {
 	if (!ekko_walk_texture.loadFromFile("assets\\characters\\ekko\\Ekko_walk_128_V2.png")) {
@@ -309,5 +313,11 @@ void Ekko::updateTeleport() {
 			ekko_walk_sprite.setPosition(interpolatedPosition);
 			ekko_Auto_Attack_sprite.setPosition(interpolatedPosition);
 		}
+	}
+}
+
+void Ekko::death() {
+	if (Ekko_isAlive) {
+		Ekko::~Ekko();
 	}
 }

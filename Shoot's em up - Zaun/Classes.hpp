@@ -13,10 +13,13 @@ class Game {
 public:
 
 	vector<Soldier*> soldiers;
-
+	vector<Ekko*> ekkos;
+	
 	~Game() {
 		for (auto soldier : soldiers)
 			delete soldier;
+		for (auto ekkoG : ekkos)
+			delete ekkoG;
 	}
 
 	sf::RenderWindow window;
@@ -29,22 +32,12 @@ public:
 	void addEnemies(int soldierNumber) {
 		for (int i = 0; i < soldierNumber; i++) {
 			soldiers.push_back(new Soldier());
+			cout << "création du soldat" << endl << endl;
 		}
 	}
 
-	void Death() {
-		for (auto everySoldiers = soldiers.begin(); everySoldiers != soldiers.end(); ) { 
-			auto soldiers = *everySoldiers;
-			if (soldiers->getAlive() == false) {
-				cout << " (" << soldiers->getCoordX() << ", " << soldiers->getCoordY() << ")" << " est mort." << endl << endl;
-				soldiers->~Soldier();
-				delete soldiers;
-				//everySoldiers = soldiers.erase(everySoldiers);
-			}
-			else {
-				++everySoldiers;
-			}
-		}
+	void addEkko() {
+		ekkos.push_back(new Ekko());
+		cout << "création de Ekko" << endl << endl;
 	}
-
 };
