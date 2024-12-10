@@ -20,7 +20,7 @@ protected:
 
 public:
 	Character();
-	Character(std::string n, int CX, int CY, int h);
+	Character(std::string n, int CX, int CY);
 
 	struct Ekko_S {
 		bool isAttacking = false;
@@ -76,6 +76,7 @@ public:
 	Ekko();
 
 	void ekkoDontExitFromScreen();
+	void bulletDontExitFromScreen();
 	void ekkoInitAnimations();
 	void ekkoPrintWindow(sf::RenderWindow& window);
 	void ekkoCommand();
