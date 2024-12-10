@@ -2,6 +2,7 @@
 #include "parallax.hpp"
 #include "menu.hpp"
 #include "Classes.hpp"
+#include "hud.hpp"
 
 using namespace std;
 using namespace sf;
@@ -27,6 +28,7 @@ int mainGame() {
     Marcus_Class.marcusBulletInit();
     Soldier_Class.soldierBulletInit();
     game.addEnemies(1);
+    HUD healthBar(100,100, 3);
 
     auto startTime = chrono::steady_clock::now();
     auto waitTime = chrono::milliseconds(70);
@@ -50,7 +52,6 @@ int mainGame() {
     auto S_waitAttTime = chrono::milliseconds(800);
     auto S_startReadyToAttackTime = chrono::steady_clock::now();
     auto S_waitReadyToAttackTime = chrono::seconds(1);
-
 
     while (game.window.isOpen()) {
         Time deltaTime = clock.restart();
@@ -76,6 +77,10 @@ int mainGame() {
         Ekko_Class.ekkoDontExitFromScreen();
         Ekko_Class.updatePositionHistory();
         Ekko_Class.updateTeleport();
+
+        int xHealth = Ekko_Class.ekko_walk_sprite.getPosition().x-10;
+        int yHeatlh = Ekko_Class.ekko_walk_sprite.getPosition().y-15;
+        healthBar.updatePosition(xHealth, yHeatlh);
 
         auto nowTime = chrono::steady_clock::now();
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) waitTime = chrono::milliseconds(20);
@@ -204,6 +209,7 @@ int mainGame() {
         }
 
         game.Death();
+        healthBar.draw(game.window);
         game.window.display();
     }
     return 0;

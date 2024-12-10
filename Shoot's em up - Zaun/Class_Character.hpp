@@ -15,7 +15,7 @@ protected:
 	std::string c_name;
 	int c_coordX = 225;
 	int	c_coordY = 800;
-	int c_health;
+	int c_health = 3;
 	bool c_isAlive = true;
 
 public:

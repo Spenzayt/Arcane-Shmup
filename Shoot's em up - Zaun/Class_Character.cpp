@@ -56,7 +56,7 @@ bool Character::LifeReset() {
 
 Character Char_Class;
 
-Ekko::Ekko() : Character("Ekko", 225, 800, 100) {}
+Ekko::Ekko() : Character("Ekko", 225, 800, 3) {}
 
 void Ekko::ekkoInitAnimations() {
 	if (!ekko_walk_texture.loadFromFile("assets\\characters\\ekko\\Ekko_walk_128_V2.png")) {
