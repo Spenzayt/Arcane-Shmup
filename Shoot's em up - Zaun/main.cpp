@@ -77,12 +77,12 @@ int mainGame() {
         if (Ekko_Class.getAlive()) {
             Ekko_Class.ekkoCommand();
             Ekko_Class.ekkoDontExitFromScreen();
-        Ekko_Class.updatePositionHistory();
-        Ekko_Class.updateTeleport();
+            Ekko_Class.updatePositionHistory();
+            Ekko_Class.updateTeleport();
 
-        int xHealth = Ekko_Class.ekko_walk_sprite.getPosition().x-10;
-        int yHeatlh = Ekko_Class.ekko_walk_sprite.getPosition().y-15;
-        healthBar.updatePosition(xHealth, yHeatlh);
+            int xHealth = Ekko_Class.ekko_walk_sprite.getPosition().x - 10;
+            int yHeatlh = Ekko_Class.ekko_walk_sprite.getPosition().y - 15;
+            healthBar.updatePosition(xHealth, yHeatlh);
 
             auto nowTime = chrono::steady_clock::now();
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) waitTime = chrono::milliseconds(20);
@@ -127,7 +127,7 @@ int mainGame() {
                 Ekko_Class.ekko_Bullet_Auto_Attack_sprite.setPosition(Ekko_Class.bullets[i].getPosition().x - 30, Ekko_Class.bullets[i].getPosition().y - 6);
 
 
-                if (Ekko_Class.bullets[i].getGlobalBounds().intersects(Soldier_Class.soldier_walk_sprite.getGlobalBounds())) {
+                if (Ekko_Class.bullets[i].getGlobalBounds().intersects(Soldier_Class.soldier_walk_sprite.getGlobalBounds()) && Soldier_Class.getAlive()) {
                     Soldier_Class.losePV(1);
                     Ekko_Class.bullets.erase(Ekko_Class.bullets.begin() + i);
                 }
@@ -209,29 +209,31 @@ int mainGame() {
 
             Soldier_Class.soldierPrintWindow(game.window);
 
-            /*Soldier_Class.soldier_anim_Bullet_Auto_Attack.x++;
-            if (Soldier_Class.soldier_anim_Bullet_Auto_Attack.x * 32 >= Soldier_Class.soldier_Auto_Attack_texture.getSize().x) // boucle qui permet de revenir a la premiere slide de l'anim
-                Soldier_Class.soldier_anim_Bullet_Auto_Attack.x = 0;*/
-
-            for (int i = 0; i < Soldier_Class.SoldierBullets.size(); i++) {
-                Soldier_Class.SoldierBullets[i].move(-10, 0);
-                game.window.draw(Soldier_Class.SoldierBullets[i]);
-                Soldier_Class.soldier_Bullet_Auto_Attack_sprite.setPosition(Soldier_Class.SoldierBullets[i].getPosition().x + 10, Soldier_Class.SoldierBullets[i].getPosition().y + 2);
-
-                if (Soldier_Class.SoldierBullets[i].getGlobalBounds().intersects(Ekko_Class.ekko_walk_sprite.getGlobalBounds())) {
-                    healthBar.updateLife(Ekko_Class.losePV(1));
-                    Soldier_Class.SoldierBullets.erase(Soldier_Class.SoldierBullets.begin() + i);
-                }
-
-                if (Soldier_Class.soldier_Bullet_Auto_Attack_sprite.getPosition().x >= 1850) {
-                    Soldier_Class.SoldierBullets.erase(Soldier_Class.SoldierBullets.begin() + i);
-                }
-
-                Soldier_Class.soldier_Bullet_Auto_Attack_sprite.move(-10, 0);
-                game.window.draw(Soldier_Class.soldier_Bullet_Auto_Attack_sprite);
-
-            }
         }
+
+        /*Soldier_Class.soldier_anim_Bullet_Auto_Attack.x++;
+        if (Soldier_Class.soldier_anim_Bullet_Auto_Attack.x * 32 >= Soldier_Class.soldier_Auto_Attack_texture.getSize().x) // boucle qui permet de revenir a la premiere slide de l'anim
+            Soldier_Class.soldier_anim_Bullet_Auto_Attack.x = 0;*/
+
+        for (int i = 0; i < Soldier_Class.SoldierBullets.size(); i++) {
+            Soldier_Class.SoldierBullets[i].move(-10, 0);
+            game.window.draw(Soldier_Class.SoldierBullets[i]);
+            Soldier_Class.soldier_Bullet_Auto_Attack_sprite.setPosition(Soldier_Class.SoldierBullets[i].getPosition().x + 10, Soldier_Class.SoldierBullets[i].getPosition().y + 2);
+
+            if (Soldier_Class.SoldierBullets[i].getGlobalBounds().intersects(Ekko_Class.ekko_walk_sprite.getGlobalBounds())) {
+                healthBar.updateLife(Ekko_Class.losePV(1));
+                Soldier_Class.SoldierBullets.erase(Soldier_Class.SoldierBullets.begin() + i);
+            }
+
+            if (Soldier_Class.soldier_Bullet_Auto_Attack_sprite.getPosition().x >= 1850) {
+                Soldier_Class.SoldierBullets.erase(Soldier_Class.SoldierBullets.begin() + i);
+            }
+
+            Soldier_Class.soldier_Bullet_Auto_Attack_sprite.move(-10, 0);
+            game.window.draw(Soldier_Class.soldier_Bullet_Auto_Attack_sprite);
+
+        }
+
 
 #pragma endregion Soldier
         healthBar.draw(game.window);
