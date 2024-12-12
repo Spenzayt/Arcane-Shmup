@@ -30,7 +30,7 @@ int mainGame() {
 
     Soldier_Class.soldierInitAnimations();
     Soldier_Class.soldierBulletInit();
-    Soldier_Class.createSoldiers(1);
+    Soldier_Class.createSoldiers(5);
 
     HUD healthBar(100,100, 3);
 

@@ -135,11 +135,13 @@ public:
 	sf::Sprite soldier_Bullet_Auto_Attack_sprite;
 	sf::Vector2i soldier_anim_Bullet_Auto_Attack;
 
+
+
 	vector<sf::CircleShape> SoldierBullets;
 
-	Soldier(const sf::Color& color, const sf::Vector2f& position, const sf::Texture& soldier_walk) {
+	Soldier(const sf::Color& color, const sf::Vector2f& position, const sf::Texture& soldierTexture) {
 		soldier_walk_texture.setSmooth(true);
-		soldier_walk_sprite.setTexture(soldier_walk);
+		soldier_walk_sprite.setTexture(soldierTexture);
 		soldier_walk_sprite.setTextureRect(sf::IntRect(200, 0, -200, 157));
 		soldier_walk_sprite.setColor(color);
 		soldier_walk_sprite.setPosition(position);
@@ -152,8 +154,9 @@ public:
 	void soldierDontExitFromScreen();
 	void soldierInitAnimations();
 	void soldierBulletInit();
-	void createSoldiers(int little);
 	void death();
+
+	void createSoldiers(int little);
 	void otherSoldiersSpawn(sf::RenderWindow& window);
 	void animationSoldier();
 
