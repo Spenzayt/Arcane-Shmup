@@ -12,7 +12,9 @@ Marcus Marcus_Class;
 Soldier Soldier_Class;
 Game game;
 
+
 int mainGame() {
+    std::vector<Soldier> soldiers_vector;
 
     ParallaxBackground background1("assets/backgrounds/ground-zaunV2.png", 150.0f, 630, 1.1, 1.1);
     ParallaxBackground background2("assets/backgrounds/background-zaun.jpeg", 20.0f, -1890, 2, 2);
@@ -54,6 +56,7 @@ int mainGame() {
     auto S_startReadyToAttackTime = chrono::steady_clock::now();
     auto S_waitReadyToAttackTime = chrono::seconds(1);
 
+    Soldier_Class.createSoldiers(3, soldiers_vector);
 
     while (game.window.isOpen()) {
         Time deltaTime = clock.restart();
@@ -62,7 +65,6 @@ int mainGame() {
             if (event.type == sf::Event::Closed)
                 game.window.close(); // Fermer la fen�tre
         }
-
 
 #pragma region Background
         background1.update(deltaTime.asSeconds());
@@ -186,7 +188,7 @@ int mainGame() {
 #pragma region Soldier
 
         if (Soldier_Class.getAlive() == true) {
-            Soldier_Class.soldierDontExitFromScreen();
+            //Soldier_Class.soldierDontExitFromScreen();
 
             auto S_nowTime = chrono::steady_clock::now();
 
@@ -207,7 +209,8 @@ int mainGame() {
                 S_startTime = S_nowTime;
             }
 
-            Soldier_Class.soldierPrintWindow(game.window);
+            //Soldier_Class.soldierPrintWindow(game.window);
+            Soldier_Class.otherSoldiersSpawn(game.window, soldiers_vector);
 
         }
 

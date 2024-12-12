@@ -137,6 +137,11 @@ public:
 
 	vector<sf::CircleShape> SoldierBullets;
 
+	Soldier(const sf::Color& color, const sf::Vector2f& position) {
+		soldier_walk_sprite.setColor(color);
+		soldier_walk_sprite.setPosition(position);
+	}
+
 	Soldier();
 
 	~Soldier();
@@ -145,7 +150,9 @@ public:
 	void soldierInitAnimations();
 	void soldierPrintWindow(sf::RenderWindow& window);
 	void soldierBulletInit();
+	void createSoldiers(int little, std::vector<Soldier> soldiers/*, int normal, int big*/);
 	void death();
+	void otherSoldiersSpawn(sf::RenderWindow& window, std::vector<Soldier> soldiers);
 
 	int losePV(int damage) override;
 	int getHealth() override;

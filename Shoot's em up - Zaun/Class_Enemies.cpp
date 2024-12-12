@@ -1,9 +1,9 @@
 #include "Class_Enemies.hpp"
 
+//Enemies::Enemies(std::string n, int CX, int CY, bool A) : e_name(n), e_coordX(CX), e_coordY(CY), e_isAlive(A) {}
+
 Enemies::Enemies() {}
-
-Enemies::Enemies(std::string n, int CX, int CY, bool A) : e_name(n), e_coordX(CX), e_coordY(CY), e_isAlive(A) {}
-
+Enemies::Enemies(std::string n, int CX, int CY, bool A) {}
 Enemies::~Enemies() {}
 
 int Enemies::losePV(int damage) {
@@ -41,7 +41,6 @@ int Enemies::heal() {
 	e_health++;
 	return e_health;
 }
-
 
 Enemies Enemies_Class;
 
@@ -149,9 +148,7 @@ int Marcus::heal() {
 }
 
 
-
 Soldier::Soldier() : Enemies("Soldier", 1600, 600, true) {}
-
 Soldier::~Soldier() {}
 
 void Soldier::soldierInitAnimations() {
@@ -160,18 +157,8 @@ void Soldier::soldierInitAnimations() {
 	}
 	soldier_walk_texture.setSmooth(true);
 	soldier_walk_sprite.setTexture(soldier_walk_texture);
-	soldier_walk_sprite.setTextureRect(sf::IntRect(200, 0, 200, 200));
+	soldier_walk_sprite.setTextureRect(sf::IntRect(0, 0, 0, 0));
 	soldier_walk_sprite.setPosition(1600, 600);
-
-	/////////////////
-	/*if (!ekko_Auto_Attack_texture.loadFromFile("assets\\characters\\ekko\\Ekko_Auto_Attack_128V3.png")) {
-		std::cout << "ekkoAutoAttack est pas chargé bro" << std::endl << std::endl;
-	}
-	ekko_Auto_Attack_texture.setSmooth(true);
-
-	ekko_Auto_Attack_sprite.setTexture(ekko_Auto_Attack_texture);
-	ekko_Auto_Attack_sprite.setTextureRect(sf::IntRect(128, 0, 128, 128));
-	ekko_Auto_Attack_sprite.setPosition(Char_Class.getCoordX(), Char_Class.getCoordY());*/
 }
 
 void Soldier::soldierDontExitFromScreen() {
@@ -197,20 +184,25 @@ void Soldier::soldierBulletInit() {
 	soldier_Bullet_Auto_Attack_sprite.setPosition(soldier_walk_sprite.getPosition().x + 5, soldier_walk_sprite.getPosition().y + 80);
 }
 
-void Soldier::soldierPrintWindow(sf::RenderWindow& window) {
-	soldier_walk_sprite.setTextureRect(sf::IntRect(soldier_anim.x * 200, 0, -200, 200));
+/*void Soldier::soldierPrintWindow(sf::RenderWindow& window) {
+	soldier_walk_sprite.setTextureRect(sf::IntRect(soldier_anim.x * 200, 0, -200, 157));
 	window.draw(soldier_walk_sprite);
+}*/
 
-	//////////////////////////////
+void Soldier::createSoldiers(int little, std::vector<Soldier> soldiers) {
+	for (int i = 0; i < little; i++) {
+		soldiers.emplace_back(sf::Color::Red, sf::Vector2f(rand() % 1800 + 1500, rand() % 800 + 600));
+		cout << "crea de soldat x1" << endl << endl;
+	}
+}
 
-	/*if (ekko_S.ekko_anim_isAttacking) {
-		if (ekko_anim_Auto_Attack.x * 128 >= ekko_Auto_Attack_texture.getSize().x)
-			ekko_anim_Auto_Attack.x = 0;
-
-		marcus_walk_sprite.setTextureRect(sf::IntRect(ekko_anim_Auto_Attack.x * 128, 0, 128, 128));
-		window.draw(marcus_walk_sprite);
-	}*/
-	//////////////////////////////
+void Soldier::otherSoldiersSpawn(sf::RenderWindow& window, std::vector<Soldier> soldiers) {
+	for (const auto& soldier : soldiers) {
+		soldier_walk_sprite.setTextureRect(sf::IntRect(soldier_anim.x * 200, 0, -200, 157));
+		window.draw(soldier.soldier_walk_sprite);
+		//window.draw(soldier_walk_sprite);
+		cout << "creation de soldat en +";
+	}
 }
 
 int Soldier::losePV(int damage) {
