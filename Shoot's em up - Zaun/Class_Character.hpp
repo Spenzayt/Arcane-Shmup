@@ -17,6 +17,7 @@ protected:
 	int	c_coordY = 800;
 	int c_health = 3;
 	bool c_isAlive = true;
+	bool c_invincibility = false;
 
 public:
 	Character();
@@ -78,6 +79,7 @@ public:
 	int	Ekko_coordY = 800;
 	int Ekko_health = 3;
 	bool Ekko_isAlive = true;
+	bool Ekko_invincibility = false;
 
 	std::vector<sf::CircleShape> bullets;
 

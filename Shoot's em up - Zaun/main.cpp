@@ -45,7 +45,11 @@ int mainGame() {
     auto startReadyToAttackTime = chrono::steady_clock::now();
     auto waitReadyToAttackTime = chrono::seconds(1);
     auto startDashTime = chrono::steady_clock::now();
-    auto waitDashTime = chrono::milliseconds(10);
+    auto waitDashTime = chrono::milliseconds(5);
+
+    float SecondsSinceInvincibility;
+    auto startTimeInvincibility = chrono::steady_clock::now();
+    auto waitInvincibilityTime = chrono::seconds(3);
 
     auto M_startTime = chrono::steady_clock::now();
     auto M_waitTime = chrono::milliseconds(70);
@@ -255,6 +259,9 @@ int mainGame() {
             if (soldier.SoldierBullets[i].getGlobalBounds().intersects(ekko.ekko_walk_sprite.getGlobalBounds())) {
                 healthBar.updateLife(ekko.losePV(1));
                 soldier.SoldierBullets.erase(soldier.SoldierBullets.begin() + i);
+
+                ekko.Ekko_invincibility = true;
+                cout << "start";
             }
 
             if (soldier.soldier_Bullet_Auto_Attack_sprite.getPosition().x >= 1850) {
@@ -264,6 +271,19 @@ int mainGame() {
             soldier.soldier_Bullet_Auto_Attack_sprite.move(-10, 0);
             game.window.draw(soldier.soldier_Bullet_Auto_Attack_sprite);
 
+            auto nowTimeInvincibility = chrono::steady_clock::now();
+
+            // After 10 seconds switch to normal
+            if (touché) {
+                SecondsSinceInvincibility += deltaTime.asSeconds();
+                if (m_SecondsSincePowerUp > 10.0f) {
+                    std::cout << "Cooldown ended." << std::endl;
+                    m_State = m_State::NORMAL;
+                    m_SecondsSincePowerUp = 0;
+                }
+            }
+                cout << "end";
+                ekko.Ekko_invincibility = false;
         }
 #pragma endregion Soldier
 
