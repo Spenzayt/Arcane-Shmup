@@ -150,7 +150,6 @@ int Marcus::heal() {
 
 Soldier::Soldier() : Enemies("Soldier", 1600, 600, true) {}
 Soldier::~Soldier() {}
-std::vector<Soldier> soldiers_vector;
 
 void Soldier::soldierDontExitFromScreen() {
 	if (soldier_walk_sprite.getPosition().x <= 0) soldier_walk_sprite.setPosition(sf::Vector2f(0, soldier_walk_sprite.getPosition().y));
@@ -177,32 +176,17 @@ void Soldier::createSoldiers(int little) {
 	}
 }
 
-void Soldier::animationSoldier() {
+void Soldier::bulletGestion() {
 	for (auto& soldier : soldiers_vector) {
-		soldier.soldier_anim.x++;
-		soldier.soldier_S.countAnimAtk++;
-
-		if (soldier.soldier_S.countAnimAtk == 2) {
-			soldier.SoldierBullets.push_back(sf::CircleShape());
-			soldier.SoldierBullets.back().setFillColor(sf::Color::Red);
-			soldier.SoldierBullets.back().setRadius(10);
-			soldier.SoldierBullets.back().setPosition(soldier.soldier_walk_sprite.getPosition().x, soldier.soldier_walk_sprite.getPosition().y + 80);
-		}
-
-		if (soldier.soldier_anim.x * 200 >= soldier.soldier_walk_texture.getSize().x + 200) {
-			soldier.soldier_anim.x = 2;
-			soldier.soldier_S.countAnimAtk = 0;
-		}
+		soldier.SoldierBullets.push_back(sf::CircleShape());
+		soldier.SoldierBullets.back().setFillColor(sf::Color::Red);
+		soldier.SoldierBullets.back().setRadius(10);
+		soldier.SoldierBullets.back().setPosition(soldier.soldier_walk_sprite.getPosition().x, soldier.soldier_walk_sprite.getPosition().y + 80);
 	}
 }
 
 void Soldier::otherSoldiersSpawn(sf::RenderWindow& window) {
 	for (auto& soldier : soldiers_vector) {
-		//soldier.soldier_walk_sprite.setTextureRect(sf::IntRect(soldier.soldier_anim.x * 200, 0, -200, 157));
-		if (soldier.soldier_anim.x * 200 >= soldier.soldier_walk_texture.getSize().x + 118) // boucle qui permet de revenir a la premiere slide de l'anim
-			soldier.soldier_anim.x = 2;
-		soldier.soldier_walk_sprite.setTextureRect(sf::IntRect(soldier.soldier_anim.x * 200, 0, -200, 157));
-		//cout << "oui";
 		window.draw(soldier.soldier_walk_sprite);
 	}
 }
@@ -210,12 +194,6 @@ void Soldier::otherSoldiersSpawn(sf::RenderWindow& window) {
 void Soldier::soldierBulletInit() {
 	if (!soldier_Bullet_Auto_Attack_texture.loadFromFile("assets\\characters\\Soldier\\soldierBullets.png")) {
 		std::cout << "soldierBullets est pas chargé bro" << std::endl << std::endl;
-	}
-	for (const auto& soldier : soldiers_vector) {
-		soldier_Bullet_Auto_Attack_texture.setSmooth(true);
-		soldier_Bullet_Auto_Attack_sprite.setTexture(soldier.soldier_Bullet_Auto_Attack_texture);
-		soldier_Bullet_Auto_Attack_sprite.setPosition(soldier.soldier_walk_sprite.getPosition().x + 5, soldier.soldier_walk_sprite.getPosition().y + 80);
-		soldier_Bullet_Auto_Attack_sprite.setTextureRect(sf::IntRect(32, 0, -32, 16));
 	}
 }
 

@@ -30,7 +30,7 @@ int mainGame() {
 
     Soldier_Class.soldierInitAnimations();
     Soldier_Class.soldierBulletInit();
-    Soldier_Class.createSoldiers(5);
+    Soldier_Class.createSoldiers(3);
 
     HUD healthBar(100,100, 3);
 
@@ -192,33 +192,45 @@ int mainGame() {
             auto S_nowTime = chrono::steady_clock::now();
 
             if (S_nowTime >= S_startTime + S_waitTime) {
-                Soldier_Class.animationSoldier();
+                for (auto& soldier : Soldier_Class.soldiers_vector) {
+
+                    soldier.soldier_anim.x++;
+                    soldier.soldier_S.countAnimAtk++;
+                    if (soldier.soldier_anim.x * 200 >= soldier.soldier_walk_texture.getSize().x) {
+                        soldier.soldier_anim.x = 2;
+                        soldier.soldier_S.countAnimAtk = 0;
+                    }
+                    soldier.soldier_walk_sprite.setTextureRect(sf::IntRect(soldier.soldier_anim.x * 200, 0, -200, 157));
+                    game.window.draw(soldier.soldier_walk_sprite);
+
+                }
+                Soldier_Class.bulletGestion();
                 S_startTime = S_nowTime;
             }
 
             Soldier_Class.otherSoldiersSpawn(game.window);
 
         }
+        for (auto& soldier : Soldier_Class.soldiers_vector) {
+            for (int i = 0; i < soldier.SoldierBullets.size(); i++) {
+                soldier.SoldierBullets[i].move(-10, 0);
+                game.window.draw(soldier.SoldierBullets[i]);
+                soldier.soldier_Bullet_Auto_Attack_sprite.setPosition(soldier.SoldierBullets[i].getPosition().x + 10, soldier.SoldierBullets[i].getPosition().y + 2);
 
-        for (int i = 0; i < Soldier_Class.SoldierBullets.size(); i++) {
-            Soldier_Class.SoldierBullets[i].move(-10, 0);
-            game.window.draw(Soldier_Class.SoldierBullets[i]);
-            Soldier_Class.soldier_Bullet_Auto_Attack_sprite.setPosition(Soldier_Class.SoldierBullets[i].getPosition().x + 10, Soldier_Class.SoldierBullets[i].getPosition().y + 2);
+                if (soldier.SoldierBullets[i].getGlobalBounds().intersects(Ekko_Class.ekko_walk_sprite.getGlobalBounds())) {
+                    healthBar.updateLife(Ekko_Class.losePV(1));
+                    soldier.SoldierBullets.erase(soldier.SoldierBullets.begin() + i);
+                }
 
-            if (Soldier_Class.SoldierBullets[i].getGlobalBounds().intersects(Ekko_Class.ekko_walk_sprite.getGlobalBounds())) {
-                healthBar.updateLife(Ekko_Class.losePV(1));
-                Soldier_Class.SoldierBullets.erase(Soldier_Class.SoldierBullets.begin() + i);
+                if (soldier.soldier_Bullet_Auto_Attack_sprite.getPosition().x >= 1850) {
+                    soldier.SoldierBullets.erase(soldier.SoldierBullets.begin() + i);
+                }
+
+                soldier.soldier_Bullet_Auto_Attack_sprite.move(-10, 0);
+                game.window.draw(soldier.soldier_Bullet_Auto_Attack_sprite);
+
             }
-
-            if (Soldier_Class.soldier_Bullet_Auto_Attack_sprite.getPosition().x >= 1850) {
-                Soldier_Class.SoldierBullets.erase(Soldier_Class.SoldierBullets.begin() + i);
-            }
-
-            Soldier_Class.soldier_Bullet_Auto_Attack_sprite.move(-10, 0);
-            game.window.draw(Soldier_Class.soldier_Bullet_Auto_Attack_sprite);
-
         }
-
 
 #pragma endregion Soldier
         healthBar.draw(game.window);

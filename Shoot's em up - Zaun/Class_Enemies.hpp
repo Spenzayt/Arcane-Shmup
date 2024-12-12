@@ -135,16 +135,15 @@ public:
 	sf::Sprite soldier_Bullet_Auto_Attack_sprite;
 	sf::Vector2i soldier_anim_Bullet_Auto_Attack;
 
+	std::vector<Soldier> soldiers_vector;
+	std::vector<sf::CircleShape> SoldierBullets;
 
-
-	vector<sf::CircleShape> SoldierBullets;
-
-	Soldier(const sf::Color& color, const sf::Vector2f& position, const sf::Texture& soldierTexture) {
+	Soldier(const sf::Color& color, const sf::Vector2f& positionSoldier, const sf::Texture& soldierTexture) {
 		soldier_walk_texture.setSmooth(true);
 		soldier_walk_sprite.setTexture(soldierTexture);
 		soldier_walk_sprite.setTextureRect(sf::IntRect(200, 0, -200, 157));
 		soldier_walk_sprite.setColor(color);
-		soldier_walk_sprite.setPosition(position);
+		soldier_walk_sprite.setPosition(positionSoldier);
 	}
 
 	Soldier();
@@ -158,7 +157,7 @@ public:
 
 	void createSoldiers(int little);
 	void otherSoldiersSpawn(sf::RenderWindow& window);
-	void animationSoldier();
+	void bulletGestion();
 
 	int losePV(int damage) override;
 	int getHealth() override;
