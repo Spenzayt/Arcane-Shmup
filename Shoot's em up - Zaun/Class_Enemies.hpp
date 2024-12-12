@@ -11,8 +11,8 @@ using namespace std;
 class Enemies {
 protected:
 	std::string e_name;
-	int e_coordX = 1600;
-	int e_coordY = 800;
+	int e_coordX;
+	int e_coordY;
 	int e_health = 100;
 	bool e_isAlive = true;
 
@@ -52,6 +52,10 @@ public:
 		int countAnimHit = 0;
 		int countAnimDeath = 0;
 		int DeathCount = 0;
+		
+		int attackSpeed = 100;
+		float bulletSpeed = 1.0f;
+		float speed = 1.0f;
 	}; Soldier_S soldier_S;
 
 	virtual int losePV(int damage);
@@ -119,7 +123,7 @@ public:
 
 	std::string s_name;
 	int s_coordX = 1600;
-	int s_coordY = 800;
+	int s_coordY = 500;
 	int s_health = 1;
 	bool s_isAlive = true;
 
@@ -145,7 +149,95 @@ public:
 	void soldierInitAnimations();
 	void soldierPrintWindow(sf::RenderWindow& window);
 	void soldierBulletInit();
-	void death();
+	void soldierDeath();
+
+	int losePV(int damage) override;
+	int getHealth() override;
+	int getCoordX()override;
+	int setCoordX(int X)override;
+	int getCoordY()override;
+	int setCoordY(int Y)override;
+	std::string getName()override;
+	bool getAlive()override;
+	int heal()override;
+};
+
+class MediumSoldier : public Enemies {
+public:
+
+	std::string ms_name;
+	int ms_coordX = 1600;
+	int ms_coordY = 700;
+	int ms_health = 2;
+	bool ms_isAlive = true;
+
+	sf::Texture medium_soldier_walk_texture;
+	sf::Sprite medium_soldier_walk_sprite;
+	sf::Vector2i medium_soldier_anim;
+
+	sf::Texture medium_soldier_Auto_Attack_texture;
+	sf::Sprite medium_soldier_Auto_Attack_sprite;
+	sf::Vector2i medium_soldier_anim_Auto_Attack;
+
+	sf::Texture medium_soldier_Bullet_Auto_Attack_texture;
+	sf::Sprite medium_soldier_Bullet_Auto_Attack_sprite;
+	sf::Vector2i medium_soldier_anim_Bullet_Auto_Attack;
+
+	vector<sf::CircleShape> MediumSoldierBullets;
+
+	MediumSoldier();
+
+	~MediumSoldier();
+
+	void mediumSoldierDontExitFromScreen();
+	void mediumSoldierInitAnimations();
+	void mediumSoldierPrintWindow(sf::RenderWindow& window);
+	void mediumSoldierBulletInit();
+	void mediumSoldierDeath();
+
+	int losePV(int damage) override;
+	int getHealth() override;
+	int getCoordX()override;
+	int setCoordX(int X)override;
+	int getCoordY()override;
+	int setCoordY(int Y)override;
+	std::string getName()override;
+	bool getAlive()override;
+	int heal()override;
+};
+
+class HardSoldier : public Enemies {
+public:
+
+	std::string hs_name;
+	int hs_coordX = 1600;
+	int hs_coordY = 900;
+	int hs_health = 3;
+	bool hs_isAlive = true;
+
+	sf::Texture soldier_walk_texture;
+	sf::Sprite soldier_walk_sprite;
+	sf::Vector2i soldier_anim;
+
+	sf::Texture soldier_Auto_Attack_texture;
+	sf::Sprite soldier_Auto_Attack_sprite;
+	sf::Vector2i soldier_anim_Auto_Attack;
+
+	sf::Texture soldier_Bullet_Auto_Attack_texture;
+	sf::Sprite soldier_Bullet_Auto_Attack_sprite;
+	sf::Vector2i soldier_anim_Bullet_Auto_Attack;
+
+	vector<sf::CircleShape> SoldierBullets;
+
+	HardSoldier();
+
+	~HardSoldier();
+
+	void soldierDontExitFromScreen();
+	void soldierInitAnimations();
+	void soldierPrintWindow(sf::RenderWindow& window);
+	void soldierBulletInit();
+	void soldierDeath();
 
 	int losePV(int damage) override;
 	int getHealth() override;
