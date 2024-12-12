@@ -14,24 +14,25 @@ Game game;
 
 
 int mainGame() {
-    std::vector<Soldier> soldiers_vector;
-
     ParallaxBackground background1("assets/backgrounds/ground-zaunV2.png", 150.0f, 630, 1.1, 1.1);
     ParallaxBackground background2("assets/backgrounds/background-zaun.jpeg", 20.0f, -1890, 2, 2);
 
     Clock clock;
 
     game.init();
+
     Ekko_Class.ekkoInitAnimations();
-    Marcus_Class.marcusInitAnimations();
-    Soldier_Class.soldierInitAnimations();
     Ekko_Class.bulletInit();
     Ekko_Class.initializeSpells();
+
+    Marcus_Class.marcusInitAnimations();
     Marcus_Class.marcusBulletInit();
+
+    Soldier_Class.soldierInitAnimations();
     Soldier_Class.soldierBulletInit();
-    game.addEnemies(1);
+    Soldier_Class.createSoldiers(1);
+
     HUD healthBar(100,100, 3);
-    game.addEkko();
 
     auto startTime = chrono::steady_clock::now();
     auto waitTime = chrono::milliseconds(70);
@@ -55,8 +56,6 @@ int mainGame() {
     auto S_waitAttTime = chrono::milliseconds(800);
     auto S_startReadyToAttackTime = chrono::steady_clock::now();
     auto S_waitReadyToAttackTime = chrono::seconds(1);
-
-    Soldier_Class.createSoldiers(3, soldiers_vector);
 
     while (game.window.isOpen()) {
         Time deltaTime = clock.restart();
@@ -193,30 +192,13 @@ int mainGame() {
             auto S_nowTime = chrono::steady_clock::now();
 
             if (S_nowTime >= S_startTime + S_waitTime) {
-                Soldier_Class.soldier_anim.x++;
-                Soldier_Class.soldier_S.countAnimAtk++;
-                if (Soldier_Class.soldier_S.countAnimAtk == 2) {
-                    Soldier_Class.SoldierBullets.push_back(sf::CircleShape());
-                    Soldier_Class.SoldierBullets.back().setFillColor(sf::Color::Transparent);
-                    Soldier_Class.SoldierBullets.back().setRadius(10);
-                    Soldier_Class.SoldierBullets.back().setPosition(Soldier_Class.soldier_walk_sprite.getPosition().x, Soldier_Class.soldier_walk_sprite.getPosition().y + 80);
-                }
-
-                if (Soldier_Class.soldier_anim.x * 200 >= Soldier_Class.soldier_walk_texture.getSize().x + 200) {
-                    Soldier_Class.soldier_anim.x = 2;
-                    Soldier_Class.soldier_S.countAnimAtk = 0;
-                }
+                Soldier_Class.animationSoldier();
                 S_startTime = S_nowTime;
             }
 
-            //Soldier_Class.soldierPrintWindow(game.window);
-            Soldier_Class.otherSoldiersSpawn(game.window, soldiers_vector);
+            Soldier_Class.otherSoldiersSpawn(game.window);
 
         }
-
-        /*Soldier_Class.soldier_anim_Bullet_Auto_Attack.x++;
-        if (Soldier_Class.soldier_anim_Bullet_Auto_Attack.x * 32 >= Soldier_Class.soldier_Auto_Attack_texture.getSize().x) // boucle qui permet de revenir a la premiere slide de l'anim
-            Soldier_Class.soldier_anim_Bullet_Auto_Attack.x = 0;*/
 
         for (int i = 0; i < Soldier_Class.SoldierBullets.size(); i++) {
             Soldier_Class.SoldierBullets[i].move(-10, 0);

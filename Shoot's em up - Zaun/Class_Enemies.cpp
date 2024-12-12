@@ -150,15 +150,12 @@ int Marcus::heal() {
 
 Soldier::Soldier() : Enemies("Soldier", 1600, 600, true) {}
 Soldier::~Soldier() {}
+std::vector<Soldier> soldiers_vector;
 
 void Soldier::soldierInitAnimations() {
 	if (!soldier_walk_texture.loadFromFile("assets\\characters\\Soldier\\attack_200.png")) {
 		std::cout << "soldier est pas chargé bro" << std::endl << std::endl; // Erreur si le fichier est introuvable
 	}
-	soldier_walk_texture.setSmooth(true);
-	soldier_walk_sprite.setTexture(soldier_walk_texture);
-	soldier_walk_sprite.setTextureRect(sf::IntRect(0, 0, 0, 0));
-	soldier_walk_sprite.setPosition(1600, 600);
 }
 
 void Soldier::soldierDontExitFromScreen() {
@@ -184,24 +181,36 @@ void Soldier::soldierBulletInit() {
 	soldier_Bullet_Auto_Attack_sprite.setPosition(soldier_walk_sprite.getPosition().x + 5, soldier_walk_sprite.getPosition().y + 80);
 }
 
-/*void Soldier::soldierPrintWindow(sf::RenderWindow& window) {
-	soldier_walk_sprite.setTextureRect(sf::IntRect(soldier_anim.x * 200, 0, -200, 157));
-	window.draw(soldier_walk_sprite);
-}*/
-
-void Soldier::createSoldiers(int little, std::vector<Soldier> soldiers) {
+void Soldier::createSoldiers(int little) {
 	for (int i = 0; i < little; i++) {
-		soldiers.emplace_back(sf::Color::Red, sf::Vector2f(rand() % 1800 + 1500, rand() % 800 + 600));
+		//soldiers_vector.back().soldier_walk_sprite.setTextureRect(sf::IntRect(200, 0, -200, 157));
+		soldiers_vector.emplace_back(sf::Color::Red, sf::Vector2f(rand() % 960 + 800, rand() % 500 + 600), soldier_walk_texture);
 		cout << "crea de soldat x1" << endl << endl;
 	}
 }
 
-void Soldier::otherSoldiersSpawn(sf::RenderWindow& window, std::vector<Soldier> soldiers) {
-	for (const auto& soldier : soldiers) {
-		soldier_walk_sprite.setTextureRect(sf::IntRect(soldier_anim.x * 200, 0, -200, 157));
+void Soldier::otherSoldiersSpawn(sf::RenderWindow& window) {
+	//soldier_walk_sprite.setTextureRect(sf::IntRect(soldier_anim.x * 200, 0, -200, 157));
+	for (const auto& soldier : soldiers_vector) {
 		window.draw(soldier.soldier_walk_sprite);
-		//window.draw(soldier_walk_sprite);
-		cout << "creation de soldat en +";
+	}
+}
+
+void Soldier::animationSoldier() {
+	for (const auto& soldier : soldiers_vector) {
+		soldier_anim.x++;
+		soldier_S.countAnimAtk++;
+		if (soldier_S.countAnimAtk == 2) {
+			SoldierBullets.push_back(sf::CircleShape());
+			SoldierBullets.back().setFillColor(sf::Color::Transparent);
+			SoldierBullets.back().setRadius(10);
+			SoldierBullets.back().setPosition(soldier_walk_sprite.getPosition().x, soldier_walk_sprite.getPosition().y + 80);
+		}
+
+		if (soldier_anim.x * 200 >= soldier_walk_texture.getSize().x + 200) {
+			soldier_anim.x = 2;
+			soldier_S.countAnimAtk = 0;
+		}
 	}
 }
 
