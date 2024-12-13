@@ -346,11 +346,6 @@ int MediumSoldier::heal() {
 	ms_health++;
 	return ms_health;
 }
-void MediumSoldier::mediumSoldierDeath() {
-	if (ms_isAlive) {
-		MediumSoldier::~MediumSoldier();
-	}
-}
 
 ////////////////////////
 
@@ -358,16 +353,16 @@ HardSoldier::HardSoldier() : Enemies("HardSoldier", 1600, 900, true) {}
 
 HardSoldier::~HardSoldier() {}
 
-void HardSoldier::soldierInitAnimations() {
+void HardSoldier::hardSoldierInitAnimations() {
 	soldier_S.attackSpeed = 45;
 	soldier_S.bulletSpeed = 1.5f;
-	if (!soldier_walk_texture.loadFromFile("assets\\characters\\Soldier\\attack_200.png")) {
+	if (!hardSoldier_walk_texture.loadFromFile("assets\\characters\\Soldier\\attack_200.png")) {
 		std::cout << "soldier est pas charg� bro" << std::endl << std::endl; // Erreur si le fichier est introuvable
 	}
-	soldier_walk_texture.setSmooth(true);
-	soldier_walk_sprite.setTexture(soldier_walk_texture);
-	soldier_walk_sprite.setTextureRect(sf::IntRect(200, 0, 200, 200));
-	soldier_walk_sprite.setPosition(hs_coordX, hs_coordY);
+	hardSoldier_walk_texture.setSmooth(true);
+	hardSoldier_walk_sprite.setTexture(hardSoldier_walk_texture);
+	hardSoldier_walk_sprite.setTextureRect(sf::IntRect(200, 0, 200, 200));
+	hardSoldier_walk_sprite.setPosition(hs_coordX, hs_coordY);
 
 	/////////////////
 	/*if (!ekko_Auto_Attack_texture.loadFromFile("assets\\characters\\ekko\\Ekko_Auto_Attack_128V3.png")) {
@@ -380,32 +375,32 @@ void HardSoldier::soldierInitAnimations() {
 	ekko_Auto_Attack_sprite.setPosition(Char_Class.getCoordX(), Char_Class.getCoordY());*/
 }
 
-void HardSoldier::soldierDontExitFromScreen() {
-	if (soldier_walk_sprite.getPosition().x <= 0) soldier_walk_sprite.setPosition(sf::Vector2f(0, soldier_walk_sprite.getPosition().y));
-	if (soldier_walk_sprite.getPosition().y <= 525) soldier_walk_sprite.setPosition(sf::Vector2f(soldier_walk_sprite.getPosition().x, 525));
-	if (soldier_walk_sprite.getPosition().x >= 1920 - soldier_walk_sprite.getGlobalBounds().width) soldier_walk_sprite.setPosition(sf::Vector2f(1920 - soldier_walk_sprite.getGlobalBounds().width, soldier_walk_sprite.getPosition().y));
-	if (soldier_walk_sprite.getPosition().y >= 1070 - soldier_walk_sprite.getGlobalBounds().height) soldier_walk_sprite.setPosition(sf::Vector2f(soldier_walk_sprite.getPosition().x, 1070 - soldier_walk_sprite.getGlobalBounds().height));
+void HardSoldier::hardSoldierDontExitFromScreen() {
+	if (hardSoldier_walk_sprite.getPosition().x <= 0) hardSoldier_walk_sprite.setPosition(sf::Vector2f(0, hardSoldier_walk_sprite.getPosition().y));
+	if (hardSoldier_walk_sprite.getPosition().y <= 525) hardSoldier_walk_sprite.setPosition(sf::Vector2f(hardSoldier_walk_sprite.getPosition().x, 525));
+	if (hardSoldier_walk_sprite.getPosition().x >= 1920 - hardSoldier_walk_sprite.getGlobalBounds().width) hardSoldier_walk_sprite.setPosition(sf::Vector2f(1920 - hardSoldier_walk_sprite.getGlobalBounds().width, hardSoldier_walk_sprite.getPosition().y));
+	if (hardSoldier_walk_sprite.getPosition().y >= 1070 - hardSoldier_walk_sprite.getGlobalBounds().height) hardSoldier_walk_sprite.setPosition(sf::Vector2f(hardSoldier_walk_sprite.getPosition().x, 1070 - hardSoldier_walk_sprite.getGlobalBounds().height));
 
-	if (soldier_walk_sprite.getPosition().x <= 0) soldier_walk_sprite.setPosition(sf::Vector2f(0, soldier_walk_sprite.getPosition().y));
-	if (soldier_walk_sprite.getPosition().y <= 525) soldier_walk_sprite.setPosition(sf::Vector2f(soldier_walk_sprite.getPosition().x, 525));
-	if (soldier_walk_sprite.getPosition().x >= 1920 - soldier_walk_sprite.getGlobalBounds().width) soldier_walk_sprite.setPosition(sf::Vector2f(1920 - soldier_walk_sprite.getGlobalBounds().width, soldier_walk_sprite.getPosition().y));
-	if (soldier_walk_sprite.getPosition().y >= 1070 - soldier_walk_sprite.getGlobalBounds().height) soldier_walk_sprite.setPosition(sf::Vector2f(soldier_walk_sprite.getPosition().x, 1070 - soldier_walk_sprite.getGlobalBounds().height));
+	if (hardSoldier_walk_sprite.getPosition().x <= 0) hardSoldier_walk_sprite.setPosition(sf::Vector2f(0, hardSoldier_walk_sprite.getPosition().y));
+	if (hardSoldier_walk_sprite.getPosition().y <= 525) hardSoldier_walk_sprite.setPosition(sf::Vector2f(hardSoldier_walk_sprite.getPosition().x, 525));
+	if (hardSoldier_walk_sprite.getPosition().x >= 1920 - hardSoldier_walk_sprite.getGlobalBounds().width) hardSoldier_walk_sprite.setPosition(sf::Vector2f(1920 - hardSoldier_walk_sprite.getGlobalBounds().width, hardSoldier_walk_sprite.getPosition().y));
+	if (hardSoldier_walk_sprite.getPosition().y >= 1070 - hardSoldier_walk_sprite.getGlobalBounds().height) hardSoldier_walk_sprite.setPosition(sf::Vector2f(hardSoldier_walk_sprite.getPosition().x, 1070 - hardSoldier_walk_sprite.getGlobalBounds().height));
 }
 
-void HardSoldier::soldierBulletInit() {
-	if (!soldier_Bullet_Auto_Attack_texture.loadFromFile("assets\\characters\\Soldier\\soldierBullets.png")) {
+void HardSoldier::hardSoldierBulletInit() {
+	if (!hardSoldier_Bullet_Auto_Attack_texture.loadFromFile("assets\\characters\\Soldier\\soldierBullets.png")) {
 		std::cout << "soldierBullets est pas charg� bro" << std::endl << std::endl;
 	}
-	soldier_Bullet_Auto_Attack_texture.setSmooth(true);
+	hardSoldier_Bullet_Auto_Attack_texture.setSmooth(true);
 
-	soldier_Bullet_Auto_Attack_sprite.setTexture(soldier_Bullet_Auto_Attack_texture);
-	soldier_Bullet_Auto_Attack_sprite.setTextureRect(sf::IntRect(32, 0, -32, 16));
-	soldier_Bullet_Auto_Attack_sprite.setPosition(soldier_walk_sprite.getPosition().x + 5, soldier_walk_sprite.getPosition().y + 80);
+	hardSoldier_Bullet_Auto_Attack_sprite.setTexture(hardSoldier_Bullet_Auto_Attack_texture);
+	hardSoldier_Bullet_Auto_Attack_sprite.setTextureRect(sf::IntRect(32, 0, -32, 16));
+	hardSoldier_Bullet_Auto_Attack_sprite.setPosition(hardSoldier_walk_sprite.getPosition().x + 5, hardSoldier_walk_sprite.getPosition().y + 80);
 }
 
-void HardSoldier::soldierPrintWindow(sf::RenderWindow& window) {
-	soldier_walk_sprite.setTextureRect(sf::IntRect(soldier_anim.x * 200, 0, -200, 200));
-	window.draw(soldier_walk_sprite);
+void HardSoldier::hardSoldierPrintWindow(sf::RenderWindow& window) {
+	hardSoldier_walk_sprite.setTextureRect(sf::IntRect(hardSoldier_anim.x * 200, 0, -200, 200));
+	window.draw(hardSoldier_walk_sprite);
 
 	//////////////////////////////
 
@@ -453,9 +448,4 @@ bool HardSoldier::getAlive() {
 int HardSoldier::heal() {
 	hs_health++;
 	return hs_health;
-}
-void HardSoldier::soldierDeath() {
-	if (hs_isAlive) {
-		HardSoldier::~HardSoldier();
-	}
 }

@@ -64,19 +64,19 @@ int mainGame() {
     Soldier_Class.soldierInitAnimations();
     Soldier_Class.soldierBulletInit();
 
+    //Soldier_Class.createSoldiers(1);
 
     MediumSoldier_Class.mediumSoldierInitAnimations();
     MediumSoldier_Class.mediumSoldierBulletInit();
 
-    HardSoldier_Class.soldierInitAnimations();
-    HardSoldier_Class.soldierBulletInit();
+    HardSoldier_Class.hardSoldierInitAnimations();
+    HardSoldier_Class.hardSoldierBulletInit();
 
     vector<Soldier> vec;
     /*for (int i = 0; i < 3; i++)
     {
         vec.emplace_back();
     }*/
-    Soldier_Class.createSoldiers(4);
     HUD healthBar(100, 100, 3);
 
     int animationDelay = 20;
@@ -114,13 +114,13 @@ int mainGame() {
     auto S_waitAttTime = chrono::milliseconds(800);
     auto S_startDying = chrono::steady_clock::now();
     auto S_waitDying = chrono::seconds(3);
+    auto S_startReadyToAttackTime = chrono::steady_clock::now();
+    auto S_waitReadyToAttackTime = chrono::seconds(1);
 
     auto startNewWave = chrono::steady_clock::now();
     auto waitNewWave = chrono::seconds(10);
     auto startNewWave2 = chrono::steady_clock::now();
     auto waitNewWave2 = chrono::seconds(2);
-    auto S_startReadyToAttackTime = chrono::steady_clock::now();
-    auto S_waitReadyToAttackTime = chrono::seconds(1);
 
     auto MS_startTime = chrono::steady_clock::now();
     auto MS_waitTime = chrono::milliseconds(MediumSoldier_Class.soldier_S.attackSpeed);
@@ -151,7 +151,7 @@ int mainGame() {
             auto newWaveNowTime = chrono::steady_clock::now();
             if (newWaveNowTime >= startNewWave + waitNewWave) {
                 for (int i = 0; i < 10; i++) {
-                    Soldier_Class.createSoldiers(1);
+                    //Soldier_Class.createSoldiers(1);
                     startNewWave = newWaveNowTime;
                 }
             }
@@ -266,7 +266,7 @@ int mainGame() {
                         }
 
                         // Hard Soldier
-                        else if (Ekko_Class.bullets[i].getGlobalBounds().intersects(HardSoldier_Class.soldier_walk_sprite.getGlobalBounds()) && HardSoldier_Class.getAlive()) {
+                        else if (Ekko_Class.bullets[i].getGlobalBounds().intersects(HardSoldier_Class.hardSoldier_walk_sprite.getGlobalBounds()) && HardSoldier_Class.getAlive()) {
                             HardSoldier_Class.losePV(1);
                             Ekko_Class.bullets.erase(Ekko_Class.bullets.begin() + i);
                         }
@@ -418,7 +418,7 @@ int mainGame() {
                 }
             }
 #pragma endregion Soldier
-
+/*
 #pragma region MediumSoldier
 
 
@@ -481,36 +481,36 @@ int mainGame() {
 #pragma region HardSoldier
 
             if (HardSoldier_Class.getAlive() == true) {
-                HardSoldier_Class.soldierDontExitFromScreen();
+                HardSoldier_Class.hardSoldierDontExitFromScreen();
 
                 auto HS_nowTime = chrono::steady_clock::now();
 
                 if (HS_nowTime >= HS_startTime + HS_waitTime) {
-                    HardSoldier_Class.soldier_anim.x++;
+                    HardSoldier_Class.hardSoldier_anim.x++;
                     HardSoldier_Class.soldier_S.countAnimAtk++;
                     if (HardSoldier_Class.soldier_S.countAnimAtk == 2) {
-                        HardSoldier_Class.SoldierBullets.push_back(sf::CircleShape());
-                        HardSoldier_Class.SoldierBullets.back().setFillColor(sf::Color::Transparent);
-                        HardSoldier_Class.SoldierBullets.back().setRadius(10);
-                        HardSoldier_Class.SoldierBullets.back().setPosition(HardSoldier_Class.soldier_walk_sprite.getPosition().x, HardSoldier_Class.soldier_walk_sprite.getPosition().y + 80);
+                        HardSoldier_Class.HardSoldierBullets.push_back(sf::CircleShape());
+                        HardSoldier_Class.HardSoldierBullets.back().setFillColor(sf::Color::Transparent);
+                        HardSoldier_Class.HardSoldierBullets.back().setRadius(10);
+                        HardSoldier_Class.HardSoldierBullets.back().setPosition(HardSoldier_Class.hardSoldier_walk_sprite.getPosition().x, HardSoldier_Class.hardSoldier_walk_sprite.getPosition().y + 80);
                     }
 
-                    if (HardSoldier_Class.soldier_anim.x * 200 >= HardSoldier_Class.soldier_walk_texture.getSize().x + 200) {
-                        HardSoldier_Class.soldier_anim.x = 2;
+                    if (HardSoldier_Class.hardSoldier_anim.x * 200 >= HardSoldier_Class.hardSoldier_walk_texture.getSize().x + 200) {
+                        HardSoldier_Class.hardSoldier_anim.x = 2;
                         HardSoldier_Class.soldier_S.countAnimAtk = 0;
                     }
                     HS_startTime = HS_nowTime;
                 }
-                HardSoldier_Class.soldierPrintWindow(game.window);
+                HardSoldier_Class.hardSoldierPrintWindow(game.window);
             }
 
-            for (int i = 0; i < HardSoldier_Class.SoldierBullets.size(); i++) {
-                HardSoldier_Class.SoldierBullets[i].move(-10 * HardSoldier_Class.soldier_S.bulletSpeed, 0);
-                game.window.draw(HardSoldier_Class.SoldierBullets[i]);
-                HardSoldier_Class.soldier_Bullet_Auto_Attack_sprite.setPosition(HardSoldier_Class.SoldierBullets[i].getPosition().x + 10, HardSoldier_Class.SoldierBullets[i].getPosition().y + 2);
+            for (int i = 0; i < HardSoldier_Class.HardSoldierBullets.size(); i++) {
+                HardSoldier_Class.HardSoldierBullets[i].move(-10 * HardSoldier_Class.soldier_S.bulletSpeed, 0);
+                game.window.draw(HardSoldier_Class.HardSoldierBullets[i]);
+                HardSoldier_Class.hardSoldier_Bullet_Auto_Attack_sprite.setPosition(HardSoldier_Class.HardSoldierBullets[i].getPosition().x + 10, HardSoldier_Class.HardSoldierBullets[i].getPosition().y + 2);
 
-                if (HardSoldier_Class.SoldierBullets[i].getGlobalBounds().intersects(Ekko_Class.ekko_walk_sprite.getGlobalBounds())) {
-                    HardSoldier_Class.SoldierBullets.erase(HardSoldier_Class.SoldierBullets.begin() + i);
+                if (HardSoldier_Class.HardSoldierBullets[i].getGlobalBounds().intersects(Ekko_Class.ekko_walk_sprite.getGlobalBounds())) {
+                    HardSoldier_Class.HardSoldierBullets.erase(HardSoldier_Class.HardSoldierBullets.begin() + i);
 
                     if (!Ekko_Class.Ekko_invincibility) {
                         healthBar.updateLife(Ekko_Class.losePV(1));
@@ -520,12 +520,12 @@ int mainGame() {
                     }
                 }
 
-                if (HardSoldier_Class.soldier_Bullet_Auto_Attack_sprite.getPosition().x >= 1850) {
-                    HardSoldier_Class.SoldierBullets.erase(HardSoldier_Class.SoldierBullets.begin() + i);
+                if (HardSoldier_Class.hardSoldier_Bullet_Auto_Attack_sprite.getPosition().x >= 1850) {
+                    HardSoldier_Class.HardSoldierBullets.erase(HardSoldier_Class.HardSoldierBullets.begin() + i);
                 }
 
-                HardSoldier_Class.soldier_Bullet_Auto_Attack_sprite.move(-10, 0);
-                game.window.draw(HardSoldier_Class.soldier_Bullet_Auto_Attack_sprite);
+                HardSoldier_Class.hardSoldier_Bullet_Auto_Attack_sprite.move(-10, 0);
+                game.window.draw(HardSoldier_Class.hardSoldier_Bullet_Auto_Attack_sprite);
 
             }
 #pragma endregion HardSoldier
@@ -534,7 +534,7 @@ int mainGame() {
 
             if (blueBuff.touchByThePlayer(Ekko_Class.ekko_walk_sprite)) {
                 if (!blueBuff.BlueBuffActivated) {
-                    std::cout << "Starting Blue Buff!" << std::endl;
+                    //std::cout << "Starting Blue Buff!" << std::endl;
                     blueBuff.BlueBuffActivated = true;
                     BlueBuffTimer = true;
                     BlueBuffStartTime = chrono::steady_clock::now();
@@ -548,14 +548,14 @@ int mainGame() {
                 if (duration > 10) {
                     blueBuff.BlueBuffActivated = false;
                     BlueBuffTimer = false;
-                    std::cout << "Ending Blue Buff!" << std::endl;
+                    //std::cout << "Ending Blue Buff!" << std::endl;
                     Ekko_Class.Ekko_speed = 1.0f;
                 }
             }
 
             if (redBuff.touchByThePlayer(Ekko_Class.ekko_walk_sprite)) {
                 if (!redBuff.RedBuffActivated) {
-                    std::cout << "Starting Red Buff!" << std::endl;
+                    //std::cout << "Starting Red Buff!" << std::endl;
                     redBuff.RedBuffActivated = true;
                     RedBuffTimer = true;
                     RedBuffStartTime = chrono::steady_clock::now();
@@ -569,17 +569,16 @@ int mainGame() {
                 if (duration > 10) {
                     redBuff.RedBuffActivated = false;
                     RedBuffTimer = false;
-                    std::cout << "Ending Red Buff!" << std::endl;
+                    //std::cout << "Ending Red Buff!" << std::endl;
                     Ekko_Class.Ekko_attackSpeed = 1.0f;
                 }
-            }
+            }*/
         }
 
         blueBuff.draw(game.window);
         redBuff.draw(game.window);
 
 #pragma endregion Buff
-
         healthBar.draw(game.window);
         game.window.display();
     }

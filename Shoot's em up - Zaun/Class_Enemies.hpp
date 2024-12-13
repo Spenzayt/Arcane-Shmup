@@ -197,7 +197,6 @@ public:
 	void mediumSoldierInitAnimations();
 	void mediumSoldierPrintWindow(sf::RenderWindow& window);
 	void mediumSoldierBulletInit();
-	void mediumSoldierDeath();
 
 	int losePV(int damage) override;
 	int getHealth() override;
@@ -219,29 +218,28 @@ public:
 	int hs_health = 3;
 	bool hs_isAlive = true;
 
-	sf::Texture soldier_walk_texture;
-	sf::Sprite soldier_walk_sprite;
-	sf::Vector2i soldier_anim;
+	sf::Texture hardSoldier_walk_texture;
+	sf::Sprite hardSoldier_walk_sprite;
+	sf::Vector2i hardSoldier_anim;
 
-	sf::Texture soldier_Auto_Attack_texture;
-	sf::Sprite soldier_Auto_Attack_sprite;
-	sf::Vector2i soldier_anim_Auto_Attack;
+	sf::Texture hardSoldier_Auto_Attack_texture;
+	sf::Sprite hardSoldier_Auto_Attack_sprite;
+	sf::Vector2i hardSoldier_anim_Auto_Attack;
 
-	sf::Texture soldier_Bullet_Auto_Attack_texture;
-	sf::Sprite soldier_Bullet_Auto_Attack_sprite;
-	sf::Vector2i soldier_anim_Bullet_Auto_Attack;
+	sf::Texture hardSoldier_Bullet_Auto_Attack_texture;
+	sf::Sprite hardSoldier_Bullet_Auto_Attack_sprite;
+	sf::Vector2i hardSoldier_anim_Bullet_Auto_Attack;
 
-	vector<sf::CircleShape> SoldierBullets;
+	vector<sf::CircleShape> HardSoldierBullets;
 
 	HardSoldier();
 
 	~HardSoldier();
 
-	void soldierDontExitFromScreen();
-	void soldierInitAnimations();
-	void soldierPrintWindow(sf::RenderWindow& window);
-	void soldierBulletInit();
-	void soldierDeath();
+	void hardSoldierDontExitFromScreen();
+	void hardSoldierInitAnimations();
+	void hardSoldierPrintWindow(sf::RenderWindow& window);
+	void hardSoldierBulletInit();
 
 	int losePV(int damage) override;
 	int getHealth() override;
