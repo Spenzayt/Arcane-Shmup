@@ -45,7 +45,9 @@ int mainGame() {
     auto startReadyToAttackTime = chrono::steady_clock::now();
     auto waitReadyToAttackTime = chrono::seconds(1);
     auto startDashTime = chrono::steady_clock::now();
-    auto waitDashTime = chrono::milliseconds(10);
+    auto waitDashTime = chrono::milliseconds(5);
+
+    chrono::steady_clock::time_point invincibilityStartTime;
 
     auto M_startTime = chrono::steady_clock::now();
     auto M_waitTime = chrono::milliseconds(70);
@@ -253,8 +255,21 @@ int mainGame() {
             soldier.soldier_Bullet_Auto_Attack_sprite.setPosition(soldier.SoldierBullets[i].getPosition().x + 10, soldier.SoldierBullets[i].getPosition().y + 2);
 
             if (soldier.SoldierBullets[i].getGlobalBounds().intersects(ekko.ekko_walk_sprite.getGlobalBounds())) {
-                healthBar.updateLife(ekko.losePV(1));
                 soldier.SoldierBullets.erase(soldier.SoldierBullets.begin() + i);
+
+                if (!ekko.Ekko_invincibility) {
+                    healthBar.updateLife(ekko.losePV(1));
+                    ekko.Ekko_invincibility = true;
+                    invincibilityStartTime = chrono::steady_clock::now();
+                }
+            }
+
+            if (ekko.Ekko_invincibility) {
+                auto now = chrono::steady_clock::now();
+                auto duration = chrono::duration_cast<chrono::seconds>(now - invincibilityStartTime).count();
+                if (duration > 4) {
+                    ekko.Ekko_invincibility = false;
+                }
             }
 
             if (soldier.soldier_Bullet_Auto_Attack_sprite.getPosition().x >= 1850) {
@@ -303,8 +318,21 @@ int mainGame() {
             mediumSoldier.medium_soldier_Bullet_Auto_Attack_sprite.setPosition(mediumSoldier.MediumSoldierBullets[i].getPosition().x + 10, mediumSoldier.MediumSoldierBullets[i].getPosition().y + 2);
 
             if (mediumSoldier.MediumSoldierBullets[i].getGlobalBounds().intersects(ekko.ekko_walk_sprite.getGlobalBounds())) {
-                healthBar.updateLife(ekko.losePV(1));
                 mediumSoldier.MediumSoldierBullets.erase(mediumSoldier.MediumSoldierBullets.begin() + i);
+
+                if (!ekko.Ekko_invincibility) {
+                    healthBar.updateLife(ekko.losePV(1));
+                    ekko.Ekko_invincibility = true;
+                    invincibilityStartTime = chrono::steady_clock::now();
+                }
+            }
+
+            if (ekko.Ekko_invincibility) {
+                auto now = chrono::steady_clock::now();
+                auto duration = chrono::duration_cast<chrono::seconds>(now - invincibilityStartTime).count();
+                if (duration > 4) {
+                    ekko.Ekko_invincibility = false;
+                }
             }
 
             if (mediumSoldier.medium_soldier_Bullet_Auto_Attack_sprite.getPosition().x >= 1850) {
@@ -353,8 +381,21 @@ int mainGame() {
             hardSoldier.soldier_Bullet_Auto_Attack_sprite.setPosition(hardSoldier.SoldierBullets[i].getPosition().x + 10, hardSoldier.SoldierBullets[i].getPosition().y + 2);
 
             if (hardSoldier.SoldierBullets[i].getGlobalBounds().intersects(ekko.ekko_walk_sprite.getGlobalBounds())) {
-                healthBar.updateLife(ekko.losePV(1));
                 hardSoldier.SoldierBullets.erase(hardSoldier.SoldierBullets.begin() + i);
+
+                if (!ekko.Ekko_invincibility) {
+                    healthBar.updateLife(ekko.losePV(1));
+                    ekko.Ekko_invincibility = true;
+                    invincibilityStartTime = chrono::steady_clock::now();
+                }
+            }
+
+            if (ekko.Ekko_invincibility) {
+                auto now = chrono::steady_clock::now();
+                auto duration = chrono::duration_cast<chrono::seconds>(now - invincibilityStartTime).count();
+                if (duration > 4) {
+                    ekko.Ekko_invincibility = false;
+                }
             }
 
             if (hardSoldier.soldier_Bullet_Auto_Attack_sprite.getPosition().x >= 1850) {
