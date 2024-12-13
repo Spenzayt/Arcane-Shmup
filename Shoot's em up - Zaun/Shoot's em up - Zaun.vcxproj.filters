@@ -19,6 +19,9 @@
     <ClCompile Include="hud.cpp">
       <Filter>CPP</Filter>
     </ClCompile>
+    <ClCompile Include="buff.cpp">
+      <Filter>CPP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="parallax.hpp">

@@ -18,6 +18,8 @@ protected:
 	int c_health = 3;
 	bool c_isAlive = true;
 	bool c_invincibility = false;
+	int c_speed = 1;
+	int c_attackSpeed = 1;
 
 public:
 	Character();
@@ -80,6 +82,8 @@ public:
 	int Ekko_health = 3;
 	bool Ekko_isAlive = true;
 	bool Ekko_invincibility = false;
+	float Ekko_speed = 1.0f;
+	int Ekko_attackSpeed = 1;
 
 	std::vector<sf::CircleShape> bullets;
 

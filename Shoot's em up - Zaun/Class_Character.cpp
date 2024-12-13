@@ -115,26 +115,26 @@ void Ekko::ekkoCommand() {
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
 	{
-		ekko_walk_sprite.move(-10.f, 0.f);
-		ekko_Auto_Attack_sprite.move(-10.f, 0.f);
+		ekko_walk_sprite.move(-10.f * Ekko_speed, 0.f);
+		ekko_Auto_Attack_sprite.move(-10.f * Ekko_speed, 0.f);
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		ekko_walk_sprite.move(10.f, 0.f);
-		ekko_Auto_Attack_sprite.move(10.f, 0.f);
+		ekko_walk_sprite.move(10.f * Ekko_speed, 0.f);
+		ekko_Auto_Attack_sprite.move(10.f * Ekko_speed, 0.f);
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
 	{
-		ekko_walk_sprite.move(0.f, -10.f);
-		ekko_Auto_Attack_sprite.move(0.f, -10.f);
+		ekko_walk_sprite.move(0.f, -10.f * Ekko_speed);
+		ekko_Auto_Attack_sprite.move(0.f, -10.f * Ekko_speed);
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
-		ekko_walk_sprite.move(0.f, 10.f);
-		ekko_Auto_Attack_sprite.move(0.f, 10.f);
+		ekko_walk_sprite.move(0.f, 10.f * Ekko_speed);
+		ekko_Auto_Attack_sprite.move(0.f, 10.f * Ekko_speed);
 	}
 	/////////////
 	// Spells & Ult

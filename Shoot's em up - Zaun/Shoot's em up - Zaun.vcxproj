@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="buff.cpp" />
     <ClCompile Include="Class_Character.cpp" />
     <ClCompile Include="Class_Enemies.cpp" />
     <ClCompile Include="hud.cpp" />

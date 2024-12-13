@@ -3,6 +3,8 @@
 #include "menu.hpp"
 #include "Classes.hpp"
 #include "hud.hpp"
+#include <SFML/Window.hpp>
+
 
 using namespace std;
 using namespace sf;
@@ -13,6 +15,22 @@ Soldier soldier;
 MediumSoldier mediumSoldier;
 HardSoldier hardSoldier;
 Game game;
+
+std::vector<sf::Keyboard::Key> konamiCode = {
+    sf::Keyboard::Up, sf::Keyboard::Up,
+    sf::Keyboard::Down, sf::Keyboard::Down,
+    sf::Keyboard::Left, sf::Keyboard::Right,
+    sf::Keyboard::Left, sf::Keyboard::Right,
+    sf::Keyboard::B, sf::Keyboard::A
+}; 
+std::vector<sf::Keyboard::Key> inputSequence;
+
+void checkKonamiCode() {
+    if (inputSequence == konamiCode) {
+        std::cout << "Konami Code active !" << std::endl;
+        ekko.Ekko_invincibility = true;
+    }
+}
 
 int mainGame() {
 
@@ -36,6 +54,9 @@ int mainGame() {
     game.addEnemies(1);
     HUD healthBar(100,100, 3);
     game.addEkko();
+    int animationDelay = 20;
+    bool invincibilityTimer = false;
+
 
 #pragma region Clocks
     auto startTime = chrono::steady_clock::now();
@@ -85,7 +106,22 @@ int mainGame() {
         while (game.window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 game.window.close();
+
+#pragma region KonamiCode
+            if (event.type == sf::Event::KeyPressed) {
+                inputSequence.push_back(event.key.code);
+
+                // Limiter la taille de la séquence à celle du Konami Code
+                if (inputSequence.size() > konamiCode.size()) {
+                    inputSequence.erase(inputSequence.begin());
+                }
+
+                // Vérifier si la séquence correspond au Konami Code
+                checkKonamiCode();
+            }
         }
+
+#pragma endregion KonamiCode
 
 #pragma region Background
         background1.update(deltaTime.asSeconds());
@@ -108,10 +144,13 @@ int mainGame() {
             healthBar.updatePosition(xHealth, yHeatlh);
 
             auto nowTime = chrono::steady_clock::now();
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) waitTime = chrono::milliseconds(20);
-            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) waitTime = chrono::milliseconds(20);
-            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) waitTime = chrono::milliseconds(20);
-            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) waitTime = chrono::milliseconds(20);
+
+            animationDelay  = static_cast<int>(20.0f / ekko.Ekko_speed);
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) waitTime = chrono::milliseconds(animationDelay);
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) waitTime = chrono::milliseconds(animationDelay);
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) waitTime = chrono::milliseconds(animationDelay);
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) waitTime = chrono::milliseconds(animationDelay);
             else {
                 waitTime = chrono::milliseconds(70);
             }
@@ -260,15 +299,17 @@ int mainGame() {
                 if (!ekko.Ekko_invincibility) {
                     healthBar.updateLife(ekko.losePV(1));
                     ekko.Ekko_invincibility = true;
+                    invincibilityTimer = true;
                     invincibilityStartTime = chrono::steady_clock::now();
                 }
             }
 
-            if (ekko.Ekko_invincibility) {
+            if (invincibilityTimer) {
                 auto now = chrono::steady_clock::now();
                 auto duration = chrono::duration_cast<chrono::seconds>(now - invincibilityStartTime).count();
-                if (duration > 4) {
+                if (duration > 2) {
                     ekko.Ekko_invincibility = false;
+                    invincibilityTimer = false;
                 }
             }
 
@@ -323,15 +364,17 @@ int mainGame() {
                 if (!ekko.Ekko_invincibility) {
                     healthBar.updateLife(ekko.losePV(1));
                     ekko.Ekko_invincibility = true;
+                    invincibilityTimer = true;
                     invincibilityStartTime = chrono::steady_clock::now();
                 }
             }
 
-            if (ekko.Ekko_invincibility) {
+            if (invincibilityTimer) {
                 auto now = chrono::steady_clock::now();
                 auto duration = chrono::duration_cast<chrono::seconds>(now - invincibilityStartTime).count();
-                if (duration > 4) {
+                if (duration > 2) {
                     ekko.Ekko_invincibility = false;
+                    invincibilityTimer = false;
                 }
             }
 
@@ -386,15 +429,17 @@ int mainGame() {
                 if (!ekko.Ekko_invincibility) {
                     healthBar.updateLife(ekko.losePV(1));
                     ekko.Ekko_invincibility = true;
+                    invincibilityTimer = true;
                     invincibilityStartTime = chrono::steady_clock::now();
                 }
             }
 
-            if (ekko.Ekko_invincibility) {
+            if (invincibilityTimer) {
                 auto now = chrono::steady_clock::now();
                 auto duration = chrono::duration_cast<chrono::seconds>(now - invincibilityStartTime).count();
-                if (duration > 4) {
+                if (duration > 2) {
                     ekko.Ekko_invincibility = false;
+                    invincibilityTimer = false;
                 }
             }
 
