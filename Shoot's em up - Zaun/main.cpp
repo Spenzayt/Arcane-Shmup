@@ -36,7 +36,7 @@ int mainGame() {
     {
         vec.emplace_back();
     }*/
-    Soldier_Class.createSoldiers(3);
+    Soldier_Class.createSoldiers(4);
     HUD healthBar(100,100, 3);
 
     auto startTime = chrono::steady_clock::now();
@@ -62,6 +62,10 @@ int mainGame() {
     auto S_startDying = chrono::steady_clock::now();
     auto S_waitDying = chrono::seconds(3);
     
+    auto startNewWave = chrono::steady_clock::now();
+    auto waitNewWave = chrono::seconds(10);
+    auto startNewWave2 = chrono::steady_clock::now();
+    auto waitNewWave2 = chrono::seconds(2);
 
     while (game.window.isOpen()) {
         Time deltaTime = clock.restart();
@@ -69,6 +73,14 @@ int mainGame() {
         while (game.window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 game.window.close(); // Fermer la fen�tre
+        }
+
+        auto newWaveNowTime = chrono::steady_clock::now();
+        if (newWaveNowTime >= startNewWave + waitNewWave) {
+            for (int i = 0; i < 10; i++) {
+                Soldier_Class.createSoldiers(1);
+                startNewWave = newWaveNowTime;
+            }
         }
 
 #pragma region Background
