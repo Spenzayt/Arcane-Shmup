@@ -52,7 +52,6 @@ public:
 		int countAnimHit = 0;
 		int countAnimDeath = 0;
 		int DeathCount = 0;
-		
 		int attackSpeed = 100;
 		float bulletSpeed = 1.0f;
 		float speed = 1.0f;
@@ -139,7 +138,10 @@ public:
 	sf::Sprite soldier_Bullet_Auto_Attack_sprite;
 	sf::Vector2i soldier_anim_Bullet_Auto_Attack;
 
-	vector<sf::CircleShape> SoldierBullets;
+	std::vector<Soldier> soldiers_vector;
+	std::vector<sf::CircleShape> SoldierBullets;
+
+	Soldier(const sf::Vector2f& positionSoldier, sf::Texture& soldierTexture);
 
 	Soldier();
 
@@ -147,9 +149,11 @@ public:
 
 	void soldierDontExitFromScreen();
 	void soldierInitAnimations();
-	void soldierPrintWindow(sf::RenderWindow& window);
 	void soldierBulletInit();
-	void soldierDeath();
+
+	void createSoldiers(int little);
+	void otherSoldiersSpawn(sf::RenderWindow& window);
+	void bulletCreation();
 
 	int losePV(int damage) override;
 	int getHealth() override;
