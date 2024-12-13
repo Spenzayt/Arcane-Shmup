@@ -528,7 +528,6 @@ int mainGame() {
 
 #pragma endregion Buff
 
-
         healthBar.draw(game.window);
         game.window.display();
     }
