@@ -12,6 +12,7 @@ Marcus Marcus_Class;
 Soldier Soldier_Class;
 Game game;
 
+int attackCountS = 0;
 
 int mainGame() {
     ParallaxBackground background1("assets/backgrounds/ground-zaunV2.png", 150.0f, 630, 1.1, 1.1);
@@ -30,7 +31,7 @@ int mainGame() {
 
     Soldier_Class.soldierInitAnimations();
     Soldier_Class.soldierBulletInit();
-    Soldier_Class.createSoldiers(3);
+    Soldier_Class.createSoldiers(5);
 
     HUD healthBar(100,100, 3);
 
@@ -186,34 +187,44 @@ int mainGame() {
 
 #pragma region Soldier
         if (Soldier_Class.getAlive() == true) {
-            auto S_nowAttTime = chrono::steady_clock::now();
-            if (S_nowAttTime >= S_startAttTime + waitAttTime) {
-                Soldier_Class.soldierCreationAndAnimation(game.window);
-                Soldier_Class.otherSoldiersSpawn(game.window);
-                S_nowAttTime = S_startAttTime;
-            }
-        }
-        for (auto& soldier : Soldier_Class.soldiers_vector) {
-            for (int i = 0; i < soldier.SoldierBullets.size(); i++) {
-                soldier.SoldierBullets[i].move(-10, 0);
-                game.window.draw(soldier.SoldierBullets[i]);
-                soldier.soldier_Bullet_Auto_Attack_sprite.setPosition(soldier.SoldierBullets[i].getPosition().x + 10, soldier.SoldierBullets[i].getPosition().y + 2);
+            for (auto& soldier : Soldier_Class.soldiers_vector) {
 
-                if (soldier.SoldierBullets[i].getGlobalBounds().intersects(Ekko_Class.ekko_walk_sprite.getGlobalBounds())) {
-                    healthBar.updateLife(Ekko_Class.losePV(1));
-                    soldier.SoldierBullets.erase(soldier.SoldierBullets.begin() + i);
+                auto S_nowTime = chrono::steady_clock::now();
+                if (S_nowTime >= S_startTime + S_waitTime) {
+                    Soldier_Class.soldier_anim.x++;
+                    attackCountS++;
+                    if (attackCountS == 2) {
+                        Soldier_Class.bulletCreation();
+                        attackCountS = 0;
+                    }
+                    S_startTime = S_nowTime;
                 }
-
-                if (soldier.soldier_Bullet_Auto_Attack_sprite.getPosition().x >= 1850) {
-                    soldier.SoldierBullets.erase(soldier.SoldierBullets.begin() + i);
+                soldier.soldier_walk_sprite.setTextureRect(sf::IntRect(Soldier_Class.soldier_anim.x * 200, 0, -200, 157));
+                if (Soldier_Class.soldier_anim.x * 200 >= Soldier_Class.soldier_walk_texture.getSize().x + 200) {
+                    Soldier_Class.soldier_anim.x = 2;
                 }
+            
+                for (int i = 0; i < soldier.SoldierBullets.size(); i++) {
+                    soldier.SoldierBullets[i].move(-10, 0);
+                    game.window.draw(soldier.SoldierBullets[i]);
+                    soldier.soldier_Bullet_Auto_Attack_sprite.setPosition(soldier.SoldierBullets[i].getPosition().x + 10, soldier.SoldierBullets[i].getPosition().y + 2);
 
-                soldier.soldier_Bullet_Auto_Attack_sprite.move(-10, 0);
-                game.window.draw(soldier.soldier_Bullet_Auto_Attack_sprite);
+                    if (soldier.SoldierBullets[i].getGlobalBounds().intersects(Ekko_Class.ekko_walk_sprite.getGlobalBounds())) {
+                        healthBar.updateLife(Ekko_Class.losePV(1));
+                        soldier.SoldierBullets.erase(soldier.SoldierBullets.begin() + i);
+                    }
 
+                    if (soldier.soldier_Bullet_Auto_Attack_sprite.getPosition().x >= 1850) {
+                        soldier.SoldierBullets.erase(soldier.SoldierBullets.begin() + i);
+                    }
+
+                    soldier.soldier_Bullet_Auto_Attack_sprite.move(-10, 0);
+                    game.window.draw(soldier.soldier_Bullet_Auto_Attack_sprite);
+
+                }
             }
+            Soldier_Class.otherSoldiersSpawn(game.window);
         }
-
 #pragma endregion Soldier
         healthBar.draw(game.window);
         game.window.display();

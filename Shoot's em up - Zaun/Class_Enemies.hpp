@@ -52,6 +52,9 @@ public:
 		int countAnimHit = 0;
 		int countAnimDeath = 0;
 		int DeathCount = 0;
+		int attackSpeed = 100;
+		float bulletSpeed = 1.0f;
+		float speed = 1.0f;
 	}; Soldier_S soldier_S;
 
 	virtual int losePV(int damage);
@@ -139,27 +142,13 @@ public:
 	std::vector<sf::CircleShape> SoldierBullets;
 
 	Soldier(const sf::Color& color, const sf::Vector2f& positionSoldier, sf::Texture& soldierTexture) {
+		soldier_S.attackSpeed = 135;
+		soldier_S.bulletSpeed = 0.8f;
 		soldier_walk_texture.setSmooth(true);
 		soldier_walk_sprite.setTexture(soldierTexture);
 		soldier_walk_sprite.setTextureRect(sf::IntRect(200, 0, -200, 157));
 		soldier_walk_sprite.setColor(color);
 		soldier_walk_sprite.setPosition(positionSoldier);
-
-		struct Soldier_S {
-			bool isAttacking = false;
-			bool anim_isAttacking = false;
-			bool isHealing = false;
-			bool isHit = false;
-			bool anim_isHit = false;
-			bool isDying = false;
-			bool anim_isDying = false;
-			bool printBody = false;
-			int countAnimAtk = 0;
-			int countAnimHeal = 0;
-			int countAnimHit = 0;
-			int countAnimDeath = 0;
-			int DeathCount = 0;
-		}; Soldier_S soldier_S;
 	}
 
 	Soldier();
@@ -173,8 +162,7 @@ public:
 
 	void createSoldiers(int little);
 	void otherSoldiersSpawn(sf::RenderWindow& window);
-	void bulletGestion();
-	void soldierCreationAndAnimation(sf::RenderWindow& window);
+	void bulletCreation();
 
 	int losePV(int damage) override;
 	int getHealth() override;

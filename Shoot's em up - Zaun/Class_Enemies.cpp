@@ -176,7 +176,7 @@ void Soldier::createSoldiers(int little) {
 	}
 }
 
-void Soldier::bulletGestion() {
+void Soldier::bulletCreation() {
 	for (auto& soldier : soldiers_vector) {
 		soldier.SoldierBullets.push_back(sf::CircleShape());
 		soldier.SoldierBullets.back().setFillColor(sf::Color::Red);
@@ -236,22 +236,4 @@ void Soldier::death() {
 	if (s_isAlive) {
 		Soldier::~Soldier();
 	}
-}
-
-void Soldier::soldierCreationAndAnimation(sf::RenderWindow& window) {
-	//Soldier_Class.soldierDontExitFromScreen();
-
-	soldier_anim.x++;
-	soldier_S.countAnimAtk++;
-
-	if (soldier_anim.x * 200 >= soldier_walk_texture.getSize().x) {
-		soldier_anim.x = 2;
-		soldier_S.countAnimAtk = 0;
-	}
-	if (soldier_S.countAnimAtk == 2) {
-		bulletGestion();
-	}
-	soldier_walk_sprite.setTextureRect(sf::IntRect(soldier_anim.x * 200, 0, -200, 157));
-	window.draw(soldier_walk_sprite);
-
 }
