@@ -243,11 +243,6 @@ int Soldier::heal() {
 	s_health++;
 	return s_health;
 }
-void Soldier::soldierDeath() {
-	if (s_isAlive) {
-		Soldier::~Soldier();
-	}
-}
 
 ///////////////////////////////
 
