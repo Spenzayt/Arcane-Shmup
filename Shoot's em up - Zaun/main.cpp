@@ -185,31 +185,13 @@ int mainGame() {
 #pragma endregion Marcus
 
 #pragma region Soldier
-
         if (Soldier_Class.getAlive() == true) {
-            //Soldier_Class.soldierDontExitFromScreen();
-
-            auto S_nowTime = chrono::steady_clock::now();
-
-            if (S_nowTime >= S_startTime + S_waitTime) {
-                for (auto& soldier : Soldier_Class.soldiers_vector) {
-
-                    soldier.soldier_anim.x++;
-                    soldier.soldier_S.countAnimAtk++;
-                    if (soldier.soldier_anim.x * 200 >= soldier.soldier_walk_texture.getSize().x) {
-                        soldier.soldier_anim.x = 2;
-                        soldier.soldier_S.countAnimAtk = 0;
-                    }
-                    soldier.soldier_walk_sprite.setTextureRect(sf::IntRect(soldier.soldier_anim.x * 200, 0, -200, 157));
-                    game.window.draw(soldier.soldier_walk_sprite);
-
-                }
-                Soldier_Class.bulletGestion();
-                S_startTime = S_nowTime;
+            auto S_nowAttTime = chrono::steady_clock::now();
+            if (S_nowAttTime >= S_startAttTime + waitAttTime) {
+                Soldier_Class.soldierCreationAndAnimation(game.window);
+                Soldier_Class.otherSoldiersSpawn(game.window);
+                S_nowAttTime = S_startAttTime;
             }
-
-            Soldier_Class.otherSoldiersSpawn(game.window);
-
         }
         for (auto& soldier : Soldier_Class.soldiers_vector) {
             for (int i = 0; i < soldier.SoldierBullets.size(); i++) {

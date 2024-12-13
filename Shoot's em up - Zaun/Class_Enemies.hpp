@@ -138,12 +138,28 @@ public:
 	std::vector<Soldier> soldiers_vector;
 	std::vector<sf::CircleShape> SoldierBullets;
 
-	Soldier(const sf::Color& color, const sf::Vector2f& positionSoldier, const sf::Texture& soldierTexture) {
+	Soldier(const sf::Color& color, const sf::Vector2f& positionSoldier, sf::Texture& soldierTexture) {
 		soldier_walk_texture.setSmooth(true);
 		soldier_walk_sprite.setTexture(soldierTexture);
 		soldier_walk_sprite.setTextureRect(sf::IntRect(200, 0, -200, 157));
 		soldier_walk_sprite.setColor(color);
 		soldier_walk_sprite.setPosition(positionSoldier);
+
+		struct Soldier_S {
+			bool isAttacking = false;
+			bool anim_isAttacking = false;
+			bool isHealing = false;
+			bool isHit = false;
+			bool anim_isHit = false;
+			bool isDying = false;
+			bool anim_isDying = false;
+			bool printBody = false;
+			int countAnimAtk = 0;
+			int countAnimHeal = 0;
+			int countAnimHit = 0;
+			int countAnimDeath = 0;
+			int DeathCount = 0;
+		}; Soldier_S soldier_S;
 	}
 
 	Soldier();
@@ -158,6 +174,7 @@ public:
 	void createSoldiers(int little);
 	void otherSoldiersSpawn(sf::RenderWindow& window);
 	void bulletGestion();
+	void soldierCreationAndAnimation(sf::RenderWindow& window);
 
 	int losePV(int damage) override;
 	int getHealth() override;
