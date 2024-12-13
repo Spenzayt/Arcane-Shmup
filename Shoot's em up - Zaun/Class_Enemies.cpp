@@ -171,7 +171,7 @@ void Soldier::soldierInitAnimations() {
 
 void Soldier::createSoldiers(int little) {
 	for (int i = 0; i < little; i++) {
-		soldiers_vector.emplace_back(sf::Color::Red, sf::Vector2f(rand() % 960 + 800, rand() % 400 + 500), soldier_walk_texture);
+		soldiers_vector.emplace_back(sf::Vector2f(rand() % 960 + 800, rand() % 400 + 500), soldier_walk_texture);
 		cout << "crea de soldat x1" << endl << endl;
 	}
 }
@@ -179,7 +179,7 @@ void Soldier::createSoldiers(int little) {
 void Soldier::bulletCreation() {
 	for (auto& soldier : soldiers_vector) {
 		soldier.SoldierBullets.push_back(sf::CircleShape());
-		soldier.SoldierBullets.back().setFillColor(sf::Color::Red);
+		soldier.SoldierBullets.back().setFillColor(sf::Color::Transparent);
 		soldier.SoldierBullets.back().setRadius(10);
 		soldier.SoldierBullets.back().setPosition(soldier.soldier_walk_sprite.getPosition().x, soldier.soldier_walk_sprite.getPosition().y + 80);
 	}
@@ -195,6 +195,9 @@ void Soldier::soldierBulletInit() {
 	if (!soldier_Bullet_Auto_Attack_texture.loadFromFile("assets\\characters\\Soldier\\soldierBullets.png")) {
 		std::cout << "soldierBullets est pas chargé bro" << std::endl << std::endl;
 	}
+	soldier_Bullet_Auto_Attack_texture.setSmooth(true);
+	soldier_Bullet_Auto_Attack_sprite.setTextureRect(sf::IntRect(32, 0, -32, 16));
+	soldier_Bullet_Auto_Attack_sprite.setTexture(soldier_Bullet_Auto_Attack_texture);
 }
 
 int Soldier::losePV(int damage) {

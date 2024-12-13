@@ -31,7 +31,7 @@ int mainGame() {
 
     Soldier_Class.soldierInitAnimations();
     Soldier_Class.soldierBulletInit();
-    Soldier_Class.createSoldiers(5);
+    Soldier_Class.createSoldiers(3);
 
     HUD healthBar(100,100, 3);
 
@@ -124,8 +124,8 @@ int mainGame() {
                 Ekko_Class.ekko_anim_Bullet_Auto_Attack.x = 0;*/
 
             for (int i = 0; i < Ekko_Class.bullets.size(); i++) {
-                game.window.draw(Ekko_Class.bullets[i]);
                 Ekko_Class.bullets[i].move(20, 0);
+                game.window.draw(Ekko_Class.bullets[i]);
                 Ekko_Class.ekko_Bullet_Auto_Attack_sprite.setPosition(Ekko_Class.bullets[i].getPosition().x - 30, Ekko_Class.bullets[i].getPosition().y - 6);
 
 
@@ -195,9 +195,17 @@ int mainGame() {
                     attackCountS++;
                     if (attackCountS == 2) {
                         Soldier_Class.bulletCreation();
+                    }
+                    if (Soldier_Class.soldier_anim.x == 10) {
                         attackCountS = 0;
                     }
                     S_startTime = S_nowTime;
+                }
+
+                auto S_nowAttTime = chrono::steady_clock::now();
+                if (S_nowAttTime >= S_startAttTime + S_waitAttTime) {
+
+                    S_startAttTime = S_nowAttTime;
                 }
                 soldier.soldier_walk_sprite.setTextureRect(sf::IntRect(Soldier_Class.soldier_anim.x * 200, 0, -200, 157));
                 if (Soldier_Class.soldier_anim.x * 200 >= Soldier_Class.soldier_walk_texture.getSize().x + 200) {
@@ -207,7 +215,7 @@ int mainGame() {
                 for (int i = 0; i < soldier.SoldierBullets.size(); i++) {
                     soldier.SoldierBullets[i].move(-10, 0);
                     game.window.draw(soldier.SoldierBullets[i]);
-                    soldier.soldier_Bullet_Auto_Attack_sprite.setPosition(soldier.SoldierBullets[i].getPosition().x + 10, soldier.SoldierBullets[i].getPosition().y + 2);
+                    Soldier_Class.soldier_Bullet_Auto_Attack_sprite.setPosition(soldier.SoldierBullets[i].getPosition().x - 5, soldier.SoldierBullets[i].getPosition().y + 2);
 
                     if (soldier.SoldierBullets[i].getGlobalBounds().intersects(Ekko_Class.ekko_walk_sprite.getGlobalBounds())) {
                         healthBar.updateLife(Ekko_Class.losePV(1));
@@ -219,7 +227,7 @@ int mainGame() {
                     }
 
                     soldier.soldier_Bullet_Auto_Attack_sprite.move(-10, 0);
-                    game.window.draw(soldier.soldier_Bullet_Auto_Attack_sprite);
+                    game.window.draw(Soldier_Class.soldier_Bullet_Auto_Attack_sprite);
 
                 }
             }
