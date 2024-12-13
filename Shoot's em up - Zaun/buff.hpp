@@ -1,40 +1,39 @@
+#ifndef BUFF_HPP
+#define BUFF_HPP
+
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
 class Buff {
-private:
-    sf::Texture buff_texture;
-    sf::Sprite buff_sprite;
-    sf::Vector2f buff_position;
+protected:
+    sf::Texture texture;
+    sf::Sprite sprite;
+    sf::Vector2f position;
 
 public:
-    Buff();
-    
-    ~Buff();
-};
-
-class BlueBuff : public Buff {
-private:
-    sf::Texture blue_buff_texture;
-    sf::Sprite blue_buff_sprite;
-    sf::Vector2f blue_buff_position;
-
-public:
-	BlueBuff();
-
-	~BlueBuff();
-
-    void initBlueBuff();
+    Buff( const sf::Vector2f& spawnPosition);
 
     void setPosition(const sf::Vector2f& newPosition);
 
     void draw(sf::RenderWindow& window);
+
+    bool touchByThePlayer(const sf::Sprite& playerSprite);
 };
 
-BlueBuff::BlueBuff()
-{
-}
+class BlueBuff : public Buff {
+public:
+    BlueBuff(const sf::Vector2f& spawnPosition);
+    void initBlueBuff();
 
-BlueBuff::~BlueBuff()
-{
-}
+    bool BlueBuffActivated = false;
+};
+
+class RedBuff : public Buff {
+public:
+    RedBuff(const sf::Vector2f& spawnPosition);
+    void initRedBuff();
+
+    bool RedBuffActivated = false;
+};
+
+#endif

@@ -148,6 +148,7 @@
     <ClCompile Include="parallax.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="buff.hpp" />
     <ClInclude Include="Class_Character.hpp" />
     <ClInclude Include="Classes.hpp" />
     <ClInclude Include="Class_Enemies.hpp" />

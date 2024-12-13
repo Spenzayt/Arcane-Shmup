@@ -1,23 +1,46 @@
 #include "buff.hpp"
 
-Buff::Buff() {}
+Buff::Buff(const sf::Vector2f& spawnPosition) : position(spawnPosition) {
+    sprite.setPosition(position);
+}
 
-Buff::~Buff() {}
+void Buff::setPosition(const sf::Vector2f& newPosition) {
+    position = newPosition;
+    sprite.setPosition(position);
+}
 
-//////////////////////////
+void Buff::draw(sf::RenderWindow& window) {
+    window.draw(sprite);
+}
 
-Buff buff;
+bool Buff::touchByThePlayer(const sf::Sprite& playerSprite) {
+    return sprite.getGlobalBounds().intersects(playerSprite.getGlobalBounds());
+}
+
+////////////////////////
+
+BlueBuff::BlueBuff(const sf::Vector2f& spawnPosition) : Buff(spawnPosition) {
+    initBlueBuff();
+}
 
 void BlueBuff::initBlueBuff() {
-	blue_buff_texture.setSmooth(true);
-	blue_buff_sprite.setTexture(blue_buff_texture);
-	blue_buff_sprite.setPosition(0,0);
+    if (!texture.loadFromFile("assets/UI/BlueBuff.png")) {
+        std::cerr << "Error loading blue buff texture!" << std::endl;
+    }
+    texture.setSmooth(true);
+    sprite.setTexture(texture);
 }
 
-void BlueBuff::setPosition(const sf::Vector2f& newPosition) {
+////////////////////////
 
+RedBuff::RedBuff(const sf::Vector2f& spawnPosition) : Buff(spawnPosition) {
+    initRedBuff();
 }
 
-void BlueBuff::draw(sf::RenderWindow& window) {
-	window.draw(blue_buff_sprite);
+void RedBuff::initRedBuff() {
+    if (!texture.loadFromFile("assets/UI/RedBuff.png")) {
+        std::cerr << "Error loading red buff texture!" << std::endl;
+    }
+    texture.setSmooth(true);
+    sprite.setTexture(texture);
 }

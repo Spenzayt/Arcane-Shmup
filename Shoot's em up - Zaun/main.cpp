@@ -3,6 +3,7 @@
 #include "menu.hpp"
 #include "Classes.hpp"
 #include "hud.hpp"
+#include "buff.hpp"
 #include <SFML/Window.hpp>
 
 
@@ -23,12 +24,23 @@ std::vector<sf::Keyboard::Key> konamiCode = {
     sf::Keyboard::Left, sf::Keyboard::Right,
     sf::Keyboard::B, sf::Keyboard::A
 }; 
+
 std::vector<sf::Keyboard::Key> inputSequence;
+
+bool konamiCodeActivated = false;
 
 void checkKonamiCode() {
     if (inputSequence == konamiCode) {
-        std::cout << "Konami Code active !" << std::endl;
-        ekko.Ekko_invincibility = true;
+        if (!konamiCodeActivated) {
+            std::cout << "Konami Code active !" << std::endl;
+            ekko.Ekko_invincibility = true;
+            konamiCodeActivated = true;
+        }
+        else {
+            std::cout << "Konami Code desactivated !" << std::endl;
+            ekko.Ekko_invincibility = false;
+            konamiCodeActivated = false;
+        }
     }
 }
 
@@ -55,8 +67,14 @@ int mainGame() {
     HUD healthBar(100,100, 3);
     game.addEkko();
     int animationDelay = 20;
+    int animationDelayAttack = 50;
     bool invincibilityTimer = false;
 
+    BlueBuff blueBuff(sf::Vector2f(1000, 800));
+    RedBuff redBuff(sf::Vector2f(1000, 1000));
+
+    bool BlueBuffTimer = false;
+    bool RedBuffTimer = false;
 
 #pragma region Clocks
     auto startTime = chrono::steady_clock::now();
@@ -97,7 +115,9 @@ int mainGame() {
     auto HS_waitAttTime = chrono::milliseconds(800);
     auto HS_startReadyToAttackTime = chrono::steady_clock::now();
     auto HS_waitReadyToAttackTime = chrono::seconds(1);
-
+    
+    auto BlueBuffStartTime = chrono::steady_clock::now();
+    auto RedBuffStartTime = chrono::steady_clock::now();
 #pragma endregion Clocks
 
     while (game.window.isOpen()) {
@@ -119,9 +139,10 @@ int mainGame() {
                 // Vérifier si la séquence correspond au Konami Code
                 checkKonamiCode();
             }
-        }
 
 #pragma endregion KonamiCode
+
+        }
 
 #pragma region Background
         background1.update(deltaTime.asSeconds());
@@ -146,6 +167,9 @@ int mainGame() {
             auto nowTime = chrono::steady_clock::now();
 
             animationDelay  = static_cast<int>(20.0f / ekko.Ekko_speed);
+
+            animationDelayAttack = static_cast<int>(50.0f / ekko.Ekko_attackSpeed);
+            auto waitAttTime = chrono::milliseconds(animationDelayAttack);
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) waitTime = chrono::milliseconds(animationDelay);
             else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) waitTime = chrono::milliseconds(animationDelay);
@@ -185,7 +209,7 @@ int mainGame() {
 
             for (int i = 0; i < ekko.bullets.size(); i++) {
                 game.window.draw(ekko.bullets[i]);
-                ekko.bullets[i].move(20, 0);
+                ekko.bullets[i].move(20 * ekko.Ekko_attackSpeed, 0);
                 ekko.ekko_Bullet_Auto_Attack_sprite.setPosition(ekko.bullets[i].getPosition().x - 30, ekko.bullets[i].getPosition().y - 6);
 
                 // Soldier
@@ -210,7 +234,7 @@ int mainGame() {
                     ekko.bullets.erase(ekko.bullets.begin() + i);
                 }
 
-                ekko.ekko_Bullet_Auto_Attack_sprite.move(20, 0);
+                ekko.ekko_Bullet_Auto_Attack_sprite.move(20 * ekko.Ekko_attackSpeed, 0);
                 game.window.draw(ekko.ekko_Bullet_Auto_Attack_sprite);
             }
         }
@@ -324,6 +348,8 @@ int mainGame() {
 #pragma endregion Soldier
 
 #pragma region MediumSoldier
+
+#pragma region HardSoldier
 
         if (mediumSoldier.getAlive() == true) {
             mediumSoldier.mediumSoldierDontExitFromScreen();
@@ -452,6 +478,55 @@ int mainGame() {
 
         }
 #pragma endregion HardSoldier
+
+#pragma region Buff
+
+        if (blueBuff.touchByThePlayer(ekko.ekko_walk_sprite)) {
+            if (!blueBuff.BlueBuffActivated) {
+                std::cout << "Starting Blue Buff!" << std::endl;
+                blueBuff.BlueBuffActivated = true;
+                BlueBuffTimer = true;
+                BlueBuffStartTime = chrono::steady_clock::now();
+                ekko.Ekko_speed = 1.5;
+            }
+        }
+
+        if (BlueBuffTimer) {
+            auto now = chrono::steady_clock::now();
+            auto duration = chrono::duration_cast<chrono::seconds>(now - BlueBuffStartTime).count();
+            if (duration > 10) {
+                blueBuff.BlueBuffActivated = false;
+                BlueBuffTimer = false;
+                std::cout << "Ending Blue Buff!" << std::endl;
+                ekko.Ekko_speed = 1.0f;
+            }
+        }
+
+        if (redBuff.touchByThePlayer(ekko.ekko_walk_sprite)) {
+            if (!redBuff.RedBuffActivated) {
+                std::cout << "Starting Red Buff!" << std::endl;
+                redBuff.RedBuffActivated = true;
+                RedBuffTimer = true;
+                RedBuffStartTime = chrono::steady_clock::now();
+                ekko.Ekko_attackSpeed = 2.0f;
+            }
+        }
+
+        if (RedBuffTimer) {
+            auto now = chrono::steady_clock::now();
+            auto duration = chrono::duration_cast<chrono::seconds>(now - RedBuffStartTime).count();
+            if (duration > 10) {
+                redBuff.RedBuffActivated = false;
+                RedBuffTimer = false;
+                std::cout << "Ending Red Buff!" << std::endl;
+                ekko.Ekko_attackSpeed = 1.0f;
+            }
+        }
+
+        blueBuff.draw(game.window);
+        redBuff.draw(game.window);
+
+#pragma endregion Buff
 
 
         healthBar.draw(game.window);

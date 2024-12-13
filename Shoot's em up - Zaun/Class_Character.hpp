@@ -83,7 +83,7 @@ public:
 	bool Ekko_isAlive = true;
 	bool Ekko_invincibility = false;
 	float Ekko_speed = 1.0f;
-	int Ekko_attackSpeed = 1;
+	float Ekko_attackSpeed = 1.0f;
 
 	std::vector<sf::CircleShape> bullets;
 
