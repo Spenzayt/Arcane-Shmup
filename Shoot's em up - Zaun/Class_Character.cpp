@@ -316,9 +316,3 @@ void Ekko::updateTeleport() {
 		}
 	}
 }
-
-void Ekko::death() {
-	if (Ekko_isAlive) {
-		Ekko::~Ekko();
-	}
-}

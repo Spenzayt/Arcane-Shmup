@@ -31,8 +31,12 @@ int mainGame() {
 
     Soldier_Class.soldierInitAnimations();
     Soldier_Class.soldierBulletInit();
+    vector<Soldier> vec;
+    /*for (int i = 0; i < 3; i++)
+    {
+        vec.emplace_back();
+    }*/
     Soldier_Class.createSoldiers(3);
-
     HUD healthBar(100,100, 3);
 
     auto startTime = chrono::steady_clock::now();
@@ -46,17 +50,18 @@ int mainGame() {
 
     auto M_startTime = chrono::steady_clock::now();
     auto M_waitTime = chrono::milliseconds(70);
-    /*auto M_startAttTime = chrono::steady_clock::now();
+    auto M_startAttTime = chrono::steady_clock::now();
     auto M_waitAttTime = chrono::milliseconds(50);
     auto M_startReadyToAttackTime = chrono::steady_clock::now();
-    auto M_waitReadyToAttackTime = chrono::seconds(1);*/
+    auto M_waitReadyToAttackTime = chrono::seconds(1);
 
     auto S_startTime = chrono::steady_clock::now();
     auto S_waitTime = chrono::milliseconds(90);
     auto S_startAttTime = chrono::steady_clock::now();
     auto S_waitAttTime = chrono::milliseconds(800);
-    auto S_startReadyToAttackTime = chrono::steady_clock::now();
-    auto S_waitReadyToAttackTime = chrono::seconds(1);
+    auto S_startDying = chrono::steady_clock::now();
+    auto S_waitDying = chrono::seconds(3);
+    
 
     while (game.window.isOpen()) {
         Time deltaTime = clock.restart();
@@ -124,16 +129,19 @@ int mainGame() {
                 Ekko_Class.ekko_anim_Bullet_Auto_Attack.x = 0;*/
 
             for (int i = 0; i < Ekko_Class.bullets.size(); i++) {
+                bool destroy = false;
                 Ekko_Class.bullets[i].move(20, 0);
                 game.window.draw(Ekko_Class.bullets[i]);
                 Ekko_Class.ekko_Bullet_Auto_Attack_sprite.setPosition(Ekko_Class.bullets[i].getPosition().x - 30, Ekko_Class.bullets[i].getPosition().y - 6);
 
-
-                if (Ekko_Class.bullets[i].getGlobalBounds().intersects(Soldier_Class.soldier_walk_sprite.getGlobalBounds()) && Soldier_Class.getAlive()) {
-                    Soldier_Class.losePV(1);
-                    Ekko_Class.bullets.erase(Ekko_Class.bullets.begin() + i);
+                for (auto& soldier : Soldier_Class.soldiers_vector) {
+                    if (Ekko_Class.bullets[i].getGlobalBounds().intersects(soldier.soldier_walk_sprite.getGlobalBounds()) && soldier.getAlive()) {
+                        soldier.losePV(1);
+                        destroy = true;
+                    }
                 }
-
+                if (destroy)
+                    Ekko_Class.bullets.erase(Ekko_Class.bullets.begin() + i);
                 if (Ekko_Class.ekko_Bullet_Auto_Attack_sprite.getPosition().x >= 1850) {
                     Ekko_Class.bullets.erase(Ekko_Class.bullets.begin() + i);
                 }
@@ -186,8 +194,14 @@ int mainGame() {
 #pragma endregion Marcus
 
 #pragma region Soldier
-        if (Soldier_Class.getAlive() == true) {
-            for (auto& soldier : Soldier_Class.soldiers_vector) {
+        for (auto& soldier : Soldier_Class.soldiers_vector) {
+            if (!soldier.getAlive()) {
+                auto S_nowDying = chrono::steady_clock::now();
+                if (S_nowDying >= S_startDying + S_waitDying) {
+                    soldier.soldier_walk_sprite.setTextureRect(sf::IntRect(0, 0, 0, 0));
+                }
+            }
+            if (soldier.getAlive()) {
 
                 auto S_nowTime = chrono::steady_clock::now();
                 if (S_nowTime >= S_startTime + S_waitTime) {
@@ -202,16 +216,19 @@ int mainGame() {
                     S_startTime = S_nowTime;
                 }
 
+
                 auto S_nowAttTime = chrono::steady_clock::now();
                 if (S_nowAttTime >= S_startAttTime + S_waitAttTime) {
 
                     S_startAttTime = S_nowAttTime;
                 }
+
                 soldier.soldier_walk_sprite.setTextureRect(sf::IntRect(Soldier_Class.soldier_anim.x * 200, 0, -200, 157));
+
                 if (Soldier_Class.soldier_anim.x * 200 >= Soldier_Class.soldier_walk_texture.getSize().x + 200) {
                     Soldier_Class.soldier_anim.x = 2;
                 }
-            
+
                 for (int i = 0; i < soldier.SoldierBullets.size(); i++) {
                     soldier.SoldierBullets[i].move(-10, 0);
                     game.window.draw(soldier.SoldierBullets[i]);
@@ -231,8 +248,10 @@ int mainGame() {
 
                 }
             }
+
             Soldier_Class.otherSoldiersSpawn(game.window);
         }
+
 #pragma endregion Soldier
         healthBar.draw(game.window);
         game.window.display();

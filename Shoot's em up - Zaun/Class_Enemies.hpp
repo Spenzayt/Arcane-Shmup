@@ -141,14 +141,7 @@ public:
 	std::vector<Soldier> soldiers_vector;
 	std::vector<sf::CircleShape> SoldierBullets;
 
-	Soldier(const sf::Vector2f& positionSoldier, sf::Texture& soldierTexture) {
-		soldier_S.attackSpeed = 135;
-		soldier_S.bulletSpeed = 0.8f;
-		soldier_walk_texture.setSmooth(true);
-		soldier_walk_sprite.setTexture(soldierTexture);
-		soldier_walk_sprite.setTextureRect(sf::IntRect(200, 0, -200, 157));
-		soldier_walk_sprite.setPosition(positionSoldier);
-	}
+	Soldier(const sf::Vector2f& positionSoldier, sf::Texture& soldierTexture);
 
 	Soldier();
 
@@ -157,7 +150,6 @@ public:
 	void soldierDontExitFromScreen();
 	void soldierInitAnimations();
 	void soldierBulletInit();
-	void death();
 
 	void createSoldiers(int little);
 	void otherSoldiersSpawn(sf::RenderWindow& window);

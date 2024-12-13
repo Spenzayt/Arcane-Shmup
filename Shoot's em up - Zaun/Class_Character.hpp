@@ -95,7 +95,6 @@ public:
 	void dash();
 	void updatePositionHistory();
 	void updateTeleport();
-	void death();
 
 
 	std::deque<std::pair<sf::Vector2f, sf::Time>> positionHistory;

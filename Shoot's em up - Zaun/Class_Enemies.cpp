@@ -149,6 +149,14 @@ int Marcus::heal() {
 
 
 Soldier::Soldier() : Enemies("Soldier", 1600, 600, true) {}
+Soldier::Soldier(const sf::Vector2f& positionSoldier, sf::Texture& soldierTexture){
+		soldier_S.attackSpeed = 135;
+		soldier_S.bulletSpeed = 0.8f;
+		soldier_walk_texture.setSmooth(true);
+		soldier_walk_sprite.setTexture(soldierTexture);
+		soldier_walk_sprite.setTextureRect(sf::IntRect(200, 0, -200, 157));
+		soldier_walk_sprite.setPosition(positionSoldier);
+}
 Soldier::~Soldier() {}
 
 void Soldier::soldierDontExitFromScreen() {
@@ -234,9 +242,4 @@ bool Soldier::getAlive() {
 int Soldier::heal() {
 	s_health++;
 	return s_health;
-}
-void Soldier::death() {
-	if (s_isAlive) {
-		Soldier::~Soldier();
-	}
 }
