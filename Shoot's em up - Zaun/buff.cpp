@@ -8,10 +8,6 @@ Buff::~Buff() {}
 
 Buff buff;
 
-BlueBuff::BlueBuff() : Buff() {}
-
-BlueBuff::~BlueBuff() {}
-
 void BlueBuff::initBlueBuff() {
 	blue_buff_texture.setSmooth(true);
 	blue_buff_sprite.setTexture(blue_buff_texture);
