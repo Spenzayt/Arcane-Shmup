@@ -146,9 +146,9 @@ int mainGame() {
         while (game.window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 game.window.close();
+        }
 
-
-            auto newWaveNowTime = chrono::steady_clock::now();
+         auto newWaveNowTime = chrono::steady_clock::now();
             if (newWaveNowTime >= startNewWave + waitNewWave) {
                 for (int i = 0; i < 10; i++) {
                     Soldier_Class.createSoldiers(1);
@@ -572,8 +572,7 @@ int mainGame() {
                     std::cout << "Ending Red Buff!" << std::endl;
                     Ekko_Class.Ekko_attackSpeed = 1.0f;
                 }
-            }
-        }
+            } 
 
         blueBuff.draw(game.window);
         redBuff.draw(game.window);
