@@ -385,14 +385,14 @@ void HardSoldier::hardSoldierDontExitFromScreen() {
 }
 
 void HardSoldier::hardSoldierBulletInit() {
-	if (!hardSoldier_Bullet_Auto_Attack_texture.loadFromFile("assets\\characters\\Soldier\\soldierBullets.png")) {
+	if (!hard_soldier_Bullet_Auto_Attack_texture.loadFromFile("assets\\characters\\Soldier\\soldierBullets.png")) {
 		std::cout << "soldierBullets est pas charg� bro" << std::endl << std::endl;
 	}
-	hardSoldier_Bullet_Auto_Attack_texture.setSmooth(true);
+	hard_soldier_Bullet_Auto_Attack_texture.setSmooth(true);
 
-	hardSoldier_Bullet_Auto_Attack_sprite.setTexture(hardSoldier_Bullet_Auto_Attack_texture);
-	hardSoldier_Bullet_Auto_Attack_sprite.setTextureRect(sf::IntRect(32, 0, -32, 16));
-	hardSoldier_Bullet_Auto_Attack_sprite.setPosition(hard_soldier_walk_sprite.getPosition().x + 5, hard_soldier_walk_sprite.getPosition().y + 80);
+	hard_soldier_Bullet_Auto_Attack_sprite.setTexture(hard_soldier_Bullet_Auto_Attack_texture);
+	hard_soldier_Bullet_Auto_Attack_sprite.setTextureRect(sf::IntRect(32, 0, -32, 16));
+	hard_soldier_Bullet_Auto_Attack_sprite.setPosition(hard_soldier_walk_sprite.getPosition().x + 5, hard_soldier_walk_sprite.getPosition().y + 80);
 }
 
 void HardSoldier::hardSoldierPrintWindow(sf::RenderWindow& window) {

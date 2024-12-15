@@ -293,6 +293,7 @@ int mainGame() {
                 }
                 if (destroy) 
                     Ekko_Class.bullets.erase(Ekko_Class.bullets.begin() + i);
+
                 /*if (Ekko_Class.ekko_Bullet_Auto_Attack_sprite.getPosition().x >= 1850) {
                     Ekko_Class.bullets.erase(Ekko_Class.bullets.begin() + i);
                 }*/
