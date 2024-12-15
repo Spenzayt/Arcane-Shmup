@@ -211,7 +211,7 @@ public:
 	std::vector<MediumSoldier> mediumSoldiers_vector;
 	vector<sf::CircleShape> MediumSoldierBullets;
 
-	Soldier(const sf::Vector2f& positionSoldier, sf::Texture& soldierTexture);
+	MediumSoldier(const sf::Vector2f& positionSoldier, sf::Texture& soldierTexture);
 
 	MediumSoldier();
 

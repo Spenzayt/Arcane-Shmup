@@ -150,8 +150,8 @@ int Marcus::heal() {
 
 Soldier::Soldier() : Enemies("Soldier", 1600, 600, true) {}
 Soldier::Soldier(const sf::Vector2f& positionSoldier, sf::Texture& soldierTexture){
-		soldier_S.attackSpeed = 135;
-		soldier_S.bulletSpeed = 0.8f;
+		attackSpeed = 135;
+		bulletSpeed = 0.8f;
 		soldier_walk_texture.setSmooth(true);
 		soldier_walk_sprite.setTexture(soldierTexture);
 		soldier_walk_sprite.setTextureRect(sf::IntRect(200, 0, -200, 157));
@@ -247,6 +247,15 @@ int Soldier::heal() {
 ///////////////////////////////
 
 MediumSoldier::MediumSoldier() : Enemies("MediumSoldier", 1600, 700, true) {}
+
+MediumSoldier::MediumSoldier(const sf::Vector2f& positionSoldier, sf::Texture& soldierTexture) {
+	attackSpeed = 135;
+	bulletSpeed = 0.8f;
+	medium_soldier_walk_texture.setSmooth(true);
+	medium_soldier_walk_sprite.setTexture(soldierTexture);
+	medium_soldier_walk_sprite.setTextureRect(sf::IntRect(200, 0, -200, 157));
+	medium_soldier_walk_sprite.setPosition(positionSoldier);
+}
 
 MediumSoldier::~MediumSoldier() {}
 
