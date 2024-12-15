@@ -464,7 +464,7 @@ int mainGame() {
 
         }
         //////////////////////////////////////////////////////////////////////////
-        for (auto& mediumSoldier : Soldier_Class.soldiers_vector) {
+        for (auto& mediumSoldier : MediumSoldier_Class.mediumSoldiers_vector) {
             if (!mediumSoldier.getAlive()) {
                 auto S_nowDying = chrono::steady_clock::now();
                 if (S_nowDying >= S_startDying + S_waitDying) {
