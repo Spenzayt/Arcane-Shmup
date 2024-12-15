@@ -249,7 +249,7 @@ int Soldier::heal() {
 MediumSoldier::MediumSoldier() : Enemies("MediumSoldier", 1600, 700, true) {}
 
 MediumSoldier::MediumSoldier(const sf::Vector2f& positionSoldier, sf::Texture& soldierTexture) {
-	attackSpeed = 135;
+	attackSpeed = 300;
 	bulletSpeed = 0.8f;
 	medium_soldier_walk_texture.setSmooth(true);
 	medium_soldier_walk_sprite.setTexture(soldierTexture);
@@ -357,6 +357,15 @@ int MediumSoldier::heal() {
 ////////////////////////
 
 HardSoldier::HardSoldier() : Enemies("HardSoldier", 1600, 900, true) {}
+
+HardSoldier::HardSoldier(const sf::Vector2f& positionSoldier, sf::Texture& soldierTexture) {
+	attackSpeed = 45;
+	bulletSpeed = 1.5f;
+	hard_soldier_walk_texture.setSmooth(true);
+	hard_soldier_walk_sprite.setTexture(soldierTexture);
+	hard_soldier_walk_sprite.setTextureRect(sf::IntRect(200, 0, -200, 157));
+	hard_soldier_walk_sprite.setPosition(positionSoldier);
+}
 
 HardSoldier::~HardSoldier() {}
 

@@ -279,6 +279,8 @@ public:
 	std::vector<HardSoldier> hardSoldiers_vector;
 	vector<sf::CircleShape> HardSoldierBullets;
 
+	HardSoldier(const sf::Vector2f& positionSoldier, sf::Texture& soldierTexture);
+
 	HardSoldier();
 
 	~HardSoldier();

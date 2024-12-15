@@ -63,7 +63,9 @@ int mainGame() {
     Soldier_Class.soldierInitAnimations();
     Soldier_Class.soldierBulletInit();
 
-    Soldier_Class.createSoldiers(3);
+    Soldier_Class.createSoldiers(2);
+    MediumSoldier_Class.createSoldiers(1);
+    HardSoldier_Class.createSoldiers(1);
 
     MediumSoldier_Class.mediumSoldierInitAnimations();
     MediumSoldier_Class.mediumSoldierBulletInit();
@@ -172,6 +174,11 @@ int mainGame() {
 
             for (int i = 0; i < 1; i++) {
                 MediumSoldier_Class.createSoldiers(1);
+                startNewWave = newWaveNowTime;
+            }
+
+            for (int i = 0; i < 1; i++) {
+                HardSoldier_Class.createSoldiers(1);
                 startNewWave = newWaveNowTime;
             }
         }
@@ -439,6 +446,7 @@ int mainGame() {
                 if (MS_nowTime >= MS_startTime + MS_waitTime) {
                     MediumSoldier_Class.medium_soldier_anim.x++;
                     MediumSoldier_Class.attackCountMediumSoldier++;
+                    MediumSoldier_Class.reload = false;
                     if (MediumSoldier_Class.attackCountMediumSoldier == 2) {
                         MediumSoldier_Class.bulletCreation();
                         MediumSoldier_Class.countBulletsMediumSoldier++;
@@ -507,6 +515,7 @@ int mainGame() {
                 if (HS_nowTime >= HS_startTime + HS_waitTime) {
                     HardSoldier_Class.hard_soldier_anim.x++;
                     HardSoldier_Class.attackCountHardSoldier++;
+                    HardSoldier_Class.reload = false;
                     if (HardSoldier_Class.attackCountHardSoldier == 2) {
                         HardSoldier_Class.bulletCreation();
                         HardSoldier_Class.countBulletsHardSoldier++;
