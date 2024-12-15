@@ -359,7 +359,7 @@ int MediumSoldier::heal() {
 HardSoldier::HardSoldier() : Enemies("HardSoldier", 1600, 900, true) {}
 
 HardSoldier::HardSoldier(const sf::Vector2f& positionSoldier, sf::Texture& soldierTexture) {
-	attackSpeed = 45;
+	attackSpeed = 90;
 	bulletSpeed = 1.5f;
 	hard_soldier_walk_texture.setSmooth(true);
 	hard_soldier_walk_sprite.setTexture(soldierTexture);
@@ -370,7 +370,7 @@ HardSoldier::HardSoldier(const sf::Vector2f& positionSoldier, sf::Texture& soldi
 HardSoldier::~HardSoldier() {}
 
 void HardSoldier::hardSoldierInitAnimations() {
-	attackSpeed = 45;
+	attackSpeed = 90;
 	bulletSpeed = 1.5f;
 	if (!hard_soldier_walk_texture.loadFromFile("assets\\characters\\Soldier\\attack_200.png")) {
 		std::cout << "soldier est pas charg� bro" << std::endl << std::endl; // Erreur si le fichier est introuvable
@@ -421,7 +421,7 @@ void HardSoldier::createSoldiers(int little) {
 void HardSoldier::bulletCreation() {
 	for (auto& hardSoldier : hardSoldiers_vector) {
 		hardSoldier.HardSoldierBullets.push_back(sf::CircleShape());
-		hardSoldier.HardSoldierBullets.back().setFillColor(sf::Color::Transparent);
+		hardSoldier.HardSoldierBullets.back().setFillColor(sf::Color::Red);
 		hardSoldier.HardSoldierBullets.back().setRadius(10);
 		hardSoldier.HardSoldierBullets.back().setPosition(hardSoldier.hard_soldier_walk_sprite.getPosition().x, hardSoldier.hard_soldier_walk_sprite.getPosition().y + 80);
 	}
