@@ -18,6 +18,8 @@ HardSoldier HardSoldier_Class;
 Game game;
 
 int attackCountS = 0;
+int countBullets = 0;
+bool reload = false;
 
 std::vector<sf::Keyboard::Key> konamiCode = {
     sf::Keyboard::Up, sf::Keyboard::Up,
@@ -123,7 +125,7 @@ int mainGame() {
     auto S_waitReadyToAttackTime = chrono::seconds(1);
 
     auto startNewWave = chrono::steady_clock::now();
-    auto waitNewWave = chrono::seconds(20);
+    auto waitNewWave = chrono::seconds(15);
     auto startNewWave2 = chrono::steady_clock::now();
     auto waitNewWave2 = chrono::seconds(2);
     auto MS_startTime = chrono::steady_clock::now();
@@ -158,7 +160,7 @@ int mainGame() {
 
         auto newWaveNowTime = chrono::steady_clock::now();
         if (newWaveNowTime >= startNewWave + waitNewWave) {
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 1; i++) {
                 Soldier_Class.createSoldiers(1);
                 startNewWave = newWaveNowTime;
             }
@@ -238,8 +240,8 @@ int mainGame() {
 
             for (int i = 0; i < Ekko_Class.bullets.size(); i++) {
                 bool destroy = false;
-                Ekko_Class.bullets[i].move(20, 0);
                 game.window.draw(Ekko_Class.bullets[i]);
+                Ekko_Class.bullets[i].move(20 * Ekko_Class.Ekko_attackSpeed, 0);
                 Ekko_Class.ekko_Bullet_Auto_Attack_sprite.setPosition(Ekko_Class.bullets[i].getPosition().x - 30, Ekko_Class.bullets[i].getPosition().y - 6);
 
                 for (auto& soldier : Soldier_Class.soldiers_vector) {
@@ -251,7 +253,9 @@ int mainGame() {
                 if (destroy) /////////////////////////////////////////////////  REPRENDRE CETTE FONCTION POUR EVITER LES CRASH
                     Ekko_Class.bullets.erase(Ekko_Class.bullets.begin() + i);
 
-                for (int i = 0; i < Ekko_Class.bullets.size(); i++) {
+                Ekko_Class.ekko_Bullet_Auto_Attack_sprite.move(20 * Ekko_Class.Ekko_attackSpeed, 0);
+                game.window.draw(Ekko_Class.ekko_Bullet_Auto_Attack_sprite);
+                /*for (int i = 0; i < Ekko_Class.bullets.size(); i++) {
                     game.window.draw(Ekko_Class.bullets[i]);
                     Ekko_Class.bullets[i].move(20 * Ekko_Class.Ekko_attackSpeed, 0);
                     Ekko_Class.ekko_Bullet_Auto_Attack_sprite.setPosition(Ekko_Class.bullets[i].getPosition().x - 30, Ekko_Class.bullets[i].getPosition().y - 6);
@@ -273,7 +277,7 @@ int mainGame() {
                     }
                     Ekko_Class.ekko_Bullet_Auto_Attack_sprite.move(20 * Ekko_Class.Ekko_attackSpeed, 0);
                     game.window.draw(Ekko_Class.ekko_Bullet_Auto_Attack_sprite);
-                }
+                }*/
             }
 
             if (invincibilityTimer) {
@@ -345,11 +349,24 @@ int mainGame() {
                 if (S_nowTime >= S_startTime + S_waitTime) {
                     Soldier_Class.soldier_anim.x++;
                     attackCountS++;
+                    reload = false;
                     if (attackCountS == 2) {
                         Soldier_Class.bulletCreation();
+                        countBullets++;
                     }
                     if (Soldier_Class.soldier_anim.x == 10) {
                         attackCountS = 0;
+                    }
+                    if (countBullets == 10) {
+                        reload = true;
+                    }
+                    if (reload == true) {
+                        S_waitTime = chrono::seconds(2);
+                        countBullets = 0;
+                        //reload = false;
+                    }
+                    if (reload == false) {
+                        S_waitTime = chrono::milliseconds(Soldier_Class.soldier_S.attackSpeed);
                     }
                     S_startTime = S_nowTime;
                 }

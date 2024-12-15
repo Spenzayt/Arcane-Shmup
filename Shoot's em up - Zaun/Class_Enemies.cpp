@@ -180,7 +180,7 @@ void Soldier::soldierInitAnimations() {
 void Soldier::createSoldiers(int little) {
 	for (int i = 0; i < little; i++) {
 		soldiers_vector.emplace_back(sf::Vector2f(rand() % 960 + 800, rand() % 400 + 500), soldier_walk_texture);
-		cout << "crea de soldat x1" << endl << endl;
+		//cout << "crea de soldat x1" << endl << endl;
 	}
 }
 
