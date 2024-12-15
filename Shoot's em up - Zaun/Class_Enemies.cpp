@@ -251,8 +251,8 @@ MediumSoldier::MediumSoldier() : Enemies("MediumSoldier", 1600, 700, true) {}
 MediumSoldier::~MediumSoldier() {}
 
 void MediumSoldier::mediumSoldierInitAnimations() {
-	soldier_S.attackSpeed = 300;
-	soldier_S.bulletSpeed = 0.5f;
+	attackSpeed = 300;
+	bulletSpeed = 0.5f;
 	if (!medium_soldier_walk_texture.loadFromFile("assets\\characters\\Soldier\\attack_200_medium.png")) {
 		std::cout << "soldier est pas charg� bro" << std::endl << std::endl; // Erreur si le fichier est introuvable
 	}
@@ -311,6 +311,17 @@ void MediumSoldier::mediumSoldierPrintWindow(sf::RenderWindow& window) {
 	//////////////////////////////
 }
 
+void MediumSoldier::bulletCreation() {
+	for (auto& mediumSoldier : mediumSoldiers_vector) {
+		for (int i = 0; i < 3; i++) {
+			mediumSoldier.MediumSoldierBullets.push_back(sf::CircleShape());
+			mediumSoldier.MediumSoldierBullets.back().setFillColor(sf::Color::Transparent);
+			mediumSoldier.MediumSoldierBullets.back().setRadius(10);
+			mediumSoldier.MediumSoldierBullets.back().setPosition(mediumSoldier.medium_soldier_walk_sprite.getPosition().x, mediumSoldier.medium_soldier_walk_sprite.getPosition().y + (60 + i * 20));
+		}
+	}
+}
+
 int MediumSoldier::losePV(int damage) {
 	ms_health -= damage;
 	if (ms_health <= 0) {
@@ -354,8 +365,8 @@ HardSoldier::HardSoldier() : Enemies("HardSoldier", 1600, 900, true) {}
 HardSoldier::~HardSoldier() {}
 
 void HardSoldier::hardSoldierInitAnimations() {
-	soldier_S.attackSpeed = 45;
-	soldier_S.bulletSpeed = 1.5f;
+	attackSpeed = 45;
+	bulletSpeed = 1.5f;
 	if (!hardSoldier_walk_texture.loadFromFile("assets\\characters\\Soldier\\attack_200.png")) {
 		std::cout << "soldier est pas charg� bro" << std::endl << std::endl; // Erreur si le fichier est introuvable
 	}

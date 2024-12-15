@@ -38,25 +38,6 @@ public:
 		int DeathCount = 0;
 	}; Marcus_S marcus_S;
 
-	struct Soldier_S {
-		bool isAttacking = false;
-		bool anim_isAttacking = false;
-		bool isHealing = false;
-		bool isHit = false;
-		bool anim_isHit = false;
-		bool isDying = false;
-		bool anim_isDying = false;
-		bool printBody = false;
-		int countAnimAtk = 0;
-		int countAnimHeal = 0;
-		int countAnimHit = 0;
-		int countAnimDeath = 0;
-		int DeathCount = 0;
-		int attackSpeed = 100;
-		float bulletSpeed = 1.0f;
-		float speed = 1.0f;
-	}; Soldier_S soldier_S;
-
 	virtual int losePV(int damage);
 	virtual int getHealth();
 	virtual int getCoordX();
@@ -125,6 +106,26 @@ public:
 	int s_coordY = 500;
 	int s_health = 1;
 	bool s_isAlive = true;
+	bool reload = false;
+	int attackCountSoldier = 0;
+	int countBulletsSoldier = 0;
+
+	bool isAttacking = false;
+	bool anim_isAttacking = false;
+	bool isHealing = false;
+	bool isHit = false;
+	bool anim_isHit = false;
+	bool isDying = false;
+	bool anim_isDying = false;
+	bool printBody = false;
+	int countAnimAtk = 0;
+	int countAnimHeal = 0;
+	int countAnimHit = 0;
+	int countAnimDeath = 0;
+	int DeathCount = 0;
+	int attackSpeed = 100;
+	float bulletSpeed = 1.0f;
+	float speed = 1.0f;
 
 	sf::Texture soldier_walk_texture;
 	sf::Sprite soldier_walk_sprite;
@@ -174,6 +175,26 @@ public:
 	int ms_coordY = 700;
 	int ms_health = 2;
 	bool ms_isAlive = true;
+	bool reload = false;
+	int attackCountMediumSoldier = 0;
+	int countBulletsMediumSoldier = 0;
+
+	bool isAttacking = false;
+	bool anim_isAttacking = false;
+	bool isHealing = false;
+	bool isHit = false;
+	bool anim_isHit = false;
+	bool isDying = false;
+	bool anim_isDying = false;
+	bool printBody = false;
+	int countAnimAtk = 0;
+	int countAnimHeal = 0;
+	int countAnimHit = 0;
+	int countAnimDeath = 0;
+	int DeathCount = 0;
+	int attackSpeed = 100;
+	float bulletSpeed = 1.0f;
+	float speed = 1.0f;
 
 	sf::Texture medium_soldier_walk_texture;
 	sf::Sprite medium_soldier_walk_sprite;
@@ -187,7 +208,10 @@ public:
 	sf::Sprite medium_soldier_Bullet_Auto_Attack_sprite;
 	sf::Vector2i medium_soldier_anim_Bullet_Auto_Attack;
 
+	std::vector<MediumSoldier> mediumSoldiers_vector;
 	vector<sf::CircleShape> MediumSoldierBullets;
+
+	Soldier(const sf::Vector2f& positionSoldier, sf::Texture& soldierTexture);
 
 	MediumSoldier();
 
@@ -197,6 +221,7 @@ public:
 	void mediumSoldierInitAnimations();
 	void mediumSoldierPrintWindow(sf::RenderWindow& window);
 	void mediumSoldierBulletInit();
+	void bulletCreation();
 
 	int losePV(int damage) override;
 	int getHealth() override;
@@ -217,6 +242,25 @@ public:
 	int hs_coordY = 900;
 	int hs_health = 3;
 	bool hs_isAlive = true;
+	int attackCountHardSoldier = 0;
+	int countBulletsHardSoldier = 0;
+
+	bool isAttacking = false;
+	bool anim_isAttacking = false;
+	bool isHealing = false;
+	bool isHit = false;
+	bool anim_isHit = false;
+	bool isDying = false;
+	bool anim_isDying = false;
+	bool printBody = false;
+	int countAnimAtk = 0;
+	int countAnimHeal = 0;
+	int countAnimHit = 0;
+	int countAnimDeath = 0;
+	int DeathCount = 0;
+	int attackSpeed = 100;
+	float bulletSpeed = 1.0f;
+	float speed = 1.0f;
 
 	sf::Texture hardSoldier_walk_texture;
 	sf::Sprite hardSoldier_walk_sprite;
