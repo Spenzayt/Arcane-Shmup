@@ -42,6 +42,9 @@
     <ClInclude Include="hud.hpp">
       <Filter>HPP</Filter>
     </ClInclude>
+    <ClInclude Include="buff.hpp">
+      <Filter>HPP</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CPP">
