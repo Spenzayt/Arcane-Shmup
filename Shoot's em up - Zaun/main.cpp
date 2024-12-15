@@ -84,6 +84,7 @@ int mainGame() {
 
     int animationDelay = 20;
     int animationDelayAttack = 50;
+
     bool invincibilityTimer = false;
 
     BlueBuff blueBuff(sf::Vector2f(1000, 800));
@@ -105,6 +106,9 @@ int mainGame() {
     auto waitReadyToAttackTime = chrono::seconds(1);
     auto startDashTime = chrono::steady_clock::now();
     auto waitDashTime = chrono::milliseconds(5);
+    
+    auto startHitTime = chrono::steady_clock::now();
+    auto waitHitTime = chrono::milliseconds(160);
 
     chrono::steady_clock::time_point invincibilityStartTime;
 
@@ -213,6 +217,18 @@ int mainGame() {
                 Ekko_Class.ekko_anim.x++;
                 startTime = nowTime;
             }
+            if (Ekko_Class.Ekko_invincibility) {
+                auto nowHitTime = chrono::steady_clock::now();
+                if (nowHitTime >= startHitTime + waitHitTime) {
+                    Ekko_Class.ekko_walk_sprite.setColor(sf::Color::Transparent);
+                }
+                if (nowHitTime >= startHitTime + waitHitTime + chrono::milliseconds(160)) {
+                    Ekko_Class.ekko_walk_sprite.setColor(sf::Color::White);
+                    startHitTime = nowHitTime;
+                }
+            }
+            if(!Ekko_Class.Ekko_invincibility && !blueBuff.BlueBuffActivated && !redBuff.RedBuffActivated) Ekko_Class.ekko_walk_sprite.setColor(sf::Color::White);
+
             if (Ekko_Class.ekko_S.ekko_anim_isAttacking) {
                 auto nowAttTime = chrono::steady_clock::now();
                 if (nowAttTime >= startAttTime + waitAttTime) {
@@ -283,7 +299,7 @@ int mainGame() {
             if (invincibilityTimer) {
                 auto now = chrono::steady_clock::now();
                 auto duration = chrono::duration_cast<chrono::seconds>(now - invincibilityStartTime).count();
-                if (duration > 2) {
+                if (duration == 1) {
                     Ekko_Class.Ekko_invincibility = false;
                     invincibilityTimer = false;
                 }
@@ -361,9 +377,8 @@ int mainGame() {
                         reload = true;
                     }
                     if (reload == true) {
-                        S_waitTime = chrono::seconds(2);
+                        S_waitTime = chrono::seconds(1);
                         countBullets = 0;
-                        //reload = false;
                     }
                     if (reload == false) {
                         S_waitTime = chrono::milliseconds(Soldier_Class.soldier_S.attackSpeed);
@@ -390,16 +405,12 @@ int mainGame() {
                     game.window.draw(soldier.SoldierBullets[i]);
                     Soldier_Class.soldier_Bullet_Auto_Attack_sprite.setPosition(soldier.SoldierBullets[i].getPosition().x - 5, soldier.SoldierBullets[i].getPosition().y + 2);
 
-                    if (soldier.SoldierBullets[i].getGlobalBounds().intersects(Ekko_Class.ekko_walk_sprite.getGlobalBounds())) {
+                    if (soldier.SoldierBullets[i].getGlobalBounds().intersects(Ekko_Class.ekko_walk_sprite.getGlobalBounds()) && !Ekko_Class.Ekko_invincibility) {
                         healthBar.updateLife(Ekko_Class.losePV(1));
+                        Ekko_Class.Ekko_invincibility = true;
+                        invincibilityTimer = true;
+                        invincibilityStartTime = chrono::steady_clock::now();
                         soldier.SoldierBullets.erase(soldier.SoldierBullets.begin() + i);
-
-                        if (!Ekko_Class.Ekko_invincibility) {
-                            healthBar.updateLife(Ekko_Class.losePV(1));
-                            Ekko_Class.Ekko_invincibility = true;
-                            invincibilityTimer = true;
-                            invincibilityStartTime = chrono::steady_clock::now();
-                        }
                     }
 
                     if (soldier.soldier_Bullet_Auto_Attack_sprite.getPosition().x >= 1850) {
@@ -536,6 +547,8 @@ int mainGame() {
                 BlueBuffTimer = true;
                 BlueBuffStartTime = chrono::steady_clock::now();
                 Ekko_Class.Ekko_speed = 1.5;
+                Ekko_Class.ekko_walk_sprite.setColor(sf::Color::Cyan);
+                Ekko_Class.ekko_Auto_Attack_sprite.setColor(sf::Color::Cyan);
             }
         }
 
@@ -547,6 +560,8 @@ int mainGame() {
                 BlueBuffTimer = false;
                 //std::cout << "Ending Blue Buff!" << std::endl;
                 Ekko_Class.Ekko_speed = 1.0f;
+                Ekko_Class.ekko_walk_sprite.setColor(sf::Color::White);
+                Ekko_Class.ekko_Auto_Attack_sprite.setColor(sf::Color::White);
             }
         }
 
@@ -557,6 +572,8 @@ int mainGame() {
                 RedBuffTimer = true;
                 RedBuffStartTime = chrono::steady_clock::now();
                 Ekko_Class.Ekko_attackSpeed = 2.0f;
+                Ekko_Class.ekko_walk_sprite.setColor(sf::Color::Red);
+                Ekko_Class.ekko_Auto_Attack_sprite.setColor(sf::Color::Red);
             }
         }
 
@@ -568,6 +585,8 @@ int mainGame() {
                 RedBuffTimer = false;
                 //std::cout << "Ending Red Buff!" << std::endl;
                 Ekko_Class.Ekko_attackSpeed = 1.0f;
+                Ekko_Class.ekko_walk_sprite.setColor(sf::Color::White);
+                Ekko_Class.ekko_Auto_Attack_sprite.setColor(sf::Color::White);
             }
         }
 
