@@ -153,7 +153,7 @@ public:
 	void soldierBulletInit();
 
 	void createSoldiers(int little);
-	void otherSoldiersSpawn(sf::RenderWindow& window);
+	void soldierPrintWindow(sf::RenderWindow& window);
 	void bulletCreation();
 
 	int losePV(int damage) override;
@@ -200,9 +200,9 @@ public:
 	sf::Sprite medium_soldier_walk_sprite;
 	sf::Vector2i medium_soldier_anim;
 
-	sf::Texture medium_soldier_Auto_Attack_texture;
+	/*sf::Texture medium_soldier_Auto_Attack_texture;
 	sf::Sprite medium_soldier_Auto_Attack_sprite;
-	sf::Vector2i medium_soldier_anim_Auto_Attack;
+	sf::Vector2i medium_soldier_anim_Auto_Attack;*/
 
 	sf::Texture medium_soldier_Bullet_Auto_Attack_texture;
 	sf::Sprite medium_soldier_Bullet_Auto_Attack_sprite;
@@ -221,6 +221,7 @@ public:
 	void mediumSoldierInitAnimations();
 	void mediumSoldierPrintWindow(sf::RenderWindow& window);
 	void mediumSoldierBulletInit();
+	void createSoldiers(int little);
 	void bulletCreation();
 
 	int losePV(int damage) override;
@@ -242,6 +243,7 @@ public:
 	int hs_coordY = 900;
 	int hs_health = 3;
 	bool hs_isAlive = true;
+	bool reload = false;
 	int attackCountHardSoldier = 0;
 	int countBulletsHardSoldier = 0;
 
@@ -262,18 +264,19 @@ public:
 	float bulletSpeed = 1.0f;
 	float speed = 1.0f;
 
-	sf::Texture hardSoldier_walk_texture;
-	sf::Sprite hardSoldier_walk_sprite;
-	sf::Vector2i hardSoldier_anim;
+	sf::Texture hard_soldier_walk_texture;
+	sf::Sprite hard_soldier_walk_sprite;
+	sf::Vector2i hard_soldier_anim;
 
-	sf::Texture hardSoldier_Auto_Attack_texture;
+	/*sf::Texture hard_Soldier_Auto_Attack_texture;
 	sf::Sprite hardSoldier_Auto_Attack_sprite;
-	sf::Vector2i hardSoldier_anim_Auto_Attack;
+	sf::Vector2i hardSoldier_anim_Auto_Attack;*/
 
-	sf::Texture hardSoldier_Bullet_Auto_Attack_texture;
-	sf::Sprite hardSoldier_Bullet_Auto_Attack_sprite;
-	sf::Vector2i hardSoldier_anim_Bullet_Auto_Attack;
+	sf::Texture hard_soldier_Bullet_Auto_Attack_texture;
+	sf::Sprite hard_soldier_Bullet_Auto_Attack_sprite;
+	sf::Vector2i hard_soldier_anim_Bullet_Auto_Attack;
 
+	std::vector<HardSoldier> hardSoldiers_vector;
 	vector<sf::CircleShape> HardSoldierBullets;
 
 	HardSoldier();
@@ -284,6 +287,8 @@ public:
 	void hardSoldierInitAnimations();
 	void hardSoldierPrintWindow(sf::RenderWindow& window);
 	void hardSoldierBulletInit();
+	void createSoldiers(int little);
+	void bulletCreation();
 
 	int losePV(int damage) override;
 	int getHealth() override;
