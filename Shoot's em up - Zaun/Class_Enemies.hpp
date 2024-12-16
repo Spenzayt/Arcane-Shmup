@@ -22,22 +22,6 @@ public:
 	Enemies(std::string n, int CX, int CY, bool A);
 	~Enemies();
 
-	struct Marcus_S {
-		bool isAttacking = false;
-		bool marcus_anim_isAttacking = false;
-		bool isHealing = false;
-		bool isHit = false;
-		bool marcus_anim_isHit = false;
-		bool isDying = false;
-		bool marcus_anim_isDying = false;
-		bool printBody = false;
-		int countAnimAtk = 0;
-		int countAnimHeal = 0;
-		int countAnimHit = 0;
-		int countAnimDeath = 0;
-		int DeathCount = 0;
-	}; Marcus_S marcus_S;
-
 	virtual int losePV(int damage);
 	virtual int getHealth();
 	virtual int getCoordX();
@@ -57,6 +41,26 @@ public:
 	int m_coordY = 800;
 	int m_health = 200;
 	bool m_isAlive = true;
+
+	bool isAttacking = false;
+	bool marcus_anim_isAttacking = false;
+	bool isHealing = false;
+	bool isHit = false;
+	bool marcus_anim_isHit = false;
+	bool isDying = false;
+	bool marcus_anim_isDying = false;
+	bool printBody = false;
+	int countAnimAtk = 0;
+	int countAnimHeal = 0;
+	int countAnimHit = 0;
+	int countAnimDeath = 0;
+	int DeathCount = 0;
+	bool moveToFight = true;
+	bool reload = false;
+	int countBulletsMarcus = 0;
+	int attackSpeed = 160;
+	float bulletSpeed = 1.8f;
+	float speed = 1.0f;
 
 	sf::Texture marcus_walk_texture;
 	sf::Sprite marcus_walk_sprite;

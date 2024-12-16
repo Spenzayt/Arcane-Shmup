@@ -55,17 +55,17 @@ void Marcus::marcusInitAnimations() {
 	marcus_walk_texture.setSmooth(true);
 	marcus_walk_sprite.setTexture(marcus_walk_texture);
 	marcus_walk_sprite.setTextureRect(sf::IntRect(512, 0, 640, 512));
-	marcus_walk_sprite.setPosition(Enemies_Class.getCoordX(), Enemies_Class.getCoordY());
+	marcus_walk_sprite.setPosition(m_coordX, m_coordY);
 
 	/////////////////
-	/*if (!ekko_Auto_Attack_texture.loadFromFile("assets\\characters\\ekko\\Ekko_Auto_Attack_128V3.png")) {
-		std::cout << "ekkoAutoAttack est pas charg� bro" << std::endl << std::endl;
+	if (!marcus_Auto_Attack_texture.loadFromFile("assets\\characters\\marcus\\marcus.png")) {
+		std::cout << "marcus attack est pas charg� bro" << std::endl << std::endl;
 	}
-	ekko_Auto_Attack_texture.setSmooth(true);
+	marcus_Auto_Attack_texture.setSmooth(true);
 
-	ekko_Auto_Attack_sprite.setTexture(ekko_Auto_Attack_texture);
-	ekko_Auto_Attack_sprite.setTextureRect(sf::IntRect(128, 0, 128, 128));
-	ekko_Auto_Attack_sprite.setPosition(Char_Class.getCoordX(), Char_Class.getCoordY());*/
+	marcus_Auto_Attack_sprite.setTexture(marcus_Auto_Attack_texture);
+	marcus_Auto_Attack_sprite.setTextureRect(sf::IntRect(128, 0, 128, 128));
+	marcus_Auto_Attack_sprite.setPosition(m_coordX, m_coordY);
 }
 
 void Marcus::marcusDontExitFromScreen() {
@@ -81,18 +81,18 @@ void Marcus::marcusDontExitFromScreen() {
 }
 
 void Marcus::marcusBulletInit() {
-	/*if (!ekko_Bullet_Auto_Attack_texture.loadFromFile("assets\\characters\\ekko\\AutotAttackEkko.png")) {
+	if (!marcus_Bullet_Auto_Attack_texture.loadFromFile("assets\\characters\\marcus\\marcusBullet.png")) {
 		std::cout << "ekkoBulletAutoAttack est pas charg� bro" << std::endl << std::endl;
 	}
-	ekko_Bullet_Auto_Attack_texture.setSmooth(true);
+	marcus_Bullet_Auto_Attack_texture.setSmooth(true);
 
-	ekko_Bullet_Auto_Attack_sprite.setTexture(ekko_Bullet_Auto_Attack_texture);
-	ekko_Bullet_Auto_Attack_sprite.setTextureRect(sf::IntRect(32, 0, -32, 32));
-	ekko_Bullet_Auto_Attack_sprite.setPosition(marcus_walk_sprite.getPosition().x + 128, marcus_walk_sprite.getPosition().y - 32);*/
+	marcus_Bullet_Auto_Attack_sprite.setTexture(marcus_Bullet_Auto_Attack_texture);
+	marcus_Bullet_Auto_Attack_sprite.setTextureRect(sf::IntRect(32, 0, -32, 32));
+	marcus_Bullet_Auto_Attack_sprite.setPosition(marcus_walk_sprite.getPosition().x + 128, marcus_walk_sprite.getPosition().y - 32);
 }
 
 void Marcus::marcusPrintWindow(sf::RenderWindow& window) {
-	if (!marcus_S.marcus_anim_isAttacking) {
+	if (!marcus_anim_isAttacking) {
 		if (marcus_anim.x * 512 >= marcus_walk_texture.getSize().x) // boucle qui permet de revenir a la premiere slide de l'anim
 			marcus_anim.x = 0;
 
@@ -101,13 +101,13 @@ void Marcus::marcusPrintWindow(sf::RenderWindow& window) {
 		//////////////////////////////
 	}
 
-	/*if (ekko_S.ekko_anim_isAttacking) {
-		if (ekko_anim_Auto_Attack.x * 128 >= ekko_Auto_Attack_texture.getSize().x)
-			ekko_anim_Auto_Attack.x = 0;
+	if (marcus_anim_isAttacking) {
+		if (marcus_anim_Auto_Attack.x * 128 >= marcus_Auto_Attack_texture.getSize().x)
+			marcus_anim_Auto_Attack.x = 0;
 
-		marcus_walk_sprite.setTextureRect(sf::IntRect(ekko_anim_Auto_Attack.x * 128, 0, 128, 128));
+		marcus_walk_sprite.setTextureRect(sf::IntRect(marcus_anim_Auto_Attack.x * 128, 0, 128, 128));
 		window.draw(marcus_walk_sprite);
-	}*/
+	}
 	//////////////////////////////
 }
 

@@ -57,8 +57,8 @@ int mainGame() {
     Ekko_Class.bulletInit();
     Ekko_Class.initializeSpells();
 
-    //Marcus_Class.marcusInitAnimations();
-    //Marcus_Class.marcusBulletInit();
+    Marcus_Class.marcusInitAnimations();
+    Marcus_Class.marcusBulletInit();
 
     Soldier_Class.soldierInitAnimations();
     Soldier_Class.soldierBulletInit();
@@ -115,6 +115,8 @@ int mainGame() {
     auto M_waitTime = chrono::milliseconds(70);
     auto M_startAttTime = chrono::steady_clock::now();
     auto M_waitAttTime = chrono::milliseconds(50);
+    auto M_startDying = chrono::steady_clock::now();
+    auto M_waitDying = chrono::seconds(3);
     auto M_startReadyToAttackTime = chrono::steady_clock::now();
     auto M_waitReadyToAttackTime = chrono::seconds(1);
 
@@ -331,105 +333,74 @@ int mainGame() {
 #pragma endregion Ekko
 
 #pragma region Marcus
-        //Marcus_Class.marcusDontExitFromScreen();
-
-        auto M_nowTime = chrono::steady_clock::now();
-        M_waitTime = chrono::milliseconds(70);
-        if (M_nowTime >= M_startTime + M_waitTime) {
-            Marcus_Class.marcus_anim.x++;
-            M_startTime = M_nowTime;
-        }
-        if (Ekko_Class.ekko_S.ekko_anim_isAttacking) {
-            auto nowAttTime = chrono::steady_clock::now();
-            if (nowAttTime >= startAttTime + waitAttTime) {
-                Ekko_Class.ekko_S.countAnimAtk++;
-                Ekko_Class.ekko_anim_Auto_Attack.x++;
-                if (Ekko_Class.ekko_S.countAnimAtk == 1) {
-                    Ekko_Class.bullets.push_back(sf::CircleShape());
-                    Ekko_Class.bullets.back().setFillColor(sf::Color::Transparent);
-                    Ekko_Class.bullets.back().setRadius(10);
-                    Ekko_Class.bullets.back().setPosition(Ekko_Class.ekko_Auto_Attack_sprite.getPosition().x + 128, Ekko_Class.ekko_Auto_Attack_sprite.getPosition().y + 32);
-                }
-                if (Ekko_Class.ekko_S.countAnimAtk == 9) {
-                    Ekko_Class.ekko_S.countAnimAtk = 0;
-                    Ekko_Class.ekko_S.ekko_anim_isAttacking = false;
-                }
-                startAttTime = nowAttTime;
+        if (!Marcus_Class.getAlive()) {
+            auto M_nowDying = chrono::steady_clock::now();
+            if (M_nowDying >= M_startDying + M_waitDying) {
+                Marcus_Class.marcus_walk_sprite.setTextureRect(sf::IntRect(0, 0, 0, 0));
             }
         }
-
-        //Marcus_Class.marcusPrintWindow(game.window);
-
-        for (int i = 0; i < Ekko_Class.bullets.size(); i++) {
-            game.window.draw(Ekko_Class.bullets[i]);
-            Ekko_Class.bullets[i].move(20, 0);
-            Ekko_Class.ekko_Bullet_Auto_Attack_sprite.setPosition(Ekko_Class.bullets[i].getPosition().x - 30, Ekko_Class.bullets[i].getPosition().y - 6);
-            game.window.draw(Ekko_Class.ekko_Bullet_Auto_Attack_sprite);
-            Ekko_Class.ekko_Bullet_Auto_Attack_sprite.move(20, 0);
-        }
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        for (auto& soldier : Soldier_Class.soldiers_vector) {
-            if (!soldier.getAlive()) {
-                auto S_nowDying = chrono::steady_clock::now();
-                if (S_nowDying >= S_startDying + S_waitDying) {
-                    soldier.soldier_walk_sprite.setTextureRect(sf::IntRect(0, 0, 0, 0));
-                }
+        if (Marcus_Class.getAlive()) {
+            if (Marcus_Class.moveToFight == true) {
+                Marcus_Class.marcus_walk_sprite.move(-5, 0);
             }
-            if (soldier.getAlive()) {
-                if (soldier.moveToFight == true) {
-                    soldier.soldier_walk_sprite.move(-10, 0);
-                }
-                if (soldier.soldier_walk_sprite.getPosition().x <= 1450) {
-                    soldier.moveToFight = false;
-                }
-                auto S_nowTime = chrono::steady_clock::now();
-                if (S_nowTime >= S_startTime + S_waitTime && soldier.getAlive()) {
-                    Soldier_Class.soldier_anim.x++;
-                    Soldier_Class.attackCountSoldier++;
-                    Soldier_Class.reload = false;
-                    if (Soldier_Class.attackCountSoldier == 2 && !soldier.moveToFight) {
-                        Soldier_Class.bulletCreation();
-                        Soldier_Class.countBulletsSoldier++;
+            if (Marcus_Class.marcus_walk_sprite.getPosition().x <= 1600) {
+                Marcus_Class.moveToFight = false;
+            }
+            Marcus_Class.marcusDontExitFromScreen();
+            auto M_nowTime = chrono::steady_clock::now();
+            M_waitTime = chrono::milliseconds(70);
+            if (M_nowTime >= M_startTime + M_waitTime) {
+                Marcus_Class.marcus_anim.x++;
+                M_startTime = M_nowTime;
+            }
+            if (Marcus_Class.marcus_anim_isAttacking) {
+                auto M_nowAttTime = chrono::steady_clock::now();
+                if (M_nowAttTime >= M_startAttTime + M_waitAttTime) {
+                    Marcus_Class.countAnimAtk++;
+                    Marcus_Class.marcus_anim_Auto_Attack.x++;
+                    Marcus_Class.reload = false;
+                    if (Marcus_Class.countAnimAtk == 1 && Marcus_Class.moveToFight) {
+                        Marcus_Class.MarcusBullets.push_back(sf::CircleShape());
+                        Marcus_Class.MarcusBullets.back().setTexture(&Marcus_Class.marcus_Bullet_Auto_Attack_texture);
+                        Marcus_Class.MarcusBullets.back().setTextureRect(sf::IntRect(32, 0, 32, 32));
+                        Marcus_Class.MarcusBullets.back().setRadius(15);
+                        Marcus_Class.MarcusBullets.back().setPosition(Marcus_Class.marcus_Auto_Attack_sprite.getPosition().x + 128, Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y + 32);
                     }
-                    if (Soldier_Class.soldier_anim.x == 10) {
-                        Soldier_Class.attackCountSoldier = 0;
+                    if (Marcus_Class.countAnimAtk == 5) {
+                        Marcus_Class.countAnimAtk = 0;
+                        Marcus_Class.marcus_anim_isAttacking = false;
                     }
-                    if (Soldier_Class.countBulletsSoldier == 10) {
-                        Soldier_Class.reload = true;
+                    if (Marcus_Class.countBulletsMarcus == 17) {
+                        Marcus_Class.reload = true;
                     }
-                    if (Soldier_Class.reload == true) {
-                        S_waitTime = chrono::seconds(1);
-                        Soldier_Class.countBulletsSoldier = 0;
+                    if (Marcus_Class.reload == true) {
+                        M_waitTime = chrono::seconds(1);
+                        Marcus_Class.countBulletsMarcus = 0;
                     }
-                    if (Soldier_Class.reload == false) {
-                        S_waitTime = chrono::milliseconds(Soldier_Class.attackSpeed);
+                    if (Marcus_Class.reload == false) {
+                        M_waitTime = chrono::milliseconds(Marcus_Class.attackSpeed);
                     }
-                    S_startTime = S_nowTime;
-                }
-
-                soldier.soldier_walk_sprite.setTextureRect(sf::IntRect(Soldier_Class.soldier_anim.x * 200, 0, -200, 157));
-
-                if (Soldier_Class.soldier_anim.x * 200 >= Soldier_Class.soldier_walk_texture.getSize().x + 200) {
-                    Soldier_Class.soldier_anim.x = 2;
-                }
-                for (int i = 0; i < soldier.SoldierBullets.size(); i++) {
-                    soldier.SoldierBullets[i].move(-10 * soldier.bulletSpeed, 0);
-                    game.window.draw(soldier.SoldierBullets[i]);
-
-                    if (soldier.SoldierBullets[i].getGlobalBounds().intersects(Ekko_Class.ekko_walk_sprite.getGlobalBounds()) && !Ekko_Class.Ekko_invincibility && Ekko_Class.getAlive()) {
-                        healthBar.updateLife(Ekko_Class.losePV(1));
-                        Ekko_Class.Ekko_invincibility = true;
-                        invincibilityTimer = true;
-                        invincibilityStartTime = chrono::steady_clock::now();
-                        soldier.SoldierBullets.erase(soldier.SoldierBullets.begin() + i);
-                    }
-                    else if (soldier.SoldierBullets[i].getPosition().x < 0) {
-                        soldier.SoldierBullets.erase(soldier.SoldierBullets.begin() + i);
-                    }
+                    M_startAttTime = M_nowAttTime;
                 }
             }
 
-            Soldier_Class.soldierPrintWindow(game.window);
+            Marcus_Class.marcusPrintWindow(game.window);
+
+            for (int i = 0; i < Marcus_Class.MarcusBullets.size(); i++) {
+                Marcus_Class.MarcusBullets[i].move(-15 * Marcus_Class.bulletSpeed, 0);
+                game.window.draw(Marcus_Class.MarcusBullets[i]);
+
+                if (Marcus_Class.MarcusBullets[i].getGlobalBounds().intersects(Ekko_Class.ekko_walk_sprite.getGlobalBounds()) && !Ekko_Class.Ekko_invincibility && Ekko_Class.getAlive()) {
+                    healthBar.updateLife(Ekko_Class.losePV(1));
+                    Ekko_Class.Ekko_invincibility = true;
+                    invincibilityTimer = true;
+                    invincibilityStartTime = chrono::steady_clock::now();
+                    Marcus_Class.MarcusBullets.erase(Marcus_Class.MarcusBullets.begin() + i);
+                }
+                else if (Marcus_Class.MarcusBullets[i].getPosition().x < 0) {
+                    Marcus_Class.MarcusBullets.erase(Marcus_Class.MarcusBullets.begin() + i);
+                }
+            }
         }
 #pragma endregion Marcus
 
