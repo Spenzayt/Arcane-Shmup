@@ -49,36 +49,45 @@ Marcus::Marcus() : Enemies("Marcus", 1600, 800, true) {}
 Marcus::~Marcus() {}
 
 void Marcus::marcusInitAnimations() {
-	if (!marcus_walk_texture.loadFromFile("assets\\characters\\marcus\\marcus no move.png")) {
-		std::cout << "marcus est pas charg� bro" << std::endl << std::endl; // Erreur si le fichier est introuvable
-	}
-	marcus_walk_texture.setSmooth(true);
-	marcus_walk_sprite.setTexture(marcus_walk_texture);
-	marcus_walk_sprite.setTextureRect(sf::IntRect(512, 0, 640, 512));
-	marcus_walk_sprite.setPosition(m_coordX, m_coordY);
-
 	/////////////////
-	if (!marcus_Auto_Attack_texture.loadFromFile("assets\\characters\\marcus\\marcus.png")) {
+	if (!marcus_Auto_Attack_texture.loadFromFile("assets\\characters\\marcus\\marcusOnBoard.png")) {
 		std::cout << "marcus attack est pas charg� bro" << std::endl << std::endl;
 	}
 	marcus_Auto_Attack_texture.setSmooth(true);
 
 	marcus_Auto_Attack_sprite.setTexture(marcus_Auto_Attack_texture);
-	marcus_Auto_Attack_sprite.setTextureRect(sf::IntRect(128, 0, 128, 128));
 	marcus_Auto_Attack_sprite.setPosition(m_coordX, m_coordY);
+
+
+	if (!marcus_TransSecondPhase_texture.loadFromFile("assets\\characters\\marcus\\marcusTransSecondPhase.png")) {
+		std::cout << "marcus attack est pas charg� bro" << std::endl << std::endl;
+	}
+	marcus_TransSecondPhase_texture.setSmooth(true);
+
+	marcus_TransSecondPhase_sprite.setTexture(marcus_TransSecondPhase_texture);
+	marcus_TransSecondPhase_sprite.setPosition(1450, m_coordY);
+
+
+	if (!marcus_SecondPhase_texture.loadFromFile("assets\\characters\\marcus\\marcusSecodStateShootV3.png")) {
+		std::cout << "marcus attack est pas charg� bro" << std::endl << std::endl;
+	}
+	marcus_SecondPhase_texture.setSmooth(true);
+
+	marcus_SecondPhase_sprite.setTexture(marcus_SecondPhase_texture);
+	marcus_SecondPhase_sprite.setPosition(1450, m_coordY);
 }
 
-void Marcus::marcusDontExitFromScreen() {
-	if (marcus_walk_sprite.getPosition().x <= 0) marcus_walk_sprite.setPosition(sf::Vector2f(0, marcus_walk_sprite.getPosition().y));
-	if (marcus_walk_sprite.getPosition().y <= 525) marcus_walk_sprite.setPosition(sf::Vector2f(marcus_walk_sprite.getPosition().x, 525));
-	if (marcus_walk_sprite.getPosition().x >= 1920 - marcus_walk_sprite.getGlobalBounds().width) marcus_walk_sprite.setPosition(sf::Vector2f(1920 - marcus_walk_sprite.getGlobalBounds().width, marcus_walk_sprite.getPosition().y));
-	if (marcus_walk_sprite.getPosition().y >= 1070 - marcus_walk_sprite.getGlobalBounds().height) marcus_walk_sprite.setPosition(sf::Vector2f(marcus_walk_sprite.getPosition().x, 1070 - marcus_walk_sprite.getGlobalBounds().height));
+/*void Marcus::marcusDontExitFromScreen() {
+	if (marcus_Auto_Attack_sprite.getPosition().x <= 0) marcus_Auto_Attack_sprite.setPosition(sf::Vector2f(0, marcus_Auto_Attack_sprite.getPosition().y));
+	if (marcus_Auto_Attack_sprite.getPosition().y <= 525) marcus_Auto_Attack_sprite.setPosition(sf::Vector2f(marcus_Auto_Attack_sprite.getPosition().x, 525));
+	if (marcus_Auto_Attack_sprite.getPosition().x >= 1920 - marcus_Auto_Attack_sprite.getGlobalBounds().width) marcus_Auto_Attack_sprite.setPosition(sf::Vector2f(1920 - marcus_Auto_Attack_sprite.getGlobalBounds().width, marcus_Auto_Attack_sprite.getPosition().y));
+	if (marcus_Auto_Attack_sprite.getPosition().y >= 1070 - marcus_Auto_Attack_sprite.getGlobalBounds().height) marcus_Auto_Attack_sprite.setPosition(sf::Vector2f(marcus_Auto_Attack_sprite.getPosition().x, 1070 - marcus_Auto_Attack_sprite.getGlobalBounds().height));
 
-	if (marcus_walk_sprite.getPosition().x <= 0) marcus_walk_sprite.setPosition(sf::Vector2f(0, marcus_walk_sprite.getPosition().y));
-	if (marcus_walk_sprite.getPosition().y <= 525) marcus_walk_sprite.setPosition(sf::Vector2f(marcus_walk_sprite.getPosition().x, 525));
-	if (marcus_walk_sprite.getPosition().x >= 1920 - marcus_walk_sprite.getGlobalBounds().width) marcus_walk_sprite.setPosition(sf::Vector2f(1920 - marcus_walk_sprite.getGlobalBounds().width, marcus_walk_sprite.getPosition().y));
-	if (marcus_walk_sprite.getPosition().y >= 1070 - marcus_walk_sprite.getGlobalBounds().height) marcus_walk_sprite.setPosition(sf::Vector2f(marcus_walk_sprite.getPosition().x, 1070 - marcus_walk_sprite.getGlobalBounds().height));
-}
+	if (marcus_Auto_Attack_sprite.getPosition().x <= 0) marcus_Auto_Attack_sprite.setPosition(sf::Vector2f(0, marcus_Auto_Attack_sprite.getPosition().y));
+	if (marcus_Auto_Attack_sprite.getPosition().y <= 525) marcus_Auto_Attack_sprite.setPosition(sf::Vector2f(marcus_Auto_Attack_sprite.getPosition().x, 525));
+	if (marcus_Auto_Attack_sprite.getPosition().x >= 1920 - marcus_Auto_Attack_sprite.getGlobalBounds().width) marcus_Auto_Attack_sprite.setPosition(sf::Vector2f(1920 - marcus_Auto_Attack_sprite.getGlobalBounds().width, marcus_Auto_Attack_sprite.getPosition().y));
+	if (marcus_Auto_Attack_sprite.getPosition().y >= 1070 - marcus_Auto_Attack_sprite.getGlobalBounds().height) marcus_Auto_Attack_sprite.setPosition(sf::Vector2f(marcus_Auto_Attack_sprite.getPosition().x, 1070 - marcus_Auto_Attack_sprite.getGlobalBounds().height));
+}*/
 
 void Marcus::marcusBulletInit() {
 	if (!marcus_Bullet_Auto_Attack_texture.loadFromFile("assets\\characters\\marcus\\marcusBullet.png")) {
@@ -88,25 +97,32 @@ void Marcus::marcusBulletInit() {
 
 	marcus_Bullet_Auto_Attack_sprite.setTexture(marcus_Bullet_Auto_Attack_texture);
 	marcus_Bullet_Auto_Attack_sprite.setTextureRect(sf::IntRect(32, 0, -32, 32));
-	marcus_Bullet_Auto_Attack_sprite.setPosition(marcus_walk_sprite.getPosition().x + 128, marcus_walk_sprite.getPosition().y - 32);
+	marcus_Bullet_Auto_Attack_sprite.setPosition(marcus_Auto_Attack_sprite.getPosition().x + 128, marcus_Auto_Attack_sprite.getPosition().y - 32);
 }
 
 void Marcus::marcusPrintWindow(sf::RenderWindow& window) {
-	if (!marcus_anim_isAttacking) {
-		if (marcus_anim.x * 512 >= marcus_walk_texture.getSize().x) // boucle qui permet de revenir a la premiere slide de l'anim
-			marcus_anim.x = 0;
-
-		marcus_walk_sprite.setTextureRect(sf::IntRect(marcus_anim_Auto_Attack.x * 512, 0, 640, 512));
-		window.draw(marcus_walk_sprite);
-		//////////////////////////////
-	}
-
-	if (marcus_anim_isAttacking) {
-		if (marcus_anim_Auto_Attack.x * 128 >= marcus_Auto_Attack_texture.getSize().x)
+	if (isAttacking && !isAttackingV2 && !transIsIn) {
+		if (marcus_anim_Auto_Attack.x * 540 >= marcus_Auto_Attack_texture.getSize().x)
 			marcus_anim_Auto_Attack.x = 0;
 
-		marcus_walk_sprite.setTextureRect(sf::IntRect(marcus_anim_Auto_Attack.x * 128, 0, 128, 128));
-		window.draw(marcus_walk_sprite);
+		marcus_Auto_Attack_sprite.setTextureRect(sf::IntRect(marcus_anim_Auto_Attack.x * 540, 0, 540, 512));
+		window.draw(marcus_Auto_Attack_sprite);
+	}
+
+	if (transIsIn && !isAttacking && !isAttackingV2) {
+		if (marcus_anim_TransSecondPhase.x * 640 >= marcus_TransSecondPhase_texture.getSize().x)
+			marcus_anim_TransSecondPhase.x = 0;
+
+		marcus_TransSecondPhase_sprite.setTextureRect(sf::IntRect(marcus_anim_TransSecondPhase.x * 640, 0, 640, 512));
+		window.draw(marcus_TransSecondPhase_sprite);
+	}
+
+	if (isAttackingV2 && !transIsIn && !isAttacking) {
+		if (marcus_anim_SecondPhase.x * 640 >= marcus_SecondPhase_texture.getSize().x)
+			marcus_anim_SecondPhase.x = 0;
+
+		marcus_SecondPhase_sprite.setTextureRect(sf::IntRect(marcus_anim_SecondPhase.x * 640, 0, 640, 512));
+		window.draw(marcus_SecondPhase_sprite);
 	}
 	//////////////////////////////
 }

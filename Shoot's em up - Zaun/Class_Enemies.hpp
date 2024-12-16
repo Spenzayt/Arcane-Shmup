@@ -37,12 +37,13 @@ class Marcus : public Enemies {
 public:
 
 	std::string m_name;
-	int m_coordX = 1600;
-	int m_coordY = 800;
-	int m_health = 200;
+	int m_coordX = 2100;
+	int m_coordY = 500;
+	int m_health = 10;
 	bool m_isAlive = true;
+	bool marcusApparition = false;
 
-	bool isAttacking = false;
+	bool isAttacking = true;
 	bool marcus_anim_isAttacking = false;
 	bool isHealing = false;
 	bool isHit = false;
@@ -58,18 +59,16 @@ public:
 	bool moveToFight = true;
 	bool reload = false;
 	int countBulletsMarcus = 0;
-	int attackSpeed = 160;
-	float bulletSpeed = 1.8f;
+	int attackSpeed = 25;
+	float bulletSpeed = 2.f;
 	float speed = 1.0f;
+	int countAnimTrans = 0;
+	bool transIsIn = false;
+	bool isAttackingV2 = false;
 
-	sf::Texture marcus_walk_texture;
+	/*sf::Texture marcus_walk_texture;
 	sf::Sprite marcus_walk_sprite;
-	sf::Vector2i marcus_anim;
-
-
-	/*sf::Texture ekko_Attack_texture;
-	sf::Sprite ekko_Attack_sprite;
-	sf::Vector2i ekko_anim_Attack;*/
+	sf::Vector2i marcus_anim;*/
 
 	sf::Texture marcus_Auto_Attack_texture;
 	sf::Sprite marcus_Auto_Attack_sprite;
@@ -79,13 +78,21 @@ public:
 	sf::Sprite marcus_Bullet_Auto_Attack_sprite;
 	sf::Vector2i marcus_anim_Bullet_Auto_Attack;
 
+	sf::Texture marcus_TransSecondPhase_texture;
+	sf::Sprite marcus_TransSecondPhase_sprite;
+	sf::Vector2i marcus_anim_TransSecondPhase;
+
+	sf::Texture marcus_SecondPhase_texture;
+	sf::Sprite marcus_SecondPhase_sprite;
+	sf::Vector2i marcus_anim_SecondPhase;
+
 	vector<sf::CircleShape> MarcusBullets;
 
 	Marcus();
 	~Marcus();
 
 
-	void marcusDontExitFromScreen();
+	//void marcusDontExitFromScreen();
 	void marcusInitAnimations();
 	void marcusPrintWindow(sf::RenderWindow& window);
 	void marcusBulletInit();
