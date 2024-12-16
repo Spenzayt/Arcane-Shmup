@@ -6,7 +6,6 @@
 #include "buff.hpp"
 #include <SFML/Window.hpp>
 
-
 using namespace std;
 using namespace sf;
 
@@ -46,6 +45,7 @@ void checkKonamiCode() {
 
 int mainGame() {
 
+#pragma region Game Initialisation
     ParallaxBackground background1("assets/backgrounds/ground-zaunV2.png", 150.0f, 630, 1.1, 1.1);
     ParallaxBackground background2("assets/backgrounds/background-zaun.jpeg", 20.0f, -1890, 2, 2);
 
@@ -63,9 +63,8 @@ int mainGame() {
     Soldier_Class.soldierInitAnimations();
     Soldier_Class.soldierBulletInit();
 
-    Soldier_Class.createSoldiers(2);
-    MediumSoldier_Class.createSoldiers(1);
-    HardSoldier_Class.createSoldiers(1);
+    Soldier_Class.createSoldiers(3);
+    MediumSoldier_Class.createSoldiers(2);
 
     MediumSoldier_Class.mediumSoldierInitAnimations();
     MediumSoldier_Class.mediumSoldierBulletInit();
@@ -90,6 +89,8 @@ int mainGame() {
 
     bool BlueBuffTimer = false;
     bool RedBuffTimer = false;
+
+#pragma endregion Game Initialisation
 
 #pragma region Clocks
 
@@ -279,10 +280,6 @@ int mainGame() {
             Ekko_Class.ekkoPrintWindow(game.window);
             healthBar.draw(game.window);
 
-            /*Ekko_Class.ekko_anim_Bullet_Auto_Attack.x++;
-            if (Ekko_Class.ekko_anim_Bullet_Auto_Attack.x * 32 >= Ekko_Class.ekko_Auto_Attack_texture.getSize().x) // boucle qui permet de revenir a la premiere slide de l'anim
-                Ekko_Class.ekko_anim_Bullet_Auto_Attack.x = 0;*/
-
             for (int i = 0; i < Ekko_Class.bullets.size(); i++) {
                 bool destroy = false;
                 game.window.draw(Ekko_Class.bullets[i]);
@@ -313,18 +310,18 @@ int mainGame() {
                 if (destroy)
                     Ekko_Class.bullets.erase(Ekko_Class.bullets.begin() + i);
 
-                /*if (Ekko_Class.ekko_Bullet_Auto_Attack_sprite.getPosition().x >= 1850) {
+                if (Ekko_Class.ekko_Bullet_Auto_Attack_sprite.getPosition().x >= 1850) {
                     Ekko_Class.bullets.erase(Ekko_Class.bullets.begin() + i);
-                }*/
+                }
 
                 Ekko_Class.ekko_Bullet_Auto_Attack_sprite.move(20 * Ekko_Class.Ekko_attackSpeed, 0);
                 game.window.draw(Ekko_Class.ekko_Bullet_Auto_Attack_sprite);
             }
 
-            if (invincibilityTimer) {
+            if (invincibilityTimer && Ekko_Class.getHealth() > 0) {
                 auto now = chrono::steady_clock::now();
                 auto duration = chrono::duration_cast<chrono::seconds>(now - invincibilityStartTime).count();
-                if (duration == 1) {
+                if (duration == 2) {
                     Ekko_Class.Ekko_invincibility = false;
                     invincibilityTimer = false;
                 }
@@ -336,13 +333,13 @@ int mainGame() {
 #pragma region Marcus
         //Marcus_Class.marcusDontExitFromScreen();
 
-        /*auto M_nowTime = chrono::steady_clock::now();
+        auto M_nowTime = chrono::steady_clock::now();
         M_waitTime = chrono::milliseconds(70);
         if (M_nowTime >= M_startTime + M_waitTime) {
             Marcus_Class.marcus_anim.x++;
             M_startTime = M_nowTime;
-        }*/
-        /*if (Ekko_Class.ekko_S.ekko_anim_isAttacking) {
+        }
+        if (Ekko_Class.ekko_S.ekko_anim_isAttacking) {
             auto nowAttTime = chrono::steady_clock::now();
             if (nowAttTime >= startAttTime + waitAttTime) {
                 Ekko_Class.ekko_S.countAnimAtk++;
@@ -359,24 +356,18 @@ int mainGame() {
                 }
                 startAttTime = nowAttTime;
             }
-        }*/
+        }
 
         //Marcus_Class.marcusPrintWindow(game.window);
 
-        /*for (int i = 0; i < Ekko_Class.bullets.size(); i++) {
+        for (int i = 0; i < Ekko_Class.bullets.size(); i++) {
             game.window.draw(Ekko_Class.bullets[i]);
             Ekko_Class.bullets[i].move(20, 0);
             Ekko_Class.ekko_Bullet_Auto_Attack_sprite.setPosition(Ekko_Class.bullets[i].getPosition().x - 30, Ekko_Class.bullets[i].getPosition().y - 6);
             game.window.draw(Ekko_Class.ekko_Bullet_Auto_Attack_sprite);
             Ekko_Class.ekko_Bullet_Auto_Attack_sprite.move(20, 0);
-        }*/
-#pragma endregion Marcus
-
-#pragma region Soldier
-
-        /*Soldier_Class.soldier_anim_Bullet_Auto_Attack.x++;
-        if (Soldier_Class.soldier_anim_Bullet_Auto_Attack.x * 32 >= Soldier_Class.soldier_Auto_Attack_texture.getSize().x) // boucle qui permet de revenir a la premiere slide de l'anim
-            Soldier_Class.soldier_anim_Bullet_Auto_Attack.x = 0;*/
+        }
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         for (auto& soldier : Soldier_Class.soldiers_vector) {
             if (!soldier.getAlive()) {
                 auto S_nowDying = chrono::steady_clock::now();
@@ -392,11 +383,11 @@ int mainGame() {
                     soldier.moveToFight = false;
                 }
                 auto S_nowTime = chrono::steady_clock::now();
-                if (S_nowTime >= S_startTime + S_waitTime) {
+                if (S_nowTime >= S_startTime + S_waitTime && soldier.getAlive()) {
                     Soldier_Class.soldier_anim.x++;
                     Soldier_Class.attackCountSoldier++;
                     Soldier_Class.reload = false;
-                    if (Soldier_Class.attackCountSoldier == 2) {
+                    if (Soldier_Class.attackCountSoldier == 2 && !soldier.moveToFight) {
                         Soldier_Class.bulletCreation();
                         Soldier_Class.countBulletsSoldier++;
                     }
@@ -421,11 +412,9 @@ int mainGame() {
                 if (Soldier_Class.soldier_anim.x * 200 >= Soldier_Class.soldier_walk_texture.getSize().x + 200) {
                     Soldier_Class.soldier_anim.x = 2;
                 }
-
                 for (int i = 0; i < soldier.SoldierBullets.size(); i++) {
                     soldier.SoldierBullets[i].move(-10 * soldier.bulletSpeed, 0);
                     game.window.draw(soldier.SoldierBullets[i]);
-                    Soldier_Class.soldier_Bullet_Auto_Attack_sprite.setPosition(soldier.SoldierBullets[i].getPosition().x - 5, soldier.SoldierBullets[i].getPosition().y + 2);
 
                     if (soldier.SoldierBullets[i].getGlobalBounds().intersects(Ekko_Class.ekko_walk_sprite.getGlobalBounds()) && !Ekko_Class.Ekko_invincibility && Ekko_Class.getAlive()) {
                         healthBar.updateLife(Ekko_Class.losePV(1));
@@ -434,16 +423,79 @@ int mainGame() {
                         invincibilityStartTime = chrono::steady_clock::now();
                         soldier.SoldierBullets.erase(soldier.SoldierBullets.begin() + i);
                     }
-
-                    if (soldier.SoldierBullets[i].getPosition().x < 0) {
+                    else if (soldier.SoldierBullets[i].getPosition().x < 0) {
                         soldier.SoldierBullets.erase(soldier.SoldierBullets.begin() + i);
                     }
-
-
                 }
             }
-            soldier.soldier_Bullet_Auto_Attack_sprite.move(-10, 0);
-            game.window.draw(Soldier_Class.soldier_Bullet_Auto_Attack_sprite);
+
+            Soldier_Class.soldierPrintWindow(game.window);
+        }
+#pragma endregion Marcus
+
+#pragma region Soldier
+
+        for (auto& soldier : Soldier_Class.soldiers_vector) {
+            if (!soldier.getAlive()) {
+                auto S_nowDying = chrono::steady_clock::now();
+                if (S_nowDying >= S_startDying + S_waitDying) {
+                    soldier.soldier_walk_sprite.setTextureRect(sf::IntRect(0, 0, 0, 0));
+                }
+            }
+            if (soldier.getAlive()) {
+                if (soldier.moveToFight == true) {
+                    soldier.soldier_walk_sprite.move(-10, 0);
+                }
+                if (soldier.soldier_walk_sprite.getPosition().x <= 1450) {
+                    soldier.moveToFight = false;
+                }
+                auto S_nowTime = chrono::steady_clock::now();
+                if (S_nowTime >= S_startTime + S_waitTime && soldier.getAlive()) {
+                    Soldier_Class.soldier_anim.x++;
+                    Soldier_Class.attackCountSoldier++;
+                    Soldier_Class.reload = false;
+                    if (Soldier_Class.attackCountSoldier == 2 && !soldier.moveToFight) {
+                        Soldier_Class.bulletCreation();
+                        Soldier_Class.countBulletsSoldier++;
+                    }
+                    if (Soldier_Class.soldier_anim.x == 10) {
+                        Soldier_Class.attackCountSoldier = 0;
+                    }
+                    if (Soldier_Class.countBulletsSoldier == 10) {
+                        Soldier_Class.reload = true;
+                    }
+                    if (Soldier_Class.reload == true) {
+                        S_waitTime = chrono::seconds(1);
+                        Soldier_Class.countBulletsSoldier = 0;
+                    }
+                    if (Soldier_Class.reload == false) {
+                        S_waitTime = chrono::milliseconds(Soldier_Class.attackSpeed);
+                    }
+                    S_startTime = S_nowTime;
+                }
+
+                soldier.soldier_walk_sprite.setTextureRect(sf::IntRect(Soldier_Class.soldier_anim.x * 200, 0, -200, 157));
+
+                if (Soldier_Class.soldier_anim.x * 200 >= Soldier_Class.soldier_walk_texture.getSize().x + 200) {
+                    Soldier_Class.soldier_anim.x = 2;
+                }
+                for (int i = 0; i < soldier.SoldierBullets.size(); i++) {
+                    soldier.SoldierBullets[i].move(-10 * soldier.bulletSpeed, 0);
+                    game.window.draw(soldier.SoldierBullets[i]);
+
+                    if (soldier.SoldierBullets[i].getGlobalBounds().intersects(Ekko_Class.ekko_walk_sprite.getGlobalBounds()) && !Ekko_Class.Ekko_invincibility && Ekko_Class.getAlive()) {
+                        healthBar.updateLife(Ekko_Class.losePV(1));
+                        Ekko_Class.Ekko_invincibility = true;
+                        invincibilityTimer = true;
+                        invincibilityStartTime = chrono::steady_clock::now();
+                        soldier.SoldierBullets.erase(soldier.SoldierBullets.begin() + i);
+                    }
+                    else if (soldier.SoldierBullets[i].getPosition().x < 0) {
+                        soldier.SoldierBullets.erase(soldier.SoldierBullets.begin() + i);
+                    }
+                }
+            }
+           
             Soldier_Class.soldierPrintWindow(game.window);
         }
 #pragma endregion Soldier
@@ -464,11 +516,11 @@ int mainGame() {
                     mediumSoldier.moveToFight = false;
                 }
                 auto MS_nowTime = chrono::steady_clock::now();
-                if (MS_nowTime >= MS_startTime + MS_waitTime) {
+                if (MS_nowTime >= MS_startTime + MS_waitTime && mediumSoldier.getAlive()) {
                     MediumSoldier_Class.medium_soldier_anim.x++;
                     MediumSoldier_Class.attackCountMediumSoldier++;
                     MediumSoldier_Class.reload = false;
-                    if (MediumSoldier_Class.attackCountMediumSoldier == 2) {
+                    if (MediumSoldier_Class.attackCountMediumSoldier == 2 && !mediumSoldier.moveToFight) {
                         MediumSoldier_Class.bulletCreation();
                         MediumSoldier_Class.countBulletsMediumSoldier++;
                     }
@@ -493,32 +545,28 @@ int mainGame() {
                 if (MediumSoldier_Class.medium_soldier_anim.x * 200 >= MediumSoldier_Class.medium_soldier_walk_texture.getSize().x + 200) {
                     MediumSoldier_Class.medium_soldier_anim.x = 2;
                 }
-            }
-            for (int i = 0; i < mediumSoldier.MediumSoldierBullets.size(); i++) {
-                mediumSoldier.MediumSoldierBullets[i].move(-10 * mediumSoldier.bulletSpeed, 0);
-                game.window.draw(mediumSoldier.MediumSoldierBullets[i]);
-                mediumSoldier.medium_soldier_Bullet_Auto_Attack_sprite.setPosition(mediumSoldier.MediumSoldierBullets[i].getPosition().x + 10, mediumSoldier.MediumSoldierBullets[i].getPosition().y + 2);
 
-                if (mediumSoldier.MediumSoldierBullets[i].getGlobalBounds().intersects(Ekko_Class.ekko_walk_sprite.getGlobalBounds()) && !Ekko_Class.Ekko_invincibility && Ekko_Class.getAlive()) {
-                    healthBar.updateLife(Ekko_Class.losePV(1));
-                    Ekko_Class.Ekko_invincibility = true;
-                    invincibilityTimer = true;
-                    invincibilityStartTime = chrono::steady_clock::now();
-                    mediumSoldier.MediumSoldierBullets.erase(mediumSoldier.MediumSoldierBullets.begin() + i);
-                }
+                for (int i = 0; i < mediumSoldier.MediumSoldierBullets.size(); i++) {
+                    mediumSoldier.MediumSoldierBullets[i].move(-10 * mediumSoldier.bulletSpeed, 0);
+                    game.window.draw(mediumSoldier.MediumSoldierBullets[i]);
 
-                if (mediumSoldier.MediumSoldierBullets[i].getPosition().x < 0) {
-                    mediumSoldier.MediumSoldierBullets.erase(mediumSoldier.MediumSoldierBullets.begin() + i);
+                    if (mediumSoldier.MediumSoldierBullets[i].getGlobalBounds().intersects(Ekko_Class.ekko_walk_sprite.getGlobalBounds()) && !Ekko_Class.Ekko_invincibility && Ekko_Class.getAlive()) {
+                        healthBar.updateLife(Ekko_Class.losePV(1));
+                        Ekko_Class.Ekko_invincibility = true;
+                        invincibilityTimer = true;
+                        invincibilityStartTime = chrono::steady_clock::now();
+                        mediumSoldier.MediumSoldierBullets.erase(mediumSoldier.MediumSoldierBullets.begin() + i);
+                    }
+                    else if (mediumSoldier.MediumSoldierBullets[i].getPosition().x < 0) {
+                        mediumSoldier.MediumSoldierBullets.erase(mediumSoldier.MediumSoldierBullets.begin() + i);
+                    }
                 }
             }
-            mediumSoldier.medium_soldier_Bullet_Auto_Attack_sprite.move(-10, 0);
-            game.window.draw(MediumSoldier_Class.medium_soldier_Bullet_Auto_Attack_sprite);
             MediumSoldier_Class.mediumSoldierPrintWindow(game.window);
         }
 
 #pragma endregion MediumSoldier
-
-
+        
 #pragma region HardSoldier
         for (auto& hardSoldier : HardSoldier_Class.hardSoldiers_vector) {
             if (!hardSoldier.getAlive()) {
@@ -535,11 +583,11 @@ int mainGame() {
                     hardSoldier.moveToFight = false;
                 }
                 auto HS_nowTime = chrono::steady_clock::now();
-                if (HS_nowTime >= HS_startTime + HS_waitTime) {
+                if (HS_nowTime >= HS_startTime + HS_waitTime && hardSoldier.getAlive()) {
                     HardSoldier_Class.hard_soldier_anim.x++;
                     HardSoldier_Class.attackCountHardSoldier++;
                     HardSoldier_Class.reload = false;
-                    if (HardSoldier_Class.attackCountHardSoldier == 2) {
+                    if (HardSoldier_Class.attackCountHardSoldier == 2 && !hardSoldier.moveToFight) {
                         HardSoldier_Class.bulletCreation();
                         HardSoldier_Class.countBulletsHardSoldier++;
                     }
@@ -568,7 +616,6 @@ int mainGame() {
                 for (int i = 0; i < hardSoldier.HardSoldierBullets.size(); i++) {
                     hardSoldier.HardSoldierBullets[i].move(-10 * hardSoldier.bulletSpeed, 0);
                     game.window.draw(hardSoldier.HardSoldierBullets[i]);
-                    HardSoldier_Class.hard_soldier_Bullet_Auto_Attack_sprite.setPosition(hardSoldier.HardSoldierBullets[i].getPosition().x - 1, hardSoldier.HardSoldierBullets[i].getPosition().y);
 
                     if (hardSoldier.HardSoldierBullets[i].getGlobalBounds().intersects(Ekko_Class.ekko_walk_sprite.getGlobalBounds()) && !Ekko_Class.Ekko_invincibility && Ekko_Class.getAlive()) {
                         healthBar.updateLife(Ekko_Class.losePV(1));
@@ -577,18 +624,15 @@ int mainGame() {
                         invincibilityStartTime = chrono::steady_clock::now();
                         hardSoldier.HardSoldierBullets.erase(hardSoldier.HardSoldierBullets.begin() + i);
                     }
-
-                    if (hardSoldier.HardSoldierBullets[i].getPosition().x < 0) {
+                    else if (hardSoldier.HardSoldierBullets[i].getPosition().x < 0) {
                         hardSoldier.HardSoldierBullets.erase(hardSoldier.HardSoldierBullets.begin() + i);
                     }
                 }
             }
-            hardSoldier.hard_soldier_Bullet_Auto_Attack_sprite.move(-10, 0);
-            game.window.draw(HardSoldier_Class.hard_soldier_Bullet_Auto_Attack_sprite);
             HardSoldier_Class.hardSoldierPrintWindow(game.window);
         }
 #pragma endregion HardSoldier
-
+        
 /*
 #pragma region Buff
 

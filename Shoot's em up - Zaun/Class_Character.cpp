@@ -11,7 +11,6 @@ int Character::losePV(int damage) {
 	if (c_health <= 0) {
 		c_health = 0;
 		c_isAlive = false;
-
 	}
 	return c_health;
 }
