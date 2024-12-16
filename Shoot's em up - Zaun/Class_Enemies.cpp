@@ -370,10 +370,8 @@ HardSoldier::HardSoldier(const sf::Vector2f& positionSoldier, sf::Texture& soldi
 HardSoldier::~HardSoldier() {}
 
 void HardSoldier::hardSoldierInitAnimations() {
-	attackSpeed = 90;
-	bulletSpeed = 1.5f;
 	if (!hard_soldier_walk_texture.loadFromFile("assets\\characters\\Soldier\\attack_200.png")) {
-		std::cout << "soldier est pas charg� bro" << std::endl << std::endl; // Erreur si le fichier est introuvable
+		std::cout << "soldierhard est pas charg� bro" << std::endl << std::endl; // Erreur si le fichier est introuvable
 	}
 	hard_soldier_walk_texture.setSmooth(true);
 	hard_soldier_walk_sprite.setTexture(hard_soldier_walk_texture);

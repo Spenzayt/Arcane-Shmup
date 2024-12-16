@@ -70,8 +70,8 @@ int mainGame() {
     MediumSoldier_Class.mediumSoldierInitAnimations();
     MediumSoldier_Class.mediumSoldierBulletInit();
 
-    /*HardSoldier_Class.hardSoldierInitAnimations();
-    HardSoldier_Class.hardSoldierBulletInit();*/
+    HardSoldier_Class.hardSoldierInitAnimations();
+    HardSoldier_Class.hardSoldierBulletInit();
 
     vector<Soldier> vec;
     for (int i = 0; i < 3; i++)
@@ -174,13 +174,12 @@ int mainGame() {
 
             for (int i = 0; i < 1; i++) {
                 MediumSoldier_Class.createSoldiers(1);
-                startNewWave = newWaveNowTime;
             }
 
             for (int i = 0; i < 1; i++) {
                 HardSoldier_Class.createSoldiers(1);
-                startNewWave = newWaveNowTime;
             }
+            startNewWave = newWaveNowTime;
         }
 
 #pragma region KonamiCode
@@ -545,7 +544,7 @@ int mainGame() {
                 for (int i = 0; i < hardSoldier.HardSoldierBullets.size(); i++) {
                     hardSoldier.HardSoldierBullets[i].move(-10 * hardSoldier.bulletSpeed, 0);
                     game.window.draw(hardSoldier.HardSoldierBullets[i]);
-                    HardSoldier_Class.hard_soldier_Bullet_Auto_Attack_sprite.setPosition(hardSoldier.HardSoldierBullets[i].getPosition().x + 10, hardSoldier.HardSoldierBullets[i].getPosition().y + 2);
+                    HardSoldier_Class.hard_soldier_Bullet_Auto_Attack_sprite.setPosition(hardSoldier.HardSoldierBullets[i].getPosition().x - 1, hardSoldier.HardSoldierBullets[i].getPosition().y);
 
                     if (hardSoldier.HardSoldierBullets[i].getGlobalBounds().intersects(Ekko_Class.ekko_walk_sprite.getGlobalBounds()) && !Ekko_Class.Ekko_invincibility && Ekko_Class.getAlive()) {
                         healthBar.updateLife(Ekko_Class.losePV(1));

@@ -260,8 +260,8 @@ public:
 	int countAnimHit = 0;
 	int countAnimDeath = 0;
 	int DeathCount = 0;
-	int attackSpeed = 100;
-	float bulletSpeed = 1.0f;
+	int attackSpeed = 90;
+	float bulletSpeed = 1.5f;
 	float speed = 1.0f;
 
 	sf::Texture hard_soldier_walk_texture;
