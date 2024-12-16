@@ -416,11 +416,9 @@ int mainGame() {
                         soldier.SoldierBullets.erase(soldier.SoldierBullets.begin() + i);
                     }
 
-                    /*if (soldier.SoldierBullets[i].getGlobalBounds().intersects(game.window.getSize().x) {
+                    if (soldier.SoldierBullets[i].getPosition().x < 0) {
                         soldier.SoldierBullets.erase(soldier.SoldierBullets.begin() + i);
-                    }*/ // Ca marche pas mais tu capte
-
-                    // pourquoi il détruit tout ce tdc je comprends pas je crois que le sprite se détruit pas jsp
+                    } 
 
                     soldier.soldier_Bullet_Auto_Attack_sprite.move(-10, 0);
                     game.window.draw(Soldier_Class.soldier_Bullet_Auto_Attack_sprite);
@@ -475,7 +473,7 @@ int mainGame() {
                 for (int i = 0; i < mediumSoldier.MediumSoldierBullets.size(); i++) {
                     mediumSoldier.MediumSoldierBullets[i].move(-10 * mediumSoldier.bulletSpeed, 0);
                     game.window.draw(mediumSoldier.MediumSoldierBullets[i]);
-                    MediumSoldier_Class.medium_soldier_Bullet_Auto_Attack_sprite.setPosition(mediumSoldier.MediumSoldierBullets[i].getPosition().x +10, mediumSoldier.MediumSoldierBullets[i].getPosition().y + 2);
+                    mediumSoldier.medium_soldier_Bullet_Auto_Attack_sprite.setPosition(mediumSoldier.MediumSoldierBullets[i].getPosition().x +10, mediumSoldier.MediumSoldierBullets[i].getPosition().y + 2);
 
                     if (mediumSoldier.MediumSoldierBullets[i].getGlobalBounds().intersects(Ekko_Class.ekko_walk_sprite.getGlobalBounds()) && !Ekko_Class.Ekko_invincibility && Ekko_Class.getAlive()) {
                         healthBar.updateLife(Ekko_Class.losePV(1));
@@ -485,9 +483,9 @@ int mainGame() {
                         mediumSoldier.MediumSoldierBullets.erase(mediumSoldier.MediumSoldierBullets.begin() + i);
                     }
 
-                    /*if (mediumSoldier.medium_soldier_Bullet_Auto_Attack_sprite.getPosition().x >= 1850) {
+                    if (mediumSoldier.MediumSoldierBullets[i].getPosition().x < 0) {
                         mediumSoldier.MediumSoldierBullets.erase(mediumSoldier.MediumSoldierBullets.begin() + i);
-                    }*/
+                    }
 
                     mediumSoldier.medium_soldier_Bullet_Auto_Attack_sprite.move(-10, 0);
                     game.window.draw(MediumSoldier_Class.medium_soldier_Bullet_Auto_Attack_sprite);
@@ -554,9 +552,9 @@ int mainGame() {
                         hardSoldier.HardSoldierBullets.erase(hardSoldier.HardSoldierBullets.begin() + i);
                     }
 
-                    /*if (mediumSoldier.medium_soldier_Bullet_Auto_Attack_sprite.getPosition().x >= 1850) {
-                        mediumSoldier.HardSoldierBullets.erase(mediumSoldier.HardSoldierBullets.begin() + i);
-                    }*/
+                    if (hardSoldier.HardSoldierBullets[i].getPosition().x < 0) {
+                        hardSoldier.HardSoldierBullets.erase(hardSoldier.HardSoldierBullets.begin() + i);
+                    }
 
                     hardSoldier.hard_soldier_Bullet_Auto_Attack_sprite.move(-10, 0);
                     game.window.draw(HardSoldier_Class.hard_soldier_Bullet_Auto_Attack_sprite);

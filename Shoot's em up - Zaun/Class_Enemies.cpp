@@ -187,7 +187,8 @@ void Soldier::createSoldiers(int little) {
 void Soldier::bulletCreation() {
 	for (auto& soldier : soldiers_vector) {
 		soldier.SoldierBullets.push_back(sf::CircleShape());
-		soldier.SoldierBullets.back().setFillColor(sf::Color::Transparent);
+		soldier.SoldierBullets.back().setTexture(&soldier_Bullet_Auto_Attack_texture);
+		soldier.SoldierBullets.back().setTextureRect(sf::IntRect(32, 0, -32, 16));
 		soldier.SoldierBullets.back().setRadius(10);
 		soldier.SoldierBullets.back().setPosition(soldier.soldier_walk_sprite.getPosition().x, soldier.soldier_walk_sprite.getPosition().y + 80);
 	}
@@ -204,8 +205,8 @@ void Soldier::soldierBulletInit() {
 		std::cout << "soldierBullets est pas charg� bro" << std::endl << std::endl;
 	}
 	soldier_Bullet_Auto_Attack_texture.setSmooth(true);
-	soldier_Bullet_Auto_Attack_sprite.setTextureRect(sf::IntRect(32, 0, -32, 16));
-	soldier_Bullet_Auto_Attack_sprite.setTexture(soldier_Bullet_Auto_Attack_texture);
+	/*soldier_Bullet_Auto_Attack_sprite.setTextureRect(sf::IntRect(32, 0, -32, 16));
+	soldier_Bullet_Auto_Attack_sprite.setTexture(soldier_Bullet_Auto_Attack_texture);*/
 }
 
 int Soldier::losePV(int damage) {
@@ -289,25 +290,25 @@ void MediumSoldier::mediumSoldierBulletInit() {
 	}
 	medium_soldier_Bullet_Auto_Attack_texture.setSmooth(true);
 
-	medium_soldier_Bullet_Auto_Attack_sprite.setTexture(medium_soldier_Bullet_Auto_Attack_texture);
+	/*medium_soldier_Bullet_Auto_Attack_sprite.setTexture(medium_soldier_Bullet_Auto_Attack_texture);
 	medium_soldier_Bullet_Auto_Attack_sprite.setTextureRect(sf::IntRect(32, 0, -32, 16));
-	medium_soldier_Bullet_Auto_Attack_sprite.setPosition(medium_soldier_walk_sprite.getPosition().x + 5, medium_soldier_walk_sprite.getPosition().y + 80);
-}
-
-void MediumSoldier::mediumSoldierPrintWindow(sf::RenderWindow& window) {
-	for (auto& mediumSoldier : mediumSoldiers_vector) {
-		window.draw(mediumSoldier.medium_soldier_walk_sprite);
-	}
+	medium_soldier_Bullet_Auto_Attack_sprite.setPosition(medium_soldier_walk_sprite.getPosition().x + 5, medium_soldier_walk_sprite.getPosition().y + 80);*/
 }
 
 void MediumSoldier::bulletCreation() {
 	for (auto& mediumSoldier : mediumSoldiers_vector) {
 		for (int i = 0; i < 3; i++) {
 			mediumSoldier.MediumSoldierBullets.push_back(sf::CircleShape());
-			mediumSoldier.MediumSoldierBullets.back().setFillColor(sf::Color::Transparent);
+			mediumSoldier.MediumSoldierBullets.back().setTexture(&medium_soldier_Bullet_Auto_Attack_texture);
+			mediumSoldier.MediumSoldierBullets.back().setTextureRect(sf::IntRect(32, 0, -32, 16));
 			mediumSoldier.MediumSoldierBullets.back().setRadius(10);
 			mediumSoldier.MediumSoldierBullets.back().setPosition(mediumSoldier.medium_soldier_walk_sprite.getPosition().x, mediumSoldier.medium_soldier_walk_sprite.getPosition().y + (60 + i * 20));
 		}
+	}
+}
+void MediumSoldier::mediumSoldierPrintWindow(sf::RenderWindow& window) {
+	for (auto& mediumSoldier : mediumSoldiers_vector) {
+		window.draw(mediumSoldier.medium_soldier_walk_sprite);
 	}
 }
 
@@ -397,9 +398,9 @@ void HardSoldier::hardSoldierBulletInit() {
 	}
 	hard_soldier_Bullet_Auto_Attack_texture.setSmooth(true);
 
-	hard_soldier_Bullet_Auto_Attack_sprite.setTexture(hard_soldier_Bullet_Auto_Attack_texture);
+	/*hard_soldier_Bullet_Auto_Attack_sprite.setTexture(hard_soldier_Bullet_Auto_Attack_texture);
 	hard_soldier_Bullet_Auto_Attack_sprite.setTextureRect(sf::IntRect(32, 0, -32, 16));
-	hard_soldier_Bullet_Auto_Attack_sprite.setPosition(hard_soldier_walk_sprite.getPosition().x + 5, hard_soldier_walk_sprite.getPosition().y + 80);
+	hard_soldier_Bullet_Auto_Attack_sprite.setPosition(hard_soldier_walk_sprite.getPosition().x + 5, hard_soldier_walk_sprite.getPosition().y + 80);*/
 }
 
 void HardSoldier::hardSoldierPrintWindow(sf::RenderWindow& window) {
@@ -419,7 +420,8 @@ void HardSoldier::createSoldiers(int little) {
 void HardSoldier::bulletCreation() {
 	for (auto& hardSoldier : hardSoldiers_vector) {
 		hardSoldier.HardSoldierBullets.push_back(sf::CircleShape());
-		hardSoldier.HardSoldierBullets.back().setFillColor(sf::Color::Transparent);
+		hardSoldier.HardSoldierBullets.back().setTexture(&hard_soldier_Bullet_Auto_Attack_texture);
+		hardSoldier.HardSoldierBullets.back().setTextureRect(sf::IntRect(32, 0, -32, 16));		
 		hardSoldier.HardSoldierBullets.back().setRadius(10);
 		hardSoldier.HardSoldierBullets.back().setPosition(hardSoldier.hard_soldier_walk_sprite.getPosition().x, hardSoldier.hard_soldier_walk_sprite.getPosition().y + 80);
 	}
