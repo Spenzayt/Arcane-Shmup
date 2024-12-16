@@ -126,8 +126,15 @@ int mainGame() {
     auto S_startReadyToAttackTime = chrono::steady_clock::now();
     auto S_waitReadyToAttackTime = chrono::seconds(1);
 
-    auto startNewWave = chrono::steady_clock::now();
-    auto waitNewWave = chrono::seconds(15);
+    auto startNewWaveSoldier = chrono::steady_clock::now();
+    auto waitNewWaveSoldier = chrono::seconds(8);
+
+    auto startNewWaveMediumSoldier = chrono::steady_clock::now();
+    auto waitNewWaveMediumSoldier = chrono::seconds(12);
+
+    auto startNewWaveHardSoldier = chrono::steady_clock::now();
+    auto waitNewWaveHardSoldier = chrono::seconds(15);
+
     auto startNewWave2 = chrono::steady_clock::now();
     auto waitNewWave2 = chrono::seconds(2);
 
@@ -166,20 +173,28 @@ int mainGame() {
 
 
 
-        auto newWaveNowTime = chrono::steady_clock::now();
-        if (newWaveNowTime >= startNewWave + waitNewWave) {
+        auto newWaveNowTimeSoldier = chrono::steady_clock::now();
+        if (newWaveNowTimeSoldier >= startNewWaveSoldier + waitNewWaveSoldier) {
             for (int i = 0; i < 3; i++) {
                 Soldier_Class.createSoldiers(1);
             }
+            startNewWaveSoldier = newWaveNowTimeSoldier;
+        }
 
+        auto newWaveNowTimeMediumSoldier = chrono::steady_clock::now();
+        if (newWaveNowTimeMediumSoldier >= startNewWaveMediumSoldier + waitNewWaveMediumSoldier) {
             for (int i = 0; i < 1; i++) {
                 MediumSoldier_Class.createSoldiers(1);
             }
+            startNewWaveMediumSoldier = newWaveNowTimeMediumSoldier;
+        }
 
+        auto newWaveNowTimeHardSoldier = chrono::steady_clock::now();
+        if (newWaveNowTimeHardSoldier >= startNewWaveHardSoldier + waitNewWaveHardSoldier) {
             for (int i = 0; i < 1; i++) {
                 HardSoldier_Class.createSoldiers(1);
             }
-            startNewWave = newWaveNowTime;
+            startNewWaveHardSoldier = newWaveNowTimeHardSoldier;
         }
 
 #pragma region KonamiCode
@@ -372,6 +387,9 @@ int mainGame() {
                 }
             }
             if (soldier.getAlive()) {
+                if (soldier.moveToFight == true) {
+                    soldier.soldier_walk_sprite.move(-10, 0);
+                }
                 auto S_nowTime = chrono::steady_clock::now();
                 if (S_nowTime >= S_startTime + S_waitTime) {
                     Soldier_Class.soldier_anim.x++;

@@ -109,6 +109,7 @@ public:
 	bool reload = false;
 	int attackCountSoldier = 0;
 	int countBulletsSoldier = 0;
+	bool moveToFight = true;
 
 	bool isAttacking = false;
 	bool anim_isAttacking = false;
@@ -178,6 +179,7 @@ public:
 	bool reload = false;
 	int attackCountMediumSoldier = 0;
 	int countBulletsMediumSoldier = 0;
+	bool moveToFight = true;
 
 	bool isAttacking = false;
 	bool anim_isAttacking = false;
@@ -246,6 +248,7 @@ public:
 	bool reload = false;
 	int attackCountHardSoldier = 0;
 	int countBulletsHardSoldier = 0;
+	bool moveToFight = true;
 
 	bool isAttacking = false;
 	bool anim_isAttacking = false;
