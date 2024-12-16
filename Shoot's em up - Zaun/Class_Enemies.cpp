@@ -179,7 +179,7 @@ void Soldier::soldierInitAnimations() {
 
 void Soldier::createSoldiers(int little) {
 	for (int i = 0; i < little; i++) {
-		soldiers_vector.emplace_back(sf::Vector2f(rand() % 960 + 800, rand() % 400 + 500), soldier_walk_texture);
+		soldiers_vector.emplace_back(sf::Vector2f(rand() % 2000 + 2300, rand() % 400 + 500), soldier_walk_texture);
 		//cout << "crea de soldat x1" << endl << endl;
 	}
 }
@@ -267,7 +267,7 @@ void MediumSoldier::mediumSoldierInitAnimations() {
 		std::cout << "soldier est pas charg� bro" << std::endl << std::endl; // Erreur si le fichier est introuvable
 	}
 	medium_soldier_walk_texture.setSmooth(true);
-	medium_soldier_walk_sprite.setTexture(medium_soldier_walk_texture);
+	medium_soldier_walk_sprite .setTexture(medium_soldier_walk_texture);
 	medium_soldier_walk_sprite.setTextureRect(sf::IntRect(200, 0, 200, 200));
 	medium_soldier_walk_sprite.setPosition(ms_coordX, ms_coordY);
 }
@@ -314,7 +314,7 @@ void MediumSoldier::mediumSoldierPrintWindow(sf::RenderWindow& window) {
 
 void MediumSoldier::createSoldiers(int little) {
 	for (int i = 0; i < little; i++) {
-		mediumSoldiers_vector.emplace_back(sf::Vector2f(rand() % 960 + 800, rand() % 400 + 500), medium_soldier_walk_texture);
+		mediumSoldiers_vector.emplace_back(sf::Vector2f(rand() % 2000 + 2300, rand() % 400 + 500), medium_soldier_walk_texture);
 		//cout << "crea de soldat x1" << endl << endl;
 	}
 }
@@ -412,7 +412,7 @@ void HardSoldier::hardSoldierPrintWindow(sf::RenderWindow& window) {
 
 void HardSoldier::createSoldiers(int little) {
 	for (int i = 0; i < little; i++) {
-		hardSoldiers_vector.emplace_back(sf::Vector2f(rand() % 960 + 800, rand() % 400 + 500), hard_soldier_walk_texture);
+		hardSoldiers_vector.emplace_back(sf::Vector2f(rand() % 2000 + 2300, rand() % 400 + 500), hard_soldier_walk_texture);
 		//cout << "crea de soldat x1" << endl << endl;
 	}
 }
