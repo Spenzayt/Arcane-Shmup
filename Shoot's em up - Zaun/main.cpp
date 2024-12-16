@@ -178,19 +178,20 @@ int mainGame() {
         if (!Marcus_Class.marcusApparition) {
             auto newWaveNowTimeSoldier = chrono::steady_clock::now();
             if (newWaveNowTimeSoldier >= startNewWaveSoldier + waitNewWaveSoldier) {
-                for (int i = 0; i < 8; i++) {
-                    auto newWaveNowTimeSoldierDiff = chrono::steady_clock::now();
+                for (int i = 0; i < rand() % 1 + 10; i++) {
+                    /*auto newWaveNowTimeSoldierDiff = chrono::steady_clock::now();
                     if (newWaveNowTimeSoldierDiff >= startNewWaveSoldierDiff + waitNewWaveSoldierDiff) {
                         Soldier_Class.createSoldiers(1);
                     }
-                    startNewWaveSoldierDiff = newWaveNowTimeSoldierDiff;
+                    startNewWaveSoldierDiff = newWaveNowTimeSoldierDiff;*/
+                    Soldier_Class.createSoldiers(1);
                 }
                 startNewWaveSoldier = newWaveNowTimeSoldier;
             }
 
             auto newWaveNowTimeMediumSoldier = chrono::steady_clock::now();
             if (newWaveNowTimeMediumSoldier >= startNewWaveMediumSoldier + waitNewWaveMediumSoldier) {
-                for (int i = 0; i < 3; i++) {
+                for (int i = 0; i < rand() % 1 + 5; i++) {
                     auto newWaveNowTimeMediumSoldierDiff = chrono::steady_clock::now();
                     if (newWaveNowTimeMediumSoldierDiff >= startNewWaveMediumSoldierDiff + waitNewWaveMediumSoldierDiff) {
                         Soldier_Class.createSoldiers(2);
@@ -203,7 +204,7 @@ int mainGame() {
 
             auto newWaveNowTimeHardSoldier = chrono::steady_clock::now();
             if (newWaveNowTimeHardSoldier >= startNewWaveHardSoldier + waitNewWaveHardSoldier) {
-                for (int i = 0; i < 2; i++) {
+                for (int i = 0; i < rand() % 1 + 3; i++) {
                     auto newWaveNowTimeHardSoldierDiff = chrono::steady_clock::now();
                     if (newWaveNowTimeHardSoldierDiff >= startNewWaveHardSoldierDiff + waitNewWaveHardSoldierDiff) {
                         HardSoldier_Class.createSoldiers(1);
