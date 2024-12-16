@@ -370,7 +370,7 @@ HardSoldier::HardSoldier(const sf::Vector2f& positionSoldier, sf::Texture& soldi
 HardSoldier::~HardSoldier() {}
 
 void HardSoldier::hardSoldierInitAnimations() {
-	if (!hard_soldier_walk_texture.loadFromFile("assets\\characters\\Soldier\\attack_200.png")) {
+	if (!hard_soldier_walk_texture.loadFromFile("assets\\characters\\Soldier\\attack_200_hard.png")) {
 		std::cout << "soldierhard est pas charg� bro" << std::endl << std::endl; // Erreur si le fichier est introuvable
 	}
 	hard_soldier_walk_texture.setSmooth(true);
@@ -392,7 +392,7 @@ void HardSoldier::hardSoldierDontExitFromScreen() {
 }
 
 void HardSoldier::hardSoldierBulletInit() {
-	if (!hard_soldier_Bullet_Auto_Attack_texture.loadFromFile("assets\\characters\\Soldier\\soldierBullets.png")) {
+	if (!hard_soldier_Bullet_Auto_Attack_texture.loadFromFile("assets\\characters\\Soldier\\soldierBulletshard.png")) {
 		std::cout << "soldierBullets est pas charg� bro" << std::endl << std::endl;
 	}
 	hard_soldier_Bullet_Auto_Attack_texture.setSmooth(true);
@@ -419,7 +419,7 @@ void HardSoldier::createSoldiers(int little) {
 void HardSoldier::bulletCreation() {
 	for (auto& hardSoldier : hardSoldiers_vector) {
 		hardSoldier.HardSoldierBullets.push_back(sf::CircleShape());
-		hardSoldier.HardSoldierBullets.back().setFillColor(sf::Color::Red);
+		hardSoldier.HardSoldierBullets.back().setFillColor(sf::Color::Transparent);
 		hardSoldier.HardSoldierBullets.back().setRadius(10);
 		hardSoldier.HardSoldierBullets.back().setPosition(hardSoldier.hard_soldier_walk_sprite.getPosition().x, hardSoldier.hard_soldier_walk_sprite.getPosition().y + 80);
 	}
