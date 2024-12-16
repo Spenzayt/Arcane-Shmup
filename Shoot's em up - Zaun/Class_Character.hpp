@@ -41,6 +41,8 @@ public:
 		int countAnimHit = 0;
 		int countAnimDeath = 0;
 		int DeathCount = 0;
+		bool SlowZone = false;
+		bool Boomerang = false;
 	}; Ekko_S ekko_S;
 
 	int losePV(int damage);
@@ -76,6 +78,12 @@ public:
 	sf::Sprite ekko_Bullet_Auto_Attack_sprite;
 	sf::Vector2i ekko_anim_Bullet_Auto_Attack;
 
+	sf::Texture ekko_SlowZone_texture;
+	sf::Sprite ekko_SlowZone_sprite;
+
+	sf::Texture ekko_Boomerang_texture;
+	sf::Sprite ekko_Boomerang_sprite;
+
 	std::string Ekko_name;
 	int Ekko_coordX = 225;
 	int	Ekko_coordY = 800;
@@ -97,10 +105,12 @@ public:
 	void ekkoCommand();
 	void bulletInit();
 	void initializeSpells();
-	void castSpell(const std::string& spellName);;
+	void castSpell(const std::string& spellName);
 	void dash();
 	void updatePositionHistory();
-	void updateTeleport();
+	void updateSpells();
+	void SlowZone();
+	void Boomerang();
 
 
 	std::deque<std::pair<sf::Vector2f, sf::Time>> positionHistory;
@@ -112,6 +122,18 @@ public:
 	sf::Vector2f dashDirection;
 	bool isDashing = false;
 	sf::Clock dashingTimer;
+
+	bool isSlowZoneActive = false;
+	sf::Vector2f SlowZoneTargetPosition;
+	sf::Clock SlowZoneTimer;
+
+	bool isBoomerangActive = false;
+	bool isBoomerangStart = false;
+	bool isBoomerangComingBack = false;
+	sf::Clock BoomerangTimer;
+
+	sf::Vector2f BoomerangStartPosition;
+	sf::Vector2f BoomerangTargetPosition;
 
 private:
 	sf::Vector2f direction;
