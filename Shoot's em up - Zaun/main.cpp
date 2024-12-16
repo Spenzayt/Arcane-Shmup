@@ -6,7 +6,6 @@
 #include "buff.hpp"
 #include <SFML/Window.hpp>
 
-
 using namespace std;
 using namespace sf;
 
@@ -42,6 +41,12 @@ void checkKonamiCode() {
             konamiCodeActivated = false;
         }
     }
+}
+
+void Wave(int NbOfEasySoldiers, int NbOfMediumSoldiers, int NbOfHardSoldiers) {
+    Soldier_Class.createSoldiers(NbOfEasySoldiers);
+    MediumSoldier_Class.createSoldiers(NbOfMediumSoldiers);
+    HardSoldier_Class.createSoldiers(NbOfHardSoldiers);
 }
 
 int mainGame() {
@@ -123,7 +128,7 @@ int mainGame() {
     auto S_waitReadyToAttackTime = chrono::seconds(1);
 
     auto startNewWave = chrono::steady_clock::now();
-    auto waitNewWave = chrono::seconds(15);
+    auto waitNewWave = chrono::seconds(4);
     auto startNewWave2 = chrono::steady_clock::now();
     auto waitNewWave2 = chrono::seconds(2);
 
@@ -158,22 +163,6 @@ int mainGame() {
             if (event.type == sf::Event::Closed)
                 game.window.close();
         }
-
-        /*auto newWaveNowTime = chrono::steady_clock::now();
-        if (newWaveNowTime >= startNewWave + waitNewWave) {
-            for (int i = 0; i < 3; i++) {
-                Soldier_Class.createSoldiers(1);
-            }
-
-            for (int i = 0; i < 1; i++) {
-                MediumSoldier_Class.createSoldiers(1);
-            }
-
-            for (int i = 0; i < 1; i++) {
-                HardSoldier_Class.createSoldiers(1);
-            }
-            startNewWave = newWaveNowTime;
-        }*/
 
 #pragma region KonamiCode
         if (event.type == sf::Event::KeyPressed) {
@@ -620,6 +609,19 @@ int mainGame() {
         redBuff.draw(game.window);
 
 #pragma endregion Buff
+
+#pragma region Waves
+        if (game.currentPhase == game.WavesPhase && game.currentWave < game.MaxWaves) {
+            auto newWaveNowTime = chrono::steady_clock::now();
+            if (newWaveNowTime >= startNewWave + waitNewWave) {
+                Wave(1, 1, 1);
+                startNewWave = newWaveNowTime;
+                game.currentWave++;
+                cout << game.currentWave << endl;
+            }
+        }
+
+#pragma endregion Waves
 
         game.window.display();
     }
