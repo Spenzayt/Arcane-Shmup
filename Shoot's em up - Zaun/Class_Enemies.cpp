@@ -330,7 +330,7 @@ void MediumSoldier::mediumSoldierPrintWindow(sf::RenderWindow& window) {
 
 void MediumSoldier::createSoldiers(int little) {
 	for (int i = 0; i < little; i++) {
-		mediumSoldiers_vector.emplace_back(sf::Vector2f(rand() % 2000 + 2300, rand() % 400 + 600), medium_soldier_walk_texture);
+		mediumSoldiers_vector.emplace_back(sf::Vector2f(rand() % 2000 + 2300, rand() % 350 + 550), medium_soldier_walk_texture);
 		//cout << "crea de soldat x1" << endl << endl;
 	}
 }

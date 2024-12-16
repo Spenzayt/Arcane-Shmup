@@ -63,8 +63,8 @@ int mainGame() {
     Soldier_Class.soldierInitAnimations();
     Soldier_Class.soldierBulletInit();
 
-    Soldier_Class.createSoldiers(1);
-    MediumSoldier_Class.createSoldiers(0);
+    Soldier_Class.createSoldiers(3);
+    MediumSoldier_Class.createSoldiers(2);
 
     MediumSoldier_Class.mediumSoldierInitAnimations();
     MediumSoldier_Class.mediumSoldierBulletInit();
@@ -127,16 +127,21 @@ int mainGame() {
 
     auto startNewWaveSoldier = chrono::steady_clock::now();
     auto waitNewWaveSoldier = chrono::seconds(8);
+    auto startNewWaveSoldierDiff = chrono::steady_clock::now();
+    auto waitNewWaveSoldierDiff = chrono::seconds(1);
 
     auto startNewWaveMediumSoldier = chrono::steady_clock::now();
     auto waitNewWaveMediumSoldier = chrono::seconds(12);
+    auto startNewWaveMediumSoldierDiff = chrono::steady_clock::now();
+    auto waitNewWaveMediumSoldierDiff = chrono::seconds(1);
 
     auto startNewWaveHardSoldier = chrono::steady_clock::now();
     auto waitNewWaveHardSoldier = chrono::seconds(15);
+    auto startNewWaveHardSoldierDiff = chrono::steady_clock::now();
+    auto waitNewWaveHardSoldierDiff = chrono::seconds(1);
 
     auto startNewWaveMarcus = chrono::steady_clock::now();
-    auto waitNewWaveMarcus = chrono::seconds(5);
-
+    auto waitNewWaveMarcus = chrono::seconds(30);
 
     auto MS_startTime = chrono::steady_clock::now();
     auto MS_waitTime = chrono::milliseconds(MediumSoldier_Class.attackSpeed);
@@ -173,26 +178,40 @@ int mainGame() {
         if (!Marcus_Class.marcusApparition) {
             auto newWaveNowTimeSoldier = chrono::steady_clock::now();
             if (newWaveNowTimeSoldier >= startNewWaveSoldier + waitNewWaveSoldier) {
-                Soldier_Class.createSoldiers(3);
+                for (int i = 0; i < 8; i++) {
+                    auto newWaveNowTimeSoldierDiff = chrono::steady_clock::now();
+                    if (newWaveNowTimeSoldierDiff >= startNewWaveSoldierDiff + waitNewWaveSoldierDiff) {
+                        Soldier_Class.createSoldiers(1);
+                    }
+                    startNewWaveSoldierDiff = newWaveNowTimeSoldierDiff;
+                }
                 startNewWaveSoldier = newWaveNowTimeSoldier;
             }
 
             auto newWaveNowTimeMediumSoldier = chrono::steady_clock::now();
             if (newWaveNowTimeMediumSoldier >= startNewWaveMediumSoldier + waitNewWaveMediumSoldier) {
-                for (int i = 0; i < 1; i++) {
-                    Soldier_Class.createSoldiers(1);
-                    MediumSoldier_Class.createSoldiers(1);
-                    startNewWaveMediumSoldier = newWaveNowTimeMediumSoldier;
+                for (int i = 0; i < 3; i++) {
+                    auto newWaveNowTimeMediumSoldierDiff = chrono::steady_clock::now();
+                    if (newWaveNowTimeMediumSoldierDiff >= startNewWaveMediumSoldierDiff + waitNewWaveMediumSoldierDiff) {
+                        Soldier_Class.createSoldiers(2);
+                        MediumSoldier_Class.createSoldiers(1);
+                    }
+                    startNewWaveMediumSoldierDiff = newWaveNowTimeMediumSoldierDiff;
                 }
+                startNewWaveMediumSoldier = newWaveNowTimeMediumSoldier;
             }
 
             auto newWaveNowTimeHardSoldier = chrono::steady_clock::now();
             if (newWaveNowTimeHardSoldier >= startNewWaveHardSoldier + waitNewWaveHardSoldier) {
-                for (int i = 0; i < 1; i++) {
-                    HardSoldier_Class.createSoldiers(1);
-                    Soldier_Class.createSoldiers(2);
-                    startNewWaveHardSoldier = newWaveNowTimeHardSoldier;
+                for (int i = 0; i < 2; i++) {
+                    auto newWaveNowTimeHardSoldierDiff = chrono::steady_clock::now();
+                    if (newWaveNowTimeHardSoldierDiff >= startNewWaveHardSoldierDiff + waitNewWaveHardSoldierDiff) {
+                        HardSoldier_Class.createSoldiers(1);
+                        Soldier_Class.createSoldiers(3);
+                    }
+                    startNewWaveHardSoldierDiff = newWaveNowTimeHardSoldierDiff;
                 }
+                startNewWaveHardSoldier = newWaveNowTimeHardSoldier;
             }
         }
 
@@ -358,6 +377,10 @@ int mainGame() {
                 if (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().x <= 1450) {
                     Marcus_Class.moveToFight = false;
                 }
+
+                //ici fait en sorte que le Marcus puisse bouger tout le temps pendant qu'il attaque quand il est en deuxieme phase
+                //fait bouger les trois sprite comme ça pas d'emmerde
+
                 ///////////////////////////////////////////////////////////////////////
 
 
@@ -374,14 +397,19 @@ int mainGame() {
 
                     if (Marcus_Class.countAnimTrans == 13) {
                         Marcus_Class.isAttackingV2 = true;
+                        Marcus_Class.transIsIn = false;
                     }
                 }
 
                 auto M_nowAttTime = chrono::steady_clock::now();
                 if (M_nowAttTime >= M_startAttTime + M_waitAttTime) {
 
-                    if (Marcus_Class.isAttackingV2) Marcus_Class.marcus_anim_SecondPhase.x++;
-                    else if (Marcus_Class.isAttacking) Marcus_Class.marcus_anim_Auto_Attack.x++;
+                    if (Marcus_Class.isAttackingV2) {
+                        Marcus_Class.marcus_anim_SecondPhase.x++;
+                    }
+                    else if (Marcus_Class.isAttacking) {
+                        Marcus_Class.marcus_anim_Auto_Attack.x++;
+                    }
                     ///////////////////////////////////////////////////////////////////////////////////////////////////////
                     Marcus_Class.countAnimAtk++;
                     Marcus_Class.reload = false;
@@ -396,15 +424,34 @@ int mainGame() {
                     if (Marcus_Class.countAnimAtk == 5) {
                         Marcus_Class.countAnimAtk = 0;
                     }
-                    if (Marcus_Class.countBulletsMarcus >= 17) {
-                        Marcus_Class.reload = true;
+
+                    if (Marcus_Class.isAttackingV2) {
+                        if (Marcus_Class.countBulletsMarcus >= 25) {
+                            Marcus_Class.reload = true;
+                        }
                     }
-                    if (Marcus_Class.reload) {
-                        M_waitAttTime = chrono::seconds(2);
-                        Marcus_Class.countBulletsMarcus = 0;
+                    else if (!Marcus_Class.isAttackingV2) {
+                        if (Marcus_Class.countBulletsMarcus >= 17) {
+                            Marcus_Class.reload = true;
+                        }
                     }
-                    if (!Marcus_Class.reload) {
-                        M_waitAttTime = chrono::milliseconds(Marcus_Class.attackSpeed);
+                    if (Marcus_Class.isAttackingV2) {
+                        if (Marcus_Class.reload) {
+                            M_waitAttTime = chrono::seconds(2);
+                            Marcus_Class.countBulletsMarcus = 0;
+                        }
+                        if (!Marcus_Class.reload) {
+                            M_waitAttTime = chrono::milliseconds(Marcus_Class.attackSpeed2);
+                        }
+                    }
+                    if (!Marcus_Class.isAttackingV2) {
+                        if (Marcus_Class.reload) {
+                            M_waitAttTime = chrono::seconds(2);
+                            Marcus_Class.countBulletsMarcus = 0;
+                        }
+                        if (!Marcus_Class.reload) {
+                            M_waitAttTime = chrono::milliseconds(Marcus_Class.attackSpeed);
+                        }
                     }
                     M_startAttTime = M_nowAttTime;
                 }
@@ -443,7 +490,7 @@ int mainGame() {
                 if (soldier.moveToFight == true) {
                     soldier.soldier_walk_sprite.move(-10, 0);
                 }
-                if (soldier.soldier_walk_sprite.getPosition().x <= 1300) {
+                if (soldier.soldier_walk_sprite.getPosition().x <= 1450) {
                     soldier.moveToFight = false;
                 }
                 auto S_nowTime = chrono::steady_clock::now();
