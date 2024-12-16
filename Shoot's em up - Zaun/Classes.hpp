@@ -11,18 +11,9 @@
 
 class Game {
 public:
-
-	//vector<Soldier*> soldiers;
-	//vector<Ekko*> ekkos;
-	
-	/*~Game() {
-		for (auto soldier : soldiers)
-			delete soldier;
-		for (auto ekkoG : ekkos)
-			delete ekkoG;
-	}*/
-
 	sf::RenderWindow window;
+
+	enum Level { CUSTOM, LEVEL_1, LEVEL_2 };
 
 	void init() {
 		window.create(sf::VideoMode(1920, 1080), "Zaun : La bataille des nations", sf::Style::Fullscreen);

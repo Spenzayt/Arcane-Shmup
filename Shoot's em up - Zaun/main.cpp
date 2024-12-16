@@ -73,11 +73,6 @@ int mainGame() {
     //MediumSoldier_Class.createSoldiers(1);
     //HardSoldier_Class.createSoldiers(1);
 
-    vector<Soldier> vec;
-    for (int i = 0; i < 3; i++)
-    {
-        vec.emplace_back();
-    }
     HUD healthBar(100, 100, 3);
 
     int animationDelay = 20;
