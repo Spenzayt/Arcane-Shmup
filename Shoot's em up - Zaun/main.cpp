@@ -384,7 +384,7 @@ int mainGame() {
                 ///////////////////////////////////////////////////////////////////////
 
 
-                if (Marcus_Class.m_health <= 5 && !Marcus_Class.isAttackingV2) {
+                if (Marcus_Class.m_health <= 50 && !Marcus_Class.isAttackingV2) {
                     Marcus_Class.isAttacking = false;
                     Marcus_Class.transIsIn = true;
 
@@ -459,8 +459,8 @@ int mainGame() {
                 Marcus_Class.marcusPrintWindow(game.window);
 
                 for (int i = 0; i < Marcus_Class.MarcusBullets.size(); i++) {
-                    if (Ekko_Class.ekko_walk_sprite.getPosition().y < 700) Marcus_Class.MarcusBullets[i].move(-15 * Marcus_Class.bulletSpeed, (Ekko_Class.ekko_walk_sprite.getPosition().x + (rand() % 1 + 10)) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y + (rand() % 1 + 10) - Ekko_Class.ekko_walk_sprite.getPosition().y)/* / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y / Ekko_Class.ekko_walk_sprite.getPosition().y - 260)*/);
-                    else Marcus_Class.MarcusBullets[i].move(-15 * Marcus_Class.bulletSpeed, ((Ekko_Class.ekko_walk_sprite.getPosition().x + (rand() % 1 + 10) + Ekko_Class.ekko_walk_sprite.getPosition().y) / (Ekko_Class.ekko_walk_sprite.getPosition().y + (rand() % 1 + 10) - Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y)));
+                    if (Ekko_Class.ekko_walk_sprite.getPosition().y < 700) Marcus_Class.MarcusBullets[i].move(-15 * Marcus_Class.bulletSpeed, (Ekko_Class.ekko_walk_sprite.getPosition().x) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y - Ekko_Class.ekko_walk_sprite.getPosition().y)/* / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y / Ekko_Class.ekko_walk_sprite.getPosition().y - 260)*/);
+                    else Marcus_Class.MarcusBullets[i].move(-15 * Marcus_Class.bulletSpeed, ((Ekko_Class.ekko_walk_sprite.getPosition().x + Ekko_Class.ekko_walk_sprite.getPosition().y) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y + 128)));
 
                     game.window.draw(Marcus_Class.MarcusBullets[i]);
 

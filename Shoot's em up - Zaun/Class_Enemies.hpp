@@ -39,7 +39,7 @@ public:
 	std::string m_name;
 	int m_coordX = 2100;
 	int m_coordY = 500;
-	int m_health = 10;
+	int m_health = 100;
 	bool m_isAlive = true;
 	bool marcusApparition = false;
 
@@ -59,9 +59,9 @@ public:
 	bool moveToFight = true;
 	bool reload = false;
 	int countBulletsMarcus = 0;
-	int attackSpeed = 68;
-	int attackSpeed2 = 34;
-	float bulletSpeed = 1.5f;
+	int attackSpeed = 100;
+	int attackSpeed2 = 50;
+	float bulletSpeed = 0.8f;
 	float speed = 1.0f;
 	int countAnimTrans = 0;
 	bool transIsIn = false;
