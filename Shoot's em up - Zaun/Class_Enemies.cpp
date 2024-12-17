@@ -65,7 +65,7 @@ void Marcus::marcusInitAnimations() {
 	marcus_TransSecondPhase_texture.setSmooth(true);
 
 	marcus_TransSecondPhase_sprite.setTexture(marcus_TransSecondPhase_texture);
-	marcus_TransSecondPhase_sprite.setPosition(1450, m_coordY);
+	marcus_TransSecondPhase_sprite.setPosition(1300, m_coordY);
 
 
 	if (!marcus_SecondPhase_texture.loadFromFile("assets\\characters\\marcus\\marcusSecodStateShootV3.png")) {
@@ -74,7 +74,7 @@ void Marcus::marcusInitAnimations() {
 	marcus_SecondPhase_texture.setSmooth(true);
 
 	marcus_SecondPhase_sprite.setTexture(marcus_SecondPhase_texture);
-	marcus_SecondPhase_sprite.setPosition(1450, m_coordY);
+	marcus_SecondPhase_sprite.setPosition(1300, m_coordY);
 }
 
 /*void Marcus::marcusDontExitFromScreen() {

@@ -59,9 +59,9 @@ public:
 	bool moveToFight = true;
 	bool reload = false;
 	int countBulletsMarcus = 0;
-	int attackSpeed = 25;
-	int attackSpeed2 = 12;
-	float bulletSpeed = 2.f;
+	int attackSpeed = 68;
+	int attackSpeed2 = 34;
+	float bulletSpeed = 1.5f;
 	float speed = 1.0f;
 	int countAnimTrans = 0;
 	bool transIsIn = false;
