@@ -4,9 +4,6 @@
     <ClCompile Include="main.cpp">
       <Filter>CPP</Filter>
     </ClCompile>
-    <ClCompile Include="menu.cpp">
-      <Filter>CPP</Filter>
-    </ClCompile>
     <ClCompile Include="parallax.cpp">
       <Filter>CPP</Filter>
     </ClCompile>
@@ -28,9 +25,6 @@
       <Filter>HPP</Filter>
     </ClInclude>
     <ClInclude Include="Classes.hpp">
-      <Filter>HPP</Filter>
-    </ClInclude>
-    <ClInclude Include="menu.hpp">
       <Filter>HPP</Filter>
     </ClInclude>
     <ClInclude Include="Class_Character.hpp">

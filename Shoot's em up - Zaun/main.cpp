@@ -1,47 +1,14 @@
 ﻿#include <iostream>
 #include "parallax.hpp"
-#include "menu.hpp"
+#include <SFML/Graphics.hpp>
 #include "Classes.hpp"
 #include "hud.hpp"
 #include "buff.hpp"
 #include <SFML/Window.hpp>
+#include <string>
 
-using namespace std;
-using namespace sf;
-
-Ekko Ekko_Class;
-Marcus Marcus_Class;
-Soldier Soldier_Class;
-MediumSoldier MediumSoldier_Class;
-HardSoldier HardSoldier_Class;
 Game game;
-
-std::vector<sf::Keyboard::Key> konamiCode = {
-    sf::Keyboard::Up, sf::Keyboard::Up,
-    sf::Keyboard::Down, sf::Keyboard::Down,
-    sf::Keyboard::Left, sf::Keyboard::Right,
-    sf::Keyboard::Left, sf::Keyboard::Right,
-    sf::Keyboard::B, sf::Keyboard::A
-}; 
-
-std::vector<sf::Keyboard::Key> inputSequence;
-
-bool konamiCodeActivated = false;
-
-void checkKonamiCode() {
-    if (inputSequence == konamiCode) {
-        if (!konamiCodeActivated) {
-            std::cout << "Konami Code active !" << std::endl;
-            Ekko_Class.Ekko_invincibility = true;
-            konamiCodeActivated = true;
-        }
-        else {
-            std::cout << "Konami Code desactivated !" << std::endl;
-            Ekko_Class.Ekko_invincibility = false;
-            konamiCodeActivated = false;
-        }
-    }
-}
+Menu menu;
 
 void Wave(int NbOfEasySoldiers, int NbOfMediumSoldiers, int NbOfHardSoldiers) {
     Soldier_Class.createSoldiers(NbOfEasySoldiers);
@@ -50,13 +17,15 @@ void Wave(int NbOfEasySoldiers, int NbOfMediumSoldiers, int NbOfHardSoldiers) {
 }
 
 int mainGame() {
+    cout << "Easy : " << game.NbEasySoldier << std::endl;
+    cout << "Medium : " << game.NbMediumSoldier << std::endl;
+    cout << "Hard : " << game.NbHardSoldier << std::endl;
+    cout << "Waves : " << game.MaxWaves << std::endl;
 
     ParallaxBackground background1("assets/backgrounds/ground-zaunV2.png", 150.0f, 630, 1.1, 1.1);
     ParallaxBackground background2("assets/backgrounds/background-zaun.jpeg", 20.0f, -1890, 2, 2);
 
     Clock clock;
-
-    game.init();
 
     Ekko_Class.ekkoInitAnimations();
     Ekko_Class.bulletInit();
@@ -74,9 +43,7 @@ int mainGame() {
     HardSoldier_Class.hardSoldierInitAnimations();
     HardSoldier_Class.hardSoldierBulletInit();
 
-    Soldier_Class.createSoldiers(1);
-    //MediumSoldier_Class.createSoldiers(1);
-    //HardSoldier_Class.createSoldiers(1);
+    Wave(game.NbEasySoldier, game.NbMediumSoldier, game.NbHardSoldier);
 
     HUD healthBar(100, 100, 3);
 
@@ -162,19 +129,19 @@ int mainGame() {
         while (game.window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 game.window.close();
-        }
 
 #pragma region KonamiCode
-        if (event.type == sf::Event::KeyPressed) {
-            inputSequence.push_back(event.key.code);
+           if (event.type == sf::Event::KeyPressed) {
+               game.inputSequence.push_back(event.key.code);
 
-            // Limiter la taille de la séquence à celle du Konami Code
-            if (inputSequence.size() > konamiCode.size()) {
-                inputSequence.erase(inputSequence.begin());
+                // Limiter la taille de la séquence à celle du Konami Code
+              if (game.inputSequence.size() > game.konamiCode.size()) {
+                  game.inputSequence.erase(game.inputSequence.begin());
+                }
+
+                // Vérifier si la séquence correspond au Konami Code
+                game.checkKonamiCode();
             }
-
-            // Vérifier si la séquence correspond au Konami Code
-            checkKonamiCode();
         }
 
 #pragma endregion KonamiCode
@@ -488,7 +455,6 @@ int mainGame() {
 
 #pragma endregion MediumSoldier
 
-
 #pragma region HardSoldier
         for (auto& hardSoldier : HardSoldier_Class.hardSoldiers_vector) {
             if (!hardSoldier.getAlive()) {
@@ -555,7 +521,6 @@ int mainGame() {
             HardSoldier_Class.hardSoldierPrintWindow(game.window);
         }
 #pragma endregion HardSoldier
-        
 
 #pragma region Buff
 
@@ -592,7 +557,7 @@ int mainGame() {
                 Ekko_Class.ekko_Auto_Attack_sprite.setColor(sf::Color::Red);
             }
         }
-
+       
         if (RedBuffTimer) {
             auto now = chrono::steady_clock::now();
             auto duration = chrono::duration_cast<chrono::seconds>(now - RedBuffStartTime).count();
@@ -614,10 +579,9 @@ int mainGame() {
         if (game.currentPhase == game.WavesPhase && game.currentWave < game.MaxWaves) {
             auto newWaveNowTime = chrono::steady_clock::now();
             if (newWaveNowTime >= startNewWave + waitNewWave) {
-                Wave(1, 1, 1);
+                Wave(game.NbEasySoldier, game.NbMediumSoldier, game.NbHardSoldier);
                 startNewWave = newWaveNowTime;
                 game.currentWave++;
-                cout << game.currentWave << endl;
             }
         }
 
@@ -628,11 +592,569 @@ int mainGame() {
     return 0;
 }
 
-int main() {
-    Menu menu;
-    menu.run_menu();
-    if (menu.isPlaySelected()) {
-        mainGame();
+int customLevels() {
+
+#pragma region initCustomLevelsMenu
+
+    ////////////////////////
+    // Background
+    if (!menu.background_texture.loadFromFile("assets/backgrounds/background-menu.jpg")) {
+        std::cerr << "Error: Failed to load background texture!" << std::endl;
+        return -1;
     }
-    return EXIT_SUCCESS;
+    menu.background_sprite.setTexture(menu.background_texture);
+    menu.background_sprite.setScale(2, 2);
+
+    ////////////////////////
+    // Font + Title
+    sf::Font font;
+    if (!font.loadFromFile("assets/Arcane Nine.otf")) {
+        std::cerr << "Error: Failed to load font!" << std::endl;
+        return -1;
+    }
+
+    sf::Text title;
+    title.setFont(font);
+    title.setString("Zaun : La bataille des nations");
+    title.setCharacterSize(100);
+    title.setFillColor(sf::Color::White);
+    title.setStyle(sf::Text::Bold);
+
+    sf::FloatRect titleBounds = title.getLocalBounds();
+    title.setOrigin(titleBounds.left + titleBounds.width / 2.0f, titleBounds.top + titleBounds.height / 2.0f);
+    title.setPosition(game.window.getSize().x / 2.0f, 100.f);
+
+    sf::Text subtitle;
+    subtitle.setFont(font);
+    subtitle.setString("Custom Mode");
+    subtitle.setCharacterSize(60);
+    subtitle.setFillColor(sf::Color::White);
+    subtitle.setStyle(sf::Text::Bold);
+
+    sf::FloatRect subtitleBounds = subtitle.getLocalBounds();
+    subtitle.setOrigin(subtitleBounds.left + subtitleBounds.width / 2.0f, subtitleBounds.top + subtitleBounds.height / 2.0f);
+    subtitle.setPosition(game.window.getSize().x / 2.0f, 200.f);
+
+    ////////////////////////
+    // Options setup
+    std::vector<int> optionValues = { 0, 0, 0, 0, 0 };
+
+    sf::RectangleShape leftButton1(sf::Vector2f(60.f, 80.f));
+    sf::RectangleShape leftButton2(sf::Vector2f(60.f, 80.f));
+    sf::RectangleShape leftButton3(sf::Vector2f(60.f, 80.f));
+    sf::RectangleShape leftButton4(sf::Vector2f(60.f, 80.f));
+    sf::RectangleShape leftButton5(sf::Vector2f(60.f, 80.f));
+
+    sf::RectangleShape rightButton1(sf::Vector2f(60.f, 80.f));
+    sf::RectangleShape rightButton2(sf::Vector2f(60.f, 80.f));
+    sf::RectangleShape rightButton3(sf::Vector2f(60.f, 80.f));
+    sf::RectangleShape rightButton4(sf::Vector2f(60.f, 80.f));
+    sf::RectangleShape rightButton5(sf::Vector2f(60.f, 80.f));
+
+    sf::Text optionText1, optionText2, optionText3, optionText4, optionText5;
+    sf::Text leftButtonText1, leftButtonText2, leftButtonText3, leftButtonText4, leftButtonText5;
+    sf::Text rightButtonText1, rightButtonText2, rightButtonText3, rightButtonText4, rightButtonText5;
+
+    float optionSpacing = 100.f;
+    float initialYPos = 350.f;
+
+    leftButton1.setFillColor(sf::Color(100, 100, 255));
+    leftButton1.setPosition((game.window.getSize().x - 60.f * 4) / 2.f, initialYPos);
+    leftButton2.setFillColor(sf::Color(100, 100, 255));
+    leftButton2.setPosition((game.window.getSize().x - 60.f * 4) / 2.f, initialYPos + optionSpacing);
+    leftButton3.setFillColor(sf::Color(100, 100, 255));
+    leftButton3.setPosition((game.window.getSize().x - 60.f * 4) / 2.f, initialYPos + 2 * optionSpacing);
+    leftButton4.setFillColor(sf::Color(100, 100, 255));
+    leftButton4.setPosition((game.window.getSize().x - 60.f * 4) / 2.f, initialYPos + 3 * optionSpacing);
+    leftButton5.setFillColor(sf::Color(100, 100, 255));
+    leftButton5.setPosition((game.window.getSize().x - 60.f * 4) / 2.f, initialYPos + 4 * optionSpacing);
+
+    rightButton1.setFillColor(sf::Color(100, 100, 255));
+    rightButton1.setPosition((game.window.getSize().x + 60.f * 2) / 2.f, initialYPos);
+    rightButton2.setFillColor(sf::Color(100, 100, 255));
+    rightButton2.setPosition((game.window.getSize().x + 60.f * 2) / 2.f, initialYPos + optionSpacing);
+    rightButton3.setFillColor(sf::Color(100, 100, 255));
+    rightButton3.setPosition((game.window.getSize().x + 60.f * 2) / 2.f, initialYPos + 2 * optionSpacing);
+    rightButton4.setFillColor(sf::Color(100, 100, 255));
+    rightButton4.setPosition((game.window.getSize().x + 60.f * 2) / 2.f, initialYPos + 3 * optionSpacing);
+    rightButton5.setFillColor(sf::Color(100, 100, 255));
+    rightButton5.setPosition((game.window.getSize().x + 60.f * 2) / 2.f, initialYPos + 4 * optionSpacing);
+
+    optionText1.setFont(font);
+    optionText1.setString(std::to_string(optionValues[0]));
+    optionText1.setCharacterSize(50);
+    optionText1.setFillColor(sf::Color::White);
+
+    optionText2.setFont(font);
+    optionText2.setString(std::to_string(optionValues[1]));
+    optionText2.setCharacterSize(50);
+    optionText2.setFillColor(sf::Color::White);
+
+    optionText3.setFont(font);
+    optionText3.setString(std::to_string(optionValues[2]));
+    optionText3.setCharacterSize(50);
+    optionText3.setFillColor(sf::Color::White);
+
+    optionText4.setFont(font);
+    optionText4.setString(std::to_string(optionValues[3]));
+    optionText4.setCharacterSize(50);
+    optionText4.setFillColor(sf::Color::White);
+
+    optionText5.setFont(font);
+    optionText5.setString(std::to_string(optionValues[4]));
+    optionText5.setCharacterSize(50);
+    optionText5.setFillColor(sf::Color::White);
+
+    optionText1.setPosition((game.window.getSize().x / 2.f) - 15, initialYPos + 10.f);
+    optionText2.setPosition((game.window.getSize().x / 2.f) - 15, initialYPos + optionSpacing + 10.f);
+    optionText3.setPosition((game.window.getSize().x / 2.f) - 15, initialYPos + 2 * optionSpacing + 10.f);
+    optionText4.setPosition((game.window.getSize().x / 2.f) - 15, initialYPos + 3 * optionSpacing + 10.f);
+    optionText5.setPosition((game.window.getSize().x / 2.f) - 15, initialYPos + 4 * optionSpacing + 10.f);
+
+    leftButtonText1.setFont(font);
+    leftButtonText1.setString("<");
+    leftButtonText1.setCharacterSize(60);
+    leftButtonText1.setFillColor(sf::Color::White);
+
+    leftButtonText2.setFont(font);
+    leftButtonText2.setString("<");
+    leftButtonText2.setCharacterSize(60);
+    leftButtonText2.setFillColor(sf::Color::White);
+
+    leftButtonText3.setFont(font);
+    leftButtonText3.setString("<");
+    leftButtonText3.setCharacterSize(60);
+    leftButtonText3.setFillColor(sf::Color::White);
+
+    leftButtonText4.setFont(font);
+    leftButtonText4.setString("<");
+    leftButtonText4.setCharacterSize(60);
+    leftButtonText4.setFillColor(sf::Color::White);
+
+    leftButtonText5.setFont(font);
+    leftButtonText5.setString("<");
+    leftButtonText5.setCharacterSize(60);
+    leftButtonText5.setFillColor(sf::Color::White);
+
+    rightButtonText1.setFont(font);
+    rightButtonText1.setString(">");
+    rightButtonText1.setCharacterSize(60);
+    rightButtonText1.setFillColor(sf::Color::White);
+
+    rightButtonText2.setFont(font);
+    rightButtonText2.setString(">");
+    rightButtonText2.setCharacterSize(60);
+    rightButtonText2.setFillColor(sf::Color::White);
+
+    rightButtonText3.setFont(font);
+    rightButtonText3.setString(">");
+    rightButtonText3.setCharacterSize(60);
+    rightButtonText3.setFillColor(sf::Color::White);
+
+    rightButtonText4.setFont(font);
+    rightButtonText4.setString(">");
+    rightButtonText4.setCharacterSize(60);
+    rightButtonText4.setFillColor(sf::Color::White);
+
+    rightButtonText5.setFont(font);
+    rightButtonText5.setString(">");
+    rightButtonText5.setCharacterSize(60);
+    rightButtonText5.setFillColor(sf::Color::White);
+
+
+    leftButtonText1.setPosition(leftButton1.getPosition().x + 15.f, leftButton1.getPosition().y + 2.f);
+    leftButtonText2.setPosition(leftButton2.getPosition().x + 15.f, leftButton2.getPosition().y + 2.f);
+    leftButtonText3.setPosition(leftButton3.getPosition().x + 15.f, leftButton3.getPosition().y + 2.f);
+    leftButtonText4.setPosition(leftButton4.getPosition().x + 15.f, leftButton4.getPosition().y + 2.f);
+    leftButtonText5.setPosition(leftButton5.getPosition().x + 15.f, leftButton5.getPosition().y + 2.f);
+
+    rightButtonText1.setPosition(rightButton1.getPosition().x + 15.f, rightButton1.getPosition().y + 2.f);
+    rightButtonText2.setPosition(rightButton2.getPosition().x + 15.f, rightButton2.getPosition().y + 2.f);
+    rightButtonText3.setPosition(rightButton3.getPosition().x + 15.f, rightButton3.getPosition().y + 2.f);
+    rightButtonText4.setPosition(rightButton4.getPosition().x + 15.f, rightButton4.getPosition().y + 2.f);
+    rightButtonText5.setPosition(rightButton5.getPosition().x + 15.f, rightButton5.getPosition().y + 2.f);
+
+    ////////////////////////
+    // Play Button
+    sf::RectangleShape playButton(sf::Vector2f(250.f, 80.f));
+    sf::Text playButtonText;
+
+    playButton.setFillColor(sf::Color(70, 70, 200));  // Dark Blue
+    playButton.setPosition(game.window.getSize().x / 2.f - 125.f, initialYPos + 5 * optionSpacing + 50.f);
+
+    playButtonText.setFont(font);
+    playButtonText.setString("Jouer");
+    playButtonText.setCharacterSize(60);
+    playButtonText.setFillColor(sf::Color::White);
+    sf::FloatRect playButtonTextBounds = playButtonText.getLocalBounds();
+    playButtonText.setOrigin(playButtonTextBounds.left + playButtonTextBounds.width / 2.0f, playButtonTextBounds.top + playButtonTextBounds.height / 2.0f);
+    playButtonText.setPosition(playButton.getPosition().x + playButton.getSize().x / 2.f, playButton.getPosition().y + playButton.getSize().y / 2.f);
+
+
+    bool isMousePressed = false;
+
+#pragma endregion initCustomLevelsMenu
+
+    while (game.window.isOpen()) {
+        sf::Event event;
+        while (game.window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
+                game.window.close();
+            }
+        }
+
+#pragma region ClicksCustomLevelsMenu
+
+        sf::Vector2i mousePos = sf::Mouse::getPosition(game.window);
+        bool mouseButtonPressed = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+
+        if (leftButton1.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+            leftButton1.setFillColor(sf::Color(100, 100, 255));  // Blue on hover
+            if (mouseButtonPressed && !isMousePressed) {
+                optionValues[0] = std::max(0, optionValues[0] - 1);
+                optionText1.setString(std::to_string(optionValues[0])); 
+                isMousePressed = true;
+            }
+        }
+        else {
+            leftButton1.setFillColor(sf::Color(70, 70, 200));  // Dark Blue when not hovering
+        }
+
+        if (leftButton2.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+            leftButton2.setFillColor(sf::Color(100, 100, 255));  // Blue on hover
+            if (mouseButtonPressed && !isMousePressed) {
+                optionValues[1] = std::max(0, optionValues[1] - 1);
+                optionText2.setString(std::to_string(optionValues[1]));
+                isMousePressed = true;
+            }
+        }
+        else {
+            leftButton2.setFillColor(sf::Color(70, 70, 200));
+        }
+
+        if (leftButton3.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+            leftButton3.setFillColor(sf::Color(100, 100, 255));  // Blue on hover
+            if (mouseButtonPressed && !isMousePressed) {
+                optionValues[2] = std::max(0, optionValues[2] - 1);
+                optionText3.setString(std::to_string(optionValues[2]));
+                isMousePressed = true;
+            }
+        }
+        else {
+            leftButton3.setFillColor(sf::Color(70, 70, 200));
+        }
+
+        if (leftButton4.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+            leftButton4.setFillColor(sf::Color(100, 100, 255));  // Blue on hover
+            if (mouseButtonPressed && !isMousePressed) {
+                optionValues[3] = std::max(0, optionValues[3] - 1);
+                optionText4.setString(std::to_string(optionValues[3]));
+                isMousePressed = true;
+            }
+        }
+        else {
+            leftButton4.setFillColor(sf::Color(70, 70, 200));
+        }
+
+        if (leftButton5.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+            leftButton5.setFillColor(sf::Color(100, 100, 255));  // Blue on hover
+            if (mouseButtonPressed && !isMousePressed) {
+                optionValues[4] = std::max(0, optionValues[4] - 1);
+                optionText5.setString(std::to_string(optionValues[4]));
+                isMousePressed = true;
+            }
+        }
+        else {
+            leftButton5.setFillColor(sf::Color(70, 70, 200));
+        }
+
+        if (rightButton1.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+            rightButton1.setFillColor(sf::Color(100, 100, 255));  // Blue on hover
+            if (mouseButtonPressed && !isMousePressed) {
+                optionValues[0] = std::min(100, optionValues[0] + 1);
+                optionText1.setString(std::to_string(optionValues[0]));
+                isMousePressed = true;
+            }
+        }
+        else {
+            rightButton1.setFillColor(sf::Color(70, 70, 200));
+        }
+
+        if (rightButton2.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+            rightButton2.setFillColor(sf::Color(100, 100, 255));  // Blue on hover
+            if (mouseButtonPressed && !isMousePressed) {
+                optionValues[1] = std::min(100, optionValues[1] + 1);
+                optionText2.setString(std::to_string(optionValues[1]));
+                isMousePressed = true;
+            }
+        }
+        else {
+            rightButton2.setFillColor(sf::Color(70, 70, 200));
+        }
+
+        if (rightButton3.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+            rightButton3.setFillColor(sf::Color(100, 100, 255));  // Blue on hover
+            if (mouseButtonPressed && !isMousePressed) {
+                optionValues[2] = std::min(100, optionValues[2] + 1);
+                optionText3.setString(std::to_string(optionValues[2]));
+                isMousePressed = true;
+            }
+        }
+        else {
+            rightButton3.setFillColor(sf::Color(70, 70, 200));
+        }
+
+        if (rightButton4.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+            rightButton4.setFillColor(sf::Color(100, 100, 255));  // Blue on hover
+            if (mouseButtonPressed && !isMousePressed) {
+                optionValues[3] = std::min(100, optionValues[3] + 1);
+                optionText4.setString(std::to_string(optionValues[3]));
+                isMousePressed = true;
+            }
+        }
+        else {
+            rightButton4.setFillColor(sf::Color(70, 70, 200));
+        }
+
+        if (rightButton5.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+            rightButton5.setFillColor(sf::Color(100, 100, 255));  // Blue on hover
+            if (mouseButtonPressed && !isMousePressed) {
+                optionValues[4] = std::min(100, optionValues[4] + 1);
+                optionText5.setString(std::to_string(optionValues[4]));
+                isMousePressed = true;
+            }
+        }
+        else {
+            rightButton5.setFillColor(sf::Color(70, 70, 200));
+        }
+
+        if (!mouseButtonPressed) {
+            isMousePressed = false;
+        }
+
+        if (playButton.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+            playButton.setFillColor(sf::Color(100, 100, 255));  // Light Blue
+            if (mouseButtonPressed && !isMousePressed) {
+
+                game.NbEasySoldier = optionValues[0];
+                game.NbMediumSoldier = optionValues[1];
+                game.NbHardSoldier = optionValues[2];
+                game.MaxWaves = optionValues[3];
+
+                //game.CoefDifficulty = optionValues[5];
+
+                mainGame();
+                isMousePressed = true;
+            }
+        }
+        else {
+            playButton.setFillColor(sf::Color(70, 70, 200));  // Dark Blue
+        }
+
+#pragma endregion ClicksCustomLevelsMenu
+
+#pragma region DrawCustomLevelsMenu
+        game.window.clear();
+        game.window.draw(menu.background_sprite);
+        game.window.draw(title);
+        game.window.draw(subtitle);
+
+        game.window.draw(leftButton1);
+        game.window.draw(rightButton1);
+        game.window.draw(optionText1);
+        game.window.draw(leftButtonText1);
+        game.window.draw(rightButtonText1);
+
+        game.window.draw(leftButton2);
+        game.window.draw(rightButton2);
+        game.window.draw(optionText2);
+        game.window.draw(leftButtonText2);
+        game.window.draw(rightButtonText2);
+
+        game.window.draw(leftButton3);
+        game.window.draw(rightButton3);
+        game.window.draw(optionText3);
+        game.window.draw(leftButtonText3);
+        game.window.draw(rightButtonText3);
+
+        game.window.draw(leftButton4);
+        game.window.draw(rightButton4);
+        game.window.draw(optionText4);
+        game.window.draw(leftButtonText4);
+        game.window.draw(rightButtonText4);
+
+        game.window.draw(leftButton5);
+        game.window.draw(rightButton5);
+        game.window.draw(optionText5);
+        game.window.draw(leftButtonText5);
+        game.window.draw(rightButtonText5);
+
+        game.window.draw(playButton);
+        game.window.draw(playButtonText);
+
+#pragma endregion DrawCustomLevelsMenu
+
+        game.window.display();
+    }
+    return 0;
+}
+
+int mainMenu() {
+
+    game.init();
+
+#pragma region InitMenu
+    ////////////////////////
+    // Background
+    if (!menu.background_texture.loadFromFile("assets/backgrounds/background-menu.jpg")) {
+        cerr << "Error: Failed to load background texture!" << std::endl;
+        return -1;
+    }
+    menu.background_sprite.setTexture(menu.background_texture);
+    menu.background_sprite.setScale(2, 2);
+
+    ////////////////////////
+    // Font + Title
+    sf::Text title;
+    sf::Font font;
+    if (!font.loadFromFile("assets/Arcane Nine.otf")) {
+        std::cerr << "Error: Failed to load font!" << std::endl;
+        return -1;
+    }
+
+    title.setFont(font);
+    title.setString("Zaun : La bataille des nations");
+    title.setCharacterSize(100);
+    title.setFillColor(sf::Color::White);
+    title.setStyle(sf::Text::Bold);
+
+    sf::FloatRect titleBounds = title.getLocalBounds();
+    title.setOrigin(titleBounds.left + titleBounds.width / 2.0f, titleBounds.top + titleBounds.height / 2.0f);
+    title.setPosition(game.window.getSize().x / 2.0f, 100.f);
+
+    ////////////////////////
+    // Buttons
+    std::vector<sf::RectangleShape> buttons;
+    std::vector<sf::Text> buttonTexts;
+
+    std::vector<std::string> buttonLabels = { "Jouer", "Custom", "Options", "Quitter" };
+    std::vector<bool> buttonFled(buttonLabels.size(), false);
+    sf::Vector2f buttonSize(400.f, 100.f);
+    float buttonSpacing = 40.f;
+    float initialYPos = 250.f;
+
+    for (size_t i = 0; i < buttonLabels.size(); ++i) {
+        sf::RectangleShape button(buttonSize);
+        button.setFillColor(sf::Color::Color(70, 70, 200)); // Dark Blue
+        button.setOutlineThickness(5.f);
+        button.setOutlineColor(sf::Color::Color(200, 200, 255)); // Light Blue
+        button.setPosition((game.window.getSize().x - buttonSize.x) / 2.f, initialYPos + i * (buttonSize.y + buttonSpacing));
+
+        buttons.push_back(button);
+
+        sf::Text buttonText;
+        buttonText.setFont(font);
+        buttonText.setString(buttonLabels[i]);
+        buttonText.setCharacterSize(50);
+        buttonText.setFillColor(sf::Color::White);
+
+        sf::FloatRect textBounds = buttonText.getLocalBounds();
+        buttonText.setOrigin(textBounds.left + textBounds.width / 2.f, textBounds.top + textBounds.height / 2.f);
+        buttonText.setPosition(button.getPosition().x + button.getSize().x / 2.f, button.getPosition().y + button.getSize().y / 2.f);
+
+        buttonTexts.push_back(buttonText);
+    }
+
+    sf::Vector2f originalSize = buttons[0].getSize();
+    sf::Vector2f hoverSize = originalSize * 1.05f;
+
+    bool isMousePressed = false;
+
+#pragma endregion InitMenu
+
+    while (game.window.isOpen()) {
+        Event event;
+        while (game.window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
+                game.window.close();
+            }
+        }
+
+#pragma region ClickMenu
+        sf::Vector2i mousePos = sf::Mouse::getPosition(game.window);
+        bool isHovering = false;
+
+        for (size_t i = 0; i < buttons.size(); ++i) {
+            isHovering = buttons[i].getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
+
+            if (isHovering) {
+                buttons[i].setFillColor(sf::Color::Color(100, 100, 255)); // Blue
+                buttons[i].setSize(hoverSize);
+
+                if (!buttonFled[i]) {
+                    buttons[i].setPosition((game.window.getSize().x - hoverSize.x) / 2.f, initialYPos + i * (originalSize.y + buttonSpacing) - (hoverSize.y - originalSize.y) / 2.f);
+                    buttonFled[i] = true;
+                }
+            }
+            else {
+                buttons[i].setFillColor(sf::Color::Color(70, 70, 200)); // Dark Blue
+                buttons[i].setSize(originalSize);
+
+                if (buttonFled[i]) {
+                    buttons[i].setPosition((game.window.getSize().x - originalSize.x) / 2.f, initialYPos + i * (originalSize.y + buttonSpacing));
+                    buttonFled[i] = false;
+                }
+            }
+        }
+
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && !isMousePressed) {
+            for (size_t i = 0; i < buttons.size(); ++i) {
+                if (buttons[i].getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+                    if (buttonLabels[i] == "Jouer") {
+                        mainGame();
+                    }
+
+                    if (buttonLabels[i] == "Custom") {
+                        customLevels();
+                    }
+
+                    if (buttonLabels[i] == "Options") {
+                        // Options
+                    }
+
+                    if (buttonLabels[i] == "Quitter") {
+                        game.window.close();
+                    }
+
+                    isMousePressed = true;
+                    break;
+                }
+            }
+        }
+
+        if (!sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+            isMousePressed = false;
+        }
+
+#pragma endregion ClickMenu
+
+        if (game.currentMode == game.MENU) {
+            game.window.clear();
+            game.window.draw(menu.background_sprite);
+            game.window.draw(title);
+
+            for (size_t i = 0; i < buttons.size(); ++i) {
+                game.window.draw(buttons[i]);
+                game.window.draw(buttonTexts[i]);
+            }
+
+            game.window.display();
+        }
+    }
+    return 0;
+}
+
+int main() {
+    mainMenu();
+    return 0;
 }
