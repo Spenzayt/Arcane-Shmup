@@ -85,6 +85,9 @@ int mainGame() {
     auto startDashTime = chrono::steady_clock::now();
     auto waitDashTime = chrono::milliseconds(5);
 
+    auto startPositionTime = chrono::steady_clock::now();
+    auto waitPositionTime = chrono::milliseconds(100);
+
     auto startHitTime = chrono::steady_clock::now();
     auto waitHitTime = chrono::milliseconds(160);
 
@@ -125,7 +128,7 @@ int mainGame() {
     auto waitNewWaveHardSoldier = chrono::seconds(15);
 
     auto startNewWaveMarcus = chrono::steady_clock::now();
-    auto waitNewWaveMarcus = chrono::seconds(1);
+    auto waitNewWaveMarcus = chrono::seconds(90);
     ////////////////////////////
 
     auto MS_startTime = chrono::steady_clock::now();
@@ -405,6 +408,7 @@ int mainGame() {
                         Marcus_Class.losePV(1);
                         destroy = true;
                     }
+
                     //Soldier
                     for (auto& soldier : Soldier_Class.soldiers_vector) {
                         if (Ekko_Class.bullets[i].getGlobalBounds().intersects(soldier.soldier_walk_sprite.getGlobalBounds()) && soldier.getAlive()) {
@@ -412,6 +416,7 @@ int mainGame() {
                             destroy = true;
                         }
                     }
+
                     //MediumSoldier
                     for (auto& mediumSoldier : MediumSoldier_Class.mediumSoldiers_vector) {
                         if (Ekko_Class.bullets[i].getGlobalBounds().intersects(mediumSoldier.medium_soldier_walk_sprite.getGlobalBounds()) && mediumSoldier.getAlive()) {
@@ -419,6 +424,7 @@ int mainGame() {
                             destroy = true;
                         }
                     }
+
                     //HardSoldier
                     for (auto& hardSoldier : HardSoldier_Class.hardSoldiers_vector) {
                         if (Ekko_Class.bullets[i].getGlobalBounds().intersects(hardSoldier.hard_soldier_walk_sprite.getGlobalBounds()) && hardSoldier.getAlive()) {
@@ -426,6 +432,7 @@ int mainGame() {
                             destroy = true;
                         }
                     }
+
                     if (destroy)
                         Ekko_Class.bullets.erase(Ekko_Class.bullets.begin() + i);
 
@@ -465,6 +472,9 @@ int mainGame() {
                     }
                     if (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().x <= 1300) {
                         Marcus_Class.moveToFight = false;
+                    }
+                    if (Ekko_Class.isBoomerangActive && Ekko_Class.ekko_Boomerang_sprite.getGlobalBounds().intersects(Marcus_Class.marcus_Auto_Attack_sprite.getGlobalBounds())) {
+                        Marcus_Class.losePV(Ekko_Class.boomerangDamage);
                     }
 
                     //ici fait en sorte que le Marcus puisse bouger tout le temps pendant qu'il attaque quand il est en deuxieme phase
@@ -560,15 +570,11 @@ int mainGame() {
 
                     Marcus_Class.marcusPrintWindow(game.window);
 
-                    int posEkkox = Ekko_Class.ekko_walk_sprite.getPosition().x;
-                    int posEkkoy = Ekko_Class.ekko_walk_sprite.getPosition().y;
-
                     for (int i = 0; i < Marcus_Class.MarcusBullets.size(); i++) {
                         bool destroyBulletsMarcus = false;
-                        Marcus_Class.MarcusBullets[i].move(-10 * Marcus_Class.bulletSpeed, posEkkoy);
-                        /*if (Ekko_Class.ekko_walk_sprite.getPosition().y <= 700) Marcus_Class.MarcusBullets[i].move(-15 * Marcus_Class.bulletSpeed, (Ekko_Class.ekko_walk_sprite.getPosition().x) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y - Ekko_Class.ekko_walk_sprite.getPosition().y));/* / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y / Ekko_Class.ekko_walk_sprite.getPosition().y - 260)*/
-                        /*else Marcus_Class.MarcusBullets[i].move(-15 * Marcus_Class.bulletSpeed, ((Ekko_Class.ekko_walk_sprite.getPosition().x + Ekko_Class.ekko_walk_sprite.getPosition().y) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y + 128)));
-                        */
+                        if (Ekko_Class.ekko_walk_sprite.getPosition().y <= 700) Marcus_Class.MarcusBullets[i].move(-15 * Marcus_Class.bulletSpeed, (Ekko_Class.ekko_walk_sprite.getPosition().x) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y - Ekko_Class.ekko_walk_sprite.getPosition().y));/* / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y / Ekko_Class.ekko_walk_sprite.getPosition().y - 260)*/
+                        else Marcus_Class.MarcusBullets[i].move(-15 * Marcus_Class.bulletSpeed, ((Ekko_Class.ekko_walk_sprite.getPosition().x + Ekko_Class.ekko_walk_sprite.getPosition().y) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y + 128)));
+                        
                         game.window.draw(Marcus_Class.MarcusBullets[i]);
 
                         if (Marcus_Class.MarcusBullets[i].getGlobalBounds().intersects(Ekko_Class.ekko_walk_sprite.getGlobalBounds()) && !Ekko_Class.Ekko_invincibility && Ekko_Class.getAlive()) {
@@ -591,10 +597,9 @@ int mainGame() {
                     }
 
                     for (int i = 0; i < Marcus_Class.MarcusLaser.size(); i++) {
-                        Marcus_Class.MarcusLaser[i].move(-10 * Marcus_Class.laserSpeed, posEkkoy);
-                        /*if (Ekko_Class.ekko_walk_sprite.getPosition().y < 700) Marcus_Class.MarcusLaser[i].move(-10 * Marcus_Class.laserSpeed, (Ekko_Class.ekko_walk_sprite.getPosition().x) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y - Ekko_Class.ekko_walk_sprite.getPosition().y)/* / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y / Ekko_Class.ekko_walk_sprite.getPosition().y - 260));*/
-                        /*else Marcus_Class.MarcusLaser[i].move(-10 * Marcus_Class.laserSpeed, ((Ekko_Class.ekko_walk_sprite.getPosition().x + Ekko_Class.ekko_walk_sprite.getPosition().y) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y + 128)));
-                        */
+                        if (Ekko_Class.ekko_walk_sprite.getPosition().y < 700) Marcus_Class.MarcusLaser[i].move(-10 * Marcus_Class.laserSpeed, (Ekko_Class.ekko_walk_sprite.getPosition().x) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y - Ekko_Class.ekko_walk_sprite.getPosition().y)/* / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y / Ekko_Class.ekko_walk_sprite.getPosition().y - 260)*/);
+                        else Marcus_Class.MarcusLaser[i].move(-10 * Marcus_Class.laserSpeed, ((Ekko_Class.ekko_walk_sprite.getPosition().x + Ekko_Class.ekko_walk_sprite.getPosition().y) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y + 128)));
+                        
                         game.window.draw(Marcus_Class.MarcusLaser[i]);
 
                         if (Marcus_Class.MarcusLaser[i].getGlobalBounds().intersects(Ekko_Class.ekko_walk_sprite.getGlobalBounds()) && !Ekko_Class.Ekko_invincibility && Ekko_Class.getAlive()) {
@@ -627,6 +632,9 @@ int mainGame() {
                     }
                     if (soldier.soldier_walk_sprite.getPosition().x <= 1300) {
                         soldier.moveToFight = false;
+                    }
+                    if (Ekko_Class.isBoomerangActive && Ekko_Class.ekko_Boomerang_sprite.getGlobalBounds().intersects(soldier.soldier_walk_sprite.getGlobalBounds())) {
+                        soldier.losePV(Ekko_Class.boomerangDamage);
                     }
                     auto S_nowTime = chrono::steady_clock::now();
                     if (S_nowTime >= S_startTime + S_waitTime) {
@@ -701,6 +709,9 @@ int mainGame() {
                     if (mediumSoldier.medium_soldier_walk_sprite.getPosition().x <= 1200) {
                         mediumSoldier.moveToFight = false;
                     }
+                    if (Ekko_Class.isBoomerangActive && Ekko_Class.ekko_Boomerang_sprite.getGlobalBounds().intersects(mediumSoldier.medium_soldier_walk_sprite.getGlobalBounds())) {
+                        mediumSoldier.losePV(Ekko_Class.boomerangDamage);
+                    }
                     auto MS_nowTime = chrono::steady_clock::now();
                     if (MS_nowTime >= MS_startTime + MS_waitTime) {
                         MediumSoldier_Class.medium_soldier_anim.x++;
@@ -774,6 +785,9 @@ int mainGame() {
                     }
                     if (hardSoldier.hard_soldier_walk_sprite.getPosition().x <= 1600) {
                         hardSoldier.moveToFight = false;
+                    }
+                    if (Ekko_Class.isBoomerangActive && Ekko_Class.ekko_Boomerang_sprite.getGlobalBounds().intersects(hardSoldier.hard_soldier_walk_sprite.getGlobalBounds())) {
+                        hardSoldier.losePV(Ekko_Class.boomerangDamage);
                     }
                     auto HS_nowTime = chrono::steady_clock::now();
                     if (HS_nowTime >= HS_startTime + HS_waitTime) {

@@ -149,9 +149,9 @@ public:
 	sf::Sprite soldier_walk_sprite;
 	sf::Vector2i soldier_anim;
 
-	sf::Texture soldier_Auto_Attack_texture;
+	/*sf::Texture soldier_Auto_Attack_texture;
 	sf::Sprite soldier_Auto_Attack_sprite;
-	sf::Vector2i soldier_anim_Auto_Attack;
+	sf::Vector2i soldier_anim_Auto_Attack;*/
 
 	sf::Texture soldier_Bullet_Auto_Attack_texture;
 	sf::Sprite soldier_Bullet_Auto_Attack_sprite;
