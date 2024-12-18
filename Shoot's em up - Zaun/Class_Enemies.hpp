@@ -11,8 +11,8 @@ using namespace std;
 class Enemies {
 protected:
 	std::string e_name;
-	int e_coordX;
-	int e_coordY;
+	int e_coordX = 0;
+	int e_coordY = 0;
 	int e_health = 100;
 	bool e_isAlive = true;
 
@@ -21,22 +21,6 @@ public:
 	Enemies();
 	Enemies(std::string n, int CX, int CY, bool A);
 	~Enemies();
-
-	struct Marcus_S {
-		bool isAttacking = false;
-		bool marcus_anim_isAttacking = false;
-		bool isHealing = false;
-		bool isHit = false;
-		bool marcus_anim_isHit = false;
-		bool isDying = false;
-		bool marcus_anim_isDying = false;
-		bool printBody = false;
-		int countAnimAtk = 0;
-		int countAnimHeal = 0;
-		int countAnimHit = 0;
-		int countAnimDeath = 0;
-		int DeathCount = 0;
-	}; Marcus_S marcus_S;
 
 	virtual int losePV(int damage);
 	virtual int getHealth();
@@ -53,19 +37,42 @@ class Marcus : public Enemies {
 public:
 
 	std::string m_name;
-	int m_coordX = 1600;
-	int m_coordY = 800;
-	int m_health = 200;
+	int m_coordX = 2100;
+	int m_coordY = 500;
+	int m_health = 60;
 	bool m_isAlive = true;
+	bool marcusApparition = false;
 
-	sf::Texture marcus_walk_texture;
+	bool isAttacking = true;
+	bool marcus_anim_isAttacking = false;
+	bool isHealing = false;
+	bool isHit = false;
+	bool marcus_anim_isHit = false;
+	bool isDying = false;
+	bool marcus_anim_isDying = false;
+	bool printBody = false;
+	int countAnimAtk = 0;
+	int countAnimHeal = 0;
+	int countAnimHit = 0;
+	int countAnimDeath = 0;
+	int DeathCount = 0;
+	bool moveToFight = true;
+	bool reload = false;
+	int countBulletsMarcus = 0;
+	int attackSpeed = 110;
+	int attackSpeed2 = 55;
+	float bulletSpeed = 0.6f;
+	float laserSpeed = 2.f;
+	float speed = 1.0f;
+	int countAnimTrans = 0;
+	bool transIsIn = false;
+	bool isAttackingV2 = false;
+	bool laserActive = false;
+	int countLaserTime = 0;
+
+	/*sf::Texture marcus_walk_texture;
 	sf::Sprite marcus_walk_sprite;
-	sf::Vector2i marcus_anim;
-
-
-	/*sf::Texture ekko_Attack_texture;
-	sf::Sprite ekko_Attack_sprite;
-	sf::Vector2i ekko_anim_Attack;*/
+	sf::Vector2i marcus_anim;*/
 
 	sf::Texture marcus_Auto_Attack_texture;
 	sf::Sprite marcus_Auto_Attack_sprite;
@@ -75,13 +82,23 @@ public:
 	sf::Sprite marcus_Bullet_Auto_Attack_sprite;
 	sf::Vector2i marcus_anim_Bullet_Auto_Attack;
 
+	sf::Texture marcus_TransSecondPhase_texture;
+	sf::Sprite marcus_TransSecondPhase_sprite;
+	sf::Vector2i marcus_anim_TransSecondPhase;
+
+	sf::Texture marcus_SecondPhase_texture;
+	sf::Sprite marcus_SecondPhase_sprite;
+	sf::Vector2i marcus_anim_SecondPhase;
+
 	vector<sf::CircleShape> MarcusBullets;
+	vector<sf::CircleShape> MarcusLaser;
+
 
 	Marcus();
 	~Marcus();
 
 
-	void marcusDontExitFromScreen();
+	//void marcusDontExitFromScreen();
 	void marcusInitAnimations();
 	void marcusPrintWindow(sf::RenderWindow& window);
 	void marcusBulletInit();
@@ -109,6 +126,7 @@ public:
 	bool reload = false;
 	int attackCountSoldier = 0;
 	int countBulletsSoldier = 0;
+	bool moveToFight = true;
 
 	bool isAttacking = false;
 	bool anim_isAttacking = false;
@@ -179,6 +197,7 @@ public:
 	bool reload = false;
 	int attackCountMediumSoldier = 0;
 	int countBulletsMediumSoldier = 0;
+	bool moveToFight = true;
 
 	bool isAttacking = false;
 	bool anim_isAttacking = false;
@@ -248,6 +267,7 @@ public:
 	bool reload = false;
 	int attackCountHardSoldier = 0;
 	int countBulletsHardSoldier = 0;
+	bool moveToFight = true;
 
 	bool isAttacking = false;
 	bool anim_isAttacking = false;

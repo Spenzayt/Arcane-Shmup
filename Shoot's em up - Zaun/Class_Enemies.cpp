@@ -49,65 +49,81 @@ Marcus::Marcus() : Enemies("Marcus", 1600, 800, true) {}
 Marcus::~Marcus() {}
 
 void Marcus::marcusInitAnimations() {
-	if (!marcus_walk_texture.loadFromFile("assets\\characters\\marcus\\marcus no move.png")) {
-		std::cout << "marcus est pas charg� bro" << std::endl << std::endl; // Erreur si le fichier est introuvable
-	}
-	marcus_walk_texture.setSmooth(true);
-	marcus_walk_sprite.setTexture(marcus_walk_texture);
-	marcus_walk_sprite.setTextureRect(sf::IntRect(512, 0, 640, 512));
-	marcus_walk_sprite.setPosition(Enemies_Class.getCoordX(), Enemies_Class.getCoordY());
-
 	/////////////////
-	/*if (!ekko_Auto_Attack_texture.loadFromFile("assets\\characters\\ekko\\Ekko_Auto_Attack_128V3.png")) {
-		std::cout << "ekkoAutoAttack est pas charg� bro" << std::endl << std::endl;
+	if (!marcus_Auto_Attack_texture.loadFromFile("assets\\characters\\marcus\\marcusOnBoard.png")) {
+		std::cout << "marcus attack est pas charg� bro" << std::endl << std::endl;
 	}
-	ekko_Auto_Attack_texture.setSmooth(true);
+	marcus_Auto_Attack_texture.setSmooth(true);
 
-	ekko_Auto_Attack_sprite.setTexture(ekko_Auto_Attack_texture);
-	ekko_Auto_Attack_sprite.setTextureRect(sf::IntRect(128, 0, 128, 128));
-	ekko_Auto_Attack_sprite.setPosition(Char_Class.getCoordX(), Char_Class.getCoordY());*/
+	marcus_Auto_Attack_sprite.setTexture(marcus_Auto_Attack_texture);
+	marcus_Auto_Attack_sprite.setPosition(m_coordX, m_coordY);
+
+
+	if (!marcus_TransSecondPhase_texture.loadFromFile("assets\\characters\\marcus\\marcusTransSecondPhase.png")) {
+		std::cout << "marcus attack est pas charg� bro" << std::endl << std::endl;
+	}
+	marcus_TransSecondPhase_texture.setSmooth(true);
+
+	marcus_TransSecondPhase_sprite.setTexture(marcus_TransSecondPhase_texture);
+	marcus_TransSecondPhase_sprite.setPosition(1300, m_coordY);
+
+
+	if (!marcus_SecondPhase_texture.loadFromFile("assets\\characters\\marcus\\marcusSecodStateShootV3.png")) {
+		std::cout << "marcus attack est pas charg� bro" << std::endl << std::endl;
+	}
+	marcus_SecondPhase_texture.setSmooth(true);
+
+	marcus_SecondPhase_sprite.setTexture(marcus_SecondPhase_texture);
+	marcus_SecondPhase_sprite.setPosition(1300, m_coordY);
 }
 
-void Marcus::marcusDontExitFromScreen() {
-	if (marcus_walk_sprite.getPosition().x <= 0) marcus_walk_sprite.setPosition(sf::Vector2f(0, marcus_walk_sprite.getPosition().y));
-	if (marcus_walk_sprite.getPosition().y <= 525) marcus_walk_sprite.setPosition(sf::Vector2f(marcus_walk_sprite.getPosition().x, 525));
-	if (marcus_walk_sprite.getPosition().x >= 1920 - marcus_walk_sprite.getGlobalBounds().width) marcus_walk_sprite.setPosition(sf::Vector2f(1920 - marcus_walk_sprite.getGlobalBounds().width, marcus_walk_sprite.getPosition().y));
-	if (marcus_walk_sprite.getPosition().y >= 1070 - marcus_walk_sprite.getGlobalBounds().height) marcus_walk_sprite.setPosition(sf::Vector2f(marcus_walk_sprite.getPosition().x, 1070 - marcus_walk_sprite.getGlobalBounds().height));
+/*void Marcus::marcusDontExitFromScreen() {
+	if (marcus_Auto_Attack_sprite.getPosition().x <= 0) marcus_Auto_Attack_sprite.setPosition(sf::Vector2f(0, marcus_Auto_Attack_sprite.getPosition().y));
+	if (marcus_Auto_Attack_sprite.getPosition().y <= 525) marcus_Auto_Attack_sprite.setPosition(sf::Vector2f(marcus_Auto_Attack_sprite.getPosition().x, 525));
+	if (marcus_Auto_Attack_sprite.getPosition().x >= 1920 - marcus_Auto_Attack_sprite.getGlobalBounds().width) marcus_Auto_Attack_sprite.setPosition(sf::Vector2f(1920 - marcus_Auto_Attack_sprite.getGlobalBounds().width, marcus_Auto_Attack_sprite.getPosition().y));
+	if (marcus_Auto_Attack_sprite.getPosition().y >= 1070 - marcus_Auto_Attack_sprite.getGlobalBounds().height) marcus_Auto_Attack_sprite.setPosition(sf::Vector2f(marcus_Auto_Attack_sprite.getPosition().x, 1070 - marcus_Auto_Attack_sprite.getGlobalBounds().height));
 
-	if (marcus_walk_sprite.getPosition().x <= 0) marcus_walk_sprite.setPosition(sf::Vector2f(0, marcus_walk_sprite.getPosition().y));
-	if (marcus_walk_sprite.getPosition().y <= 525) marcus_walk_sprite.setPosition(sf::Vector2f(marcus_walk_sprite.getPosition().x, 525));
-	if (marcus_walk_sprite.getPosition().x >= 1920 - marcus_walk_sprite.getGlobalBounds().width) marcus_walk_sprite.setPosition(sf::Vector2f(1920 - marcus_walk_sprite.getGlobalBounds().width, marcus_walk_sprite.getPosition().y));
-	if (marcus_walk_sprite.getPosition().y >= 1070 - marcus_walk_sprite.getGlobalBounds().height) marcus_walk_sprite.setPosition(sf::Vector2f(marcus_walk_sprite.getPosition().x, 1070 - marcus_walk_sprite.getGlobalBounds().height));
-}
+	if (marcus_Auto_Attack_sprite.getPosition().x <= 0) marcus_Auto_Attack_sprite.setPosition(sf::Vector2f(0, marcus_Auto_Attack_sprite.getPosition().y));
+	if (marcus_Auto_Attack_sprite.getPosition().y <= 525) marcus_Auto_Attack_sprite.setPosition(sf::Vector2f(marcus_Auto_Attack_sprite.getPosition().x, 525));
+	if (marcus_Auto_Attack_sprite.getPosition().x >= 1920 - marcus_Auto_Attack_sprite.getGlobalBounds().width) marcus_Auto_Attack_sprite.setPosition(sf::Vector2f(1920 - marcus_Auto_Attack_sprite.getGlobalBounds().width, marcus_Auto_Attack_sprite.getPosition().y));
+	if (marcus_Auto_Attack_sprite.getPosition().y >= 1070 - marcus_Auto_Attack_sprite.getGlobalBounds().height) marcus_Auto_Attack_sprite.setPosition(sf::Vector2f(marcus_Auto_Attack_sprite.getPosition().x, 1070 - marcus_Auto_Attack_sprite.getGlobalBounds().height));
+}*/
 
 void Marcus::marcusBulletInit() {
-	/*if (!ekko_Bullet_Auto_Attack_texture.loadFromFile("assets\\characters\\ekko\\AutotAttackEkko.png")) {
+	if (!marcus_Bullet_Auto_Attack_texture.loadFromFile("assets\\characters\\marcus\\marcusBullet.png")) {
 		std::cout << "ekkoBulletAutoAttack est pas charg� bro" << std::endl << std::endl;
 	}
-	ekko_Bullet_Auto_Attack_texture.setSmooth(true);
+	marcus_Bullet_Auto_Attack_texture.setSmooth(true);
 
-	ekko_Bullet_Auto_Attack_sprite.setTexture(ekko_Bullet_Auto_Attack_texture);
-	ekko_Bullet_Auto_Attack_sprite.setTextureRect(sf::IntRect(32, 0, -32, 32));
-	ekko_Bullet_Auto_Attack_sprite.setPosition(marcus_walk_sprite.getPosition().x + 128, marcus_walk_sprite.getPosition().y - 32);*/
+	marcus_Bullet_Auto_Attack_sprite.setTexture(marcus_Bullet_Auto_Attack_texture);
+	marcus_Bullet_Auto_Attack_sprite.setTextureRect(sf::IntRect(32, 0, -32, 32));
+	marcus_Bullet_Auto_Attack_sprite.setPosition(marcus_Auto_Attack_sprite.getPosition().x + 128, marcus_Auto_Attack_sprite.getPosition().y - 32);
 }
 
 void Marcus::marcusPrintWindow(sf::RenderWindow& window) {
-	if (!marcus_S.marcus_anim_isAttacking) {
-		if (marcus_anim.x * 512 >= marcus_walk_texture.getSize().x) // boucle qui permet de revenir a la premiere slide de l'anim
-			marcus_anim.x = 0;
+	if (isAttacking && !isAttackingV2 && !transIsIn) {
+		if (marcus_anim_Auto_Attack.x * 540 >= marcus_Auto_Attack_texture.getSize().x)
+			marcus_anim_Auto_Attack.x = 0;
 
-		marcus_walk_sprite.setTextureRect(sf::IntRect(marcus_anim_Auto_Attack.x * 512, 0, 640, 512));
-		window.draw(marcus_walk_sprite);
-		//////////////////////////////
+		marcus_Auto_Attack_sprite.setTextureRect(sf::IntRect(marcus_anim_Auto_Attack.x * 540, 0, 540, 512));
+		window.draw(marcus_Auto_Attack_sprite);
 	}
 
-	/*if (ekko_S.ekko_anim_isAttacking) {
-		if (ekko_anim_Auto_Attack.x * 128 >= ekko_Auto_Attack_texture.getSize().x)
-			ekko_anim_Auto_Attack.x = 0;
+	if (transIsIn && !isAttacking && !isAttackingV2) {
+		if (marcus_anim_TransSecondPhase.x * 640 >= marcus_TransSecondPhase_texture.getSize().x)
+			marcus_anim_TransSecondPhase.x = 0;
 
-		marcus_walk_sprite.setTextureRect(sf::IntRect(ekko_anim_Auto_Attack.x * 128, 0, 128, 128));
-		window.draw(marcus_walk_sprite);
-	}*/
+		marcus_TransSecondPhase_sprite.setTextureRect(sf::IntRect(marcus_anim_TransSecondPhase.x * 640, 0, 640, 512));
+		window.draw(marcus_TransSecondPhase_sprite);
+	}
+
+	if (isAttackingV2 && !transIsIn && !isAttacking) {
+		if (marcus_anim_SecondPhase.x * 640 >= marcus_SecondPhase_texture.getSize().x)
+			marcus_anim_SecondPhase.x = 0;
+
+		marcus_SecondPhase_sprite.setTextureRect(sf::IntRect(marcus_anim_SecondPhase.x * 640, 0, 640, 512));
+		window.draw(marcus_SecondPhase_sprite);
+	}
 	//////////////////////////////
 }
 
@@ -179,8 +195,8 @@ void Soldier::soldierInitAnimations() {
 
 void Soldier::createSoldiers(int little) {
 	for (int i = 0; i < little; i++) {
-		soldiers_vector.emplace_back(sf::Vector2f(rand() % 960 + 800, rand() % 400 + 500), soldier_walk_texture);
-		cout << "x1" << endl;
+		soldiers_vector.emplace_back(sf::Vector2f(rand() % 2000 + 2300, rand() % 400 + 500), soldier_walk_texture);
+		//cout << "crea de soldat x1" << endl << endl;
 	}
 }
 
@@ -191,7 +207,8 @@ void Soldier::deleteSoldiers() {
 void Soldier::bulletCreation() {
 	for (auto& soldier : soldiers_vector) {
 		soldier.SoldierBullets.push_back(sf::CircleShape());
-		soldier.SoldierBullets.back().setFillColor(sf::Color::Transparent);
+		soldier.SoldierBullets.back().setTexture(&soldier_Bullet_Auto_Attack_texture);
+		soldier.SoldierBullets.back().setTextureRect(sf::IntRect(32, 0, -32, 16));
 		soldier.SoldierBullets.back().setRadius(10);
 		soldier.SoldierBullets.back().setPosition(soldier.soldier_walk_sprite.getPosition().x, soldier.soldier_walk_sprite.getPosition().y + 80);
 	}
@@ -208,8 +225,8 @@ void Soldier::soldierBulletInit() {
 		std::cout << "soldierBullets est pas charg� bro" << std::endl << std::endl;
 	}
 	soldier_Bullet_Auto_Attack_texture.setSmooth(true);
-	soldier_Bullet_Auto_Attack_sprite.setTextureRect(sf::IntRect(32, 0, -32, 16));
-	soldier_Bullet_Auto_Attack_sprite.setTexture(soldier_Bullet_Auto_Attack_texture);
+	/*soldier_Bullet_Auto_Attack_sprite.setTextureRect(sf::IntRect(32, 0, -32, 16));
+	soldier_Bullet_Auto_Attack_sprite.setTexture(soldier_Bullet_Auto_Attack_texture);*/
 }
 
 int Soldier::losePV(int damage) {
@@ -270,7 +287,7 @@ void MediumSoldier::mediumSoldierInitAnimations() {
 		std::cout << "soldier est pas charg� bro" << std::endl << std::endl; // Erreur si le fichier est introuvable
 	}
 	medium_soldier_walk_texture.setSmooth(true);
-	medium_soldier_walk_sprite.setTexture(medium_soldier_walk_texture);
+	medium_soldier_walk_sprite .setTexture(medium_soldier_walk_texture);
 	medium_soldier_walk_sprite.setTextureRect(sf::IntRect(200, 0, 200, 200));
 	medium_soldier_walk_sprite.setPosition(ms_coordX, ms_coordY);
 }
@@ -293,31 +310,32 @@ void MediumSoldier::mediumSoldierBulletInit() {
 	}
 	medium_soldier_Bullet_Auto_Attack_texture.setSmooth(true);
 
-	medium_soldier_Bullet_Auto_Attack_sprite.setTexture(medium_soldier_Bullet_Auto_Attack_texture);
+	/*medium_soldier_Bullet_Auto_Attack_sprite.setTexture(medium_soldier_Bullet_Auto_Attack_texture);
 	medium_soldier_Bullet_Auto_Attack_sprite.setTextureRect(sf::IntRect(32, 0, -32, 16));
-	medium_soldier_Bullet_Auto_Attack_sprite.setPosition(medium_soldier_walk_sprite.getPosition().x + 5, medium_soldier_walk_sprite.getPosition().y + 80);
-}
-
-void MediumSoldier::mediumSoldierPrintWindow(sf::RenderWindow& window) {
-	for (auto& mediumSoldier : mediumSoldiers_vector) {
-		window.draw(mediumSoldier.medium_soldier_walk_sprite);
-	}
+	medium_soldier_Bullet_Auto_Attack_sprite.setPosition(medium_soldier_walk_sprite.getPosition().x + 5, medium_soldier_walk_sprite.getPosition().y + 80);*/
 }
 
 void MediumSoldier::bulletCreation() {
 	for (auto& mediumSoldier : mediumSoldiers_vector) {
 		for (int i = 0; i < 3; i++) {
 			mediumSoldier.MediumSoldierBullets.push_back(sf::CircleShape());
-			mediumSoldier.MediumSoldierBullets.back().setFillColor(sf::Color::Transparent);
+			mediumSoldier.MediumSoldierBullets.back().setTexture(&medium_soldier_Bullet_Auto_Attack_texture);
+			mediumSoldier.MediumSoldierBullets.back().setTextureRect(sf::IntRect(32, 0, -32, 16));
 			mediumSoldier.MediumSoldierBullets.back().setRadius(10);
 			mediumSoldier.MediumSoldierBullets.back().setPosition(mediumSoldier.medium_soldier_walk_sprite.getPosition().x, mediumSoldier.medium_soldier_walk_sprite.getPosition().y + (60 + i * 20));
 		}
 	}
 }
+void MediumSoldier::mediumSoldierPrintWindow(sf::RenderWindow& window) {
+	for (auto& mediumSoldier : mediumSoldiers_vector) {
+		window.draw(mediumSoldier.medium_soldier_walk_sprite);
+	}
+}
 
 void MediumSoldier::createSoldiers(int little) {
 	for (int i = 0; i < little; i++) {
-		mediumSoldiers_vector.emplace_back(sf::Vector2f(rand() % 960 + 800, rand() % 400 + 500), medium_soldier_walk_texture);
+		mediumSoldiers_vector.emplace_back(sf::Vector2f(rand() % 2000 + 2300, rand() % 350 + 550), medium_soldier_walk_texture);
+		//cout << "crea de soldat x1" << endl << endl;
 	}
 }
 
@@ -404,9 +422,9 @@ void HardSoldier::hardSoldierBulletInit() {
 	}
 	hard_soldier_Bullet_Auto_Attack_texture.setSmooth(true);
 
-	hard_soldier_Bullet_Auto_Attack_sprite.setTexture(hard_soldier_Bullet_Auto_Attack_texture);
+	/*hard_soldier_Bullet_Auto_Attack_sprite.setTexture(hard_soldier_Bullet_Auto_Attack_texture);
 	hard_soldier_Bullet_Auto_Attack_sprite.setTextureRect(sf::IntRect(32, 0, -32, 16));
-	hard_soldier_Bullet_Auto_Attack_sprite.setPosition(hard_soldier_walk_sprite.getPosition().x + 5, hard_soldier_walk_sprite.getPosition().y + 80);
+	hard_soldier_Bullet_Auto_Attack_sprite.setPosition(hard_soldier_walk_sprite.getPosition().x + 5, hard_soldier_walk_sprite.getPosition().y + 80);*/
 }
 
 void HardSoldier::hardSoldierPrintWindow(sf::RenderWindow& window) {
@@ -418,7 +436,8 @@ void HardSoldier::hardSoldierPrintWindow(sf::RenderWindow& window) {
 
 void HardSoldier::createSoldiers(int little) {
 	for (int i = 0; i < little; i++) {
-		hardSoldiers_vector.emplace_back(sf::Vector2f(rand() % 960 + 800, rand() % 400 + 500), hard_soldier_walk_texture);
+		hardSoldiers_vector.emplace_back(sf::Vector2f(rand() % 2000 + 2300, rand() % 400 + 500), hard_soldier_walk_texture);
+		//cout << "crea de soldat x1" << endl << endl;
 	}
 }
 
@@ -429,7 +448,8 @@ void HardSoldier::deleteHardSoldiers() {
 void HardSoldier::bulletCreation() {
 	for (auto& hardSoldier : hardSoldiers_vector) {
 		hardSoldier.HardSoldierBullets.push_back(sf::CircleShape());
-		hardSoldier.HardSoldierBullets.back().setFillColor(sf::Color::Transparent);
+		hardSoldier.HardSoldierBullets.back().setTexture(&hard_soldier_Bullet_Auto_Attack_texture);
+		hardSoldier.HardSoldierBullets.back().setTextureRect(sf::IntRect(32, 0, -32, 16));		
 		hardSoldier.HardSoldierBullets.back().setRadius(10);
 		hardSoldier.HardSoldierBullets.back().setPosition(hardSoldier.hard_soldier_walk_sprite.getPosition().x, hardSoldier.hard_soldier_walk_sprite.getPosition().y + 80);
 	}
