@@ -15,6 +15,8 @@ HUD::HUD(int x, int y, int maxLife) : maxLife(maxLife), currentLife(maxLife), nu
     spriteHealth.setTextureRect(sf::IntRect(0, 0, textureSize.x / numberOfStates, textureSize.y));
 }
 
+HUD::~HUD() {}
+
 void HUD::updateLife(int newLife) {
     sf::Vector2u textureSize = textureHealth.getSize();
 

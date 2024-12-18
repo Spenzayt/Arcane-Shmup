@@ -180,8 +180,12 @@ void Soldier::soldierInitAnimations() {
 void Soldier::createSoldiers(int little) {
 	for (int i = 0; i < little; i++) {
 		soldiers_vector.emplace_back(sf::Vector2f(rand() % 960 + 800, rand() % 400 + 500), soldier_walk_texture);
-		//cout << "crea de soldat x1" << endl << endl;
+		cout << "x1" << endl;
 	}
+}
+
+void Soldier::deleteSoldiers() {
+	soldiers_vector.clear();
 }
 
 void Soldier::bulletCreation() {
@@ -314,8 +318,11 @@ void MediumSoldier::bulletCreation() {
 void MediumSoldier::createSoldiers(int little) {
 	for (int i = 0; i < little; i++) {
 		mediumSoldiers_vector.emplace_back(sf::Vector2f(rand() % 960 + 800, rand() % 400 + 500), medium_soldier_walk_texture);
-		//cout << "crea de soldat x1" << endl << endl;
 	}
+}
+
+void MediumSoldier::deleteMediumSoldiers() {
+	mediumSoldiers_vector.clear();
 }
 
 int MediumSoldier::losePV(int damage) {
@@ -412,8 +419,11 @@ void HardSoldier::hardSoldierPrintWindow(sf::RenderWindow& window) {
 void HardSoldier::createSoldiers(int little) {
 	for (int i = 0; i < little; i++) {
 		hardSoldiers_vector.emplace_back(sf::Vector2f(rand() % 960 + 800, rand() % 400 + 500), hard_soldier_walk_texture);
-		//cout << "crea de soldat x1" << endl << endl;
 	}
+}
+
+void HardSoldier::deleteHardSoldiers() {
+	hardSoldiers_vector.clear();
 }
 
 void HardSoldier::bulletCreation() {

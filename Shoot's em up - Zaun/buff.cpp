@@ -24,6 +24,7 @@ BlueBuff::BlueBuff(const sf::Vector2f& spawnPosition) : Buff(spawnPosition) {
 }
 
 void BlueBuff::initBlueBuff() {
+    BlueBuffActivated = false;
     if (!texture.loadFromFile("assets/UI/BlueBuff.png")) {
         std::cerr << "Error loading blue buff texture!" << std::endl;
     }
@@ -38,6 +39,7 @@ RedBuff::RedBuff(const sf::Vector2f& spawnPosition) : Buff(spawnPosition) {
 }
 
 void RedBuff::initRedBuff() {
+    RedBuffActivated = false;
     if (!texture.loadFromFile("assets/UI/RedBuff.png")) {
         std::cerr << "Error loading red buff texture!" << std::endl;
     }

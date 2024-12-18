@@ -453,7 +453,7 @@ int Menu::mainMenu(sf::RenderWindow& window) {
                     NbMediumSoldierCustom = optionValues[1];
                     NbHardSoldierCustom = optionValues[2];
                     MaxWavesCustom = optionValues[3];
-                    return 1;
+                    return 2;
                     isMousePressed = true;
                 }
             }

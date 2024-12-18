@@ -14,6 +14,7 @@ private:
 
 public:
     HUD(int x, int y, int maxLife);
+    ~HUD();
 
     void updateLife(int newLife);
 

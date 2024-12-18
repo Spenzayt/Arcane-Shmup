@@ -349,13 +349,13 @@ void Ekko::updateSpells() {
 			ekko_S.Boomerang = true;
 			BoomerangTimer.restart();
 			BoomerangStartPosition = ekko_Boomerang_sprite.getPosition();
-			BoomerangTargetPosition = sf::Vector2f(BoomerangStartPosition.x + 800.0f, BoomerangStartPosition.y);
+			BoomerangTargetPosition = sf::Vector2f(BoomerangStartPosition.x + 1500.0f, BoomerangStartPosition.y);
 		}
 
 		if (!isBoomerangComingBack) {
 			float tBoomerangGo = BoomerangTimer.getElapsedTime().asSeconds();
 
-			if (tBoomerangGo >= 2.0f) {
+			if (tBoomerangGo >= 1.0f) {
 				isBoomerangComingBack = true;
 				BoomerangTimer.restart();
 			}
@@ -372,7 +372,7 @@ void Ekko::updateSpells() {
 			float tBoomerangReturn = BoomerangTimer.getElapsedTime().asSeconds();
 			ekko_Boomerang_sprite.setTextureRect(sf::IntRect(91, 0, -91, 53));
 
-			if (tBoomerangReturn >= 0.5f) {
+			if (tBoomerangReturn >= 0.2f) {
 				isBoomerangComingBack = false;
 				isBoomerangActive = false;
 				ekko_S.Boomerang = false;
