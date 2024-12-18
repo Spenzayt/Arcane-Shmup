@@ -296,7 +296,6 @@ int Menu::mainMenu(sf::RenderWindow& window) {
 
                         if (buttonLabels[i] == "Options") {
                             mode = 3;
-                            // Options code here
                         }
 
                         if (buttonLabels[i] == "Quitter") {

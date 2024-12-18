@@ -19,6 +19,14 @@ public:
     sf::Text title, subtitle;
 
 
+    sf::Texture settingsExitButtonTexture;
+    sf::Sprite settingsExitButtonSprite;
+    sf::RectangleShape settingsMenu;
+    sf::Text settingsTextGameMusic;
+    sf::Text valueSettingsTextGameMusic;
+    sf::Text plus;
+    sf::Text minus;
+
 private:
     sf::Texture background_texture;
 
@@ -37,15 +45,6 @@ private:
 
     sf::RectangleShape playButton;
     sf::Text playButtonText;
-
-    sf::Texture settingsExitButtonTexture;
-    sf::Sprite settingsExitButtonSprite;
-    sf::RectangleShape settingsMenu;
-    sf::Text settingsTextGameMusic;
-    sf::Text valueSettingsTextGameMusic;
-    sf::Text plus;
-    sf::Text minus;
-
 
     sf::Vector2f buttonSize = { 400.f, 100.f };
     sf::Vector2f hoverSize = buttonSize * 1.05f;
