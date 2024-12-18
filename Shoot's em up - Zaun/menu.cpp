@@ -4,18 +4,16 @@ int Menu::mainMenu(sf::RenderWindow& window) {
     mode = 1;
 
 #pragma region InitMenu
-    // Background
     if (!background_texture.loadFromFile("assets/backgrounds/arcane_background.jpg")) {
-        std::cerr << "Error: Failed to load background texture!" << std::endl;
+        std::cerr << "Error loading Texture!" << std::endl;
         return -1;
     }
     background_sprite.setTexture(background_texture);
 
-    // Font + Title
     sf::Text title;
     sf::Font font;
     if (!font.loadFromFile("assets/Arcane Nine.otf")) {
-        std::cerr << "Error: Failed to load font!" << std::endl;
+        std::cerr << "Error loading Font!" << std::endl;
         return -1;
     }
 
@@ -29,7 +27,6 @@ int Menu::mainMenu(sf::RenderWindow& window) {
     title.setOrigin(titleBounds.left + titleBounds.width / 2.0f, titleBounds.top + titleBounds.height / 2.0f);
     title.setPosition(window.getSize().x / 2.0f, 100.f);
 
-    // Buttons
     std::vector<sf::RectangleShape> buttons;
     std::vector<sf::Text> buttonTexts;
 
@@ -81,8 +78,6 @@ int Menu::mainMenu(sf::RenderWindow& window) {
     subtitle.setOrigin(subtitleBounds.left + subtitleBounds.width / 2.0f, subtitleBounds.top + subtitleBounds.height / 2.0f);
     subtitle.setPosition(window.getSize().x / 2.0f, 200.f);
 
-    ////////////////////////
-    // Options setup
     std::vector<int> optionValues = { 0, 0, 0, 0 };
 
     sf::RectangleShape leftButton1(sf::Vector2f(60.f, 80.f));
@@ -225,8 +220,6 @@ int Menu::mainMenu(sf::RenderWindow& window) {
     rightButtonText4.setPosition(rightButton4.getPosition().x + 15.f, rightButton4.getPosition().y + 2.f);
     rightButtonText5.setPosition(rightButton5.getPosition().x + 15.f, rightButton5.getPosition().y + 2.f);
 
-    ////////////////////////
-    // Play Button
     sf::RectangleShape playButton(sf::Vector2f(250.f, 80.f));
     sf::Text playButtonText;
 
@@ -452,7 +445,7 @@ int Menu::mainMenu(sf::RenderWindow& window) {
                     NbEasySoldierCustom = optionValues[0];
                     NbMediumSoldierCustom = optionValues[1];
                     NbHardSoldierCustom = optionValues[2];
-                    MaxWavesCustom = optionValues[3];
+                    TimeBeforeBossCustom = optionValues[3];
                     return 2;
                     isMousePressed = true;
                 }
