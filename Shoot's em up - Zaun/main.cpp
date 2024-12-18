@@ -136,7 +136,7 @@ int mainGame() {
     auto waitNewWaveHardSoldier = chrono::seconds(15);
 
     auto startNewWaveMarcus = chrono::steady_clock::now();
-    auto waitNewWaveMarcus = chrono::seconds(120);  ////////////////////////////
+    auto waitNewWaveMarcus = chrono::seconds(90);  ////////////////////////////
 
     auto MS_startTime = chrono::steady_clock::now();
     auto MS_waitTime = chrono::milliseconds(MediumSoldier_Class.attackSpeed);
@@ -182,7 +182,7 @@ int mainGame() {
 
             auto newWaveNowTimeMediumSoldier = chrono::steady_clock::now();
             if (newWaveNowTimeMediumSoldier >= startNewWaveMediumSoldier + waitNewWaveMediumSoldier) {
-                for (int i = 0; i < rand() % 1 + 3; i++) 
+                for (int i = 0; i < rand() % 1 + 3; i++)
                 {
                     MediumSoldier_Class.createSoldiers(1);
                 }
@@ -194,7 +194,7 @@ int mainGame() {
                 for (int i = 0; i < rand() % 1 + 2; i++)
                 {
                     HardSoldier_Class.createSoldiers(1);
-                }                
+                }
                 startNewWaveHardSoldier = newWaveNowTimeHardSoldier;
             }
         }
@@ -391,15 +391,15 @@ int mainGame() {
                     if (Marcus_Class.isAttackingV2) {
                         Marcus_Class.marcus_anim_SecondPhase.x++;
                         Marcus_Class.countLaserTime++;
-                        if (Marcus_Class.countLaserTime == 30) {
+                        if (Marcus_Class.countLaserTime == 330) {
                             Marcus_Class.laserActive = true;
                         }
                         if (Marcus_Class.laserActive && !Marcus_Class.moveToFight && !Marcus_Class.transIsIn) {
                             Marcus_Class.MarcusLaser.push_back(sf::CircleShape());
                             Marcus_Class.MarcusLaser.back().setFillColor(sf::Color::Red);
                             Marcus_Class.MarcusLaser.back().setRadius(15);
-                            Marcus_Class.MarcusLaser.back().setPosition(Marcus_Class.marcus_Auto_Attack_sprite.getPosition().x, Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y + 260);
-                            if (Marcus_Class.countLaserTime == 300) {
+                            Marcus_Class.MarcusLaser.back().setPosition(Marcus_Class.marcus_Auto_Attack_sprite.getPosition().x + 250, Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y - 300);
+                            if (Marcus_Class.countLaserTime == 500) {
                                 Marcus_Class.laserActive = false;
                             }
                         }

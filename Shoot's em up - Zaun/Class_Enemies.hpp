@@ -62,7 +62,7 @@ public:
 	int attackSpeed = 110;
 	int attackSpeed2 = 55;
 	float bulletSpeed = 0.6f;
-	float laserSpeed = 1.f;
+	float laserSpeed = 2.f;
 	float speed = 1.0f;
 	int countAnimTrans = 0;
 	bool transIsIn = false;
