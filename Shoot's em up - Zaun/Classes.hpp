@@ -30,14 +30,13 @@ public:
 
 	bool isCustom = false;
 
-	//////////////////
-	//Custom
 	int NbEasySoldier = 3;
 	int NbMediumSoldier = 2;
 	int NbHardSoldier = 1;
 	int MaxWaves = 5;
 	float CoefDifficulty = 2.0f;
-	//////////////////
+
+	int score = 0;
 
 	void init() {
 		window.create(sf::VideoMode(1920, 1080), "Zaun : La bataille des nations", sf::Style::Fullscreen);

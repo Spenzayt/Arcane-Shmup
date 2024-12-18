@@ -64,7 +64,7 @@ Ekko::~Ekko() {}
 
 void Ekko::ekkoInitAnimations() {
 	if (!ekko_walk_texture.loadFromFile("assets\\characters\\ekko\\Ekko_walk_128_V2.png")) {
-		std::cout << "ekko est pas chargé bro" << std::endl << std::endl; // Erreur si le fichier est introuvable
+		std::cerr << "Error loading Texture!" << std::endl;
 	}
 	ekko_walk_texture.setSmooth(true);
 	ekko_walk_sprite.setTexture(ekko_walk_texture);
@@ -73,7 +73,7 @@ void Ekko::ekkoInitAnimations() {
 
 	/////////////////
 	if (!ekko_Auto_Attack_texture.loadFromFile("assets\\characters\\ekko\\Ekko_Auto_Attack_128V3.png")) {
-		std::cout << "ekkoAutoAttack est pas chargé bro" << std::endl << std::endl;
+		std::cerr << "Error loading Texture!" << std::endl;
 	}
 	ekko_Auto_Attack_texture.setSmooth(true);
 	ekko_Auto_Attack_sprite.setTexture(ekko_Auto_Attack_texture);
@@ -82,14 +82,14 @@ void Ekko::ekkoInitAnimations() {
 
 	///////////////
 	if (!ekko_SlowZone_texture.loadFromFile("assets\\characters\\ekko\\SlowZone-Spell.png")) {
-		std::cout << "SlowZone est pas chargé bro" << std::endl << std::endl;
+		std::cerr << "Error loading Texture!" << std::endl;
 	}
 	ekko_SlowZone_texture.setSmooth(true);
 	ekko_SlowZone_sprite.setTexture(ekko_SlowZone_texture);
 
 	/////////////////
 	if (!ekko_Boomerang_texture.loadFromFile("assets\\characters\\ekko\\Auto attack Ekko petit.png")) {
-		std::cout << "Boomerang est pas chargé bro" << std::endl << std::endl;
+		std::cerr << "Error loading Texture!" << std::endl;
 	}
 	ekko_Boomerang_texture.setSmooth(true);
 	ekko_Boomerang_sprite.setTexture(ekko_Boomerang_texture);
@@ -111,7 +111,7 @@ void Ekko::ekkoDontExitFromScreen() {
 
 void Ekko::bulletInit() {
 	if (!ekko_Bullet_Auto_Attack_texture.loadFromFile("assets\\characters\\ekko\\AutotAttackEkko.png")) {
-		std::cout << "ekkoBulletAutoAttack est pas chargé bro" << std::endl << std::endl;
+		std::cerr << "Error loading Texture!" << std::endl;
 	}
 	ekko_Bullet_Auto_Attack_texture.setSmooth(true);
 
@@ -150,8 +150,6 @@ void Ekko::ekkoCommand() {
 		ekko_walk_sprite.move(0.f, 10.f * Ekko_speed);
 		ekko_Auto_Attack_sprite.move(0.f, 10.f * Ekko_speed);
 	}
-	/////////////
-	// Spells & Ult
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
@@ -236,15 +234,12 @@ bool Ekko::canCastSpell(const std::string& spellName) {
 void Ekko::castSpell(const std::string& spellName) {
 	if (canCastSpell(spellName)) {
 		if (spellName == "A Spell") {
-			cout << "A Spell" << endl;
 			Boomerang();
 		}
 		else if (spellName == "E Spell") {
-			cout << "E Spell" << endl;
 			SlowZone();
 		}
 		else if (spellName == "C Spell") {
-			cout << "C Spell" << endl;
 			dash();
 		}
 		else if (spellName == "X Ult") {
@@ -252,10 +247,8 @@ void Ekko::castSpell(const std::string& spellName) {
 				auto targetPosition = positionHistory.front().first;
 				isTeleporting = true;
 				teleportTimer.restart();
-				std::cout << "X Ult activated. Teleporting to: " << targetPosition.x << ", " << targetPosition.y << std::endl;
 			}
 			else {
-				std::cout << "No position history. Cannot activate X Ult." << std::endl;
 				isTeleporting = false;
 			}
 		}

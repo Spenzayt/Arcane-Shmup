@@ -3,14 +3,13 @@
 HUD::HUD(int x, int y, int maxLife) : maxLife(maxLife), currentLife(maxLife), numberOfStates(4)
 {
     if (!textureHealth.loadFromFile("assets/UI/LifeBar.png")) {
-        throw std::runtime_error("Impossible de charger la texture !");
+        std::cerr << "Error loading Texture!" << std::endl;
     }
 
     spriteHealth.setTexture(textureHealth);
     spriteHealth.setPosition(x,y);
     spriteHealth.setScale(2, 2);
 
-    // Définir la taille d'une section (1 état de la barre)
     sf::Vector2u textureSize = textureHealth.getSize();
     spriteHealth.setTextureRect(sf::IntRect(0, 0, textureSize.x / numberOfStates, textureSize.y));
 }
@@ -40,4 +39,27 @@ void HUD::updatePosition(int x, int y) {
 
 void HUD::draw(sf::RenderWindow& window) {
     window.draw(spriteHealth);
+}
+
+SCORE::SCORE() {
+    if (!font.loadFromFile("assets/Arcane Nine.otf")) {
+        std::cerr << "Error loading Font!" << std::endl;
+    }
+
+    scoreText.setFont(font);
+    scoreText.setCharacterSize(48);
+    scoreText.setFillColor(sf::Color::White);
+    scoreText.setPosition(20, 10);
+    scoreText.setString("Score : 0");
+
+}
+
+SCORE::~SCORE() {}
+
+void SCORE::updateScore(int score) {
+    scoreText.setString("Score : " + std::to_string(score));
+}
+
+void SCORE::drawScore(sf::RenderWindow& window) {
+    window.draw(scoreText);
 }

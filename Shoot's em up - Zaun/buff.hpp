@@ -1,6 +1,3 @@
-#ifndef BUFF_HPP
-#define BUFF_HPP
-
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
@@ -35,5 +32,3 @@ public:
 
     bool RedBuffActivated = false;
 };
-
-#endif

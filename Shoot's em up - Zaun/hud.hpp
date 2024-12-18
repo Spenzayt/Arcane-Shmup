@@ -1,8 +1,6 @@
-#ifndef HUD_HPP
-#define HUD_HPP
-
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <string>
 
 class HUD {
 private:
@@ -29,4 +27,16 @@ public:
     void updatePosition(int x, int y);
 };
 
-#endif
+class SCORE {
+private:
+    sf::Font font;
+    sf::Text scoreText;
+
+public:
+    SCORE();
+    ~SCORE();
+
+    void updateScore(int score);
+
+    void drawScore(sf::RenderWindow& window);
+};

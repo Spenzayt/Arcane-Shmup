@@ -51,7 +51,7 @@ Marcus::~Marcus() {}
 void Marcus::marcusInitAnimations() {
 	/////////////////
 	if (!marcus_Auto_Attack_texture.loadFromFile("assets\\characters\\marcus\\marcusOnBoard.png")) {
-		std::cout << "marcus attack est pas charg� bro" << std::endl << std::endl;
+		std::cerr << "Error loading Texture!" << std::endl;
 	}
 	marcus_Auto_Attack_texture.setSmooth(true);
 
@@ -60,7 +60,7 @@ void Marcus::marcusInitAnimations() {
 
 
 	if (!marcus_TransSecondPhase_texture.loadFromFile("assets\\characters\\marcus\\marcusTransSecondPhase.png")) {
-		std::cout << "marcus attack est pas charg� bro" << std::endl << std::endl;
+		std::cerr << "Error loading Texture!" << std::endl;
 	}
 	marcus_TransSecondPhase_texture.setSmooth(true);
 
@@ -69,7 +69,7 @@ void Marcus::marcusInitAnimations() {
 
 
 	if (!marcus_SecondPhase_texture.loadFromFile("assets\\characters\\marcus\\marcusSecodStateShootV3.png")) {
-		std::cout << "marcus attack est pas charg� bro" << std::endl << std::endl;
+		std::cerr << "Error loading Texture!" << std::endl;
 	}
 	marcus_SecondPhase_texture.setSmooth(true);
 
@@ -91,7 +91,7 @@ void Marcus::marcusInitAnimations() {
 
 void Marcus::marcusBulletInit() {
 	if (!marcus_Bullet_Auto_Attack_texture.loadFromFile("assets\\characters\\marcus\\marcusBullet.png")) {
-		std::cout << "ekkoBulletAutoAttack est pas charg� bro" << std::endl << std::endl;
+		std::cerr << "Error loading Texture!" << std::endl;
 	}
 	marcus_Bullet_Auto_Attack_texture.setSmooth(true);
 
@@ -189,14 +189,13 @@ void Soldier::soldierDontExitFromScreen() {
 
 void Soldier::soldierInitAnimations() {
 	if (!soldier_walk_texture.loadFromFile("assets\\characters\\Soldier\\attack_200.png")) {
-		std::cout << "soldier est pas charg� bro" << std::endl << std::endl; // Erreur si le fichier est introuvable
+		std::cerr << "Error loading Texture!" << std::endl;
 	}
 }
 
 void Soldier::createSoldiers(int little) {
 	for (int i = 0; i < little; i++) {
 		soldiers_vector.emplace_back(sf::Vector2f(rand() % 2000 + 2300, rand() % 400 + 500), soldier_walk_texture);
-		//cout << "crea de soldat x1" << endl << endl;
 	}
 }
 
@@ -222,7 +221,7 @@ void Soldier::soldierPrintWindow(sf::RenderWindow& window) {
 
 void Soldier::soldierBulletInit() {
 	if (!soldier_Bullet_Auto_Attack_texture.loadFromFile("assets\\characters\\Soldier\\soldierBullets.png")) {
-		std::cout << "soldierBullets est pas charg� bro" << std::endl << std::endl;
+		std::cerr << "Error loading Texture!" << std::endl;
 	}
 	soldier_Bullet_Auto_Attack_texture.setSmooth(true);
 	/*soldier_Bullet_Auto_Attack_sprite.setTextureRect(sf::IntRect(32, 0, -32, 16));
@@ -284,7 +283,7 @@ void MediumSoldier::mediumSoldierInitAnimations() {
 	attackSpeed = 300;
 	bulletSpeed = 0.5f;
 	if (!medium_soldier_walk_texture.loadFromFile("assets\\characters\\Soldier\\attack_200_medium.png")) {
-		std::cout << "soldier est pas charg� bro" << std::endl << std::endl; // Erreur si le fichier est introuvable
+		std::cerr << "Error loading Texture!" << std::endl;
 	}
 	medium_soldier_walk_texture.setSmooth(true);
 	medium_soldier_walk_sprite .setTexture(medium_soldier_walk_texture);
@@ -306,7 +305,7 @@ void MediumSoldier::mediumSoldierDontExitFromScreen() {
 
 void MediumSoldier::mediumSoldierBulletInit() {
 	if (!medium_soldier_Bullet_Auto_Attack_texture.loadFromFile("assets\\characters\\Soldier\\mediumSoldierBullets.png")) {
-		std::cout << "soldierBullets est pas charg� bro" << std::endl << std::endl;
+		std::cerr << "Error loading Texture!" << std::endl;
 	}
 	medium_soldier_Bullet_Auto_Attack_texture.setSmooth(true);
 
@@ -335,7 +334,6 @@ void MediumSoldier::mediumSoldierPrintWindow(sf::RenderWindow& window) {
 void MediumSoldier::createSoldiers(int little) {
 	for (int i = 0; i < little; i++) {
 		mediumSoldiers_vector.emplace_back(sf::Vector2f(rand() % 2000 + 2300, rand() % 350 + 550), medium_soldier_walk_texture);
-		//cout << "crea de soldat x1" << endl << endl;
 	}
 }
 
@@ -396,7 +394,7 @@ HardSoldier::~HardSoldier() {}
 
 void HardSoldier::hardSoldierInitAnimations() {
 	if (!hard_soldier_walk_texture.loadFromFile("assets\\characters\\Soldier\\attack_200_hard.png")) {
-		std::cout << "soldierhard est pas charg� bro" << std::endl << std::endl; // Erreur si le fichier est introuvable
+		std::cerr << "Error loading Texture!" << std::endl;
 	}
 	hard_soldier_walk_texture.setSmooth(true);
 	hard_soldier_walk_sprite.setTexture(hard_soldier_walk_texture);
@@ -418,7 +416,7 @@ void HardSoldier::hardSoldierDontExitFromScreen() {
 
 void HardSoldier::hardSoldierBulletInit() {
 	if (!hard_soldier_Bullet_Auto_Attack_texture.loadFromFile("assets\\characters\\Soldier\\soldierBulletshard.png")) {
-		std::cout << "soldierBullets est pas charg� bro" << std::endl << std::endl;
+		std::cerr << "Error loading Texture!" << std::endl;
 	}
 	hard_soldier_Bullet_Auto_Attack_texture.setSmooth(true);
 
@@ -437,7 +435,6 @@ void HardSoldier::hardSoldierPrintWindow(sf::RenderWindow& window) {
 void HardSoldier::createSoldiers(int little) {
 	for (int i = 0; i < little; i++) {
 		hardSoldiers_vector.emplace_back(sf::Vector2f(rand() % 2000 + 2300, rand() % 400 + 500), hard_soldier_walk_texture);
-		//cout << "crea de soldat x1" << endl << endl;
 	}
 }
 
