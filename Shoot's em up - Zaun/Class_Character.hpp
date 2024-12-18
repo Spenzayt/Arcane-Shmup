@@ -92,6 +92,7 @@ public:
 	bool Ekko_invincibility = false;
 	float Ekko_speed = 1.0f;
 	float Ekko_attackSpeed = 1.0f;
+	int boomerangDamage = 5;
 
 	std::vector<sf::CircleShape> bullets;
 
