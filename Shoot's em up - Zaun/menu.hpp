@@ -13,6 +13,7 @@ public:
     int NbHardSoldierCustom = 1;
     int MaxWavesCustom = 1;
     float CoefDifficultyCustom = 1.5f;
+    float volumeMusic = 10.f;
 
     sf::Sprite background_sprite;
     sf::Text title, subtitle;
@@ -36,6 +37,16 @@ private:
 
     sf::RectangleShape playButton;
     sf::Text playButtonText;
+
+    sf::Texture settingsExitButtonTexture;
+    sf::Sprite settingsExitButtonSprite;
+    sf::RectangleShape settingsMenu;
+    sf::Text settingsTextGameMusic;
+    sf::Text valueSettingsTextGameMusic;
+    sf::Text plus;
+    sf::Text minus;
+
+
 
     sf::Vector2f buttonSize = { 400.f, 100.f };
     sf::Vector2f hoverSize = buttonSize * 1.05f;

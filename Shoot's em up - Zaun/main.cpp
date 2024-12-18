@@ -2,6 +2,7 @@
 #include <map>
 #include "parallax.hpp"
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "Classes.hpp"
 #include "menu.hpp"
 #include "hud.hpp"
@@ -20,6 +21,14 @@ void Wave(int NbOfEasySoldiers, int NbOfMediumSoldiers, int NbOfHardSoldiers) {
 }
 
 int mainGame() {
+
+    sf::Music PaintBlue;
+    if (!PaintBlue.openFromFile("assets\\Music\\Paint The Town BlueWAV.wav"))
+        cout << "music pas chargé bro" << endl << endl;
+    PaintBlue.setLoop(true);
+    PaintBlue.setVolume(menu.volumeMusic);
+    PaintBlue.play();
+
     if (game.isCustom) {
         game.NbEasySoldier = menu.NbEasySoldierCustom;
         game.NbMediumSoldier = menu.NbMediumSoldierCustom;

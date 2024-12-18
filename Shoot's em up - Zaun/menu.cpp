@@ -66,6 +66,11 @@ int Menu::mainMenu(sf::RenderWindow& window) {
 
     bool isMousePressed = false;
 
+    // Settings
+    if (!settingsExitButtonTexture.loadFromFile("assets\\UI\\exitButtonV2.png")) {
+        std::cout << "settings exit text pas charge bro" << std::endl << std::endl;
+    }
+
 #pragma endregion InitMenu
 
 #pragma region initCustomLevelsMenu
@@ -290,6 +295,7 @@ int Menu::mainMenu(sf::RenderWindow& window) {
                         }
 
                         if (buttonLabels[i] == "Options") {
+                            mode = 3;
                             // Options code here
                         }
 
@@ -464,6 +470,63 @@ int Menu::mainMenu(sf::RenderWindow& window) {
 
 #pragma endregion ClicksCustomLevelsMenu
 
+        if (mode == 3) {
+            settingsMenu.setSize(sf::Vector2f(1500, 700));
+            settingsMenu.setPosition(200, 200);
+            settingsMenu.setFillColor(sf::Color::Black);
+
+            settingsExitButtonSprite.setTexture(settingsExitButtonTexture);
+            settingsExitButtonSprite.setPosition(1400, 210);
+            if ((sf::Mouse::getPosition().x <= 1700 && sf::Mouse::getPosition().x >= 1400) && (sf::Mouse::getPosition().y <= 337 && sf::Mouse::getPosition().y >= 210)) {
+                settingsExitButtonSprite.setColor(sf::Color::Red);
+            }
+            else {
+                settingsExitButtonSprite.setColor(sf::Color::White);
+            }
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && (sf::Mouse::getPosition().x <= 1700 && sf::Mouse::getPosition().x >= 1400) && (sf::Mouse::getPosition().y <= 337 && sf::Mouse::getPosition().y >= 210)) {
+                mode = 1;
+            }
+
+            settingsTextGameMusic.setFont(font);
+            settingsTextGameMusic.setString("Volume Game Music : ");
+            settingsTextGameMusic.setPosition(400, 530);
+            settingsTextGameMusic.setScale(1.5f, 1.5f);
+            settingsTextGameMusic.setStyle(sf::Text::Bold);
+
+            valueSettingsTextGameMusic.setFont(font);
+            std::string Volume_MenuMusic(std::to_string(volumeMusic));
+            valueSettingsTextGameMusic.setString(Volume_MenuMusic);
+            valueSettingsTextGameMusic.setPosition(800, 530);
+            valueSettingsTextGameMusic.setScale(1.5f, 1.5f);
+            valueSettingsTextGameMusic.setStyle(sf::Text::Bold);
+
+            plus.setFont(font);
+            plus.setString(" + ");
+            plus.setPosition(1100, 450);
+            plus.setScale(3, 3);
+
+            minus.setFont(font);
+            minus.setString(" - ");
+            minus.setPosition(1100, 550);
+            minus.setScale(3, 3);
+
+            //plus
+            if ((sf::Mouse::getPosition().x <= 1150 && sf::Mouse::getPosition().x >= 1120) && (sf::Mouse::getPosition().y <= 520 && sf::Mouse::getPosition().y >= 490)) {
+                plus.setFillColor(sf::Color::Red);
+            }
+            else {
+                plus.setFillColor(sf::Color::White);
+            }
+
+            //minus
+            if ((sf::Mouse::getPosition().x <= 1150 && sf::Mouse::getPosition().x >= 1120) && (sf::Mouse::getPosition().y <= 620 && sf::Mouse::getPosition().y >= 590)) {
+                minus.setFillColor(sf::Color::Red);
+            }
+            else {
+                minus.setFillColor(sf::Color::White);
+            }
+        }
+
         window.clear();
         window.draw(background_sprite);
         window.draw(title);
@@ -514,7 +577,18 @@ int Menu::mainMenu(sf::RenderWindow& window) {
             window.draw(playButtonText);
 
 #pragma endregion DrawCustomLevelsMenu
+
         }
+
+        else if (mode == 3) {
+            window.draw(settingsMenu);
+            window.draw(settingsExitButtonSprite);
+            window.draw(settingsTextGameMusic);
+            window.draw(valueSettingsTextGameMusic);
+            window.draw(plus);
+            window.draw(minus);
+        }
+
 
         window.display();
     }
