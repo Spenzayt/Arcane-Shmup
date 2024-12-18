@@ -7,6 +7,7 @@
 #include <windows.h>
 #include "Class_Character.hpp"
 #include "Class_Enemies.hpp"
+#include "buff.hpp"
 
 Ekko Ekko_Class;
 Marcus Marcus_Class;
@@ -14,34 +15,28 @@ Soldier Soldier_Class;
 MediumSoldier MediumSoldier_Class;
 HardSoldier HardSoldier_Class;
 
-class Menu {
-public:
-	sf::Texture background_texture;
-	sf::Sprite background_sprite;
-};
-
-
 class Game {
 public:
 	sf::RenderWindow window;
 
-	enum Mode { MENU, CUSTOM, LEVEL_1, LEVEL_2 };
-	Mode currentMode = MENU;
-
 	enum GamePhase { WavesPhase, BossPhase};
 	GamePhase currentPhase = WavesPhase;
+
+	bool isPaused = false;
 
 	bool konamiCodeActivated = false;
 
 	int currentWave = 1;
 
+	bool isCustom = false;
+
 	//////////////////
 	//Custom
-	int NbEasySoldier = 1;
-	int NbMediumSoldier = 1;
+	int NbEasySoldier = 3;
+	int NbMediumSoldier = 2;
 	int NbHardSoldier = 1;
-	int MaxWaves = 3;
-	float CoefDifficulty = 3.0f;
+	int MaxWaves = 5;
+	float CoefDifficulty = 2.0f;
 	//////////////////
 
 	void init() {

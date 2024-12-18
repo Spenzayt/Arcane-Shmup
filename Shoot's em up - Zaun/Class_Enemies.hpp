@@ -153,6 +153,7 @@ public:
 	void soldierBulletInit();
 
 	void createSoldiers(int little);
+	void deleteSoldiers();
 	void soldierPrintWindow(sf::RenderWindow& window);
 	void bulletCreation();
 
@@ -222,6 +223,7 @@ public:
 	void mediumSoldierPrintWindow(sf::RenderWindow& window);
 	void mediumSoldierBulletInit();
 	void createSoldiers(int little);
+	void deleteMediumSoldiers();
 	void bulletCreation();
 
 	int losePV(int damage) override;
@@ -290,6 +292,7 @@ public:
 	void hardSoldierPrintWindow(sf::RenderWindow& window);
 	void hardSoldierBulletInit();
 	void createSoldiers(int little);
+	void deleteHardSoldiers();
 	void bulletCreation();
 
 	int losePV(int damage) override;

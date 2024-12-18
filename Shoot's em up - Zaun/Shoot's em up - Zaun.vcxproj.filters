@@ -19,6 +19,9 @@
     <ClCompile Include="buff.cpp">
       <Filter>CPP</Filter>
     </ClCompile>
+    <ClCompile Include="menu.cpp">
+      <Filter>CPP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="parallax.hpp">
@@ -37,6 +40,9 @@
       <Filter>HPP</Filter>
     </ClInclude>
     <ClInclude Include="buff.hpp">
+      <Filter>HPP</Filter>
+    </ClInclude>
+    <ClInclude Include="menu.hpp">
       <Filter>HPP</Filter>
     </ClInclude>
   </ItemGroup>

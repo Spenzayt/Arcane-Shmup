@@ -144,6 +144,7 @@
     <ClCompile Include="Class_Enemies.cpp" />
     <ClCompile Include="hud.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="menu.cpp" />
     <ClCompile Include="parallax.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +153,7 @@
     <ClInclude Include="Classes.hpp" />
     <ClInclude Include="Class_Enemies.hpp" />
     <ClInclude Include="hud.hpp" />
+    <ClInclude Include="menu.hpp" />
     <ClInclude Include="parallax.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
