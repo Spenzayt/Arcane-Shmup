@@ -34,7 +34,7 @@ int Menu::mainMenu(sf::RenderWindow& window) {
     std::vector<bool> buttonFled(buttonLabels.size(), false);
     sf::Vector2f buttonSize(400.f, 100.f);
     float buttonSpacing = 40.f;
-    float initialYPos = 250.f;
+    float initialYPos = 300.f;
 
     for (size_t i = 0; i < buttonLabels.size(); ++i) {
         sf::RectangleShape button(buttonSize);
@@ -78,25 +78,24 @@ int Menu::mainMenu(sf::RenderWindow& window) {
     subtitle.setOrigin(subtitleBounds.left + subtitleBounds.width / 2.0f, subtitleBounds.top + subtitleBounds.height / 2.0f);
     subtitle.setPosition(window.getSize().x / 2.0f, 200.f);
 
-    std::vector<int> optionValues = { 0, 0, 0, 0 };
+    std::vector<int> optionValues = { MaxEasySoldierCustom, MaxMediumSoldierCustom, MaxHardSoldierCustom, TimeBeforeBossCustom };
 
     sf::RectangleShape leftButton1(sf::Vector2f(60.f, 80.f));
     sf::RectangleShape leftButton2(sf::Vector2f(60.f, 80.f));
     sf::RectangleShape leftButton3(sf::Vector2f(60.f, 80.f));
     sf::RectangleShape leftButton4(sf::Vector2f(60.f, 80.f));
-    sf::RectangleShape leftButton5(sf::Vector2f(60.f, 80.f));
 
     sf::RectangleShape rightButton1(sf::Vector2f(60.f, 80.f));
     sf::RectangleShape rightButton2(sf::Vector2f(60.f, 80.f));
     sf::RectangleShape rightButton3(sf::Vector2f(60.f, 80.f));
     sf::RectangleShape rightButton4(sf::Vector2f(60.f, 80.f));
-    sf::RectangleShape rightButton5(sf::Vector2f(60.f, 80.f));
 
-    sf::Text optionText1, optionText2, optionText3, optionText4, optionText5;
-    sf::Text leftButtonText1, leftButtonText2, leftButtonText3, leftButtonText4, leftButtonText5;
-    sf::Text rightButtonText1, rightButtonText2, rightButtonText3, rightButtonText4, rightButtonText5;
+    sf::Text optionText1, optionText2, optionText3, optionText4;
+    sf::Text titleOptionText1, titleOptionText2, titleOptionText3, titleOptionText4;
+    sf::Text leftButtonText1, leftButtonText2, leftButtonText3, leftButtonText4;
+    sf::Text rightButtonText1, rightButtonText2, rightButtonText3, rightButtonText4;
 
-    float optionSpacing = 100.f;
+    float optionSpacing = 160.f;
 
     leftButton1.setFillColor(sf::Color(100, 100, 255));
     leftButton1.setPosition((window.getSize().x - 60.f * 4) / 2.f, initialYPos);
@@ -106,8 +105,6 @@ int Menu::mainMenu(sf::RenderWindow& window) {
     leftButton3.setPosition((window.getSize().x - 60.f * 4) / 2.f, initialYPos + 2 * optionSpacing);
     leftButton4.setFillColor(sf::Color(100, 100, 255));
     leftButton4.setPosition((window.getSize().x - 60.f * 4) / 2.f, initialYPos + 3 * optionSpacing);
-    leftButton5.setFillColor(sf::Color(100, 100, 255));
-    leftButton5.setPosition((window.getSize().x - 60.f * 4) / 2.f, initialYPos + 4 * optionSpacing);
 
     rightButton1.setFillColor(sf::Color(100, 100, 255));
     rightButton1.setPosition((window.getSize().x + 60.f * 2) / 2.f, initialYPos);
@@ -117,8 +114,6 @@ int Menu::mainMenu(sf::RenderWindow& window) {
     rightButton3.setPosition((window.getSize().x + 60.f * 2) / 2.f, initialYPos + 2 * optionSpacing);
     rightButton4.setFillColor(sf::Color(100, 100, 255));
     rightButton4.setPosition((window.getSize().x + 60.f * 2) / 2.f, initialYPos + 3 * optionSpacing);
-    rightButton5.setFillColor(sf::Color(100, 100, 255));
-    rightButton5.setPosition((window.getSize().x + 60.f * 2) / 2.f, initialYPos + 4 * optionSpacing);
 
     optionText1.setFont(font);
     optionText1.setString(std::to_string(optionValues[0]));
@@ -140,22 +135,35 @@ int Menu::mainMenu(sf::RenderWindow& window) {
     optionText4.setCharacterSize(50);
     optionText4.setFillColor(sf::Color::White);
 
-    optionText5.setFont(font);
+    titleOptionText1.setFont(font);
+    titleOptionText1.setString("Maximum de Soldier Easy par Wave :");
+    titleOptionText1.setCharacterSize(36);
+    titleOptionText1.setFillColor(sf::Color::White);
 
-    std::ostringstream stream;
-    stream << std::fixed << std::setprecision(1) << std::showpoint << CoefDifficultyCustom;
-    optionText5.setString(stream.str());
-    stream.str("");
-    stream.clear();
+    titleOptionText2.setFont(font);
+    titleOptionText2.setString("Maximum de Soldier Medium par Wave :");
+    titleOptionText2.setCharacterSize(36);
+    titleOptionText2.setFillColor(sf::Color::White);
 
-    optionText5.setCharacterSize(50);
-    optionText5.setFillColor(sf::Color::White);
+    titleOptionText3.setFont(font);
+    titleOptionText3.setString("Maximum de Soldier Hard par Wave :");
+    titleOptionText3.setCharacterSize(36);
+    titleOptionText3.setFillColor(sf::Color::White);
+
+    titleOptionText4.setFont(font);
+    titleOptionText4.setString("Temps avant l'arriver du Boss");
+    titleOptionText4.setCharacterSize(36);
+    titleOptionText4.setFillColor(sf::Color::White);
 
     optionText1.setPosition((window.getSize().x / 2.f) - 15, initialYPos + 10.f);
     optionText2.setPosition((window.getSize().x / 2.f) - 15, initialYPos + optionSpacing + 10.f);
     optionText3.setPosition((window.getSize().x / 2.f) - 15, initialYPos + 2 * optionSpacing + 10.f);
     optionText4.setPosition((window.getSize().x / 2.f) - 15, initialYPos + 3 * optionSpacing + 10.f);
-    optionText5.setPosition((window.getSize().x / 2.f) - 30, initialYPos + 4 * optionSpacing + 10.f);
+
+    titleOptionText1.setPosition((window.getSize().x / 2.f) - 250, initialYPos - 50.f);
+    titleOptionText2.setPosition((window.getSize().x / 2.f) - 250, initialYPos + optionSpacing - 50.f);
+    titleOptionText3.setPosition((window.getSize().x / 2.f) - 250, initialYPos + 2 * optionSpacing - 50.f);
+    titleOptionText4.setPosition((window.getSize().x / 2.f) - 250, initialYPos + 3 * optionSpacing - 50.f);
 
     leftButtonText1.setFont(font);
     leftButtonText1.setString("<");
@@ -177,11 +185,6 @@ int Menu::mainMenu(sf::RenderWindow& window) {
     leftButtonText4.setCharacterSize(60);
     leftButtonText4.setFillColor(sf::Color::White);
 
-    leftButtonText5.setFont(font);
-    leftButtonText5.setString("<");
-    leftButtonText5.setCharacterSize(60);
-    leftButtonText5.setFillColor(sf::Color::White);
-
     rightButtonText1.setFont(font);
     rightButtonText1.setString(">");
     rightButtonText1.setCharacterSize(60);
@@ -202,29 +205,21 @@ int Menu::mainMenu(sf::RenderWindow& window) {
     rightButtonText4.setCharacterSize(60);
     rightButtonText4.setFillColor(sf::Color::White);
 
-    rightButtonText5.setFont(font);
-    rightButtonText5.setString(">");
-    rightButtonText5.setCharacterSize(60);
-    rightButtonText5.setFillColor(sf::Color::White);
-
-
     leftButtonText1.setPosition(leftButton1.getPosition().x + 15.f, leftButton1.getPosition().y + 2.f);
     leftButtonText2.setPosition(leftButton2.getPosition().x + 15.f, leftButton2.getPosition().y + 2.f);
     leftButtonText3.setPosition(leftButton3.getPosition().x + 15.f, leftButton3.getPosition().y + 2.f);
     leftButtonText4.setPosition(leftButton4.getPosition().x + 15.f, leftButton4.getPosition().y + 2.f);
-    leftButtonText5.setPosition(leftButton5.getPosition().x + 15.f, leftButton5.getPosition().y + 2.f);
 
     rightButtonText1.setPosition(rightButton1.getPosition().x + 15.f, rightButton1.getPosition().y + 2.f);
     rightButtonText2.setPosition(rightButton2.getPosition().x + 15.f, rightButton2.getPosition().y + 2.f);
     rightButtonText3.setPosition(rightButton3.getPosition().x + 15.f, rightButton3.getPosition().y + 2.f);
     rightButtonText4.setPosition(rightButton4.getPosition().x + 15.f, rightButton4.getPosition().y + 2.f);
-    rightButtonText5.setPosition(rightButton5.getPosition().x + 15.f, rightButton5.getPosition().y + 2.f);
 
     sf::RectangleShape playButton(sf::Vector2f(250.f, 80.f));
     sf::Text playButtonText;
 
     playButton.setFillColor(sf::Color(70, 70, 200));  // Dark Blue
-    playButton.setPosition(window.getSize().x / 2.f - 125.f, initialYPos + 5 * optionSpacing + 50.f);
+    playButton.setPosition(window.getSize().x / 2.f - 125.f, initialYPos + 3 * optionSpacing + 150.f);
 
     playButtonText.setFont(font);
     playButtonText.setString("Jouer");
@@ -233,6 +228,19 @@ int Menu::mainMenu(sf::RenderWindow& window) {
     sf::FloatRect playButtonTextBounds = playButtonText.getLocalBounds();
     playButtonText.setOrigin(playButtonTextBounds.left + playButtonTextBounds.width / 2.0f, playButtonTextBounds.top + playButtonTextBounds.height / 2.0f);
     playButtonText.setPosition(playButton.getPosition().x + playButton.getSize().x / 2.f, playButton.getPosition().y + playButton.getSize().y / 2.f);
+
+
+    sf::RectangleShape returnButton(sf::Vector2f(90.f, 90.f));
+    sf::Text returnButtonText;
+
+    returnButton.setFillColor(sf::Color(100, 100, 255));
+    returnButton.setPosition(50, 50);
+
+    returnButtonText.setFont(font);
+    returnButtonText.setString("X");
+    returnButtonText.setCharacterSize(80);
+    returnButtonText.setFillColor(sf::Color::White);
+    returnButtonText.setPosition(75, 43);
 
 #pragma endregion initCustomLevelsMenu
 
@@ -335,7 +343,7 @@ int Menu::mainMenu(sf::RenderWindow& window) {
             if (leftButton3.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
                 leftButton3.setFillColor(sf::Color(100, 100, 255));  // Blue on hover
                 if (mouseButtonPressed && !isMousePressed) {
-                    optionValues[2] = std::max(0, optionValues[2] - 1);
+                    optionValues[2] = std::max(2, optionValues[2] - 1);
                     optionText3.setString(std::to_string(optionValues[2]));
                     isMousePressed = true;
                 }
@@ -356,25 +364,10 @@ int Menu::mainMenu(sf::RenderWindow& window) {
                 leftButton4.setFillColor(sf::Color(70, 70, 200));
             }
 
-            if (leftButton5.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
-                leftButton5.setFillColor(sf::Color(100, 100, 255));  // Blue on hover
-                if (mouseButtonPressed && !isMousePressed) {
-                    if (CoefDifficultyCustom > 1) CoefDifficultyCustom -= 0.1f;
-                    stream << std::fixed << std::setprecision(1) << std::showpoint << CoefDifficultyCustom;
-                    optionText5.setString(stream.str());
-                    isMousePressed = true;
-                    stream.str("");
-                    stream.clear();
-                }
-            }
-            else {
-                leftButton5.setFillColor(sf::Color(70, 70, 200));
-            }
-
             if (rightButton1.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
                 rightButton1.setFillColor(sf::Color(100, 100, 255));  // Blue on hover
                 if (mouseButtonPressed && !isMousePressed) {
-                    optionValues[0] = std::min(100, optionValues[0] + 1);
+                    optionValues[0] = std::min(20, optionValues[0] + 1);
                     optionText1.setString(std::to_string(optionValues[0]));
                     isMousePressed = true;
                 }
@@ -386,7 +379,7 @@ int Menu::mainMenu(sf::RenderWindow& window) {
             if (rightButton2.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
                 rightButton2.setFillColor(sf::Color(100, 100, 255));  // Blue on hover
                 if (mouseButtonPressed && !isMousePressed) {
-                    optionValues[1] = std::min(100, optionValues[1] + 1);
+                    optionValues[1] = std::min(20, optionValues[1] + 1);
                     optionText2.setString(std::to_string(optionValues[1]));
                     isMousePressed = true;
                 }
@@ -398,7 +391,7 @@ int Menu::mainMenu(sf::RenderWindow& window) {
             if (rightButton3.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
                 rightButton3.setFillColor(sf::Color(100, 100, 255));  // Blue on hover
                 if (mouseButtonPressed && !isMousePressed) {
-                    optionValues[2] = std::min(100, optionValues[2] + 1);
+                    optionValues[2] = std::min(20, optionValues[2] + 1);
                     optionText3.setString(std::to_string(optionValues[2]));
                     isMousePressed = true;
                 }
@@ -410,28 +403,13 @@ int Menu::mainMenu(sf::RenderWindow& window) {
             if (rightButton4.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
                 rightButton4.setFillColor(sf::Color(100, 100, 255));  // Blue on hover
                 if (mouseButtonPressed && !isMousePressed) {
-                    optionValues[3] = std::min(100, optionValues[3] + 1);
+                    optionValues[3] = std::min(300, optionValues[3] + 1); // 5min max
                     optionText4.setString(std::to_string(optionValues[3]));
                     isMousePressed = true;
                 }
             }
             else {
                 rightButton4.setFillColor(sf::Color(70, 70, 200));
-            }
-
-            if (rightButton5.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
-                rightButton5.setFillColor(sf::Color(100, 100, 255));  // Blue on hover
-                if (mouseButtonPressed && !isMousePressed) {
-                    if (CoefDifficultyCustom < 10) CoefDifficultyCustom += 0.1f;
-                    stream << std::fixed << std::setprecision(1) << std::showpoint << CoefDifficultyCustom;
-                    optionText5.setString(stream.str());
-                    stream.str("");
-                    stream.clear();
-                    isMousePressed = true;
-                }
-            }
-            else {
-                rightButton5.setFillColor(sf::Color(70, 70, 200));
             }
 
             if (!mouseButtonPressed) {
@@ -442,9 +420,9 @@ int Menu::mainMenu(sf::RenderWindow& window) {
                 playButton.setFillColor(sf::Color(100, 100, 255));  // Light Blue
                 if (mouseButtonPressed && !isMousePressed) {
 
-                    NbEasySoldierCustom = optionValues[0];
-                    NbMediumSoldierCustom = optionValues[1];
-                    NbHardSoldierCustom = optionValues[2];
+                    MaxEasySoldierCustom = optionValues[0];
+                    MaxMediumSoldierCustom = optionValues[1];
+                    MaxHardSoldierCustom = optionValues[2];
                     TimeBeforeBossCustom = optionValues[3];
                     return 2;
                     isMousePressed = true;
@@ -452,6 +430,16 @@ int Menu::mainMenu(sf::RenderWindow& window) {
             }
             else {
                 playButton.setFillColor(sf::Color(70, 70, 200));  // Dark Blue
+            }
+
+            if (returnButton.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+                returnButton.setFillColor(sf::Color(100, 100, 255));  // Light Blue
+                if (mouseButtonPressed && !isMousePressed) {
+                    mode = 1;
+                }
+            }
+            else {
+                returnButton.setFillColor(sf::Color(70, 70, 200));  // Dark Blue
             }
         }
 
@@ -475,36 +463,37 @@ int Menu::mainMenu(sf::RenderWindow& window) {
 
             window.draw(leftButton1);
             window.draw(rightButton1);
+            window.draw(titleOptionText1);
             window.draw(optionText1);
             window.draw(leftButtonText1);
             window.draw(rightButtonText1);
 
             window.draw(leftButton2);
             window.draw(rightButton2);
+            window.draw(titleOptionText2);
             window.draw(optionText2);
             window.draw(leftButtonText2);
             window.draw(rightButtonText2);
 
             window.draw(leftButton3);
             window.draw(rightButton3);
+            window.draw(titleOptionText3);
             window.draw(optionText3);
             window.draw(leftButtonText3);
             window.draw(rightButtonText3);
 
             window.draw(leftButton4);
             window.draw(rightButton4);
+            window.draw(titleOptionText4);
             window.draw(optionText4);
             window.draw(leftButtonText4);
             window.draw(rightButtonText4);
 
-            window.draw(leftButton5);
-            window.draw(rightButton5);
-            window.draw(optionText5);
-            window.draw(leftButtonText5);
-            window.draw(rightButtonText5);
-
             window.draw(playButton);
             window.draw(playButtonText);
+
+            window.draw(returnButton);
+            window.draw(returnButtonText);
 
 #pragma endregion DrawCustomLevelsMenu
         }
