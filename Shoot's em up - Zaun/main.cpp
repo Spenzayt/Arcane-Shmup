@@ -64,8 +64,8 @@ int mainGame() {
     Soldier_Class.soldierInitAnimations();
     Soldier_Class.soldierBulletInit();
 
-    /*Soldier_Class.createSoldiers(3);
-    MediumSoldier_Class.createSoldiers(2);*/
+    Soldier_Class.createSoldiers(3);
+    MediumSoldier_Class.createSoldiers(2);
 
     MediumSoldier_Class.mediumSoldierInitAnimations();
     MediumSoldier_Class.mediumSoldierBulletInit();
@@ -127,22 +127,16 @@ int mainGame() {
     auto S_waitReadyToAttackTime = chrono::seconds(1);
 
     auto startNewWaveSoldier = chrono::steady_clock::now();
-    auto waitNewWaveSoldier = chrono::seconds(8);
-    auto startNewWaveSoldierDiff = chrono::steady_clock::now();
-    auto waitNewWaveSoldierDiff = chrono::seconds(1);
+    auto waitNewWaveSoldier = chrono::seconds(6);
 
     auto startNewWaveMediumSoldier = chrono::steady_clock::now();
-    auto waitNewWaveMediumSoldier = chrono::seconds(12);
-    auto startNewWaveMediumSoldierDiff = chrono::steady_clock::now();
-    auto waitNewWaveMediumSoldierDiff = chrono::seconds(1);
+    auto waitNewWaveMediumSoldier = chrono::seconds(10);
 
     auto startNewWaveHardSoldier = chrono::steady_clock::now();
     auto waitNewWaveHardSoldier = chrono::seconds(15);
-    auto startNewWaveHardSoldierDiff = chrono::steady_clock::now();
-    auto waitNewWaveHardSoldierDiff = chrono::seconds(1);
 
     auto startNewWaveMarcus = chrono::steady_clock::now();
-    auto waitNewWaveMarcus = chrono::seconds(1);
+    auto waitNewWaveMarcus = chrono::seconds(60);  ////////////////////////////
 
     auto MS_startTime = chrono::steady_clock::now();
     auto MS_waitTime = chrono::milliseconds(MediumSoldier_Class.attackSpeed);
@@ -179,39 +173,19 @@ int mainGame() {
         if (!Marcus_Class.marcusApparition) {
             auto newWaveNowTimeSoldier = chrono::steady_clock::now();
             if (newWaveNowTimeSoldier >= startNewWaveSoldier + waitNewWaveSoldier) {
-                for (int i = 0; i < rand() % 1 + 10; i++) {
-                    auto newWaveNowTimeSoldierDiff = chrono::steady_clock::now();
-                    if (newWaveNowTimeSoldierDiff >= startNewWaveSoldierDiff + waitNewWaveSoldierDiff) {
-                        Soldier_Class.createSoldiers(1);
-                    }
-                    startNewWaveSoldierDiff = newWaveNowTimeSoldierDiff;
-                }
+                Soldier_Class.createSoldiers(rand() % 0 + 4);
                 startNewWaveSoldier = newWaveNowTimeSoldier;
             }
 
             auto newWaveNowTimeMediumSoldier = chrono::steady_clock::now();
             if (newWaveNowTimeMediumSoldier >= startNewWaveMediumSoldier + waitNewWaveMediumSoldier) {
-                for (int i = 0; i < rand() % 1 + 5; i++) {
-                    auto newWaveNowTimeMediumSoldierDiff = chrono::steady_clock::now();
-                    if (newWaveNowTimeMediumSoldierDiff >= startNewWaveMediumSoldierDiff + waitNewWaveMediumSoldierDiff) {
-                        Soldier_Class.createSoldiers(2);
-                        MediumSoldier_Class.createSoldiers(1);
-                    }
-                    startNewWaveMediumSoldierDiff = newWaveNowTimeMediumSoldierDiff;
-                }
+                MediumSoldier_Class.createSoldiers(rand() % 0 + 3);
                 startNewWaveMediumSoldier = newWaveNowTimeMediumSoldier;
             }
 
             auto newWaveNowTimeHardSoldier = chrono::steady_clock::now();
             if (newWaveNowTimeHardSoldier >= startNewWaveHardSoldier + waitNewWaveHardSoldier) {
-                for (int i = 0; i < rand() % 1 + 3; i++) {
-                    auto newWaveNowTimeHardSoldierDiff = chrono::steady_clock::now();
-                    if (newWaveNowTimeHardSoldierDiff >= startNewWaveHardSoldierDiff + waitNewWaveHardSoldierDiff) {
-                        HardSoldier_Class.createSoldiers(1);
-                        Soldier_Class.createSoldiers(3);
-                    }
-                    startNewWaveHardSoldierDiff = newWaveNowTimeHardSoldierDiff;
-                }
+                HardSoldier_Class.createSoldiers(rand() % 0 + 2);
                 startNewWaveHardSoldier = newWaveNowTimeHardSoldier;
             }
         }
@@ -416,7 +390,7 @@ int mainGame() {
                             Marcus_Class.MarcusLaser.back().setFillColor(sf::Color::Red);
                             Marcus_Class.MarcusLaser.back().setRadius(15);
                             Marcus_Class.MarcusLaser.back().setPosition(Marcus_Class.marcus_Auto_Attack_sprite.getPosition().x, Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y + 260);
-                            if (Marcus_Class.countLaserTime == 60) {
+                            if (Marcus_Class.countLaserTime == 300) {
                                 Marcus_Class.laserActive = false;
                             }
                         }
@@ -429,13 +403,11 @@ int mainGame() {
                     Marcus_Class.reload = false;
                     if (Marcus_Class.countAnimAtk == 1 && !Marcus_Class.moveToFight && !Marcus_Class.transIsIn) {
                         Marcus_Class.countBulletsMarcus++;
-                        sf::CircleShape tempCircle;
-                        tempCircle.setTexture(&Marcus_Class.marcus_Bullet_Auto_Attack_texture);
-                        tempCircle.setTextureRect(sf::IntRect(32, 0, 32, 32));
-                        tempCircle.setRadius(15);
-                        tempCircle.setPosition(Marcus_Class.marcus_Auto_Attack_sprite.getPosition().x, (Ekko_Class.ekko_walk_sprite.getPosition().x) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y - Ekko_Class.ekko_walk_sprite.getPosition().y)/*Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y + 260*/);
-
-                        Marcus_Class.MarcusBullets.insert({ Ekko_Class.ekko_walk_sprite.getPosition(), tempCircle });
+                        Marcus_Class.MarcusBullets.push_back(sf::CircleShape());
+                        Marcus_Class.MarcusBullets.back().setTexture(&Marcus_Class.marcus_Bullet_Auto_Attack_texture);
+                        Marcus_Class.MarcusBullets.back().setTextureRect(sf::IntRect(32, 0, 32, 32));
+                        Marcus_Class.MarcusBullets.back().setRadius(15);
+                        Marcus_Class.MarcusBullets.back().setPosition(Marcus_Class.marcus_Auto_Attack_sprite.getPosition().x, Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y + 260);
                     }
                     if (Marcus_Class.countAnimAtk == 5) {
                         Marcus_Class.countAnimAtk = 0;
@@ -474,34 +446,35 @@ int mainGame() {
 
                 Marcus_Class.marcusPrintWindow(game.window);
 
-                for (auto& bullet : Marcus_Class.MarcusBullets) {
-                    if (Marcus_Class.countBulletsMarcus++) {
-                        Vector2f distance = Ekko_Class.ekko_walk_sprite.getPosition();
+                for (int i = 0; i < Marcus_Class.MarcusBullets.size(); i++) {
+                    bool destroyBulletsMarcus = false;
+                    if (Ekko_Class.ekko_walk_sprite.getPosition().y <= 700) Marcus_Class.MarcusBullets[i].move(-15 * Marcus_Class.bulletSpeed, (Ekko_Class.ekko_walk_sprite.getPosition().x) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y - Ekko_Class.ekko_walk_sprite.getPosition().y));/* / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y / Ekko_Class.ekko_walk_sprite.getPosition().y - 260)*/
+                    else Marcus_Class.MarcusBullets[i].move(-15 * Marcus_Class.bulletSpeed, ((Ekko_Class.ekko_walk_sprite.getPosition().x + Ekko_Class.ekko_walk_sprite.getPosition().y) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y + 128)));
+
+                    game.window.draw(Marcus_Class.MarcusBullets[i]);
+
+                    if (Marcus_Class.MarcusBullets[i].getGlobalBounds().intersects(Ekko_Class.ekko_walk_sprite.getGlobalBounds()) && !Ekko_Class.Ekko_invincibility && Ekko_Class.getAlive()) {
+                        healthBar.updateLife(Ekko_Class.losePV(1));
+                        Ekko_Class.Ekko_invincibility = true;
+                        invincibilityTimer = true;
+                        invincibilityStartTime = chrono::steady_clock::now();
+                        destroyBulletsMarcus = true;
+                        //Marcus_Class.MarcusBullets.erase(Marcus_Class.MarcusBullets.begin() + i);
                     }
-                    bullet.second;
-                    bullet.first;
+                    else if (Marcus_Class.MarcusBullets[i].getPosition().x < 0 || Marcus_Class.MarcusBullets[i].getPosition().y < 0 || Marcus_Class.MarcusBullets[i].getPosition().y > 1080) {
+                        destroyBulletsMarcus = true;
+                        //Marcus_Class.MarcusBullets.erase(Marcus_Class.MarcusBullets.begin() + i);
+                    }
 
-                    /*for (int i = 0; i < Marcus_Class.countBulletsMarcus; i++) {
-                        //if (Ekko_Class.ekko_walk_sprite.getPosition().y < 700) Marcus_Class.MarcusBullets[i].move(-15 * Marcus_Class.bulletSpeed, (Ekko_Class.ekko_walk_sprite.getPosition().x) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y - Ekko_Class.ekko_walk_sprite.getPosition().y)/* / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y / Ekko_Class.ekko_walk_sprite.getPosition().y - 260));
-                        // Marcus_Class.MarcusBullets[i].move(-15 * Marcus_Class.bulletSpeed, ((Ekko_Class.ekko_walk_sprite.getPosition().x + Ekko_Class.ekko_walk_sprite.getPosition().y) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y + 128)));
 
-                        game.window.draw(Marcus_Class.MarcusBullets[i]);
-
-                        if (Marcus_Class.MarcusBullets[i].getGlobalBounds().intersects(Ekko_Class.ekko_walk_sprite.getGlobalBounds()) && !Ekko_Class.Ekko_invincibility && Ekko_Class.getAlive()) {
-                            healthBar.updateLife(Ekko_Class.losePV(1));
-                            Ekko_Class.Ekko_invincibility = true;
-                            invincibilityTimer = true;
-                            invincibilityStartTime = chrono::steady_clock::now();
-                            Marcus_Class.MarcusBullets.erase(Marcus_Class.MarcusBullets.begin() + i);
-                        }
-                        else if (Marcus_Class.MarcusBullets[i].getPosition().x < 0 || Marcus_Class.MarcusBullets[i].getPosition().y < 0 || Marcus_Class.MarcusBullets[i].getPosition().y > 1080) {
-                            Marcus_Class.MarcusBullets.erase(Marcus_Class.MarcusBullets.begin() + i);
-                        }
-                    }*/
+                    if (destroyBulletsMarcus == true) {
+                        Marcus_Class.MarcusBullets.erase(Marcus_Class.MarcusBullets.begin() + i);
+                    }
                 }
-                /*for (int i = 0; i < Marcus_Class.MarcusLaser.size(); i++) {
-                    if (Ekko_Class.ekko_walk_sprite.getPosition().y < 700) Marcus_Class.MarcusLaser[i].move(-1 * Marcus_Class.laserSpeed, (Ekko_Class.ekko_walk_sprite.getPosition().x) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y - Ekko_Class.ekko_walk_sprite.getPosition().y)/* / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y / Ekko_Class.ekko_walk_sprite.getPosition().y - 260));
-                    else Marcus_Class.MarcusLaser[i].move(-1 * Marcus_Class.laserSpeed, ((Ekko_Class.ekko_walk_sprite.getPosition().x + Ekko_Class.ekko_walk_sprite.getPosition().y) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y + 128)));
+
+                for (int i = 0; i < Marcus_Class.MarcusLaser.size(); i++) {
+                    if (Ekko_Class.ekko_walk_sprite.getPosition().y < 700) Marcus_Class.MarcusLaser[i].move(-10 * Marcus_Class.laserSpeed, (Ekko_Class.ekko_walk_sprite.getPosition().x) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y - Ekko_Class.ekko_walk_sprite.getPosition().y)/* / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y / Ekko_Class.ekko_walk_sprite.getPosition().y - 260)*/);
+                    else Marcus_Class.MarcusLaser[i].move(-10 * Marcus_Class.laserSpeed, ((Ekko_Class.ekko_walk_sprite.getPosition().x + Ekko_Class.ekko_walk_sprite.getPosition().y) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y + 128)));
 
                     game.window.draw(Marcus_Class.MarcusLaser[i]);
 
@@ -515,7 +488,7 @@ int mainGame() {
                     else if (Marcus_Class.MarcusLaser[i].getPosition().x < 0 || Marcus_Class.MarcusLaser[i].getPosition().y < 0 || Marcus_Class.MarcusLaser[i].getPosition().y > 1080) {
                         Marcus_Class.MarcusLaser.erase(Marcus_Class.MarcusLaser.begin() + i);
                     }
-                }*/
+                }
             }
         }
 #pragma endregion Marcus
@@ -545,17 +518,23 @@ int mainGame() {
                         Soldier_Class.bulletCreation();
                         Soldier_Class.countBulletsSoldier++;
                     }
+                    if (Soldier_Class.soldier_anim.x >= 3 && Soldier_Class.soldier_anim.x <= 6 && !soldier.moveToFight) {
+                        soldier.soldier_walk_sprite.move(0, -5);
+                    }
+                    if (Soldier_Class.soldier_anim.x >= 6 && Soldier_Class.soldier_anim.x <= 9 && !soldier.moveToFight) {
+                        soldier.soldier_walk_sprite.move(0, 5);
+                    }
                     if (Soldier_Class.soldier_anim.x == 10) {
                         Soldier_Class.attackCountSoldier = 0;
                     }
-                    if (Soldier_Class.countBulletsSoldier == 10) {
+                    if (Soldier_Class.countBulletsSoldier == 10 && !soldier.moveToFight) {
                         Soldier_Class.reload = true;
                     }
-                    if (Soldier_Class.reload == true) {
+                    if (Soldier_Class.reload == true && !soldier.moveToFight) {
                         S_waitTime = chrono::seconds(1);
                         Soldier_Class.countBulletsSoldier = 0;
                     }
-                    if (Soldier_Class.reload == false) {
+                    if (Soldier_Class.reload == false && !soldier.moveToFight) {
                         S_waitTime = chrono::milliseconds(Soldier_Class.attackSpeed);
                     }
                     S_startTime = S_nowTime;

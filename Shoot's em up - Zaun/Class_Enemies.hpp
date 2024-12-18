@@ -59,9 +59,9 @@ public:
 	bool moveToFight = true;
 	bool reload = false;
 	int countBulletsMarcus = 0;
-	int attackSpeed = 100;
-	int attackSpeed2 = 50;
-	float bulletSpeed = 0.8f;
+	int attackSpeed = 110;
+	int attackSpeed2 = 55;
+	float bulletSpeed = 0.6f;
 	float laserSpeed = 1.f;
 	float speed = 1.0f;
 	int countAnimTrans = 0;
@@ -90,7 +90,7 @@ public:
 	sf::Sprite marcus_SecondPhase_sprite;
 	sf::Vector2i marcus_anim_SecondPhase;
 
-	map<sf::Vector2f, sf::CircleShape> MarcusBullets;
+	vector<sf::CircleShape> MarcusBullets;
 	vector<sf::CircleShape> MarcusLaser;
 
 
