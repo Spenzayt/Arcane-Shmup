@@ -33,7 +33,7 @@ public:
 	int NbEasySoldier = 3;
 	int NbMediumSoldier = 2;
 	int NbHardSoldier = 1;
-	int MaxWaves = 5;
+	int TimeBeforeBoss = 90;
 	float CoefDifficulty = 2.0f;
 
 	int score = 0;

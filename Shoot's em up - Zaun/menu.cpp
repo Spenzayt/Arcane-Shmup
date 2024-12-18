@@ -445,7 +445,7 @@ int Menu::mainMenu(sf::RenderWindow& window) {
                     NbEasySoldierCustom = optionValues[0];
                     NbMediumSoldierCustom = optionValues[1];
                     NbHardSoldierCustom = optionValues[2];
-                    MaxWavesCustom = optionValues[3];
+                    TimeBeforeBossCustom = optionValues[3];
                     return 2;
                     isMousePressed = true;
                 }

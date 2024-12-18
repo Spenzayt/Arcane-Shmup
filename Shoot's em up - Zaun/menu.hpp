@@ -11,7 +11,7 @@ public:
     int NbEasySoldierCustom = 1;
     int NbMediumSoldierCustom = 1;
     int NbHardSoldierCustom = 1;
-    int MaxWavesCustom = 1;
+    int TimeBeforeBossCustom = 1;
     float CoefDifficultyCustom = 1.5f;
 
     sf::Sprite background_sprite;

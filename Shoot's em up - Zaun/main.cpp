@@ -24,13 +24,13 @@ int mainGame() {
         game.NbEasySoldier = menu.NbEasySoldierCustom;
         game.NbMediumSoldier = menu.NbMediumSoldierCustom;
         game.NbHardSoldier = menu.NbHardSoldierCustom;
-        game.MaxWaves = menu.MaxWavesCustom;
+        game.TimeBeforeBoss = menu.TimeBeforeBossCustom;
     }
 
     cout << "Easy : " << game.NbEasySoldier << std::endl;
     cout << "Medium : " << game.NbMediumSoldier << std::endl;
     cout << "Hard : " << game.NbHardSoldier << std::endl;
-    cout << "Waves : " << game.MaxWaves << std::endl;
+    cout << "Waves : " << game.TimeBeforeBoss << std::endl;
 
 #pragma region Game Initialisation
     ParallaxBackground background1("assets/backgrounds/ground-zaunV2.png", 150.0f, 630, 1.1, 1.1);
@@ -119,7 +119,7 @@ int mainGame() {
     auto waitNewWaveHardSoldier = chrono::seconds(15);
 
     auto startNewWaveMarcus = chrono::steady_clock::now();
-    auto waitNewWaveMarcus = chrono::seconds(90);  
+    auto waitNewWaveMarcus = chrono::seconds(game.TimeBeforeBoss);
 
     auto MS_startTime = chrono::steady_clock::now();
     auto MS_waitTime = chrono::milliseconds(MediumSoldier_Class.attackSpeed);
@@ -882,7 +882,7 @@ int mainGame() {
 
 #pragma region Waves        
 
-            if (game.currentPhase == game.WavesPhase && game.currentWave < game.MaxWaves) {
+            if (game.currentPhase == game.WavesPhase && game.currentWave < game.TimeBeforeBoss) {
                 if (!Marcus_Class.marcusApparition) {
                     auto newWaveNowTimeSoldier = chrono::steady_clock::now();
                     if (newWaveNowTimeSoldier >= startNewWaveSoldier + waitNewWaveSoldier) {
@@ -958,10 +958,10 @@ int startMainMenu() {
     game.NbEasySoldier = 3;
     game.NbMediumSoldier = 2;
     game.NbHardSoldier = 1;
-    game.MaxWaves = 5;
+    game.TimeBeforeBoss = 10;
     game.CoefDifficulty = 2.0f;
 
-    menu.MaxWavesCustom = 1;
+    menu.TimeBeforeBossCustom = 1;
     menu.NbEasySoldierCustom = 1;
     menu.NbMediumSoldierCustom = 1;
     menu.NbHardSoldierCustom = 1;
