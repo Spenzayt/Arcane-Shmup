@@ -47,7 +47,6 @@ private:
     sf::Text minus;
 
 
-
     sf::Vector2f buttonSize = { 400.f, 100.f };
     sf::Vector2f hoverSize = buttonSize * 1.05f;
     float buttonSpacing = 40.f;

@@ -517,6 +517,10 @@ int Menu::mainMenu(sf::RenderWindow& window) {
             else {
                 plus.setFillColor(sf::Color::White);
             }
+            if ((sf::Mouse::getPosition().x <= 1150 && sf::Mouse::getPosition().x >= 1120) && (sf::Mouse::getPosition().y <= 520 && sf::Mouse::getPosition().y >= 490) && sf::Mouse::isButtonPressed(sf::Mouse::Left) && volumeMusic < 100) {
+                volumeMusic += 5.f;
+                countForStopSpam++;
+            }
 
             //minus
             if ((sf::Mouse::getPosition().x <= 1150 && sf::Mouse::getPosition().x >= 1120) && (sf::Mouse::getPosition().y <= 620 && sf::Mouse::getPosition().y >= 590)) {
@@ -524,6 +528,10 @@ int Menu::mainMenu(sf::RenderWindow& window) {
             }
             else {
                 minus.setFillColor(sf::Color::White);
+            }
+            if ((sf::Mouse::getPosition().x <= 1150 && sf::Mouse::getPosition().x >= 1120) && (sf::Mouse::getPosition().y <= 620 && sf::Mouse::getPosition().y >= 590) && sf::Mouse::isButtonPressed(sf::Mouse::Left) && volumeMusic > 0) {
+                volumeMusic -= 5.f;
+                countForStopSpam++;
             }
         }
 
