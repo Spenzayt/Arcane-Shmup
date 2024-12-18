@@ -8,11 +8,10 @@ class Menu {
 public:
     int mainMenu(sf::RenderWindow& window);
 
-    int NbEasySoldierCustom = 1;
-    int NbMediumSoldierCustom = 1;
-    int NbHardSoldierCustom = 1;
-    int TimeBeforeBossCustom = 1;
-    float CoefDifficultyCustom = 1.5f;
+    int MaxEasySoldierCustom;
+    int MaxMediumSoldierCustom;
+    int MaxHardSoldierCustom;
+    int TimeBeforeBossCustom;
 
     sf::Sprite background_sprite;
     sf::Text title, subtitle;

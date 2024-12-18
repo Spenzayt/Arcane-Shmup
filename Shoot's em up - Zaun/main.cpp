@@ -20,17 +20,6 @@ void Wave(int NbOfEasySoldiers, int NbOfMediumSoldiers, int NbOfHardSoldiers) {
 }
 
 int mainGame() {
-    if (game.isCustom) {
-        game.NbEasySoldier = menu.NbEasySoldierCustom;
-        game.NbMediumSoldier = menu.NbMediumSoldierCustom;
-        game.NbHardSoldier = menu.NbHardSoldierCustom;
-        game.TimeBeforeBoss = menu.TimeBeforeBossCustom;
-    }
-
-    cout << "Easy : " << game.NbEasySoldier << std::endl;
-    cout << "Medium : " << game.NbMediumSoldier << std::endl;
-    cout << "Hard : " << game.NbHardSoldier << std::endl;
-    cout << "Waves : " << game.TimeBeforeBoss << std::endl;
 
 #pragma region Game Initialisation
     ParallaxBackground background1("assets/backgrounds/ground-zaunV2.png", 150.0f, 630, 1.1, 1.1);
@@ -67,6 +56,13 @@ int mainGame() {
 
     bool BlueBuffTimer = false;
     bool RedBuffTimer = false;
+
+    if (game.isCustom) {
+        game.MaxEasySoldier = menu.MaxEasySoldierCustom;
+        game.MaxMediumSoldier = menu.MaxMediumSoldierCustom;
+        game.MaxHardSoldier = menu.MaxHardSoldierCustom;
+        game.TimeBeforeBoss = menu.TimeBeforeBossCustom;
+    }
 
 #pragma endregion Game Initialisation
 
@@ -886,7 +882,7 @@ int mainGame() {
                 if (!Marcus_Class.marcusApparition) {
                     auto newWaveNowTimeSoldier = chrono::steady_clock::now();
                     if (newWaveNowTimeSoldier >= startNewWaveSoldier + waitNewWaveSoldier) {
-                        for (int i = 0; i < rand() % 1 + 4; i++)
+                        for (int i = 0; i < rand() % 1 + game.MaxEasySoldier; i++)
                         {
                             Soldier_Class.createSoldiers(1);
                         }
@@ -895,7 +891,7 @@ int mainGame() {
 
                     auto newWaveNowTimeMediumSoldier = chrono::steady_clock::now();
                     if (newWaveNowTimeMediumSoldier >= startNewWaveMediumSoldier + waitNewWaveMediumSoldier) {
-                        for (int i = 0; i < rand() % 1 + 3; i++)
+                        for (int i = 0; i < rand() % 1 + game.MaxMediumSoldier; i++)
                         {
                             MediumSoldier_Class.createSoldiers(1);
                         }
@@ -904,7 +900,7 @@ int mainGame() {
 
                     auto newWaveNowTimeHardSoldier = chrono::steady_clock::now();
                     if (newWaveNowTimeHardSoldier >= startNewWaveHardSoldier + waitNewWaveHardSoldier) {
-                        for (int i = 0; i < rand() % 1 + 2; i++)
+                        for (int i = 0; i < rand() % 1 + game.MaxHardSoldier; i++)
                         {
                             HardSoldier_Class.createSoldiers(1);
                         }
@@ -916,20 +912,6 @@ int mainGame() {
                 if (newWaveNowTimeMarcus >= startNewWaveMarcus + waitNewWaveMarcus) {
                     Marcus_Class.marcusApparition = true;
                 }
-
-                /*
-                    Wave(game.NbEasySoldier * 2, game.NbMediumSoldier * 2, game.NbHardSoldier * 2);
-                    game.NbEasySoldier = static_cast<int>(std::round(game.NbEasySoldier * game.CoefDifficulty));
-                    game.NbMediumSoldier = static_cast<int>(std::round(game.NbMediumSoldier * game.CoefDifficulty));
-                    game.NbHardSoldier = static_cast<int>(std::round(game.NbHardSoldier * game.CoefDifficulty));
-
-                    cout << game.NbEasySoldier << endl;
-                    cout << game.NbMediumSoldier << endl;
-                    cout << game.NbHardSoldier << endl;
-
-                    startNewWave = newWaveNowTime;
-                    game.currentWave++;
-                */
             }
 
 #pragma endregion Waves
@@ -955,17 +937,15 @@ int startMainMenu() {
     game.isCustom = false;
     game.score = 0;
 
-    game.NbEasySoldier = 3;
-    game.NbMediumSoldier = 2;
-    game.NbHardSoldier = 1;
-    game.TimeBeforeBoss = 10;
-    game.CoefDifficulty = 2.0f;
+    game.MaxEasySoldier = 4;
+    game.MaxMediumSoldier = 3;
+    game.MaxHardSoldier = 2;
+    game.TimeBeforeBoss = 90;
 
-    menu.TimeBeforeBossCustom = 1;
-    menu.NbEasySoldierCustom = 1;
-    menu.NbMediumSoldierCustom = 1;
-    menu.NbHardSoldierCustom = 1;
-    menu.CoefDifficultyCustom = 1.0f;
+    menu.MaxEasySoldierCustom = 4;
+    menu.MaxMediumSoldierCustom = 3;
+    menu.MaxHardSoldierCustom = 2;
+    menu.TimeBeforeBossCustom = 90;
 
     Soldier_Class.deleteSoldiers();
     MediumSoldier_Class.deleteMediumSoldiers();

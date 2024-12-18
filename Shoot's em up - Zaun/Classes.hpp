@@ -22,21 +22,16 @@ public:
 	enum GamePhase { WavesPhase, BossPhase};
 	GamePhase currentPhase = WavesPhase;
 
-	bool isPaused = false;
+	bool isPaused;
+	bool konamiCodeActivated;
+	bool isCustom;
 
-	bool konamiCodeActivated = false;
-
-	int currentWave = 1;
-
-	bool isCustom = false;
-
-	int NbEasySoldier = 3;
-	int NbMediumSoldier = 2;
-	int NbHardSoldier = 1;
-	int TimeBeforeBoss = 90;
-	float CoefDifficulty = 2.0f;
-
-	int score = 0;
+	int currentWave;
+	int MaxEasySoldier;
+	int MaxMediumSoldier;
+	int MaxHardSoldier;
+	int TimeBeforeBoss;
+	int score;
 
 	void init() {
 		window.create(sf::VideoMode(1920, 1080), "Zaun : La bataille des nations", sf::Style::Fullscreen);
