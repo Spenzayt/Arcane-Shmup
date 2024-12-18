@@ -110,10 +110,13 @@ int mainGame() {
     auto S_startReadyToAttackTime = chrono::steady_clock::now();
     auto S_waitReadyToAttackTime = chrono::seconds(1);
 
-    auto startNewWave = chrono::steady_clock::now();
+    /*auto startNewWave = chrono::steady_clock::now();
     auto waitNewWave = chrono::seconds(4);
     auto startNewWave2 = chrono::steady_clock::now();
-    auto waitNewWave2 = chrono::seconds(2);
+    auto waitNewWave2 = chrono::seconds(2);*/
+
+    auto startNewWaveSoldier = chrono::steady_clock::now();
+    auto waitNewWaveSoldier = chrono::seconds(6);
 
     auto startNewWaveMediumSoldier = chrono::steady_clock::now();
     auto waitNewWaveMediumSoldier = chrono::seconds(10);
@@ -122,7 +125,8 @@ int mainGame() {
     auto waitNewWaveHardSoldier = chrono::seconds(15);
 
     auto startNewWaveMarcus = chrono::steady_clock::now();
-    auto waitNewWaveMarcus = chrono::seconds(90);  ////////////////////////////
+    auto waitNewWaveMarcus = chrono::seconds(90);  
+    ////////////////////////////
 
     auto MS_startTime = chrono::steady_clock::now();
     auto MS_waitTime = chrono::milliseconds(MediumSoldier_Class.attackSpeed);
@@ -153,40 +157,6 @@ int mainGame() {
         while (game.window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 game.window.close();
-
-        if (!Marcus_Class.marcusApparition) {
-            auto newWaveNowTimeSoldier = chrono::steady_clock::now();
-            if (newWaveNowTimeSoldier >= startNewWaveSoldier + waitNewWaveSoldier) {
-                for (int i = 0; i < rand() % 1 + 4; i++)
-                {
-                    Soldier_Class.createSoldiers(1);
-                }
-                startNewWaveSoldier = newWaveNowTimeSoldier;
-            }
-
-            auto newWaveNowTimeMediumSoldier = chrono::steady_clock::now();
-            if (newWaveNowTimeMediumSoldier >= startNewWaveMediumSoldier + waitNewWaveMediumSoldier) {
-                for (int i = 0; i < rand() % 1 + 3; i++)
-                {
-                    MediumSoldier_Class.createSoldiers(1);
-                }
-                startNewWaveMediumSoldier = newWaveNowTimeMediumSoldier;
-            }
-
-            auto newWaveNowTimeHardSoldier = chrono::steady_clock::now();
-            if (newWaveNowTimeHardSoldier >= startNewWaveHardSoldier + waitNewWaveHardSoldier) {
-                for (int i = 0; i < rand() % 1 + 2; i++)
-                {
-                    HardSoldier_Class.createSoldiers(1);
-                }
-                startNewWaveHardSoldier = newWaveNowTimeHardSoldier;
-            }
-        }
-
-        auto newWaveNowTimeMarcus = chrono::steady_clock::now();
-        if (newWaveNowTimeMarcus >= startNewWaveMarcus + waitNewWaveMarcus) {
-            Marcus_Class.marcusApparition = true;
-        }
 
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
                 game.isPaused = !game.isPaused;
@@ -1117,7 +1087,6 @@ int mainGame() {
         }
 #pragma endregion HardSoldier
 
-        /*
         #pragma region Buff
 
             if (blueBuff.touchByThePlayer(Ekko_Class.ekko_walk_sprite)) {
@@ -1174,8 +1143,41 @@ int mainGame() {
 #pragma region Waves        
 
             if (game.currentPhase == game.WavesPhase && game.currentWave < game.MaxWaves) {
-                auto newWaveNowTime = chrono::steady_clock::now();
-                if (newWaveNowTime >= startNewWave + waitNewWave) {
+                if (!Marcus_Class.marcusApparition) {
+                    auto newWaveNowTimeSoldier = chrono::steady_clock::now();
+                    if (newWaveNowTimeSoldier >= startNewWaveSoldier + waitNewWaveSoldier) {
+                        for (int i = 0; i < rand() % 1 + 4; i++)
+                        {
+                            Soldier_Class.createSoldiers(1);
+                        }
+                        startNewWaveSoldier = newWaveNowTimeSoldier;
+                    }
+
+                    auto newWaveNowTimeMediumSoldier = chrono::steady_clock::now();
+                    if (newWaveNowTimeMediumSoldier >= startNewWaveMediumSoldier + waitNewWaveMediumSoldier) {
+                        for (int i = 0; i < rand() % 1 + 3; i++)
+                        {
+                            MediumSoldier_Class.createSoldiers(1);
+                        }
+                        startNewWaveMediumSoldier = newWaveNowTimeMediumSoldier;
+                    }
+
+                    auto newWaveNowTimeHardSoldier = chrono::steady_clock::now();
+                    if (newWaveNowTimeHardSoldier >= startNewWaveHardSoldier + waitNewWaveHardSoldier) {
+                        for (int i = 0; i < rand() % 1 + 2; i++)
+                        {
+                            HardSoldier_Class.createSoldiers(1);
+                        }
+                        startNewWaveHardSoldier = newWaveNowTimeHardSoldier;
+                    }
+                }
+
+                auto newWaveNowTimeMarcus = chrono::steady_clock::now();
+                if (newWaveNowTimeMarcus >= startNewWaveMarcus + waitNewWaveMarcus) {
+                    Marcus_Class.marcusApparition = true;
+                }
+
+                /*
                     Wave(game.NbEasySoldier * 2, game.NbMediumSoldier * 2, game.NbHardSoldier * 2);
                     game.NbEasySoldier = static_cast<int>(std::round(game.NbEasySoldier * game.CoefDifficulty));
                     game.NbMediumSoldier = static_cast<int>(std::round(game.NbMediumSoldier * game.CoefDifficulty));
@@ -1187,7 +1189,7 @@ int mainGame() {
 
                     startNewWave = newWaveNowTime;
                     game.currentWave++;
-                }
+                */
             }
 
 #pragma endregion Waves
