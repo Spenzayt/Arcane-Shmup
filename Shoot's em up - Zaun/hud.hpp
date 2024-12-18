@@ -12,6 +12,12 @@ private:
     int currentLife;
     int numberOfStates;
 
+    sf::Sprite marcusSpriteHealth;
+    sf::Texture marcusTextureHealth;
+    int marcusMaxLife;
+    int marcusCurrentLife;
+    int marcusNumberOfStates;
+
 public:
     HUD(int x, int y, int maxLife);
 

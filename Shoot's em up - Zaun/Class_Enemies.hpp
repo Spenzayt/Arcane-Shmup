@@ -11,8 +11,8 @@ using namespace std;
 class Enemies {
 protected:
 	std::string e_name;
-	int e_coordX;
-	int e_coordY;
+	int e_coordX = 0;
+	int e_coordY = 0;
 	int e_health = 100;
 	bool e_isAlive = true;
 
@@ -39,7 +39,7 @@ public:
 	std::string m_name;
 	int m_coordX = 2100;
 	int m_coordY = 500;
-	int m_health = 100;
+	int m_health = 60;
 	bool m_isAlive = true;
 	bool marcusApparition = false;
 
@@ -62,10 +62,13 @@ public:
 	int attackSpeed = 100;
 	int attackSpeed2 = 50;
 	float bulletSpeed = 0.8f;
+	float laserSpeed = 1.f;
 	float speed = 1.0f;
 	int countAnimTrans = 0;
 	bool transIsIn = false;
 	bool isAttackingV2 = false;
+	bool laserActive = false;
+	int countLaserTime = 0;
 
 	/*sf::Texture marcus_walk_texture;
 	sf::Sprite marcus_walk_sprite;
@@ -87,7 +90,9 @@ public:
 	sf::Sprite marcus_SecondPhase_sprite;
 	sf::Vector2i marcus_anim_SecondPhase;
 
-	vector<sf::CircleShape> MarcusBullets;
+	map<sf::Vector2f, sf::CircleShape> MarcusBullets;
+	vector<sf::CircleShape> MarcusLaser;
+
 
 	Marcus();
 	~Marcus();
