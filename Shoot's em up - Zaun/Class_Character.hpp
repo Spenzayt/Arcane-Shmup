@@ -59,6 +59,42 @@ public:
 	bool LifeReset();
 };
 
+//////////////
+
+class Cooldown {
+private:
+	struct SpellIcon {
+		sf::Texture texture;
+		sf::Sprite sprite;
+		sf::Text cooldownText;
+		bool isReady;
+		bool isUnlocked;
+		float cooldownTime;
+		float elapsedTime;
+
+		SpellIcon() : isReady(true), cooldownTime(0), elapsedTime(0) {}
+	};
+
+	SpellIcon Qspell;
+	SpellIcon Wspell;
+	SpellIcon Espell;
+	SpellIcon Ult;
+	sf::Font font;
+
+	void updateSpell(SpellIcon& spell, float deltaTime);
+
+public:
+	Cooldown();
+	~Cooldown();
+
+	void initCooldown(sf::RenderWindow& window);
+	void update(float deltaTime, bool Q, bool W, bool E, bool R);
+	void draw(sf::RenderWindow& window);
+	void startCooldown(const std::string& spellName, float cooldown);
+};
+
+//////////////
+
 class Ekko : public Character {
 public:
 	sf::Texture ekko_walk_texture;
@@ -96,7 +132,10 @@ public:
 
 	std::vector<sf::CircleShape> bullets;
 
-	Ekko();
+	Ekko(Cooldown& cooldown);
+	void initializeSpells();
+	bool canCastSpell(const std::string& spellName);
+	void castSpell(const std::string& spellName);
 
 	~Ekko();
 
@@ -105,14 +144,11 @@ public:
 	void ekkoPrintWindow(sf::RenderWindow& window);
 	void ekkoCommand();
 	void bulletInit();
-	void initializeSpells();
-	void castSpell(const std::string& spellName);
 	void dash();
 	void updatePositionHistory();
-	void updateSpells();
+	void updateSpells(int gameLevel);
 	void SlowZone();
 	void Boomerang();
-
 
 	std::deque<std::pair<sf::Vector2f, sf::Time>> positionHistory;
 	sf::Clock positionClock;
@@ -136,6 +172,11 @@ public:
 	sf::Vector2f BoomerangStartPosition;
 	sf::Vector2f BoomerangTargetPosition;
 
+	bool QspellUnlocked;
+	bool WspellUnlocked;
+	bool EspellUnlocked;
+	bool UltUnlocked;
+
 private:
 	sf::Vector2f direction;
 	sf::Vector2f playerPosition;
@@ -144,7 +185,12 @@ private:
 		float cooldownTime = 0.0f;
 		std::chrono::time_point<std::chrono::high_resolution_clock> lastCastTime;
 	};
+
+	Cooldown& cooldown;
 	std::unordered_map<std::string, SpellInfo> spells;
-	bool canCastSpell(const std::string& spellName);
+
+	int points;
+	int usedPoints;
+	int level;
 };
 

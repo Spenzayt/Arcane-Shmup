@@ -58,7 +58,7 @@ bool Character::LifeReset() {
 
 Character Char_Class;
 
-Ekko::Ekko() : Character("Ekko", 225, 800) {}
+Ekko::Ekko(Cooldown& cooldown) : Character("Ekko", 225, 800), cooldown(cooldown) {}
 
 Ekko::~Ekko() {}
 
@@ -170,6 +170,28 @@ void Ekko::ekkoCommand() {
 	{
 		castSpell("X Ult");
 	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && level >= 1 && points >= 1) {
+			usedPoints++;
+			points--;
+			QspellUnlocked = true;
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::E) && level >= 1 && points >= 1) {
+			points--;
+			usedPoints++;
+			WspellUnlocked = true;
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::C) && level >= 1 && points >= 1) {
+			points--;
+			usedPoints++;
+			EspellUnlocked = true;
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::X) && level == 4 && points >= 1) {
+			points--;
+			usedPoints++;
+			UltUnlocked = true;
+		}
+	} 
 }
 
 void Ekko::ekkoPrintWindow(sf::RenderWindow& window) {
@@ -219,10 +241,17 @@ std::unordered_map<std::string, SpellInfo> spells;
 
 void Ekko::initializeSpells() {
 	spells["A Spell"] = { 2.0f, std::chrono::high_resolution_clock::now() };
-	spells["E Spell"] = { 3.0f, std::chrono::high_resolution_clock::now() };
+	spells["E Spell"] = { 5.0f, std::chrono::high_resolution_clock::now() };
 	spells["C Spell"] = { 0.5f, std::chrono::high_resolution_clock::now() };
 	spells["X Ult"] = { 5.0f, std::chrono::high_resolution_clock::now() };
+	bool QspellUnlocked = false;
+	bool WspellUnlocked = false;
+	bool EspellUnlocked = false;
+	bool UltUnlocked = false;
 	positionClock.restart();
+	level = 0;
+	points = 0;
+	usedPoints = 0;
 }
 
 bool Ekko::canCastSpell(const std::string& spellName) {
@@ -233,16 +262,19 @@ bool Ekko::canCastSpell(const std::string& spellName) {
 
 void Ekko::castSpell(const std::string& spellName) {
 	if (canCastSpell(spellName)) {
-		if (spellName == "A Spell") {
+		if (spellName == "A Spell" && QspellUnlocked) {
 			Boomerang();
+			cooldown.startCooldown("Q", spells["A Spell"].cooldownTime);
 		}
-		else if (spellName == "E Spell") {
+		else if (spellName == "E Spell" && WspellUnlocked) {
 			SlowZone();
+			cooldown.startCooldown("W", spells["E Spell"].cooldownTime);
 		}
-		else if (spellName == "C Spell") {
+		else if (spellName == "C Spell" && EspellUnlocked) {
 			dash();
+			cooldown.startCooldown("E", spells["C Spell"].cooldownTime);
 		}
-		else if (spellName == "X Ult") {
+		else if (spellName == "X Ult" && UltUnlocked) {
 			if (!positionHistory.empty()) {
 				auto targetPosition = positionHistory.front().first;
 				isTeleporting = true;
@@ -251,8 +283,10 @@ void Ekko::castSpell(const std::string& spellName) {
 			else {
 				isTeleporting = false;
 			}
+			cooldown.startCooldown("Ult", spells["X Ult"].cooldownTime);
 		}
 		spells[spellName].lastCastTime = std::chrono::high_resolution_clock::now();
+		cooldown.startCooldown(spellName, spells[spellName].cooldownTime);
 	}
 }
 
@@ -284,7 +318,10 @@ void Ekko::updatePositionHistory() {
 	}
 }
 
-void Ekko::updateSpells() {
+void Ekko::updateSpells(int gameLevel) {
+	if (gameLevel > level) points++;
+	level = gameLevel;
+
 	if (isDashing) {
 		float elapsed = dashingTimer.getElapsedTime().asSeconds();
 		float dashDuration = 0.2f;
@@ -398,4 +435,130 @@ void Ekko::SlowZone() {
 void Ekko::Boomerang() {
 	isBoomerangActive = true;
 	ekko_Boomerang_sprite.setPosition(sf::Vector2f(ekko_walk_sprite.getPosition().x, ekko_walk_sprite.getPosition().y + 0));
+}
+
+/////////////////
+
+Cooldown::Cooldown() {
+	if (!font.loadFromFile("assets/Arcane Nine.otf")) {
+		std::cerr << "Error loading Font!" << std::endl;
+	}
+}
+
+Cooldown::~Cooldown() {}
+
+void Cooldown::initCooldown(sf::RenderWindow& window) {
+	if (!Qspell.texture.loadFromFile("assets/characters/ekko/EkkoQ.png") ||
+		!Wspell.texture.loadFromFile("assets/characters/ekko/EkkoW.png") ||
+		!Espell.texture.loadFromFile("assets/characters/ekko/EkkoE.png") ||
+		!Ult.texture.loadFromFile("assets/characters/ekko/EkkoR.png")) {
+		std::cerr << "Error loading Texture!" << std::endl;
+	}
+
+	Qspell.sprite.setTexture(Qspell.texture);
+	Wspell.sprite.setTexture(Wspell.texture);
+	Espell.sprite.setTexture(Espell.texture);
+	Ult.sprite.setTexture(Ult.texture);
+
+	Qspell.sprite.setScale(1.5, 1.5);
+	Wspell.sprite.setScale(1.5, 1.5);
+	Espell.sprite.setScale(1.5, 1.5);
+	Ult.sprite.setScale(1.5, 1.5);
+
+	float yPos = 50.f;
+
+	Qspell.sprite.setPosition(((window.getSize().x / 2.f) - 278), yPos);
+	Wspell.sprite.setPosition(((window.getSize().x / 2.f) - 278) + 150, yPos);
+	Espell.sprite.setPosition(((window.getSize().x / 2.f) - 278) + 300, yPos);
+	Ult.sprite.setPosition(((window.getSize().x / 2.f) - 278) + 450, yPos);
+
+	Qspell.cooldownText.setFont(font);
+	Wspell.cooldownText.setFont(font);
+	Espell.cooldownText.setFont(font);
+	Ult.cooldownText.setFont(font);
+
+	Qspell.cooldownText.setCharacterSize(100);
+	Wspell.cooldownText.setCharacterSize(100);
+	Espell.cooldownText.setCharacterSize(100);
+	Ult.cooldownText.setCharacterSize(100);
+
+	Qspell.cooldownText.setFillColor(sf::Color::White);
+	Wspell.cooldownText.setFillColor(sf::Color::White);
+	Espell.cooldownText.setFillColor(sf::Color::White);
+	Ult.cooldownText.setFillColor(sf::Color::White);
+
+	Qspell.isUnlocked = false;
+	Wspell.isUnlocked = false;
+	Espell.isUnlocked = false;
+	Ult.isUnlocked = false;
+}
+
+void Cooldown::updateSpell(SpellIcon& spell, float deltaTime) {
+	if (!spell.isReady && spell.isUnlocked) {
+		spell.elapsedTime += deltaTime;
+
+		if (spell.elapsedTime >= spell.cooldownTime) {
+			spell.isReady = true;
+			spell.elapsedTime = 0;
+		}
+
+		float timeLeft = spell.cooldownTime - spell.elapsedTime;
+		spell.cooldownText.setString(std::to_string(static_cast<int>(timeLeft + 1)));
+
+		spell.cooldownText.setPosition(spell.sprite.getPosition().x + 30.f, spell.sprite.getPosition().y - 17.f);
+
+		if (!spell.isReady) {
+			spell.sprite.setColor(sf::Color(100, 100, 100));
+			spell.cooldownText.setFillColor(sf::Color::White);
+		}
+		else {
+			spell.sprite.setColor(sf::Color(255, 255, 255));
+			spell.cooldownText.setFillColor(sf::Color::Transparent);
+		}
+	}
+	else if (!spell.isUnlocked) spell.sprite.setColor(sf::Color(100, 100, 100));
+	else if (spell.isUnlocked) spell.sprite.setColor(sf::Color(255, 255, 255));
+}
+
+void Cooldown::update(float deltaTime, bool Q, bool W, bool E, bool R) {
+	if (Q) Qspell.isUnlocked = true;
+	if (W) Wspell.isUnlocked = true;
+	if (E) Espell.isUnlocked = true;
+	if (R) Ult.isUnlocked = true;
+	
+	updateSpell(Qspell, deltaTime);
+	updateSpell(Wspell, deltaTime);
+	updateSpell(Espell, deltaTime);
+	updateSpell(Ult, deltaTime);
+}
+
+void Cooldown::draw(sf::RenderWindow& window) {
+	window.draw(Qspell.sprite);
+	window.draw(Wspell.sprite);
+	window.draw(Espell.sprite);
+	window.draw(Ult.sprite);
+
+	window.draw(Qspell.cooldownText);
+	window.draw(Wspell.cooldownText);
+	window.draw(Espell.cooldownText);
+	window.draw(Ult.cooldownText);
+}
+
+void Cooldown::startCooldown(const std::string& spellName, float cooldown) {
+	if (spellName == "Q") {
+		Qspell.isReady = false;
+		Qspell.cooldownTime = cooldown;
+	}
+	else if (spellName == "W") {
+		Wspell.isReady = false;
+		Wspell.cooldownTime = cooldown;
+	}
+	else if (spellName == "E") {
+		Espell.isReady = false;
+		Espell.cooldownTime = cooldown;
+	}
+	else if (spellName == "Ult") {
+		Ult.isReady = false;
+		Ult.cooldownTime = cooldown;
+	}
 }

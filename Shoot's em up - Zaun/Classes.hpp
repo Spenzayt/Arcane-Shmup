@@ -9,7 +9,8 @@
 #include "Class_Enemies.hpp"
 #include "buff.hpp"
 
-Ekko Ekko_Class;
+Cooldown cooldown;
+Ekko Ekko_Class(cooldown);
 Marcus Marcus_Class;
 Soldier Soldier_Class;
 MediumSoldier MediumSoldier_Class;
@@ -32,6 +33,9 @@ public:
 	int MaxHardSoldier;
 	int TimeBeforeBoss;
 	int score;
+
+	int level = 1;
+	int maxLevel = 4;
 
 	void init() {
 		window.create(sf::VideoMode(1920, 1080), "Zaun : La bataille des nations", sf::Style::Fullscreen);

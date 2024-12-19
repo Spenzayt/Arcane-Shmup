@@ -30,6 +30,7 @@ int mainGame() {
     Ekko_Class.ekkoInitAnimations();
     Ekko_Class.bulletInit();
     Ekko_Class.initializeSpells();
+    cooldown.initCooldown(game.window);
 
     Marcus_Class.marcusInitAnimations();
     Marcus_Class.marcusBulletInit();
@@ -327,7 +328,9 @@ int mainGame() {
                 Ekko_Class.ekkoCommand();
                 Ekko_Class.ekkoDontExitFromScreen();
                 Ekko_Class.updatePositionHistory();
-                Ekko_Class.updateSpells();
+                Ekko_Class.updateSpells(game.level);
+
+                cooldown.update(deltaTime.asSeconds(), Ekko_Class.QspellUnlocked, Ekko_Class.WspellUnlocked, Ekko_Class.EspellUnlocked, Ekko_Class.UltUnlocked);
 
                 int xHealth = Ekko_Class.ekko_walk_sprite.getPosition().x - 10;
                 int yHeatlh = Ekko_Class.ekko_walk_sprite.getPosition().y - 15;
@@ -380,6 +383,7 @@ int mainGame() {
                 }
 
                 Ekko_Class.ekkoPrintWindow(game.window);
+                cooldown.draw(game.window);
                 healthBar.draw(game.window);
 
                 /*Ekko_Class.ekko_anim_Bullet_Auto_Attack.x++;
@@ -635,6 +639,10 @@ int mainGame() {
                     }
                     if (Ekko_Class.isBoomerangActive && Ekko_Class.ekko_Boomerang_sprite.getGlobalBounds().intersects(soldier.soldier_walk_sprite.getGlobalBounds())) {
                         soldier.losePV(Ekko_Class.boomerangDamage);
+                        if (!soldier.s_isAlive) {
+                            game.score++;
+                        }
+
                     }
                     auto S_nowTime = chrono::steady_clock::now();
                     if (S_nowTime >= S_startTime + S_waitTime) {
@@ -711,6 +719,9 @@ int mainGame() {
                     }
                     if (Ekko_Class.isBoomerangActive && Ekko_Class.ekko_Boomerang_sprite.getGlobalBounds().intersects(mediumSoldier.medium_soldier_walk_sprite.getGlobalBounds())) {
                         mediumSoldier.losePV(Ekko_Class.boomerangDamage);
+                        if (!mediumSoldier.ms_isAlive) {
+                            game.score++;
+                        }
                     }
                     auto MS_nowTime = chrono::steady_clock::now();
                     if (MS_nowTime >= MS_startTime + MS_waitTime) {
@@ -788,6 +799,9 @@ int mainGame() {
                     }
                     if (Ekko_Class.isBoomerangActive && Ekko_Class.ekko_Boomerang_sprite.getGlobalBounds().intersects(hardSoldier.hard_soldier_walk_sprite.getGlobalBounds())) {
                         hardSoldier.losePV(Ekko_Class.boomerangDamage);
+                        if (!hardSoldier.hs_isAlive) {
+                            game.score++;
+                        }
                     }
                     auto HS_nowTime = chrono::steady_clock::now();
                     if (HS_nowTime >= HS_startTime + HS_waitTime) {
@@ -939,7 +953,7 @@ int mainGame() {
                 }
             }
 
-#pragma endregion Waves
+#pragma endregion Waves 
 
 #pragma region Score
 
@@ -947,6 +961,19 @@ int mainGame() {
             score.drawScore(game.window);
 
 #pragma endregion Score
+
+#pragma region Cooldown
+
+            float deltaTime = clock.restart().asSeconds();
+            cooldown.draw(game.window);
+
+#pragma endregion Cooldown
+
+#pragma region Levels
+
+            if (game.score >= game.level * 10 && game.level < game.maxLevel) game.level++;
+
+#pragma endregion Levels
 
             game.window.display();
         }

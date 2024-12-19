@@ -41,6 +41,8 @@ void HUD::draw(sf::RenderWindow& window) {
     window.draw(spriteHealth);
 }
 
+////////////////
+
 SCORE::SCORE() {
     if (!font.loadFromFile("assets/Arcane Nine.otf")) {
         std::cerr << "Error loading Font!" << std::endl;
