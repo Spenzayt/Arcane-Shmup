@@ -164,22 +164,25 @@ void Ekko::ekkoCommand() {
 			usedPoints++;
 			points--;
 			QspellUnlocked = true;
+			spells["Q Spell"].cooldownTime = std::chrono::duration<float>(std::chrono::seconds(0)).count();
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::E) && level >= 1 && points >= 1) {
 			points--;
 			usedPoints++;
 			WspellUnlocked = true;
+			spells["E Spell"].cooldownTime = std::chrono::duration<float>(std::chrono::seconds(0)).count();
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::C) && level >= 1 && points >= 1) {
 			points--;
 			usedPoints++;
 			EspellUnlocked = true;
+			spells["C Spell"].cooldownTime = std::chrono::duration<float>(std::chrono::seconds(0)).count();
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::X) && level >= 4) {
 			points--;
 			usedPoints++;
 			UltUnlocked = true;
-			cout << "bite" << endl;
+			spells["X Ult"].cooldownTime = std::chrono::duration<float>(std::chrono::seconds(0)).count();
 		}
 	} 
 }
@@ -296,10 +299,10 @@ struct SpellInfo {
 std::unordered_map<std::string, SpellInfo> spells;
 
 void Ekko::initializeSpells() {
-	spells["A Spell"] = { 2.0f, std::chrono::high_resolution_clock::now() };
-	spells["E Spell"] = { 5.0f, std::chrono::high_resolution_clock::now() };
-	spells["C Spell"] = { 0.5f, std::chrono::high_resolution_clock::now() };
-	spells["X Ult"] = { 5.0f, std::chrono::high_resolution_clock::now() };
+	spells["A Spell"] = { 3.2f, std::chrono::high_resolution_clock::now() };
+	spells["E Spell"] = { 10.0f, std::chrono::high_resolution_clock::now() };
+	spells["C Spell"] = { 1.0f, std::chrono::high_resolution_clock::now() };
+	spells["X Ult"] = { 9.0f, std::chrono::high_resolution_clock::now() };
 }
 
 bool Ekko::canCastSpell(const std::string& spellName) {
@@ -311,21 +314,23 @@ bool Ekko::canCastSpell(const std::string& spellName) {
 void Ekko::castSpell(const std::string& spellName) {
 	if (canCastSpell(spellName)) {
 		if (spellName == "A Spell" && QspellUnlocked) {
-			Boomerang();
+			spells["Q Spell"].cooldownTime = std::chrono::duration<float>(std::chrono::milliseconds(320)).count();
 			cooldown.startCooldown("Q", spells["A Spell"].cooldownTime);
+			Boomerang();
 		}
 		else if (spellName == "E Spell" && WspellUnlocked) {
+			spells["E Spell"].cooldownTime = std::chrono::duration<float>(std::chrono::seconds(10)).count();
 			SlowZone();
-			cooldown.startCooldown("W", spells["E Spell"].cooldownTime);
 		}
 		else if (spellName == "C Spell" && EspellUnlocked) {
-			dash();
+			spells["C Spell"].cooldownTime = std::chrono::duration<float>(std::chrono::seconds(1)).count();
 			cooldown.startCooldown("E", spells["C Spell"].cooldownTime);
+			dash();
 		}
 		else if (spellName == "X Ult" && UltUnlocked) {
-			cout << "ult" << endl;
+			spells["X Ult"].cooldownTime = std::chrono::duration<float>(std::chrono::seconds(9)).count();
+			cooldown.startCooldown("R", spells["X Ult"].cooldownTime);
 			ult();
-			cooldown.startCooldown("X", spells["X Spell"].cooldownTime);
 		}
 		spells[spellName].lastCastTime = std::chrono::high_resolution_clock::now();
 		cooldown.startCooldown(spellName, spells[spellName].cooldownTime);
@@ -376,7 +381,6 @@ void Ekko::updateSpells(int gameLevel) {
 	}
 
 	if (isUlting) {
-		cout << "ult 2" << endl;
 		if (!ekko_S.Ult) {
 			ekko_S.Ult = true;
 			Ekko_invincibility = true;
@@ -397,6 +401,7 @@ void Ekko::updateSpells(int gameLevel) {
 			ekko_S.SlowZone = true;
 			ekko_SlowZone_sprite.setPosition(SlowZoneTargetPosition);
 			SlowZoneTimer.restart();
+			cooldown.startCooldown("W", spells["E Spell"].cooldownTime);
 		}
 
 		float tSlow = SlowZoneTimer.getElapsedTime().asSeconds();
@@ -522,6 +527,31 @@ void Cooldown::initCooldown(sf::RenderWindow& window) {
 	Wspell.cooldownText.setFillColor(sf::Color::White);
 	Espell.cooldownText.setFillColor(sf::Color::White);
 	Ult.cooldownText.setFillColor(sf::Color::White);
+
+	A.setFont(font);
+	E.setFont(font);
+	C.setFont(font);
+	X.setFont(font);
+
+	A.setCharacterSize(40);
+	E.setCharacterSize(40);
+	C.setCharacterSize(40);
+	X.setCharacterSize(40);
+
+	A.setFillColor(sf::Color::White);
+	E.setFillColor(sf::Color::White);
+	C.setFillColor(sf::Color::White);
+	X.setFillColor(sf::Color::White);
+
+	A.setString("A");
+	E.setString("E");
+	C.setString("C");
+	X.setString("X");
+
+	A.setPosition(718,2);
+	E.setPosition(870,2);
+	C.setPosition(1017,2);
+	X.setPosition(1170,2);
 }
 
 void Cooldown::updateSpell(SpellIcon& spell, float deltaTime) {
@@ -573,6 +603,11 @@ void Cooldown::draw(sf::RenderWindow& window) {
 	window.draw(Wspell.cooldownText);
 	window.draw(Espell.cooldownText);
 	window.draw(Ult.cooldownText);
+
+	window.draw(A);
+	window.draw(E);
+	window.draw(C);
+	window.draw(X);
 }
 
 void Cooldown::startCooldown(const std::string& spellName, float cooldown) {
@@ -588,7 +623,7 @@ void Cooldown::startCooldown(const std::string& spellName, float cooldown) {
 		Espell.isReady = false;
 		Espell.cooldownTime = cooldown;
 	}
-	else if (spellName == "Ult") {
+	else if (spellName == "R") {
 		Ult.isReady = false;
 		Ult.cooldownTime = cooldown;
 	}

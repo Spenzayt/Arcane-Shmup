@@ -68,6 +68,11 @@ public:
 	SpellIcon Ult;
 	sf::Font font;
 
+	sf::Text A;
+	sf::Text E;
+	sf::Text C;
+	sf::Text X;
+
 	void updateSpell(SpellIcon& spell, float deltaTime);
 
 	Cooldown();
