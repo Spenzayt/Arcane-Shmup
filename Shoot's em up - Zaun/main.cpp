@@ -370,9 +370,21 @@ int mainGame() {
                         startHitTime = nowHitTime;
                     }
                 }
-                if (!Ekko_Class.Ekko_invincibility /* && !blueBuff.BlueBuffActivated && !redBuff.RedBuffActivated*/) {
+                if (!Ekko_Class.Ekko_invincibility && !Ekko_Class.blueBuffActivated && !Ekko_Class.redBuffActivated) {
                     Ekko_Class.ekko_walk_sprite.setColor(sf::Color::White);
                     Ekko_Class.ekko_Auto_Attack_sprite.setColor(sf::Color::White);
+                }
+                if (Ekko_Class.blueBuffActivated && Ekko_Class.redBuffActivated) {
+                    Ekko_Class.ekko_walk_sprite.setColor(sf::Color::Green);
+                    Ekko_Class.ekko_Auto_Attack_sprite.setColor(sf::Color::Green);
+                }
+                else if (Ekko_Class.blueBuffActivated) {
+                    Ekko_Class.ekko_walk_sprite.setColor(sf::Color::Cyan);
+                    Ekko_Class.ekko_Auto_Attack_sprite.setColor(sf::Color::Cyan);
+                }
+                else if (Ekko_Class.redBuffActivated) {
+                    Ekko_Class.ekko_walk_sprite.setColor(sf::Color::Red);
+                    Ekko_Class.ekko_Auto_Attack_sprite.setColor(sf::Color::Red);
                 }
 
                 animationDelayAttack = static_cast<int>(50.0f / Ekko_Class.Ekko_attackSpeed);
@@ -908,13 +920,11 @@ int mainGame() {
                         buff->activate();
                         if (BlueBuff* blueBuff = dynamic_cast<BlueBuff*>(buff)) {
                             Ekko_Class.Ekko_speed = 1.5;
-                            Ekko_Class.ekko_walk_sprite.setColor(sf::Color::Cyan);
-                            Ekko_Class.ekko_Auto_Attack_sprite.setColor(sf::Color::Cyan);
+                            Ekko_Class.blueBuffActivated = true;
                         }
                         else if (RedBuff* redBuff = dynamic_cast<RedBuff*>(buff)) {
                             Ekko_Class.Ekko_attackSpeed = 2.0f;
-                            Ekko_Class.ekko_walk_sprite.setColor(sf::Color::Red);
-                            Ekko_Class.ekko_Auto_Attack_sprite.setColor(sf::Color::Red);
+                            Ekko_Class.redBuffActivated = true;
                         }
                     }
                 }
@@ -930,13 +940,11 @@ int mainGame() {
 
                         if (BlueBuff* blueBuff = dynamic_cast<BlueBuff*>(*it)) {
                             Ekko_Class.Ekko_speed = 1.0f;
-                            Ekko_Class.ekko_walk_sprite.setColor(sf::Color::White);
-                            Ekko_Class.ekko_Auto_Attack_sprite.setColor(sf::Color::White);
+                            Ekko_Class.blueBuffActivated = false;
                         }
                         else if (RedBuff* redBuff = dynamic_cast<RedBuff*>(*it)) {
                             Ekko_Class.Ekko_attackSpeed = 1.0f;
-                            Ekko_Class.ekko_walk_sprite.setColor(sf::Color::White);
-                            Ekko_Class.ekko_Auto_Attack_sprite.setColor(sf::Color::White);
+                            Ekko_Class.redBuffActivated = false;
                         }
 
                         delete* it;

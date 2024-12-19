@@ -129,6 +129,9 @@ public:
 	float Ekko_speed = 1.0f;
 	float Ekko_attackSpeed = 1.0f;
 	int boomerangDamage = 5;
+	bool blueBuffActivated = false;
+	bool redBuffActivated = false;
+
 
 	std::vector<sf::CircleShape> bullets;
 
