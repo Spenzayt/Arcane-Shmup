@@ -911,7 +911,14 @@ int mainGame() {
 
             for (auto it = buffs.begin(); it != buffs.end(); ) {
                 (*it)->update();
-                ++it;
+
+                if (!(*it)->isActivated() && (*it)->sprite.getPosition().x < 0) {
+                    delete* it;
+                    it = buffs.erase(it);
+                }
+                else {
+                    ++it;
+                }
             }
 
             for (auto& buff : buffs) {
@@ -959,10 +966,11 @@ int mainGame() {
                 }
             }
 
-
             for (auto& buff : buffs) {
                 buff->draw(game.window);
             }
+
+
 
 #pragma endregion Buff
 
@@ -1024,8 +1032,8 @@ int mainGame() {
 
 #pragma endregion Levels
 
+            game.window.display();
         }
-        game.window.display();
     }
     for (auto& buff : buffs) {
         delete buff;
@@ -1034,7 +1042,7 @@ int mainGame() {
     return 0;
 }
 
-int startMainMenu() {
+int resetGame() {
     game.isPaused = false;
     game.konamiCodeActivated = false;
     game.currentWave = 1;
@@ -1055,6 +1063,16 @@ int startMainMenu() {
     Soldier_Class.deleteSoldiers();
     MediumSoldier_Class.deleteMediumSoldiers();
     HardSoldier_Class.deleteHardSoldiers();
+
+    for (auto& buff : buffs) {
+        delete buff;
+    }
+
+    return 0;
+}
+
+int startMainMenu() {
+    resetGame();
 
     int mode = menu.mainMenu(game.window);
     if (mode == 1) {
