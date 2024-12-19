@@ -577,7 +577,10 @@ void Cooldown::updateSpell(SpellIcon& spell, float deltaTime) {
 			spell.cooldownText.setFillColor(sf::Color::Transparent);
 		}
 	}
-	else if (!spell.isUnlocked) spell.sprite.setColor(sf::Color(100, 100, 100));
+	else if (!spell.isUnlocked) {
+		spell.sprite.setColor(sf::Color(100, 100, 100));
+		spell.cooldownText.setFillColor(sf::Color::Transparent);
+	}
 	else if (spell.isUnlocked) spell.sprite.setColor(sf::Color(255, 255, 255));
 }
 

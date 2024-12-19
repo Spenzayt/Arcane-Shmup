@@ -13,7 +13,7 @@ Game game;
 Menu menu;
 
 int startMainMenu();
-int resetGame();
+void resetGame();
 
 void Wave(int NbOfEasySoldiers, int NbOfMediumSoldiers, int NbOfHardSoldiers) {
     Soldier_Class.createSoldiers(NbOfEasySoldiers);
@@ -1044,6 +1044,7 @@ int mainGame() {
                 if (buff->touchByThePlayer(Ekko_Class.ekko_walk_sprite)) {
                     if (!buff->isActivated()) {
                         buff->activate();
+                        buff->sprite.setColor(sf::Color::Transparent);
                         if (BlueBuff* blueBuff = dynamic_cast<BlueBuff*>(buff)) {
                             Ekko_Class.Ekko_speed = 1.5;
                             Ekko_Class.blueBuffActivated = true;
@@ -1180,7 +1181,7 @@ int mainGame() {
     return 0;
 }
 
-int resetGame() {
+void resetGame() {
     // Game
     game.isPaused = false;
     game.konamiCodeActivated = false;
@@ -1274,8 +1275,6 @@ int resetGame() {
     for (auto& buff : buffs) {
         delete buff;
     }
-
-    return 0;
 }
 
 int startMainMenu() {
