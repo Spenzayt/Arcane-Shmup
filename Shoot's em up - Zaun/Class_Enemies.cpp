@@ -63,7 +63,7 @@ void Marcus::marcusInitAnimations() {
 	marcus_TransSecondPhase_sprite.setPosition(1300, m_coordY);
 
 
-	if (!marcus_SecondPhase_texture.loadFromFile("assets\\characters\\marcus\\marcusSecodStateShootV3.png")) {
+	if (!marcus_SecondPhase_texture.loadFromFile("assets\\characters\\marcus\\marcusSecodStateShootV3Red2.png")) {
 		std::cerr << "Error loading Texture!" << std::endl;
 	}
 	marcus_SecondPhase_texture.setSmooth(true);
