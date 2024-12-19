@@ -13,6 +13,7 @@ Game game;
 Menu menu;
 
 int startMainMenu();
+int resetGame();
 
 void Wave(int NbOfEasySoldiers, int NbOfMediumSoldiers, int NbOfHardSoldiers) {
     Soldier_Class.createSoldiers(NbOfEasySoldiers);
@@ -1043,9 +1044,17 @@ int mainGame() {
 #pragma endregion Levels
             if (!Ekko_Class.getAlive()) {
                 Ekko_Class.printEndMenu(game.window);
+                if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && (sf::Mouse::getPosition().x <= 1100 && sf::Mouse::getPosition().x >= 800) && (sf::Mouse::getPosition().y <= 860 && sf::Mouse::getPosition().y >= 760)) {
+                    resetGame();
+                    startMainMenu();
+                }
             }
             if (!Marcus_Class.getAlive()) {
                 Ekko_Class.printWinMenu(game.window);
+                if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && (sf::Mouse::getPosition().x <= 1100 && sf::Mouse::getPosition().x >= 800) && (sf::Mouse::getPosition().y <= 860 && sf::Mouse::getPosition().y >= 760)) {
+                    resetGame();
+                    startMainMenu();
+                }
             }
             game.window.display();
         }
