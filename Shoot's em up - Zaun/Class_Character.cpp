@@ -232,6 +232,37 @@ void Ekko::ekkoPrintWindow(sf::RenderWindow& window) {
 	}
 }
 
+void Ekko::initEndMenu() {
+	if (!font.loadFromFile("assets/Arcane Nine.otf")) {
+		std::cerr << "Error loading Font!" << std::endl;
+	}
+	textEnd.setFont(font);
+	textEnd.setString("DEFEAT");
+	textEnd.setScale(15, 15);
+	textEnd.setOutlineThickness(3);
+	textEnd.setOutlineColor(sf::Color::Black);
+	textEnd.setPosition(500, 400);
+}
+
+void Ekko::printEndMenu(sf::RenderWindow& window) {
+	window.draw(textEnd);
+}
+
+void Ekko::initWinMenu() {
+	if (!font.loadFromFile("assets/Arcane Nine.otf")) {
+		std::cerr << "Error loading Font!" << std::endl;
+	}
+	textWin.setFont(font);
+	textWin.setString("WIN");
+	textWin.setScale(15, 15);
+	textWin.setOutlineThickness(3);
+	textWin.setOutlineColor(sf::Color::Black);
+	textWin.setPosition(600, 400);
+}
+
+void Ekko::printWinMenu(sf::RenderWindow& window) {
+	window.draw(textWin);
+}
 struct SpellInfo {
 	float cooldownTime;
 	std::chrono::time_point<std::chrono::high_resolution_clock> lastCastTime;

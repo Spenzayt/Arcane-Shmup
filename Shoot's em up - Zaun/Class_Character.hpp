@@ -120,6 +120,10 @@ public:
 	sf::Texture ekko_Boomerang_texture;
 	sf::Sprite ekko_Boomerang_sprite;
 
+	sf::Text textEnd;
+	sf::Font font;
+	sf::Text textWin;
+
 	std::string Ekko_name;
 	int Ekko_coordX = 225;
 	int	Ekko_coordY = 800;
@@ -139,6 +143,10 @@ public:
 	void initializeSpells();
 	bool canCastSpell(const std::string& spellName);
 	void castSpell(const std::string& spellName);
+	void initEndMenu();
+	void printEndMenu(sf::RenderWindow& window);
+	void initWinMenu();
+	void printWinMenu(sf::RenderWindow& window);
 
 	~Ekko();
 

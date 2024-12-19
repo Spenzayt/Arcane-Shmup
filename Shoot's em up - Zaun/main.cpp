@@ -49,6 +49,8 @@ int mainGame() {
     Ekko_Class.ekkoInitAnimations();
     Ekko_Class.bulletInit();
     Ekko_Class.initializeSpells();
+    Ekko_Class.initEndMenu();
+    Ekko_Class.initWinMenu();
     cooldown.initCooldown(game.window);
 
     Marcus_Class.marcusInitAnimations();
@@ -62,6 +64,7 @@ int mainGame() {
 
     HardSoldier_Class.hardSoldierInitAnimations();
     HardSoldier_Class.hardSoldierBulletInit();
+
 
     HUD healthBar(100, 100, 3);
     SCORE score;
@@ -336,6 +339,9 @@ int mainGame() {
 #pragma endregion Background
 
 #pragma region Ekko
+            if (!Ekko_Class.getAlive()) {
+                Ekko_Class.printEndMenu(game.window);
+            }
             if (Ekko_Class.getAlive()) {
                 Ekko_Class.ekkoCommand();
                 Ekko_Class.ekkoDontExitFromScreen();
@@ -503,6 +509,7 @@ int mainGame() {
                         Marcus_Class.marcus_SecondPhase_sprite.setTextureRect(sf::IntRect(0, 0, 0, 0));
                         Marcus_Class.marcus_SecondPhase_sprite.setTextureRect(sf::IntRect(0, 0, 0, 0));
                     }
+                    Ekko_Class.printWinMenu(game.window);
                 }
                 if (Marcus_Class.getAlive()) {
                     if (Marcus_Class.moveToFight == true) {
