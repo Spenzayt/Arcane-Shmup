@@ -34,12 +34,12 @@ void spawnBuff(sf::Vector2f position) {
 
 int mainGame() {
 
-    sf::Music PaintBlue;
-    if (!PaintBlue.openFromFile("assets\\Music\\Paint The Town BlueWAV.wav"))
+    sf::Music CreditsSong;
+    if (!CreditsSong.openFromFile("assets/Music/Credits Song.wav"))
         cout << "music pas chargé bro" << endl << endl;
-    PaintBlue.setLoop(true);
-    PaintBlue.setVolume(menu.volumeMusic);
-    PaintBlue.play();
+    CreditsSong.setLoop(true);
+    CreditsSong.setVolume(menu.volumeMusic);
+    CreditsSong.play();
     game.isMusicPlaying = true;
 
 #pragma region Game Initialisation
@@ -345,7 +345,7 @@ int mainGame() {
                             }
 
                             if (buttonLabels[i] == "Menu Principal") {
-                                PaintBlue.stop();
+                                CreditsSong.stop();
                                 startMainMenu();
                             }
 
@@ -388,7 +388,7 @@ int mainGame() {
                 }
                 if ((sf::Mouse::getPosition().x <= 1150 && sf::Mouse::getPosition().x >= 1120) && (sf::Mouse::getPosition().y <= 520 && sf::Mouse::getPosition().y >= 490) && sf::Mouse::isButtonPressed(sf::Mouse::Left) && menu.volumeMusic < 100) {
                     menu.volumeMusic += 5.f;
-                    PaintBlue.setVolume(menu.volumeMusic);
+                    CreditsSong.setVolume(menu.volumeMusic);
                 }
 
                 //minus
@@ -400,7 +400,7 @@ int mainGame() {
                 }
                 if ((sf::Mouse::getPosition().x <= 1150 && sf::Mouse::getPosition().x >= 1120) && (sf::Mouse::getPosition().y <= 620 && sf::Mouse::getPosition().y >= 590) && sf::Mouse::isButtonPressed(sf::Mouse::Left) && menu.volumeMusic > 0) {
                     menu.volumeMusic -= 5.f;
-                    PaintBlue.setVolume(menu.volumeMusic);
+                    CreditsSong.setVolume(menu.volumeMusic);
                 }
             }
 
@@ -437,7 +437,7 @@ int mainGame() {
 
         else {
             if (!game.isMusicPlaying) {
-                PaintBlue.play();
+                CreditsSong.play();
                 game.isMusicPlaying = true;
             }
 
@@ -1086,9 +1086,6 @@ int mainGame() {
                 }
             }
 
-
-
-
             for (auto& buff : buffs) {
                 buff->draw(game.window);
             }
@@ -1159,15 +1156,22 @@ int mainGame() {
 
             if (!Ekko_Class.getAlive()) {
                 Ekko_Class.printEndMenu(game.window);
+                if (game.isMusicPlaying) {
+                    CreditsSong.stop();
+                    game.isMusicPlaying = false;
+                }
+
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && (sf::Mouse::getPosition().x <= 1100 && sf::Mouse::getPosition().x >= 800) && (sf::Mouse::getPosition().y <= 860 && sf::Mouse::getPosition().y >= 760)) {
-                    PaintBlue.stop();
                     startMainMenu();
                 }
             }
             if (!Marcus_Class.getAlive()) {
                 Ekko_Class.printWinMenu(game.window);
+                if (game.isMusicPlaying) {
+                    CreditsSong.stop();
+                    game.isMusicPlaying = false;
+                }
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && (sf::Mouse::getPosition().x <= 1100 && sf::Mouse::getPosition().x >= 800) && (sf::Mouse::getPosition().y <= 860 && sf::Mouse::getPosition().y >= 760)) {
-                    PaintBlue.stop();
                     startMainMenu();
                 }
             }
@@ -1280,12 +1284,21 @@ void resetGame() {
 int startMainMenu() {
     resetGame();
 
+    sf::Music HeavyIsTheCrown;
+    if (!HeavyIsTheCrown.openFromFile("assets/Music/Heavy Is The Crown.wav"))
+        cout << "music pas chargé bro" << endl << endl;
+    HeavyIsTheCrown.setLoop(true);
+    HeavyIsTheCrown.setVolume(menu.volumeMusic);
+    HeavyIsTheCrown.play();
+
     int mode = menu.mainMenu(game.window);
     if (mode == 1) {
+        HeavyIsTheCrown.stop();
         mainGame();
     }
     else if (mode == 2) {
         game.isCustom = true;
+        HeavyIsTheCrown.stop();
         mainGame();
     }
     return 0;
