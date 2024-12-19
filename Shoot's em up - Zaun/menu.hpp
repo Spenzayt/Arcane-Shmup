@@ -13,7 +13,7 @@ public:
     int NbHardSoldierCustom = 1;
     int MaxWavesCustom = 1;
     float CoefDifficultyCustom = 1.5f;
-    float volumeMusic = 10.f;
+    float volumeMusic = 5.f;
 
     sf::Sprite background_sprite;
     sf::Text title, subtitle;

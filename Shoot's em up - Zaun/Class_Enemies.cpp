@@ -490,3 +490,4 @@ int HardSoldier::heal() {
 	hs_health++;
 	return hs_health;
 }
+

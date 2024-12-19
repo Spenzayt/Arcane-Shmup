@@ -1,12 +1,11 @@
 #include "buff.hpp"
 
-Buff::Buff(const sf::Vector2f& spawnPosition) : position(spawnPosition) {
+/*Buff::Buff(const sf::Vector2f& spawnPosition) : position(spawnPosition) {
     sprite.setPosition(position);
 }
 
-void Buff::setPosition(const sf::Vector2f& newPosition) {
-    position = newPosition;
-    sprite.setPosition(position);
+void Buff::setPosition(sf::Vector2f& newPosition) {
+    sprite.setPosition(newPosition);
 }
 
 void Buff::draw(sf::RenderWindow& window) {
@@ -30,6 +29,7 @@ void BlueBuff::initBlueBuff() {
     }
     texture.setSmooth(true);
     sprite.setTexture(texture);
+    sprite.setPosition(1000, 1000);
 }
 
 ////////////////////////
@@ -45,4 +45,5 @@ void RedBuff::initRedBuff() {
     }
     texture.setSmooth(true);
     sprite.setTexture(texture);
-}
+    sprite.setPosition(1000, 500);
+}*/

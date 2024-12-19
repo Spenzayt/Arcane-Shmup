@@ -72,8 +72,8 @@ int mainGame() {
 
     bool invincibilityTimer = false;
 
-    BlueBuff blueBuff(sf::Vector2f(1000, 800));
-    RedBuff redBuff(sf::Vector2f(1000, 1000));
+    //BlueBuff blueBuff(sf::Vector2f(1000, 800));
+    //RedBuff redBuff(sf::Vector2f(1000, 1000));
 
     bool BlueBuffTimer = false;
     bool RedBuffTimer = false;
@@ -295,78 +295,7 @@ int mainGame() {
                         }
 
                         if (buttonLabels[i] == "Options") {
-                            menu.settingsMenu.setSize(sf::Vector2f(1500, 700));
-                            menu.settingsMenu.setPosition(200, 200);
-                            menu.settingsMenu.setFillColor(sf::Color::Black);
-
-                            menu.settingsExitButtonSprite.setTexture(menu.settingsExitButtonTexture);
-                            menu.settingsExitButtonSprite.setPosition(1400, 210);
-                            if ((sf::Mouse::getPosition().x <= 1700 && sf::Mouse::getPosition().x >= 1400) && (sf::Mouse::getPosition().y <= 337 && sf::Mouse::getPosition().y >= 210)) {
-                                menu.settingsExitButtonSprite.setColor(sf::Color::Red);
-                            }
-                            else {
-                                menu.settingsExitButtonSprite.setColor(sf::Color::White);
-                            }
-                            if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && (sf::Mouse::getPosition().x <= 1700 && sf::Mouse::getPosition().x >= 1400) && (sf::Mouse::getPosition().y <= 337 && sf::Mouse::getPosition().y >= 210)) {
-                                game.isPaused = false;
-                                game.isPaused = true;
-                            }
-                            sf::Font font;
-                            if (!font.loadFromFile("assets/Arcane Nine.otf")) {
-                                cout << "blabla font pas affichée";
-                            }
-
-                            menu.settingsTextGameMusic.setFont(font);
-                            menu.settingsTextGameMusic.setString("Volume Game Music : ");
-                            menu.settingsTextGameMusic.setPosition(400, 530);
-                            menu.settingsTextGameMusic.setScale(1.5f, 1.5f);
-                            menu.settingsTextGameMusic.setStyle(sf::Text::Bold);
-
-                            menu.valueSettingsTextGameMusic.setFont(font);
-                            std::string Volume_MenuMusic(std::to_string(menu.volumeMusic));
-                            menu.valueSettingsTextGameMusic.setString(Volume_MenuMusic);
-                            menu.valueSettingsTextGameMusic.setPosition(800, 530);
-                            menu.valueSettingsTextGameMusic.setScale(1.5f, 1.5f);
-                            menu.valueSettingsTextGameMusic.setStyle(sf::Text::Bold);
-
-                            menu.plus.setFont(font);
-                            menu.plus.setString(" + ");
-                            menu.plus.setPosition(1100, 450);
-                            menu.plus.setScale(3, 3);
-
-                            menu.minus.setFont(font);
-                            menu.minus.setString(" - ");
-                            menu.minus.setPosition(1100, 550);
-                            menu.minus.setScale(3, 3);
-
-                            //plus
-                            if ((sf::Mouse::getPosition().x <= 1150 && sf::Mouse::getPosition().x >= 1120) && (sf::Mouse::getPosition().y <= 520 && sf::Mouse::getPosition().y >= 490)) {
-                                menu.plus.setFillColor(sf::Color::Red);
-                            }
-                            else {
-                                menu.plus.setFillColor(sf::Color::White);
-                            }
-                            if ((sf::Mouse::getPosition().x <= 1150 && sf::Mouse::getPosition().x >= 1120) && (sf::Mouse::getPosition().y <= 520 && sf::Mouse::getPosition().y >= 490) && sf::Mouse::isButtonPressed(sf::Mouse::Left) && menu.volumeMusic < 100) {
-                                menu.volumeMusic += 5.f;
-                            }
-
-                            //minus
-                            if ((sf::Mouse::getPosition().x <= 1150 && sf::Mouse::getPosition().x >= 1120) && (sf::Mouse::getPosition().y <= 620 && sf::Mouse::getPosition().y >= 590)) {
-                                menu.minus.setFillColor(sf::Color::Red);
-                            }
-                            else {
-                                menu.minus.setFillColor(sf::Color::White);
-                            }
-                            if ((sf::Mouse::getPosition().x <= 1150 && sf::Mouse::getPosition().x >= 1120) && (sf::Mouse::getPosition().y <= 620 && sf::Mouse::getPosition().y >= 590) && sf::Mouse::isButtonPressed(sf::Mouse::Left) && menu.volumeMusic > 0) {
-                                menu.volumeMusic -= 5.f;
-                            }
-
-                            game.window.draw(menu.settingsMenu);
-                            game.window.draw(menu.settingsExitButtonSprite);
-                            game.window.draw(menu.settingsTextGameMusic);
-                            game.window.draw(menu.valueSettingsTextGameMusic);
-                            game.window.draw(menu.plus);
-                            game.window.draw(menu.minus);
+                            
                         }
 
                         if (buttonLabels[i] == "Menu Principal") {
@@ -446,7 +375,7 @@ int mainGame() {
                         startHitTime = nowHitTime;
                     }
                 }
-                if (!Ekko_Class.Ekko_invincibility && !blueBuff.BlueBuffActivated && !redBuff.RedBuffActivated) {
+                if (!Ekko_Class.Ekko_invincibility /* && !blueBuff.BlueBuffActivated && !redBuff.RedBuffActivated*/) {
                     Ekko_Class.ekko_walk_sprite.setColor(sf::Color::White);
                     Ekko_Class.ekko_Auto_Attack_sprite.setColor(sf::Color::White);
                 }
@@ -925,7 +854,7 @@ int mainGame() {
                 HardSoldier_Class.hardSoldierPrintWindow(game.window);
             }
 #pragma endregion HardSoldier
-
+/*
 #pragma region Buff
 
             if (blueBuff.touchByThePlayer(Ekko_Class.ekko_walk_sprite)) {
@@ -978,7 +907,7 @@ int mainGame() {
             redBuff.draw(game.window);
 
 #pragma endregion Buff
-
+*/
 #pragma region Waves        
 
             if (game.currentPhase == game.WavesPhase && game.currentWave < game.MaxWaves) {
@@ -1060,7 +989,6 @@ int startMainMenu() {
     menu.NbMediumSoldierCustom = 1;
     menu.NbHardSoldierCustom = 1;
     menu.CoefDifficultyCustom = 1.0f;
-    menu.volumeMusic = 10.f;
 
     Soldier_Class.deleteSoldiers();
     MediumSoldier_Class.deleteMediumSoldiers();

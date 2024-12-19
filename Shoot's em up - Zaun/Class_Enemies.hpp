@@ -301,6 +301,7 @@ public:
 	std::vector<HardSoldier> hardSoldiers_vector;
 	vector<sf::CircleShape> HardSoldierBullets;
 
+
 	HardSoldier(const sf::Vector2f& positionSoldier, sf::Texture& soldierTexture);
 
 	HardSoldier();
@@ -314,6 +315,7 @@ public:
 	void createSoldiers(int little);
 	void deleteHardSoldiers();
 	void bulletCreation();
+	void buffCreation();
 
 	int losePV(int damage) override;
 	int getHealth() override;
