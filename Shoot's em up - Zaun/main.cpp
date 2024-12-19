@@ -688,7 +688,7 @@ int mainGame() {
                         Soldier_Class.soldier_anim.x++;
                         Soldier_Class.attackCountSoldier++;
                         Soldier_Class.reload = false;
-                        if (Soldier_Class.attackCountSoldier == 2 && !soldier.moveToFight) {
+                        if (Soldier_Class.attackCountSoldier == 2 && soldier.soldier_walk_sprite.getPosition().x <= 1920) {
                             Soldier_Class.bulletCreation();
                             Soldier_Class.countBulletsSoldier++;
                         }
@@ -753,7 +753,7 @@ int mainGame() {
                     if (mediumSoldier.moveToFight == true) {
                         mediumSoldier.medium_soldier_walk_sprite.move(-8, 0);
                     }
-                    if (mediumSoldier.medium_soldier_walk_sprite.getPosition().x <= 1200) {
+                    if (mediumSoldier.medium_soldier_walk_sprite.getPosition().x <= 1400) {
                         mediumSoldier.moveToFight = false;
                     }
                     if (Ekko_Class.isBoomerangActive && Ekko_Class.ekko_Boomerang_sprite.getGlobalBounds().intersects(mediumSoldier.medium_soldier_walk_sprite.getGlobalBounds())) {
@@ -770,7 +770,7 @@ int mainGame() {
                         MediumSoldier_Class.medium_soldier_anim.x++;
                         MediumSoldier_Class.attackCountMediumSoldier++;
                         MediumSoldier_Class.reload = false;
-                        if (MediumSoldier_Class.attackCountMediumSoldier == 2 && !mediumSoldier.moveToFight) {
+                        if (MediumSoldier_Class.attackCountMediumSoldier == 2 && mediumSoldier.medium_soldier_walk_sprite.getPosition().x <= 1920) {
                             MediumSoldier_Class.bulletCreation();
                             MediumSoldier_Class.countBulletsMediumSoldier++;
                         }
@@ -853,14 +853,14 @@ int mainGame() {
                         HardSoldier_Class.hard_soldier_anim.x++;
                         HardSoldier_Class.attackCountHardSoldier++;
                         HardSoldier_Class.reload = false;
-                        if (HardSoldier_Class.attackCountHardSoldier == 2) {
+                        if (HardSoldier_Class.attackCountHardSoldier == 2 && hardSoldier.hard_soldier_walk_sprite.getPosition().x <= 1920) {
                             HardSoldier_Class.bulletCreation();
                             HardSoldier_Class.countBulletsHardSoldier++;
                         }
                         if (HardSoldier_Class.hard_soldier_anim.x == 10) {
                             HardSoldier_Class.attackCountHardSoldier = 0;
                         }
-                        if (HardSoldier_Class.countBulletsHardSoldier == 10) {
+                        if (HardSoldier_Class.countBulletsHardSoldier == 10 && !hardSoldier.moveToFight) {
                             HardSoldier_Class.reload = true;
                         }
                         if (HardSoldier_Class.reload == true) {
