@@ -1191,15 +1191,15 @@ int resetGame() {
     game.level = 100;
     game.maxLevel = 4;
 
-    game.MaxEasySoldier = 3;
-    game.MaxMediumSoldier = 2;
-    game.MaxHardSoldier = 1;
+    game.MaxEasySoldier = 4;
+    game.MaxMediumSoldier = 3;
+    game.MaxHardSoldier = 2;
     game.TimeBeforeBoss = 60; 
 
     // Menu
-    menu.MaxEasySoldierCustom = 3;
-    menu.MaxMediumSoldierCustom = 2;
-    menu.MaxHardSoldierCustom = 1;
+    menu.MaxEasySoldierCustom = 4;
+    menu.MaxMediumSoldierCustom = 3;
+    menu.MaxHardSoldierCustom = 2;
     menu.TimeBeforeBossCustom = 60;
 
     // Ekko
@@ -1271,8 +1271,7 @@ int resetGame() {
     for (auto& buff : buffs) {
         delete buff;
     }
-
-    return 0;
+    return 1;
 }
 
 int startMainMenu() {
