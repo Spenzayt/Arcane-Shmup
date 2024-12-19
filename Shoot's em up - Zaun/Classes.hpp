@@ -26,6 +26,8 @@ public:
 	bool isPaused;
 	bool konamiCodeActivated;
 	bool isCustom;
+	bool isOnMenuOption;
+	bool isMusicPlaying;
 
 	int currentWave;
 	int MaxEasySoldier;
@@ -34,8 +36,8 @@ public:
 	int TimeBeforeBoss;
 	int score;
 
-	int level = 1;
-	int maxLevel = 4;
+	int level;
+	int maxLevel;
 
 	void init() {
 		window.create(sf::VideoMode(1920, 1080), "Zaun : La bataille des nations", sf::Style::Fullscreen);

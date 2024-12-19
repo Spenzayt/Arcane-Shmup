@@ -1,9 +1,7 @@
 #include "Class_Enemies.hpp"
 
-//Enemies::Enemies(std::string n, int CX, int CY, bool A) : e_name(n), e_coordX(CX), e_coordY(CY), e_isAlive(A) {}
-
 Enemies::Enemies() {}
-Enemies::Enemies(std::string n, int CX, int CY, bool A) {}
+Enemies::Enemies(int CX, int CY, bool A) {}
 Enemies::~Enemies() {}
 
 int Enemies::losePV(int damage) {
@@ -15,6 +13,10 @@ int Enemies::losePV(int damage) {
 	return e_health;
 }
 int Enemies::getHealth() {
+	return e_health;
+}
+int Enemies::setHealth(int newHealth) {
+	e_health = newHealth;
 	return e_health;
 }
 int Enemies::getCoordX() {
@@ -31,20 +33,13 @@ int Enemies::setCoordY(int Y) {
 	e_coordY += Y;
 	return e_coordY;
 }
-std::string Enemies::getName() {
-	return e_name;
-}
 bool Enemies::getAlive() {
 	return e_isAlive;
-}
-int Enemies::heal() {
-	e_health++;
-	return e_health;
 }
 
 Enemies Enemies_Class;
 
-Marcus::Marcus() : Enemies("Marcus", 1600, 800, true) {}
+Marcus::Marcus() : Enemies(1600, 800, true) {}
 
 Marcus::~Marcus() {}
 
@@ -76,18 +71,6 @@ void Marcus::marcusInitAnimations() {
 	marcus_SecondPhase_sprite.setTexture(marcus_SecondPhase_texture);
 	marcus_SecondPhase_sprite.setPosition(1300, m_coordY);
 }
-
-/*void Marcus::marcusDontExitFromScreen() {
-	if (marcus_Auto_Attack_sprite.getPosition().x <= 0) marcus_Auto_Attack_sprite.setPosition(sf::Vector2f(0, marcus_Auto_Attack_sprite.getPosition().y));
-	if (marcus_Auto_Attack_sprite.getPosition().y <= 525) marcus_Auto_Attack_sprite.setPosition(sf::Vector2f(marcus_Auto_Attack_sprite.getPosition().x, 525));
-	if (marcus_Auto_Attack_sprite.getPosition().x >= 1920 - marcus_Auto_Attack_sprite.getGlobalBounds().width) marcus_Auto_Attack_sprite.setPosition(sf::Vector2f(1920 - marcus_Auto_Attack_sprite.getGlobalBounds().width, marcus_Auto_Attack_sprite.getPosition().y));
-	if (marcus_Auto_Attack_sprite.getPosition().y >= 1070 - marcus_Auto_Attack_sprite.getGlobalBounds().height) marcus_Auto_Attack_sprite.setPosition(sf::Vector2f(marcus_Auto_Attack_sprite.getPosition().x, 1070 - marcus_Auto_Attack_sprite.getGlobalBounds().height));
-
-	if (marcus_Auto_Attack_sprite.getPosition().x <= 0) marcus_Auto_Attack_sprite.setPosition(sf::Vector2f(0, marcus_Auto_Attack_sprite.getPosition().y));
-	if (marcus_Auto_Attack_sprite.getPosition().y <= 525) marcus_Auto_Attack_sprite.setPosition(sf::Vector2f(marcus_Auto_Attack_sprite.getPosition().x, 525));
-	if (marcus_Auto_Attack_sprite.getPosition().x >= 1920 - marcus_Auto_Attack_sprite.getGlobalBounds().width) marcus_Auto_Attack_sprite.setPosition(sf::Vector2f(1920 - marcus_Auto_Attack_sprite.getGlobalBounds().width, marcus_Auto_Attack_sprite.getPosition().y));
-	if (marcus_Auto_Attack_sprite.getPosition().y >= 1070 - marcus_Auto_Attack_sprite.getGlobalBounds().height) marcus_Auto_Attack_sprite.setPosition(sf::Vector2f(marcus_Auto_Attack_sprite.getPosition().x, 1070 - marcus_Auto_Attack_sprite.getGlobalBounds().height));
-}*/
 
 void Marcus::marcusBulletInit() {
 	if (!marcus_Bullet_Auto_Attack_texture.loadFromFile("assets\\characters\\marcus\\marcusBullet.png")) {
@@ -139,6 +122,10 @@ int Marcus::losePV(int damage) {
 int Marcus::getHealth() {
 	return m_health;
 }
+int Marcus::setHealth(int newHealth) {
+	m_health = newHealth;
+	return m_health;
+}
 int Marcus::getCoordX() {
 	return m_coordX;
 }
@@ -153,19 +140,12 @@ int Marcus::setCoordY(int Y) {
 	m_coordY += Y;
 	return m_coordY;
 }
-std::string Marcus::getName() {
-	return m_name;
-}
 bool Marcus::getAlive() {
 	return m_isAlive;
 }
-int Marcus::heal() {
-	m_health++;
-	return m_health;
-}
 
 
-Soldier::Soldier() : Enemies("Soldier", 1600, 600, true) {}
+Soldier::Soldier() : Enemies(1600, 600, true) {}
 Soldier::Soldier(const sf::Vector2f& positionSoldier, sf::Texture& soldierTexture){
 		attackSpeed = 135;
 		bulletSpeed = 0.8f;
@@ -254,20 +234,13 @@ int Soldier::setCoordY(int Y) {
 	s_coordY += Y;
 	return s_coordY;
 }
-std::string Soldier::getName() {
-	return s_name;
-}
 bool Soldier::getAlive() {
 	return s_isAlive;
-}
-int Soldier::heal() {
-	s_health++;
-	return s_health;
 }
 
 ///////////////////////////////
 
-MediumSoldier::MediumSoldier() : Enemies("MediumSoldier", 1600, 700, true) {}
+MediumSoldier::MediumSoldier() : Enemies(1600, 700, true) {}
 
 MediumSoldier::MediumSoldier(const sf::Vector2f& positionSoldier, sf::Texture& soldierTexture) {
 	attackSpeed = 300;
@@ -367,20 +340,13 @@ int MediumSoldier::setCoordY(int Y) {
 	ms_coordY += Y;
 	return ms_coordY;
 }
-std::string MediumSoldier::getName() {
-	return ms_name;
-}
 bool MediumSoldier::getAlive() {
 	return ms_isAlive;
-}
-int MediumSoldier::heal() {
-	ms_health++;
-	return ms_health;
 }
 
 ////////////////////////
 
-HardSoldier::HardSoldier() : Enemies("HardSoldier", 1600, 900, true) {}
+HardSoldier::HardSoldier() : Enemies(1600, 900, true) {}
 
 HardSoldier::HardSoldier(const sf::Vector2f& positionSoldier, sf::Texture& soldierTexture) {
 	attackSpeed = 90;
@@ -478,14 +444,7 @@ int HardSoldier::setCoordY(int Y) {
 	hs_coordY += Y;
 	return hs_coordY;
 }
-std::string HardSoldier::getName() {
-	return hs_name;
-}
 bool HardSoldier::getAlive() {
 	return hs_isAlive;
-}
-int HardSoldier::heal() {
-	hs_health++;
-	return hs_health;
 }
 

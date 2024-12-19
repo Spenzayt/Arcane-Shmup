@@ -12,57 +12,44 @@ using namespace std;
 
 class Character {
 protected:
-	std::string c_name;
 	int c_coordX = 225;
 	int	c_coordY = 800;
-	int c_health = 3;
-	bool c_isAlive = true;
-	bool c_invincibility = false;
-	int c_speed = 1;
-	int c_attackSpeed = 1;
+	int c_health;
+	bool c_isAlive;
+	bool c_invincibility;
+	int c_speed;
+	int c_attackSpeed;
 
 public:
 	Character();
-	Character(std::string n, int CX, int CY);
+	Character(int CX, int CY);
 
 	~Character();
 
 	struct Ekko_S {
 		bool isAttacking = false;
 		bool ekko_anim_isAttacking = false;
-		bool isHealing = false;
-		bool isHit = false;
-		bool ekko_anim_isHit = false;
-		bool isDying = false;
-		bool ekko_anim_isDying = false;
-		bool printBody = false;
 		int countAnimAtk = 0;
-		int countAnimHeal = 0;
-		int countAnimHit = 0;
-		int countAnimDeath = 0;
-		int DeathCount = 0;
 		bool SlowZone = false;
 		bool Boomerang = false;
+		bool Ult = false;
 	}; Ekko_S ekko_S;
 
 	int losePV(int damage);
+	int setHealth(int newHealth);
 	int getHealth();
 	int getCoordX();
 	int setCoordX(int X);
 	int getCoordY();
 	int setCoordY(int Y);
-	std::string getName();
 	bool getAlive();
-	int heal();
-	int setHealth(int pv);
-	int HealthReset(int pv);
 	bool LifeReset();
 };
 
 //////////////
 
 class Cooldown {
-private:
+public:
 	struct SpellIcon {
 		sf::Texture texture;
 		sf::Sprite sprite;
@@ -83,7 +70,6 @@ private:
 
 	void updateSpell(SpellIcon& spell, float deltaTime);
 
-public:
 	Cooldown();
 	~Cooldown();
 
@@ -120,18 +106,16 @@ public:
 	sf::Texture ekko_Boomerang_texture;
 	sf::Sprite ekko_Boomerang_sprite;
 
-	std::string Ekko_name;
-	int Ekko_coordX = 225;
-	int	Ekko_coordY = 800;
-	int Ekko_health = 3;
-	bool Ekko_isAlive = true;
-	bool Ekko_invincibility = false;
-	float Ekko_speed = 1.0f;
-	float Ekko_attackSpeed = 1.0f;
-	int boomerangDamage = 5;
-	bool blueBuffActivated = false;
-	bool redBuffActivated = false;
-
+	int Ekko_coordX;
+	int	Ekko_coordY;
+	int Ekko_health;
+	bool Ekko_isAlive;
+	bool Ekko_invincibility;
+	float Ekko_speed;
+	float Ekko_attackSpeed;
+	int boomerangDamage;
+	bool blueBuffActivated;
+	bool redBuffActivated;
 
 	std::vector<sf::CircleShape> bullets;
 
@@ -152,25 +136,24 @@ public:
 	void updateSpells(int gameLevel);
 	void SlowZone();
 	void Boomerang();
-
-	std::deque<std::pair<sf::Vector2f, sf::Time>> positionHistory;
-	sf::Clock positionClock;
-	bool isTeleporting = false;
-	sf::Clock teleportTimer;
+	void ult();
 
 	sf::Vector2f dashTargetPosition;
 	sf::Vector2f dashDirection;
-	bool isDashing = false;
+	bool isDashing;
 	sf::Clock dashingTimer;
 
-	bool isSlowZoneActive = false;
+	bool isSlowZoneActive;
 	sf::Vector2f SlowZoneTargetPosition;
 	sf::Clock SlowZoneTimer;
 
-	bool isBoomerangActive = false;
-	bool isBoomerangStart = false;
-	bool isBoomerangComingBack = false;
+	bool isBoomerangActive;
+	bool isBoomerangStart;
+	bool isBoomerangComingBack;
 	sf::Clock BoomerangTimer;
+
+	bool isUlting;
+	sf::Clock UltTimer;
 
 	sf::Vector2f BoomerangStartPosition;
 	sf::Vector2f BoomerangTargetPosition;
@@ -179,6 +162,10 @@ public:
 	bool WspellUnlocked;
 	bool EspellUnlocked;
 	bool UltUnlocked;
+
+	int points;
+	int usedPoints;
+	int level;
 
 private:
 	sf::Vector2f direction;
@@ -191,9 +178,5 @@ private:
 
 	Cooldown& cooldown;
 	std::unordered_map<std::string, SpellInfo> spells;
-
-	int points;
-	int usedPoints;
-	int level;
 };
 

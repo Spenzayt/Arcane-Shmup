@@ -10,69 +10,51 @@ using namespace std;
 
 class Enemies {
 protected:
-	std::string e_name;
-	int e_coordX = 0;
-	int e_coordY = 0;
-	int e_health = 100;
-	bool e_isAlive = true;
+	int e_coordX;
+	int e_coordY;
+	int e_health;
+	bool e_isAlive;
 
 
 public:
 	Enemies();
-	Enemies(std::string n, int CX, int CY, bool A);
+	Enemies(int CX, int CY, bool A);
 	~Enemies();
 
 	virtual int losePV(int damage);
 	virtual int getHealth();
+	virtual int setHealth(int newHealth);
 	virtual int getCoordX();
 	virtual int setCoordX(int X);
 	virtual int getCoordY();
 	virtual int setCoordY(int Y);
-	virtual std::string getName();
 	virtual bool getAlive();
-	virtual int heal();
 };
 
 class Marcus : public Enemies {
 public:
 
-	std::string m_name;
 	int m_coordX = 2100;
 	int m_coordY = 500;
 	int m_health = 60;
 	bool m_isAlive = true;
 	bool marcusApparition = false;
 
-	bool isAttacking = true;
-	bool marcus_anim_isAttacking = false;
-	bool isHealing = false;
-	bool isHit = false;
-	bool marcus_anim_isHit = false;
-	bool isDying = false;
-	bool marcus_anim_isDying = false;
-	bool printBody = false;
-	int countAnimAtk = 0;
-	int countAnimHeal = 0;
-	int countAnimHit = 0;
-	int countAnimDeath = 0;
-	int DeathCount = 0;
-	bool moveToFight = true;
-	bool reload = false;
-	int countBulletsMarcus = 0;
-	int attackSpeed = 110;
-	int attackSpeed2 = 55;
-	float bulletSpeed = 0.6f;
-	float laserSpeed = 2.f;
-	float speed = 1.0f;
-	int countAnimTrans = 0;
-	bool transIsIn = false;
-	bool isAttackingV2 = false;
-	bool laserActive = false;
-	int countLaserTime = 0;
-
-	/*sf::Texture marcus_walk_texture;
-	sf::Sprite marcus_walk_sprite;
-	sf::Vector2i marcus_anim;*/
+	bool isAttacking;
+	int countAnimAtk;
+	bool moveToFight;
+	bool reload;
+	int countBulletsMarcus;
+	int attackSpeed;
+	int attackSpeed2;
+	float bulletSpeed;
+	float laserSpeed;
+	float speed;
+	int countAnimTrans;
+	bool transIsIn;
+	bool isAttackingV2;
+	bool laserActive;
+	int countLaserTime;
 
 	sf::Texture marcus_Auto_Attack_texture;
 	sf::Sprite marcus_Auto_Attack_sprite;
@@ -97,28 +79,24 @@ public:
 	Marcus();
 	~Marcus();
 
-
-	//void marcusDontExitFromScreen();
 	void marcusInitAnimations();
 	void marcusPrintWindow(sf::RenderWindow& window);
 	void marcusBulletInit();
 
 	int losePV(int damage) override;
 	int getHealth() override;
+	int setHealth(int newHealth) override;
 	int getCoordX()override;
 	int setCoordX(int X)override;
 	int getCoordY()override;
 	int setCoordY(int Y)override;
-	std::string getName()override;
 	bool getAlive()override;
-	int heal()override;
 };
 
 
 class Soldier : public Enemies {
 public:
 
-	std::string s_name;
 	int s_coordX = 1600;
 	int s_coordY = 500;
 	int s_health = 1;
@@ -128,19 +106,6 @@ public:
 	int countBulletsSoldier = 0;
 	bool moveToFight = true;
 
-	bool isAttacking = false;
-	bool anim_isAttacking = false;
-	bool isHealing = false;
-	bool isHit = false;
-	bool anim_isHit = false;
-	bool isDying = false;
-	bool anim_isDying = false;
-	bool printBody = false;
-	int countAnimAtk = 0;
-	int countAnimHeal = 0;
-	int countAnimHit = 0;
-	int countAnimDeath = 0;
-	int DeathCount = 0;
 	int attackSpeed = 100;
 	float bulletSpeed = 1.0f;
 	float speed = 1.0f;
@@ -181,15 +146,12 @@ public:
 	int setCoordX(int X)override;
 	int getCoordY()override;
 	int setCoordY(int Y)override;
-	std::string getName()override;
 	bool getAlive()override;
-	int heal()override;
 };
 
 class MediumSoldier : public Enemies {
 public:
 
-	std::string ms_name;
 	int ms_coordX = 1600;
 	int ms_coordY = 700;
 	int ms_health = 2;
@@ -199,19 +161,6 @@ public:
 	int countBulletsMediumSoldier = 0;
 	bool moveToFight = true;
 
-	bool isAttacking = false;
-	bool anim_isAttacking = false;
-	bool isHealing = false;
-	bool isHit = false;
-	bool anim_isHit = false;
-	bool isDying = false;
-	bool anim_isDying = false;
-	bool printBody = false;
-	int countAnimAtk = 0;
-	int countAnimHeal = 0;
-	int countAnimHit = 0;
-	int countAnimDeath = 0;
-	int DeathCount = 0;
 	int attackSpeed = 100;
 	float bulletSpeed = 1.0f;
 	float speed = 1.0f;
@@ -251,15 +200,12 @@ public:
 	int setCoordX(int X)override;
 	int getCoordY()override;
 	int setCoordY(int Y)override;
-	std::string getName()override;
 	bool getAlive()override;
-	int heal()override;
 };
 
 class HardSoldier : public Enemies {
 public:
 
-	std::string hs_name;
 	int hs_coordX = 1600;
 	int hs_coordY = 900;
 	int hs_health = 3;
@@ -269,19 +215,6 @@ public:
 	int countBulletsHardSoldier = 0;
 	bool moveToFight = true;
 
-	bool isAttacking = false;
-	bool anim_isAttacking = false;
-	bool isHealing = false;
-	bool isHit = false;
-	bool anim_isHit = false;
-	bool isDying = false;
-	bool anim_isDying = false;
-	bool printBody = false;
-	int countAnimAtk = 0;
-	int countAnimHeal = 0;
-	int countAnimHit = 0;
-	int countAnimDeath = 0;
-	int DeathCount = 0;
 	int attackSpeed = 90;
 	float bulletSpeed = 1.5f;
 	float speed = 1.0f;
@@ -323,7 +256,5 @@ public:
 	int setCoordX(int X)override;
 	int getCoordY()override;
 	int setCoordY(int Y)override;
-	std::string getName()override;
 	bool getAlive()override;
-	int heal()override;
 };

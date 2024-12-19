@@ -15,6 +15,8 @@ public:
 
     float volumeMusic = 5.f;
 
+    bool isMousePressed;
+
     sf::Sprite background_sprite;
     sf::Text title, subtitle;
 
@@ -51,6 +53,5 @@ private:
     float buttonSpacing = 40.f;
     float initialYPos = 250.f;
 
-    bool isMousePressed = false;
     int mode = 1;
 };

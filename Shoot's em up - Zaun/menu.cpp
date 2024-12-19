@@ -61,7 +61,7 @@ int Menu::mainMenu(sf::RenderWindow& window) {
     sf::Vector2f originalSize = buttons[0].getSize();
     sf::Vector2f hoverSize = originalSize * 1.05f;
 
-    bool isMousePressed = false;
+    isMousePressed = false;
 
     // Settings
     if (!settingsExitButtonTexture.loadFromFile("assets\\UI\\exitButtonV2.png")) {

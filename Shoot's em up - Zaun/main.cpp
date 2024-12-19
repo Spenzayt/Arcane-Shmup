@@ -13,6 +13,7 @@ Game game;
 Menu menu;
 
 int startMainMenu();
+int resetGame();
 
 void Wave(int NbOfEasySoldiers, int NbOfMediumSoldiers, int NbOfHardSoldiers) {
     Soldier_Class.createSoldiers(NbOfEasySoldiers);
@@ -39,6 +40,7 @@ int mainGame() {
     PaintBlue.setLoop(true);
     PaintBlue.setVolume(menu.volumeMusic);
     PaintBlue.play();
+    game.isMusicPlaying = true;
 
 #pragma region Game Initialisation
     ParallaxBackground background1("assets/backgrounds/ground-zaunV2.png", 150.0f, 630, 1.1, 1.1);
@@ -63,6 +65,8 @@ int mainGame() {
     HardSoldier_Class.hardSoldierInitAnimations();
     HardSoldier_Class.hardSoldierBulletInit();
 
+    Soldier_Class.createSoldiers(3);
+
     HUD healthBar(100, 100, 3);
     SCORE score;
 
@@ -80,6 +84,111 @@ int mainGame() {
         game.MaxHardSoldier = menu.MaxHardSoldierCustom;
         game.TimeBeforeBoss = menu.TimeBeforeBossCustom;
     }
+
+    sf::Font font;
+    if (!font.loadFromFile("assets/Arcane Nine.otf")) {
+        std::cerr << "Error loading Font!" << std::endl;
+        return -1;
+    }
+
+    menu.title.setFont(font);
+    menu.title.setString("Zaun : La bataille des nations");
+    menu.title.setCharacterSize(100);
+    menu.title.setFillColor(sf::Color::White);
+    menu.title.setStyle(sf::Text::Bold);
+
+    sf::FloatRect titleBounds = menu.title.getLocalBounds();
+    menu.title.setOrigin(titleBounds.left + titleBounds.width / 2.0f, titleBounds.top + titleBounds.height / 2.0f);
+    menu.title.setPosition(game.window.getSize().x / 2.0f, 100.f);
+
+    menu.subtitle.setFont(font);
+    menu.subtitle.setString("PAUSE");
+    menu.subtitle.setCharacterSize(60);
+    menu.subtitle.setFillColor(sf::Color::White);
+    menu.subtitle.setStyle(sf::Text::Bold);
+
+    sf::FloatRect subtitleBounds = menu.subtitle.getLocalBounds();
+    menu.subtitle.setOrigin(subtitleBounds.left + subtitleBounds.width / 2.0f, subtitleBounds.top + subtitleBounds.height / 2.0f);
+    menu.subtitle.setPosition(game.window.getSize().x / 2.0f, 200.f);
+
+    std::vector<sf::RectangleShape> buttons;
+    std::vector<sf::Text> buttonTexts;
+
+    std::vector<std::string> buttonLabels = { "Reprendre", "Options", "Menu Principal", "Quitter" };
+    std::vector<bool> buttonFled(buttonLabels.size(), false);
+    sf::Vector2f buttonSize(400.f, 100.f);
+    float buttonSpacing = 40.f;
+    float initialYPos = 250.f;
+
+    for (size_t i = 0; i < buttonLabels.size(); ++i) {
+        sf::RectangleShape button(buttonSize);
+        button.setFillColor(sf::Color::Color(70, 70, 200)); // Dark Blue
+        button.setOutlineThickness(5.f);
+        button.setOutlineColor(sf::Color::Color(200, 200, 255)); // Light Blue
+        button.setPosition((game.window.getSize().x - buttonSize.x) / 2.f, initialYPos + i * (buttonSize.y + buttonSpacing));
+
+        buttons.push_back(button);
+
+        sf::Text buttonText;
+        buttonText.setFont(font);
+        buttonText.setString(buttonLabels[i]);
+        buttonText.setCharacterSize(50);
+        buttonText.setFillColor(sf::Color::White);
+
+        sf::FloatRect textBounds = buttonText.getLocalBounds();
+        buttonText.setOrigin(textBounds.left + textBounds.width / 2.f, textBounds.top + textBounds.height / 2.f);
+        buttonText.setPosition(button.getPosition().x + button.getSize().x / 2.f, button.getPosition().y + button.getSize().y / 2.f);
+
+        buttonTexts.push_back(buttonText);
+    }
+
+    sf::Vector2f originalSize = buttons[0].getSize();
+    sf::Vector2f hoverSize = originalSize * 1.05f;
+
+    menu.isMousePressed = false;
+
+    sf::Texture settingsExitButtonTexture;
+    sf::Sprite settingsExitButtonSprite;
+    sf::RectangleShape settingsMenu;
+    sf::Text settingsTextGameMusic;
+    sf::Text valueSettingsTextGameMusic;
+    sf::Text plus;
+    sf::Text minus;
+
+    settingsMenu.setSize(sf::Vector2f(1500, 700));
+    settingsMenu.setPosition(200, 200);
+    settingsMenu.setFillColor(sf::Color::Black);
+
+
+    if (!settingsExitButtonTexture.loadFromFile("assets\\UI\\exitButtonV2.png")) {
+        std::cout << "settings exit text pas charge bro" << std::endl << std::endl;
+    }
+
+    settingsExitButtonSprite.setTexture(settingsExitButtonTexture);
+    settingsExitButtonSprite.setPosition(1400, 210);
+
+    settingsTextGameMusic.setFont(font);
+    settingsTextGameMusic.setString("Volume Game Music : ");
+    settingsTextGameMusic.setPosition(400, 530);
+    settingsTextGameMusic.setScale(1.5f, 1.5f);
+    settingsTextGameMusic.setStyle(sf::Text::Bold);
+
+    valueSettingsTextGameMusic.setFont(font);
+    std::string Volume_MenuMusic(std::to_string(menu.volumeMusic));
+    valueSettingsTextGameMusic.setString(Volume_MenuMusic);
+    valueSettingsTextGameMusic.setPosition(800, 530);
+    valueSettingsTextGameMusic.setScale(1.5f, 1.5f);
+    valueSettingsTextGameMusic.setStyle(sf::Text::Bold);
+
+    plus.setFont(font);
+    plus.setString(" + ");
+    plus.setPosition(1100, 450);
+    plus.setScale(3, 3);
+
+    minus.setFont(font);
+    minus.setString(" - ");
+    minus.setPosition(1100, 550);
+    minus.setScale(3, 3);
 
 #pragma endregion Game Initialisation
 
@@ -190,132 +299,129 @@ int mainGame() {
 #pragma region Pause
 
         if (game.isPaused) {
-            sf::Font font;
-            if (!font.loadFromFile("assets/Arcane Nine.otf")) {
-                std::cerr << "Error loading Font!" << std::endl;
-                return -1;
-            }
-
-            menu.title.setFont(font);
-            menu.title.setString("Zaun : La bataille des nations");
-            menu.title.setCharacterSize(100);
-            menu.title.setFillColor(sf::Color::White);
-            menu.title.setStyle(sf::Text::Bold);
-
-            sf::FloatRect titleBounds = menu.title.getLocalBounds();
-            menu.title.setOrigin(titleBounds.left + titleBounds.width / 2.0f, titleBounds.top + titleBounds.height / 2.0f);
-            menu.title.setPosition(game.window.getSize().x / 2.0f, 100.f);
-
-            menu.subtitle.setFont(font);
-            menu.subtitle.setString("PAUSE");
-            menu.subtitle.setCharacterSize(60);
-            menu.subtitle.setFillColor(sf::Color::White);
-            menu.subtitle.setStyle(sf::Text::Bold);
-
-            sf::FloatRect subtitleBounds = menu.subtitle.getLocalBounds();
-            menu.subtitle.setOrigin(subtitleBounds.left + subtitleBounds.width / 2.0f, subtitleBounds.top + subtitleBounds.height / 2.0f);
-            menu.subtitle.setPosition(game.window.getSize().x / 2.0f, 200.f);
-
-            std::vector<sf::RectangleShape> buttons;
-            std::vector<sf::Text> buttonTexts;
-
-            std::vector<std::string> buttonLabels = { "Reprendre", "Options", "Menu Principal", "Quitter" };
-            std::vector<bool> buttonFled(buttonLabels.size(), false);
-            sf::Vector2f buttonSize(400.f, 100.f);
-            float buttonSpacing = 40.f;
-            float initialYPos = 250.f;
-
-            for (size_t i = 0; i < buttonLabels.size(); ++i) {
-                sf::RectangleShape button(buttonSize);
-                button.setFillColor(sf::Color::Color(70, 70, 200)); // Dark Blue
-                button.setOutlineThickness(5.f);
-                button.setOutlineColor(sf::Color::Color(200, 200, 255)); // Light Blue
-                button.setPosition((game.window.getSize().x - buttonSize.x) / 2.f, initialYPos + i * (buttonSize.y + buttonSpacing));
-
-                buttons.push_back(button);
-
-                sf::Text buttonText;
-                buttonText.setFont(font);
-                buttonText.setString(buttonLabels[i]);
-                buttonText.setCharacterSize(50);
-                buttonText.setFillColor(sf::Color::White);
-
-                sf::FloatRect textBounds = buttonText.getLocalBounds();
-                buttonText.setOrigin(textBounds.left + textBounds.width / 2.f, textBounds.top + textBounds.height / 2.f);
-                buttonText.setPosition(button.getPosition().x + button.getSize().x / 2.f, button.getPosition().y + button.getSize().y / 2.f);
-
-                buttonTexts.push_back(buttonText);
-            }
-
-            sf::Vector2f originalSize = buttons[0].getSize();
-            sf::Vector2f hoverSize = originalSize * 1.05f;
-
-            bool isMousePressed = false;
 
 #pragma region ClicksPauseMenu
 
             sf::Vector2i mousePos = sf::Mouse::getPosition(game.window);
             bool isHovering = false;
 
-            for (size_t i = 0; i < buttons.size(); ++i) {
-                isHovering = buttons[i].getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
+            if (!game.isOnMenuOption) {
+                for (size_t i = 0; i < buttons.size(); ++i) {
+                    isHovering = buttons[i].getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
 
-                if (isHovering) {
-                    buttons[i].setFillColor(sf::Color::Color(100, 100, 255)); // Blue
-                    buttons[i].setSize(hoverSize);
+                    if (isHovering) {
+                        buttons[i].setFillColor(sf::Color::Color(100, 100, 255)); // Blue
+                        buttons[i].setSize(hoverSize);
 
-                    if (!buttonFled[i]) {
-                        buttons[i].setPosition((game.window.getSize().x - hoverSize.x) / 2.f, initialYPos + i * (originalSize.y + buttonSpacing) - (hoverSize.y - originalSize.y) / 2.f);
-                        buttonFled[i] = true;
+                        if (!buttonFled[i]) {
+                            buttons[i].setPosition((game.window.getSize().x - hoverSize.x) / 2.f, initialYPos + i * (originalSize.y + buttonSpacing) - (hoverSize.y - originalSize.y) / 2.f);
+                            buttonFled[i] = true;
+                        }
                     }
+                    else {
+                        buttons[i].setFillColor(sf::Color::Color(70, 70, 200)); // Dark Blue
+                        buttons[i].setSize(originalSize);
+
+                        if (buttonFled[i]) {
+                            buttons[i].setPosition((game.window.getSize().x - originalSize.x) / 2.f, initialYPos + i * (originalSize.y + buttonSpacing));
+                            buttonFled[i] = false;
+                        }
+                    }
+                }
+
+                if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && !menu.isMousePressed) {
+                    for (size_t i = 0; i < buttons.size(); ++i) {
+                        if (buttons[i].getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
+                            if (buttonLabels[i] == "Reprendre") {
+                                game.isPaused = false;
+                            }
+
+                            if (buttonLabels[i] == "Options") {
+                                game.isOnMenuOption = true;
+                            }
+
+                            if (buttonLabels[i] == "Menu Principal") {
+                                PaintBlue.stop();
+                                startMainMenu();
+                            }
+
+                            if (buttonLabels[i] == "Quitter") {
+                                game.window.close();
+                            }
+
+                            menu.isMousePressed = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            else {
+                std::string Volume_MenuMusic(std::to_string(menu.volumeMusic));
+                valueSettingsTextGameMusic.setString(Volume_MenuMusic);
+
+                settingsMenu.setSize(sf::Vector2f(1500, 700));
+                settingsMenu.setPosition(200, 200);
+                settingsMenu.setFillColor(sf::Color::Black);
+
+                settingsExitButtonSprite.setTexture(settingsExitButtonTexture);
+                settingsExitButtonSprite.setPosition(1400, 210);
+
+                if ((sf::Mouse::getPosition().x <= 1700 && sf::Mouse::getPosition().x >= 1400) && (sf::Mouse::getPosition().y <= 337 && sf::Mouse::getPosition().y >= 210)) {
+                    settingsExitButtonSprite.setColor(sf::Color::Red);
                 }
                 else {
-                    buttons[i].setFillColor(sf::Color::Color(70, 70, 200)); // Dark Blue
-                    buttons[i].setSize(originalSize);
+                    settingsExitButtonSprite.setColor(sf::Color::White);
+                }
+                if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && (sf::Mouse::getPosition().x <= 1700 && sf::Mouse::getPosition().x >= 1400) && (sf::Mouse::getPosition().y <= 337 && sf::Mouse::getPosition().y >= 210)) {
+                    game.isOnMenuOption = false;
+                }
+                //plus
+                if ((sf::Mouse::getPosition().x <= 1150 && sf::Mouse::getPosition().x >= 1120) && (sf::Mouse::getPosition().y <= 520 && sf::Mouse::getPosition().y >= 490)) {
+                    plus.setFillColor(sf::Color::Red);
+                }
+                else {
+                    plus.setFillColor(sf::Color::White);
+                }
+                if ((sf::Mouse::getPosition().x <= 1150 && sf::Mouse::getPosition().x >= 1120) && (sf::Mouse::getPosition().y <= 520 && sf::Mouse::getPosition().y >= 490) && sf::Mouse::isButtonPressed(sf::Mouse::Left) && menu.volumeMusic < 100) {
+                    menu.volumeMusic += 5.f;
+                    PaintBlue.setVolume(menu.volumeMusic);
+                }
 
-                    if (buttonFled[i]) {
-                        buttons[i].setPosition((game.window.getSize().x - originalSize.x) / 2.f, initialYPos + i * (originalSize.y + buttonSpacing));
-                        buttonFled[i] = false;
-                    }
+                //minus
+                if ((sf::Mouse::getPosition().x <= 1150 && sf::Mouse::getPosition().x >= 1120) && (sf::Mouse::getPosition().y <= 620 && sf::Mouse::getPosition().y >= 590)) {
+                    minus.setFillColor(sf::Color::Red);
+                }
+                else {
+                    minus.setFillColor(sf::Color::White);
+                }
+                if ((sf::Mouse::getPosition().x <= 1150 && sf::Mouse::getPosition().x >= 1120) && (sf::Mouse::getPosition().y <= 620 && sf::Mouse::getPosition().y >= 590) && sf::Mouse::isButtonPressed(sf::Mouse::Left) && menu.volumeMusic > 0) {
+                    menu.volumeMusic -= 5.f;
+                    PaintBlue.setVolume(menu.volumeMusic);
                 }
             }
 
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && !isMousePressed) {
-                for (size_t i = 0; i < buttons.size(); ++i) {
-                    if (buttons[i].getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
-                        if (buttonLabels[i] == "Reprendre") {
-                            game.isPaused = false;
-                        }
-
-                        if (buttonLabels[i] == "Options") {
-                            // Options
-                        }
-
-                        if (buttonLabels[i] == "Menu Principal") {
-                            startMainMenu();
-                        }
-
-                        if (buttonLabels[i] == "Quitter") {
-                            game.window.close();
-                        }
-
-                        isMousePressed = true;
-                        break;
-                    }
-                }
-            }
 
             if (!sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                isMousePressed = false;
+                menu.isMousePressed = false;
             }
 
             game.window.draw(menu.background_sprite);
             game.window.draw(menu.title);
-            game.window.draw(menu.subtitle);
 
-            for (size_t i = 0; i < buttons.size(); ++i) {
-                game.window.draw(buttons[i]);
-                game.window.draw(buttonTexts[i]);
+            if (!game.isOnMenuOption) {
+                game.window.draw(menu.subtitle);
+                for (size_t i = 0; i < buttons.size(); ++i) {
+                    game.window.draw(buttons[i]);
+                    game.window.draw(buttonTexts[i]);
+                }
+            }
+            else{
+                game.window.draw(settingsMenu);
+                game.window.draw(settingsExitButtonSprite);
+                game.window.draw(settingsTextGameMusic);
+                game.window.draw(valueSettingsTextGameMusic);
+                game.window.draw(plus);
+                game.window.draw(minus);
             }
 
             game.window.display();
@@ -326,6 +432,11 @@ int mainGame() {
 #pragma endregion Pause
 
         else {
+            if (!game.isMusicPlaying) {
+                PaintBlue.play();
+                game.isMusicPlaying = true;
+            }
+
 #pragma region Background
             background1.update(deltaTime.asSeconds());
             background2.update(deltaTime.asSeconds());
@@ -339,7 +450,6 @@ int mainGame() {
             if (Ekko_Class.getAlive()) {
                 Ekko_Class.ekkoCommand();
                 Ekko_Class.ekkoDontExitFromScreen();
-                Ekko_Class.updatePositionHistory();
                 Ekko_Class.updateSpells(game.level);
 
                 cooldown.update(deltaTime.asSeconds(), Ekko_Class.QspellUnlocked, Ekko_Class.WspellUnlocked, Ekko_Class.EspellUnlocked, Ekko_Class.UltUnlocked);
@@ -1043,26 +1153,94 @@ int mainGame() {
 }
 
 int resetGame() {
+    // Game
     game.isPaused = false;
     game.konamiCodeActivated = false;
     game.currentWave = 1;
     game.currentPhase = game.WavesPhase;
     game.isCustom = false;
     game.score = 0;
+    game.isOnMenuOption = false;
+    game.isMusicPlaying = false;
+
+    game.level = 100;
+    game.maxLevel = 4;
 
     game.MaxEasySoldier = 4;
     game.MaxMediumSoldier = 3;
     game.MaxHardSoldier = 2;
     game.TimeBeforeBoss = 90;
 
+    // Menu
     menu.MaxEasySoldierCustom = 4;
     menu.MaxMediumSoldierCustom = 3;
     menu.MaxHardSoldierCustom = 2;
     menu.TimeBeforeBossCustom = 90;
 
+    // Ekko
+    Ekko_Class.LifeReset();
+    Ekko_Class.setHealth(3);
+    Ekko_Class.Ekko_invincibility = false;
+    Ekko_Class.blueBuffActivated = false;
+    Ekko_Class.redBuffActivated = false;
+    Ekko_Class.Ekko_speed = 1.0f;
+    Ekko_Class.Ekko_attackSpeed = 1.0f;
+    Ekko_Class.boomerangDamage = 5;
+    Ekko_Class.ekko_S.SlowZone = false;
+    Ekko_Class.ekko_S.Boomerang = false;
+    Ekko_Class.ekko_S.ekko_anim_isAttacking = false;
+    Ekko_Class.ekko_S.isAttacking = false;
+    Ekko_Class.ekko_S.countAnimAtk = 0;
+    Ekko_Class.isBoomerangActive = false;
+    Ekko_Class.isBoomerangStart = false;
+    Ekko_Class.isBoomerangComingBack = false;
+    Ekko_Class.isSlowZoneActive = false;
+    Ekko_Class.isDashing = false;
+    Ekko_Class.isUlting = false;
+    Ekko_Class.bullets.clear();
+
+    Ekko_Class.QspellUnlocked = false;
+    Ekko_Class.WspellUnlocked = false;
+    Ekko_Class.EspellUnlocked = false;
+    Ekko_Class.UltUnlocked = false;
+    Ekko_Class.level = 1;
+    Ekko_Class.points = 1;
+    Ekko_Class.usedPoints = 0;
+
+    // Cooldown
+    cooldown.Qspell.isUnlocked = false;
+    cooldown.Wspell.isUnlocked = false;
+    cooldown.Espell.isUnlocked = false;
+    cooldown.Ult.isUnlocked = false;
+
+    // Soldier
     Soldier_Class.deleteSoldiers();
     MediumSoldier_Class.deleteMediumSoldiers();
     HardSoldier_Class.deleteHardSoldiers();
+
+    //Marcus_Class.
+    Marcus_Class.m_coordX = 2100;
+    Marcus_Class.m_coordY = 500;
+    Marcus_Class.m_health = 60;
+    Marcus_Class.m_isAlive = true;
+    Marcus_Class.marcusApparition = false;
+    Marcus_Class.isAttacking = true;
+    Marcus_Class.countAnimAtk = 0;
+    Marcus_Class.moveToFight = true;
+    Marcus_Class.reload = false;
+    Marcus_Class.countBulletsMarcus = 0;
+    Marcus_Class.attackSpeed = 110;
+    Marcus_Class.attackSpeed2 = 55;
+    Marcus_Class.bulletSpeed = 0.6f;
+    Marcus_Class.laserSpeed = 2.f;
+    Marcus_Class.speed = 1.0f;
+    Marcus_Class.countAnimTrans = 0;
+    Marcus_Class.transIsIn = false;
+    Marcus_Class.isAttackingV2 = false;
+    Marcus_Class.laserActive = false;
+    Marcus_Class.countLaserTime = 0;
+    Marcus_Class.MarcusBullets.clear();
+    Marcus_Class.MarcusLaser.clear();
 
     for (auto& buff : buffs) {
         delete buff;

@@ -2,7 +2,7 @@
 
 Character::Character() {}
 
-Character::Character(std::string n, int CX, int CY) : c_name(n), c_coordX(CX), c_coordY(CY) {}
+Character::Character(int CX, int CY) : c_coordX(CX), c_coordY(CY) {}
 
 Character::~Character() {}
 
@@ -15,6 +15,10 @@ int Character::losePV(int damage) {
 	return c_health;
 }
 int Character::getHealth() {
+	return c_health;
+}
+int Character::setHealth(int newHealth) {
+	c_health = newHealth;
 	return c_health;
 }
 int Character::getCoordX() {
@@ -31,23 +35,8 @@ int Character::setCoordY(int Y) {
 	c_coordY += Y;
 	return c_coordY;
 }
-std::string Character::getName() {
-	return c_name;
-}
 bool Character::getAlive() {
 	return c_isAlive;
-}
-int Character::heal() {
-	c_health++;
-	return c_health;
-}
-int Character::setHealth(int pv) {
-	c_health = pv;
-	return c_health;
-}
-int Character::HealthReset(int pv) {
-	c_health = pv;
-	return c_health;
 }
 bool Character::LifeReset() {
 	c_isAlive = true;
@@ -58,7 +47,7 @@ bool Character::LifeReset() {
 
 Character Char_Class;
 
-Ekko::Ekko(Cooldown& cooldown) : Character("Ekko", 225, 800), cooldown(cooldown) {}
+Ekko::Ekko(Cooldown& cooldown) : Character(225, 800), cooldown(cooldown) {}
 
 Ekko::~Ekko() {}
 
@@ -186,10 +175,11 @@ void Ekko::ekkoCommand() {
 			usedPoints++;
 			EspellUnlocked = true;
 		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::X) && level == 4 && points >= 1) {
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::X) && level >= 4) {
 			points--;
 			usedPoints++;
 			UltUnlocked = true;
+			cout << "bite" << endl;
 		}
 	} 
 }
@@ -244,14 +234,6 @@ void Ekko::initializeSpells() {
 	spells["E Spell"] = { 5.0f, std::chrono::high_resolution_clock::now() };
 	spells["C Spell"] = { 0.5f, std::chrono::high_resolution_clock::now() };
 	spells["X Ult"] = { 5.0f, std::chrono::high_resolution_clock::now() };
-	bool QspellUnlocked = false;
-	bool WspellUnlocked = false;
-	bool EspellUnlocked = false;
-	bool UltUnlocked = false;
-	positionClock.restart();
-	level = 0;
-	points = 0;
-	usedPoints = 0;
 }
 
 bool Ekko::canCastSpell(const std::string& spellName) {
@@ -275,15 +257,9 @@ void Ekko::castSpell(const std::string& spellName) {
 			cooldown.startCooldown("E", spells["C Spell"].cooldownTime);
 		}
 		else if (spellName == "X Ult" && UltUnlocked) {
-			if (!positionHistory.empty()) {
-				auto targetPosition = positionHistory.front().first;
-				isTeleporting = true;
-				teleportTimer.restart();
-			}
-			else {
-				isTeleporting = false;
-			}
-			cooldown.startCooldown("Ult", spells["X Ult"].cooldownTime);
+			cout << "ult" << endl;
+			ult();
+			cooldown.startCooldown("X", spells["X Spell"].cooldownTime);
 		}
 		spells[spellName].lastCastTime = std::chrono::high_resolution_clock::now();
 		cooldown.startCooldown(spellName, spells[spellName].cooldownTime);
@@ -307,20 +283,14 @@ void Ekko::dash() {
 	dashingTimer.restart();
 }
 
-
-void Ekko::updatePositionHistory() {
-	if (positionClock.getElapsedTime().asSeconds() >= 0.1f) {
-		positionHistory.emplace_back(ekko_walk_sprite.getPosition(), positionClock.getElapsedTime());
-		if (positionHistory.size() > 40) {
-			positionHistory.pop_front();
-		}
-		positionClock.restart();
-	}
+void Ekko::ult() {
+	isUlting = true;
+	UltTimer.restart();
 }
 
 void Ekko::updateSpells(int gameLevel) {
 	if (gameLevel > level) points++;
-	level = gameLevel;
+	level++;
 
 	if (isDashing) {
 		float elapsed = dashingTimer.getElapsedTime().asSeconds();
@@ -339,21 +309,20 @@ void Ekko::updateSpells(int gameLevel) {
 		}
 	}
 
-	if (isTeleporting) {
-		float t = teleportTimer.getElapsedTime().asSeconds() / 0.5f;
-		if (t >= 1.0f) {
-			sf::Vector2f targetPosition = positionHistory.front().first;
-			ekko_walk_sprite.setPosition(targetPosition);
-			ekko_Auto_Attack_sprite.setPosition(targetPosition);
-			isTeleporting = false;
+	if (isUlting) {
+		cout << "ult 2" << endl;
+		if (!ekko_S.Ult) {
+			ekko_S.Ult = true;
+			Ekko_invincibility = true;
+			UltTimer.restart();
 		}
-		else {
-			sf::Vector2f targetPosition = positionHistory.front().first;
-			sf::Vector2f currentPosition = ekko_walk_sprite.getPosition();
-			sf::Vector2f interpolatedPosition = currentPosition + t * (targetPosition - currentPosition);
 
-			ekko_walk_sprite.setPosition(interpolatedPosition);
-			ekko_Auto_Attack_sprite.setPosition(interpolatedPosition);
+		float tUlt = UltTimer.getElapsedTime().asSeconds();
+
+		if (tUlt >= 4.0f) {
+			ekko_S.Ult = false;
+			isUlting = false;
+			Ekko_invincibility = false;
 		}
 	}
 
@@ -486,11 +455,6 @@ void Cooldown::initCooldown(sf::RenderWindow& window) {
 	Wspell.cooldownText.setFillColor(sf::Color::White);
 	Espell.cooldownText.setFillColor(sf::Color::White);
 	Ult.cooldownText.setFillColor(sf::Color::White);
-
-	Qspell.isUnlocked = false;
-	Wspell.isUnlocked = false;
-	Espell.isUnlocked = false;
-	Ult.isUnlocked = false;
 }
 
 void Cooldown::updateSpell(SpellIcon& spell, float deltaTime) {
