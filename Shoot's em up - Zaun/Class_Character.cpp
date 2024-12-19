@@ -361,8 +361,9 @@ void Ekko::ult() {
 }
 
 void Ekko::updateSpells(int gameLevel) {
-	if (gameLevel > level) points++;
-	level++;
+	if (gameLevel > level) {
+		points++;
+	}
 
 	if (isDashing) {
 		float elapsed = dashingTimer.getElapsedTime().asSeconds();
