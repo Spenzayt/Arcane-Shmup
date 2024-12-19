@@ -13,7 +13,7 @@ public:
     int MaxHardSoldierCustom;
     int TimeBeforeBossCustom;
 
-    float volumeMusic = 0.f;
+    float volumeMusic = 5.f;
 
     bool isMousePressed;
 

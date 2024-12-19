@@ -611,7 +611,7 @@ int mainGame() {
 #pragma region Marcus
             if (Marcus_Class.marcusApparition) {
                 if (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().x > 1920) {
-                    Marcus_Class.m_health = 50;
+                    Marcus_Class.m_health = 80;
                 }
                 if (!Marcus_Class.getAlive()) {
                     auto M_nowDying = chrono::steady_clock::now();
@@ -640,7 +640,7 @@ int mainGame() {
                     ///////////////////////////////////////////////////////////////////////
 
 
-                    if (Marcus_Class.m_health <= 25 && !Marcus_Class.isAttackingV2) {
+                    if (Marcus_Class.m_health <= 40 && !Marcus_Class.isAttackingV2) {
                         Marcus_Class.isAttacking = false;
                         Marcus_Class.transIsIn = true;
 
@@ -1191,16 +1191,16 @@ int resetGame() {
     game.level = 100;
     game.maxLevel = 4;
 
-    game.MaxEasySoldier = 4;
-    game.MaxMediumSoldier = 3;
-    game.MaxHardSoldier = 2;
-    game.TimeBeforeBoss = 5; //90
+    game.MaxEasySoldier = 3;
+    game.MaxMediumSoldier = 2;
+    game.MaxHardSoldier = 1;
+    game.TimeBeforeBoss = 60; 
 
     // Menu
-    menu.MaxEasySoldierCustom = 4;
-    menu.MaxMediumSoldierCustom = 3;
-    menu.MaxHardSoldierCustom = 2;
-    menu.TimeBeforeBossCustom = 90;
+    menu.MaxEasySoldierCustom = 3;
+    menu.MaxMediumSoldierCustom = 2;
+    menu.MaxHardSoldierCustom = 1;
+    menu.TimeBeforeBossCustom = 60;
 
     // Ekko
     Ekko_Class.LifeReset();
@@ -1247,7 +1247,7 @@ int resetGame() {
     //Marcus_Class.
     Marcus_Class.m_coordX = 2100;
     Marcus_Class.m_coordY = 500;
-    Marcus_Class.m_health = 50;
+    Marcus_Class.m_health = 80;
     Marcus_Class.m_isAlive = true;
     Marcus_Class.marcusApparition = false;
     Marcus_Class.isAttacking = true;

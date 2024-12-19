@@ -264,9 +264,10 @@ void Ekko::initWinMenu() {
 	textWin.setCharacterSize(300);
 	textWin.setFont(font);
 	textWin.setString("WIN");
+	textWin.setFillColor(sf::Color::Green);
 	textWin.setOutlineThickness(20);
 	textWin.setOutlineColor(sf::Color::Black);
-	textWin.setPosition(500, 250);
+	textWin.setPosition(650, 250);
 
 	boutonRestart.setSize(sf::Vector2f(300.f, 100.f));
 	boutonRestart.setFillColor(sf::Color::Red);
