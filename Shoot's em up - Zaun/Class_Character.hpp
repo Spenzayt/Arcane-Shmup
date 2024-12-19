@@ -123,11 +123,15 @@ public:
 	sf::Text textEnd;
 	sf::Font font;
 	sf::Text textWin;
+	sf::RectangleShape boutonRestart;
+	sf::Text textRestart;
+
+
 
 	std::string Ekko_name;
 	int Ekko_coordX = 225;
 	int	Ekko_coordY = 800;
-	int Ekko_health = 3;
+	int Ekko_health = 1;
 	bool Ekko_isAlive = true;
 	bool Ekko_invincibility = false;
 	float Ekko_speed = 1.0f;
@@ -143,10 +147,14 @@ public:
 	void initializeSpells();
 	bool canCastSpell(const std::string& spellName);
 	void castSpell(const std::string& spellName);
+
+
 	void initEndMenu();
 	void printEndMenu(sf::RenderWindow& window);
+
 	void initWinMenu();
 	void printWinMenu(sf::RenderWindow& window);
+
 
 	~Ekko();
 

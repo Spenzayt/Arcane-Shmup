@@ -242,11 +242,28 @@ void Ekko::initEndMenu() {
 	textEnd.setString("DEFEAT");
 	textEnd.setOutlineThickness(20);
 	textEnd.setOutlineColor(sf::Color::Black);
-	textEnd.setPosition(400, 250);
+	textEnd.setPosition(560, 250);
+	textEnd.setFillColor(sf::Color::Red);
+
+	boutonRestart.setSize(sf::Vector2f(300.f, 100.f));
+	boutonRestart.setFillColor(sf::Color::Red);
+	boutonRestart.setPosition(800, 760);
+	boutonRestart.setOutlineThickness(2);
+	boutonRestart.setOutlineColor(sf::Color::Black);
+
+	textRestart.setFont(font);
+	textRestart.setCharacterSize(100);
+	textRestart.setString("RESTART");
+	textRestart.setFillColor(sf::Color::Black);
+	textRestart.setOutlineThickness(2);
+	textRestart.setOutlineColor(sf::Color::Black);
+	textRestart.setPosition(830, 760);
 }
 
 void Ekko::printEndMenu(sf::RenderWindow& window) {
+	window.draw(boutonRestart);
 	window.draw(textEnd);
+	window.draw(textRestart);
 }
 
 void Ekko::initWinMenu() {
@@ -260,10 +277,26 @@ void Ekko::initWinMenu() {
 	textWin.setOutlineThickness(20);
 	textWin.setOutlineColor(sf::Color::Black);
 	textWin.setPosition(500, 250);
+
+	boutonRestart.setSize(sf::Vector2f(300.f, 100.f));
+	boutonRestart.setFillColor(sf::Color::Red);
+	boutonRestart.setPosition(800, 760);
+	boutonRestart.setOutlineThickness(2);
+	boutonRestart.setOutlineColor(sf::Color::Black);
+
+	textRestart.setFont(font);
+	textRestart.setCharacterSize(80);
+	textRestart.setString("RESTART");
+	textRestart.setFillColor(sf::Color::Black);
+	textRestart.setOutlineThickness(2);
+	textRestart.setOutlineColor(sf::Color::Black);
+	textRestart.setPosition(830, 760);
 }
 
 void Ekko::printWinMenu(sf::RenderWindow& window) {
 	window.draw(textWin);
+	window.draw(boutonRestart);
+	window.draw(textRestart);
 }
 struct SpellInfo {
 	float cooldownTime;
