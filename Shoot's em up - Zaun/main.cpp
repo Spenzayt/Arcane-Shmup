@@ -67,7 +67,7 @@ int mainGame() {
     HardSoldier_Class.hardSoldierInitAnimations();
     HardSoldier_Class.hardSoldierBulletInit();
 
-    Soldier_Class.createSoldiers(3);
+
 
     HUD healthBar(100, 100, 3);
     SCORE score;
@@ -86,6 +86,8 @@ int mainGame() {
         game.MaxHardSoldier = menu.MaxHardSoldierCustom;
         game.TimeBeforeBoss = menu.TimeBeforeBossCustom;
     }
+
+    if (game.MaxEasySoldier >= 1) Soldier_Class.createSoldiers(1);
 
     sf::Font font;
     if (!font.loadFromFile("assets/Arcane Nine.otf")) {
@@ -1150,17 +1152,18 @@ int mainGame() {
             if (game.score >= game.level * 10 && game.level < game.maxLevel) game.level++;
 
 #pragma endregion Levels
+
             if (!Ekko_Class.getAlive()) {
                 Ekko_Class.printEndMenu(game.window);
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && (sf::Mouse::getPosition().x <= 1100 && sf::Mouse::getPosition().x >= 800) && (sf::Mouse::getPosition().y <= 860 && sf::Mouse::getPosition().y >= 760)) {
-                    resetGame();
+                    PaintBlue.stop();
                     startMainMenu();
                 }
             }
             if (!Marcus_Class.getAlive()) {
                 Ekko_Class.printWinMenu(game.window);
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && (sf::Mouse::getPosition().x <= 1100 && sf::Mouse::getPosition().x >= 800) && (sf::Mouse::getPosition().y <= 860 && sf::Mouse::getPosition().y >= 760)) {
-                    resetGame();
+                    PaintBlue.stop();
                     startMainMenu();
                 }
             }

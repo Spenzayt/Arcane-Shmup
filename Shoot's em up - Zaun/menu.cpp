@@ -348,7 +348,7 @@ int Menu::mainMenu(sf::RenderWindow& window) {
             if (leftButton3.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
                 leftButton3.setFillColor(sf::Color(100, 100, 255));  // Blue on hover
                 if (mouseButtonPressed && !isMousePressed) {
-                    optionValues[2] = std::max(2, optionValues[2] - 1);
+                    optionValues[2] = std::max(0, optionValues[2] - 1);
                     optionText3.setString(std::to_string(optionValues[2]));
                     isMousePressed = true;
                 }
@@ -360,7 +360,7 @@ int Menu::mainMenu(sf::RenderWindow& window) {
             if (leftButton4.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos))) {
                 leftButton4.setFillColor(sf::Color(100, 100, 255));  // Blue on hover
                 if (mouseButtonPressed && !isMousePressed) {
-                    optionValues[3] = std::max(0, optionValues[3] - 1);
+                    optionValues[3] = std::max(2, optionValues[3] - 1);
                     optionText4.setString(std::to_string(optionValues[3]));
                     isMousePressed = true;
                 }
