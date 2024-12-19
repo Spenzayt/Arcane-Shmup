@@ -40,18 +40,6 @@ int mainGame() {
     PaintBlue.setVolume(menu.volumeMusic);
     PaintBlue.play();
 
-    if (game.isCustom) {
-        game.NbEasySoldier = menu.NbEasySoldierCustom;
-        game.NbMediumSoldier = menu.NbMediumSoldierCustom;
-        game.NbHardSoldier = menu.NbHardSoldierCustom;
-        game.MaxWaves = menu.MaxWavesCustom;
-    }
-
-    cout << "Easy : " << game.NbEasySoldier << std::endl;
-    cout << "Medium : " << game.NbMediumSoldier << std::endl;
-    cout << "Hard : " << game.NbHardSoldier << std::endl;
-    cout << "Waves : " << game.MaxWaves << std::endl;
-
 #pragma region Game Initialisation
     ParallaxBackground background1("assets/backgrounds/ground-zaunV2.png", 150.0f, 630, 1.1, 1.1);
     ParallaxBackground background2("assets/backgrounds/background-zaun.jpeg", 20.0f, -1890, 2, 2);
@@ -679,7 +667,6 @@ int mainGame() {
                             if (rand() % 10 == 0) {
                                 spawnBuff(sf::Vector2f(soldier.soldier_walk_sprite.getPosition()));
                             }
-                        }
                             game.score++;
                         }
 
@@ -1008,7 +995,6 @@ int mainGame() {
                     Marcus_Class.marcusApparition = true;
                 }
             }
-
 #pragma endregion Waves 
 
 #pragma region Score
@@ -1020,7 +1006,6 @@ int mainGame() {
 
 #pragma region Cooldown
 
-            float deltaTime = clock.restart().asSeconds();
             cooldown.draw(game.window);
 
 #pragma endregion Cooldown
@@ -1031,14 +1016,13 @@ int mainGame() {
 
 #pragma endregion Levels
 
-            game.window.display();
         }
+        game.window.display();
     }
     for (auto& buff : buffs) {
         delete buff;
     }
     buffs.clear();
-
     return 0;
 }
 

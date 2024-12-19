@@ -12,11 +12,7 @@ public:
     int MaxMediumSoldierCustom;
     int MaxHardSoldierCustom;
     int TimeBeforeBossCustom;
-    int NbEasySoldierCustom = 1;
-    int NbMediumSoldierCustom = 1;
-    int NbHardSoldierCustom = 1;
-    int MaxWavesCustom = 1;
-    float CoefDifficultyCustom = 1.5f;
+
     float volumeMusic = 5.f;
 
     sf::Sprite background_sprite;
