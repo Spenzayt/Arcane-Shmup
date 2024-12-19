@@ -467,6 +467,7 @@ void Ekko::SlowZone() {
 
 void Ekko::Boomerang() {
 	isBoomerangActive = true;
+	isTouchByBoom = false;
 	ekko_Boomerang_sprite.setPosition(sf::Vector2f(ekko_walk_sprite.getPosition().x, ekko_walk_sprite.getPosition().y + 0));
 }
 

@@ -45,23 +45,13 @@ public:
 
 	bool isAttacking = true;
 	bool marcus_anim_isAttacking = false;
-	bool isHealing = false;
-	bool isHit = false;
-	bool marcus_anim_isHit = false;
-	bool isDying = false;
-	bool marcus_anim_isDying = false;
-	bool printBody = false;
 	int countAnimAtk = 0;
-	int countAnimHeal = 0;
-	int countAnimHit = 0;
-	int countAnimDeath = 0;
-	int DeathCount = 0;
 	bool moveToFight = true;
 	bool reload = false;
 	int countBulletsMarcus = 0;
-	int attackSpeed = 110;
-	int attackSpeed2 = 55;
-	float bulletSpeed = 0.6f;
+	int attackSpeed = 180;
+	int attackSpeed2 = 120;
+	float bulletSpeed = 0.8f;
 	float laserSpeed = 2.f;
 	float speed = 1.0f;
 	int countAnimTrans = 0;
@@ -315,7 +305,6 @@ public:
 	void createSoldiers(int little);
 	void deleteHardSoldiers();
 	void bulletCreation();
-	void buffCreation();
 
 	int losePV(int damage) override;
 	int getHealth() override;

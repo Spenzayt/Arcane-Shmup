@@ -175,6 +175,7 @@ public:
 	sf::Vector2f SlowZoneTargetPosition;
 	sf::Clock SlowZoneTimer;
 
+	bool isTouchByBoom = false;
 	bool isBoomerangActive = false;
 	bool isBoomerangStart = false;
 	bool isBoomerangComingBack = false;
