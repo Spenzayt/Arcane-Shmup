@@ -730,6 +730,13 @@ int mainGame() {
                     Marcus_Class.marcusPrintWindow(game.window);
 
                     for (int i = 0; i < Marcus_Class.MarcusBullets.size(); i++) {
+                        if (Marcus_Class.MarcusBullets[i].getGlobalBounds().intersects(Ekko_Class.ekko_SlowZone_sprite.getGlobalBounds()) && Ekko_Class.getAlive() && Ekko_Class.ekko_S.SlowZone) {
+                            Marcus_Class.bulletSpeed = 0.2f;
+                        }
+
+                        if (!Marcus_Class.MarcusBullets[i].getGlobalBounds().intersects(Ekko_Class.ekko_SlowZone_sprite.getGlobalBounds()) && Ekko_Class.getAlive()) {
+                            Marcus_Class.bulletSpeed = 1.0f;
+                        }
                         bool destroyBulletsMarcus = false;
                         if(Ekko_Class.ekko_walk_sprite.getPosition().y <= 750) Marcus_Class.MarcusBullets[i].move(-15 * Marcus_Class.bulletSpeed, (Ekko_Class.ekko_walk_sprite.getPosition().x - 128) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y - Ekko_Class.ekko_walk_sprite.getPosition().y - 64));
                          else Marcus_Class.MarcusBullets[i].move(-15 * Marcus_Class.bulletSpeed, ((Ekko_Class.ekko_walk_sprite.getPosition().x + Ekko_Class.ekko_walk_sprite.getPosition().y) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y)));
@@ -1196,8 +1203,8 @@ void resetGame() {
     game.isOnMenuOption = false;
     game.isMusicPlaying = false;
 
-    game.level = 100;
-    game.maxLevel = 4;
+    game.level = 1;
+    game.maxLevel = 5;
 
     game.MaxEasySoldier = 4;
     game.MaxMediumSoldier = 3;
