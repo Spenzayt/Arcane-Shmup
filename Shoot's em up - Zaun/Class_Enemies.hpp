@@ -73,7 +73,7 @@ public:
 	sf::Vector2i marcus_anim_SecondPhase;
 
 	vector<sf::CircleShape> MarcusBullets;
-	vector<sf::CircleShape> MarcusLaser;
+	vector<sf::RectangleShape> MarcusLaser;
 
 
 	Marcus();

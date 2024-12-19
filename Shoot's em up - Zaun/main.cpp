@@ -611,7 +611,7 @@ int mainGame() {
 #pragma region Marcus
             if (Marcus_Class.marcusApparition) {
                 if (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().x > 1920) {
-                    Marcus_Class.m_health = 60;
+                    Marcus_Class.m_health = 80;
                 }
                 if (!Marcus_Class.getAlive()) {
                     auto M_nowDying = chrono::steady_clock::now();
@@ -623,7 +623,7 @@ int mainGame() {
                 }
                 if (Marcus_Class.getAlive()) {
                     if (Marcus_Class.moveToFight == true) {
-                        Marcus_Class.marcus_Auto_Attack_sprite.move(-1, 0);
+                        Marcus_Class.marcus_Auto_Attack_sprite.move(-3, 0);
                     }
                     if (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().x <= 1300) {
                         Marcus_Class.moveToFight = false;
@@ -640,7 +640,7 @@ int mainGame() {
                     ///////////////////////////////////////////////////////////////////////
 
 
-                    if (Marcus_Class.m_health <= 30 && !Marcus_Class.isAttackingV2) {
+                    if (Marcus_Class.m_health <= 40 && !Marcus_Class.isAttackingV2) {
                         Marcus_Class.isAttacking = false;
                         Marcus_Class.transIsIn = true;
 
@@ -663,16 +663,18 @@ int mainGame() {
                         if (Marcus_Class.isAttackingV2) {
                             Marcus_Class.marcus_anim_SecondPhase.x++;
                             Marcus_Class.countLaserTime++;
-                            if (Marcus_Class.countLaserTime == 330) {
+                            if (Marcus_Class.countLaserTime == 25) {
                                 Marcus_Class.laserActive = true;
                             }
                             if (Marcus_Class.laserActive && !Marcus_Class.moveToFight && !Marcus_Class.transIsIn) {
-                                Marcus_Class.MarcusLaser.push_back(sf::CircleShape());
+                                Marcus_Class.MarcusLaser.push_back(sf::RectangleShape());
                                 Marcus_Class.MarcusLaser.back().setFillColor(sf::Color::Red);
-                                Marcus_Class.MarcusLaser.back().setRadius(15);
-                                Marcus_Class.MarcusLaser.back().setPosition(Marcus_Class.marcus_Auto_Attack_sprite.getPosition().x + 250, Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y - 300);
-                                if (Marcus_Class.countLaserTime == 500) {
+                                Marcus_Class.MarcusLaser.back().setSize(sf::Vector2f(50.f, 10.f));
+                                Marcus_Class.MarcusLaser.back().setPosition(Marcus_Class.marcus_Auto_Attack_sprite.getPosition().x + 250, Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y + 140);
+
+                                if (Marcus_Class.countLaserTime == 27) {
                                     Marcus_Class.laserActive = false;
+                                    Marcus_Class.countLaserTime = 0;
                                 }
                             }
                         }
@@ -729,9 +731,9 @@ int mainGame() {
 
                     for (int i = 0; i < Marcus_Class.MarcusBullets.size(); i++) {
                         bool destroyBulletsMarcus = false;
-                        if (Ekko_Class.ekko_walk_sprite.getPosition().y <= 700 && Ekko_Class.ekko_walk_sprite.getPosition().y >= 525) Marcus_Class.MarcusBullets[i].move(-15 * Marcus_Class.bulletSpeed, (Ekko_Class.ekko_walk_sprite.getPosition().x) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y - Ekko_Class.ekko_walk_sprite.getPosition().y));/* / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y / Ekko_Class.ekko_walk_sprite.getPosition().y - 260)*/
-                        else Marcus_Class.MarcusBullets[i].move(-15 * Marcus_Class.bulletSpeed, ((Ekko_Class.ekko_walk_sprite.getPosition().x + Ekko_Class.ekko_walk_sprite.getPosition().y) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y + 128)));
-                        
+                        if(Ekko_Class.ekko_walk_sprite.getPosition().y <= 750) Marcus_Class.MarcusBullets[i].move(-15 * Marcus_Class.bulletSpeed, (Ekko_Class.ekko_walk_sprite.getPosition().x - 128) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y - Ekko_Class.ekko_walk_sprite.getPosition().y - 64));
+                         else Marcus_Class.MarcusBullets[i].move(-15 * Marcus_Class.bulletSpeed, ((Ekko_Class.ekko_walk_sprite.getPosition().x + Ekko_Class.ekko_walk_sprite.getPosition().y) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y)));
+
                         game.window.draw(Marcus_Class.MarcusBullets[i]);
 
                         if (Marcus_Class.MarcusBullets[i].getGlobalBounds().intersects(Ekko_Class.ekko_walk_sprite.getGlobalBounds()) && !Ekko_Class.Ekko_invincibility && Ekko_Class.getAlive()) {
@@ -740,11 +742,9 @@ int mainGame() {
                             invincibilityTimer = true;
                             invincibilityStartTime = chrono::steady_clock::now();
                             destroyBulletsMarcus = true;
-                            //Marcus_Class.MarcusBullets.erase(Marcus_Class.MarcusBullets.begin() + i);
                         }
                         else if (Marcus_Class.MarcusBullets[i].getPosition().x < 0 || Marcus_Class.MarcusBullets[i].getPosition().y < 0 || Marcus_Class.MarcusBullets[i].getPosition().y > 1080) {
                             destroyBulletsMarcus = true;
-                            //Marcus_Class.MarcusBullets.erase(Marcus_Class.MarcusBullets.begin() + i);
                         }
 
 
@@ -754,9 +754,9 @@ int mainGame() {
                     }
 
                     for (int i = 0; i < Marcus_Class.MarcusLaser.size(); i++) {
-                        if (Ekko_Class.ekko_walk_sprite.getPosition().y < 700) Marcus_Class.MarcusLaser[i].move(-10 * Marcus_Class.laserSpeed, (Ekko_Class.ekko_walk_sprite.getPosition().x) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y - Ekko_Class.ekko_walk_sprite.getPosition().y)/* / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y / Ekko_Class.ekko_walk_sprite.getPosition().y - 260)*/);
-                        else Marcus_Class.MarcusLaser[i].move(-10 * Marcus_Class.laserSpeed, ((Ekko_Class.ekko_walk_sprite.getPosition().x + Ekko_Class.ekko_walk_sprite.getPosition().y) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y + 128)));
-                        
+                        if (Ekko_Class.ekko_walk_sprite.getPosition().y <= 750) Marcus_Class.MarcusLaser[i].move(-10 * Marcus_Class.laserSpeed, (Ekko_Class.ekko_walk_sprite.getPosition().x - 128) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y - Ekko_Class.ekko_walk_sprite.getPosition().y - 64));
+                        else Marcus_Class.MarcusLaser[i].move(-10 * Marcus_Class.laserSpeed, ((Ekko_Class.ekko_walk_sprite.getPosition().x + Ekko_Class.ekko_walk_sprite.getPosition().y) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y)));
+
                         game.window.draw(Marcus_Class.MarcusLaser[i]);
 
                         if (Marcus_Class.MarcusLaser[i].getGlobalBounds().intersects(Ekko_Class.ekko_walk_sprite.getGlobalBounds()) && !Ekko_Class.Ekko_invincibility && Ekko_Class.getAlive()) {
@@ -1202,13 +1202,13 @@ void resetGame() {
     game.MaxEasySoldier = 4;
     game.MaxMediumSoldier = 3;
     game.MaxHardSoldier = 2;
-    game.TimeBeforeBoss = 15; //90
+    game.TimeBeforeBoss = 60; 
 
     // Menu
     menu.MaxEasySoldierCustom = 4;
     menu.MaxMediumSoldierCustom = 3;
     menu.MaxHardSoldierCustom = 2;
-    menu.TimeBeforeBossCustom = 90;
+    menu.TimeBeforeBossCustom = 60;
 
     // Ekko
     Ekko_Class.LifeReset();
@@ -1255,7 +1255,7 @@ void resetGame() {
     //Marcus_Class.
     Marcus_Class.m_coordX = 2100;
     Marcus_Class.m_coordY = 500;
-    Marcus_Class.m_health = 60;
+    Marcus_Class.m_health = 80;
     Marcus_Class.m_isAlive = true;
     Marcus_Class.marcusApparition = false;
     Marcus_Class.isAttacking = true;
@@ -1264,9 +1264,9 @@ void resetGame() {
     Marcus_Class.reload = false;
     Marcus_Class.countBulletsMarcus = 0;
     Marcus_Class.attackSpeed = 110;
-    Marcus_Class.attackSpeed2 = 55;
+    Marcus_Class.attackSpeed2 = 90;
     Marcus_Class.bulletSpeed = 0.6f;
-    Marcus_Class.laserSpeed = 2.f;
+    Marcus_Class.laserSpeed = 5.f;
     Marcus_Class.speed = 1.0f;
     Marcus_Class.countAnimTrans = 0;
     Marcus_Class.transIsIn = false;
