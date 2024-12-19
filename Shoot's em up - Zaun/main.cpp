@@ -2,6 +2,7 @@
 #include <map>
 #include "parallax.hpp"
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "Classes.hpp"
 #include "menu.hpp"
 #include "hud.hpp"
@@ -19,7 +20,37 @@ void Wave(int NbOfEasySoldiers, int NbOfMediumSoldiers, int NbOfHardSoldiers) {
     HardSoldier_Class.createSoldiers(NbOfHardSoldiers);
 }
 
+std::vector<Buff*> buffs;
+
+void spawnBuff(sf::Vector2f position) {
+    if (rand() % 2 == 0) {
+        buffs.push_back(new BlueBuff(position));
+    }
+    else {
+        buffs.push_back(new RedBuff(position));
+    }
+}
+
 int mainGame() {
+
+    sf::Music PaintBlue;
+    if (!PaintBlue.openFromFile("assets\\Music\\Paint The Town BlueWAV.wav"))
+        cout << "music pas chargé bro" << endl << endl;
+    PaintBlue.setLoop(true);
+    PaintBlue.setVolume(menu.volumeMusic);
+    PaintBlue.play();
+
+    if (game.isCustom) {
+        game.NbEasySoldier = menu.NbEasySoldierCustom;
+        game.NbMediumSoldier = menu.NbMediumSoldierCustom;
+        game.NbHardSoldier = menu.NbHardSoldierCustom;
+        game.MaxWaves = menu.MaxWavesCustom;
+    }
+
+    cout << "Easy : " << game.NbEasySoldier << std::endl;
+    cout << "Medium : " << game.NbMediumSoldier << std::endl;
+    cout << "Hard : " << game.NbHardSoldier << std::endl;
+    cout << "Waves : " << game.MaxWaves << std::endl;
 
 #pragma region Game Initialisation
     ParallaxBackground background1("assets/backgrounds/ground-zaunV2.png", 150.0f, 630, 1.1, 1.1);
@@ -34,8 +65,6 @@ int mainGame() {
 
     Marcus_Class.marcusInitAnimations();
     Marcus_Class.marcusBulletInit();
-
-    //Soldier_Class.createSoldiers(3);
 
     Soldier_Class.soldierInitAnimations();
     Soldier_Class.soldierBulletInit();
@@ -54,9 +83,6 @@ int mainGame() {
 
     bool invincibilityTimer = false;
 
-    BlueBuff blueBuff(sf::Vector2f(1000, 800));
-    RedBuff redBuff(sf::Vector2f(1000, 1000));
-
     bool BlueBuffTimer = false;
     bool RedBuffTimer = false;
 
@@ -72,12 +98,10 @@ int mainGame() {
 #pragma region Clocks
 
     animationDelay = static_cast<int>(20.0f / Ekko_Class.Ekko_speed);
-    animationDelayAttack = static_cast<int>(50.0f / Ekko_Class.Ekko_attackSpeed);
 
     auto startTime = chrono::steady_clock::now();
     auto waitTime = chrono::milliseconds(70);
     auto startAttTime = chrono::steady_clock::now();
-    auto waitAttTime = chrono::milliseconds(animationDelayAttack);
     auto startReadyToAttackTime = chrono::steady_clock::now();
     auto waitReadyToAttackTime = chrono::seconds(1);
     auto startDashTime = chrono::steady_clock::now();
@@ -358,10 +382,13 @@ int mainGame() {
                         startHitTime = nowHitTime;
                     }
                 }
-                if (!Ekko_Class.Ekko_invincibility && !blueBuff.BlueBuffActivated && !redBuff.RedBuffActivated) {
+                if (!Ekko_Class.Ekko_invincibility /* && !blueBuff.BlueBuffActivated && !redBuff.RedBuffActivated*/) {
                     Ekko_Class.ekko_walk_sprite.setColor(sf::Color::White);
                     Ekko_Class.ekko_Auto_Attack_sprite.setColor(sf::Color::White);
                 }
+
+                animationDelayAttack = static_cast<int>(50.0f / Ekko_Class.Ekko_attackSpeed);
+                auto waitAttTime = chrono::milliseconds(animationDelayAttack);
 
                 if (Ekko_Class.ekko_S.ekko_anim_isAttacking) {
                     auto nowAttTime = chrono::steady_clock::now();
@@ -409,6 +436,9 @@ int mainGame() {
                             destroy = true;
                             if (!soldier.s_isAlive) {
                                 game.score++;
+                                if (rand() % 10 == 0) {
+                                    spawnBuff(sf::Vector2f(soldier.soldier_walk_sprite.getPosition()));
+                                }
                             }
                         }
                     }
@@ -419,6 +449,9 @@ int mainGame() {
                             mediumSoldier.losePV(1);
                             destroy = true;
                             if (!mediumSoldier.ms_isAlive) {
+                                if (rand() % 5 == 0) {
+                                    spawnBuff(sf::Vector2f(mediumSoldier.medium_soldier_walk_sprite.getPosition()));
+                                }
                                 game.score++;
                             }
                         }
@@ -431,6 +464,9 @@ int mainGame() {
                             destroy = true;
                             if (!hardSoldier.hs_isAlive) {
                                 game.score++;
+                                if (rand() % 2 == 0) {
+                                    spawnBuff(sf::Vector2f(hardSoldier.hard_soldier_walk_sprite.getPosition()));
+                                }
                             }
                         }
                     }
@@ -640,6 +676,10 @@ int mainGame() {
                     if (Ekko_Class.isBoomerangActive && Ekko_Class.ekko_Boomerang_sprite.getGlobalBounds().intersects(soldier.soldier_walk_sprite.getGlobalBounds())) {
                         soldier.losePV(Ekko_Class.boomerangDamage);
                         if (!soldier.s_isAlive) {
+                            if (rand() % 10 == 0) {
+                                spawnBuff(sf::Vector2f(soldier.soldier_walk_sprite.getPosition()));
+                            }
+                        }
                             game.score++;
                         }
 
@@ -720,6 +760,9 @@ int mainGame() {
                     if (Ekko_Class.isBoomerangActive && Ekko_Class.ekko_Boomerang_sprite.getGlobalBounds().intersects(mediumSoldier.medium_soldier_walk_sprite.getGlobalBounds())) {
                         mediumSoldier.losePV(Ekko_Class.boomerangDamage);
                         if (!mediumSoldier.ms_isAlive) {
+                            if (rand() % 5 == 0) {
+                                spawnBuff(sf::Vector2f(mediumSoldier.medium_soldier_walk_sprite.getPosition()));
+                            }
                             game.score++;
                         }
                     }
@@ -800,6 +843,9 @@ int mainGame() {
                     if (Ekko_Class.isBoomerangActive && Ekko_Class.ekko_Boomerang_sprite.getGlobalBounds().intersects(hardSoldier.hard_soldier_walk_sprite.getGlobalBounds())) {
                         hardSoldier.losePV(Ekko_Class.boomerangDamage);
                         if (!hardSoldier.hs_isAlive) {
+                            if (rand() % 2 == 0) {
+                                spawnBuff(sf::Vector2f(hardSoldier.hard_soldier_walk_sprite.getPosition()));
+                            }
                             game.score++;
                         }
                     }
@@ -864,54 +910,64 @@ int mainGame() {
 
 #pragma region Buff
 
-            if (blueBuff.touchByThePlayer(Ekko_Class.ekko_walk_sprite)) {
-                if (!blueBuff.BlueBuffActivated) {
-                    blueBuff.BlueBuffActivated = true;
-                    BlueBuffTimer = true;
-                    BlueBuffStartTime = chrono::steady_clock::now();
-                    Ekko_Class.Ekko_speed = 1.5;
-                    Ekko_Class.ekko_walk_sprite.setColor(sf::Color::Cyan);
-                    Ekko_Class.ekko_Auto_Attack_sprite.setColor(sf::Color::Cyan);
+            for (auto it = buffs.begin(); it != buffs.end(); ) {
+                (*it)->update();
+                ++it;
+            }
+
+            for (auto& buff : buffs) {
+                if (buff->touchByThePlayer(Ekko_Class.ekko_walk_sprite)) {
+                    if (!buff->isActivated()) {
+                        buff->activate();
+                        if (BlueBuff* blueBuff = dynamic_cast<BlueBuff*>(buff)) {
+                            Ekko_Class.Ekko_speed = 1.5;
+                            Ekko_Class.ekko_walk_sprite.setColor(sf::Color::Cyan);
+                            Ekko_Class.ekko_Auto_Attack_sprite.setColor(sf::Color::Cyan);
+                        }
+                        else if (RedBuff* redBuff = dynamic_cast<RedBuff*>(buff)) {
+                            Ekko_Class.Ekko_attackSpeed = 2.0f;
+                            Ekko_Class.ekko_walk_sprite.setColor(sf::Color::Red);
+                            Ekko_Class.ekko_Auto_Attack_sprite.setColor(sf::Color::Red);
+                        }
+                    }
                 }
             }
 
-            if (BlueBuffTimer) {
-                auto now = chrono::steady_clock::now();
-                auto duration = chrono::duration_cast<chrono::seconds>(now - BlueBuffStartTime).count();
-                if (duration > 10) {
-                    blueBuff.BlueBuffActivated = false;
-                    BlueBuffTimer = false;
-                    Ekko_Class.Ekko_speed = 1.0f;
-                    Ekko_Class.ekko_walk_sprite.setColor(sf::Color::White);
-                    Ekko_Class.ekko_Auto_Attack_sprite.setColor(sf::Color::White);
+            for (auto it = buffs.begin(); it != buffs.end(); ) {
+                if ((*it)->isActivated()) {
+                    auto now = std::chrono::steady_clock::now();
+                    auto duration = std::chrono::duration_cast<std::chrono::seconds>(now - (*it)->getStartTime()).count();
+
+                    if (duration > 10) {
+                        (*it)->deactivate();
+
+                        if (BlueBuff* blueBuff = dynamic_cast<BlueBuff*>(*it)) {
+                            Ekko_Class.Ekko_speed = 1.0f;
+                            Ekko_Class.ekko_walk_sprite.setColor(sf::Color::White);
+                            Ekko_Class.ekko_Auto_Attack_sprite.setColor(sf::Color::White);
+                        }
+                        else if (RedBuff* redBuff = dynamic_cast<RedBuff*>(*it)) {
+                            Ekko_Class.Ekko_attackSpeed = 1.0f;
+                            Ekko_Class.ekko_walk_sprite.setColor(sf::Color::White);
+                            Ekko_Class.ekko_Auto_Attack_sprite.setColor(sf::Color::White);
+                        }
+
+                        delete* it;
+                        it = buffs.erase(it);
+                    }
+                    else {
+                        ++it;
+                    }
+                }
+                else {
+                    ++it;
                 }
             }
 
-            if (redBuff.touchByThePlayer(Ekko_Class.ekko_walk_sprite)) {
-                if (!redBuff.RedBuffActivated) {
-                    redBuff.RedBuffActivated = true;
-                    RedBuffTimer = true;
-                    RedBuffStartTime = chrono::steady_clock::now();
-                    Ekko_Class.Ekko_attackSpeed = 2.0f;
-                    Ekko_Class.ekko_walk_sprite.setColor(sf::Color::Red);
-                    Ekko_Class.ekko_Auto_Attack_sprite.setColor(sf::Color::Red);
-                }
-            }
 
-            if (RedBuffTimer) {
-                auto now = chrono::steady_clock::now();
-                auto duration = chrono::duration_cast<chrono::seconds>(now - RedBuffStartTime).count();
-                if (duration > 10) {
-                    redBuff.RedBuffActivated = false;
-                    RedBuffTimer = false;
-                    Ekko_Class.Ekko_attackSpeed = 1.0f;
-                    Ekko_Class.ekko_walk_sprite.setColor(sf::Color::White);
-                    Ekko_Class.ekko_Auto_Attack_sprite.setColor(sf::Color::White);
-                }
+            for (auto& buff : buffs) {
+                buff->draw(game.window);
             }
-
-            blueBuff.draw(game.window);
-            redBuff.draw(game.window);
 
 #pragma endregion Buff
 
@@ -978,6 +1034,11 @@ int mainGame() {
             game.window.display();
         }
     }
+    for (auto& buff : buffs) {
+        delete buff;
+    }
+    buffs.clear();
+
     return 0;
 }
 

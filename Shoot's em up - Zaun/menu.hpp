@@ -12,10 +12,24 @@ public:
     int MaxMediumSoldierCustom;
     int MaxHardSoldierCustom;
     int TimeBeforeBossCustom;
+    int NbEasySoldierCustom = 1;
+    int NbMediumSoldierCustom = 1;
+    int NbHardSoldierCustom = 1;
+    int MaxWavesCustom = 1;
+    float CoefDifficultyCustom = 1.5f;
+    float volumeMusic = 5.f;
 
     sf::Sprite background_sprite;
     sf::Text title, subtitle;
 
+
+    sf::Texture settingsExitButtonTexture;
+    sf::Sprite settingsExitButtonSprite;
+    sf::RectangleShape settingsMenu;
+    sf::Text settingsTextGameMusic;
+    sf::Text valueSettingsTextGameMusic;
+    sf::Text plus;
+    sf::Text minus;
 
 private:
     sf::Texture background_texture;
