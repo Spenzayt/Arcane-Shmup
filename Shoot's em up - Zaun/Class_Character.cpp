@@ -236,12 +236,13 @@ void Ekko::initEndMenu() {
 	if (!font.loadFromFile("assets/Arcane Nine.otf")) {
 		std::cerr << "Error loading Font!" << std::endl;
 	}
+	font.setSmooth(true);
 	textEnd.setFont(font);
+	textEnd.setCharacterSize(300);
 	textEnd.setString("DEFEAT");
-	textEnd.setScale(15, 15);
-	textEnd.setOutlineThickness(3);
+	textEnd.setOutlineThickness(20);
 	textEnd.setOutlineColor(sf::Color::Black);
-	textEnd.setPosition(500, 400);
+	textEnd.setPosition(400, 250);
 }
 
 void Ekko::printEndMenu(sf::RenderWindow& window) {
@@ -252,12 +253,13 @@ void Ekko::initWinMenu() {
 	if (!font.loadFromFile("assets/Arcane Nine.otf")) {
 		std::cerr << "Error loading Font!" << std::endl;
 	}
+	font.setSmooth(true);
+	textWin.setCharacterSize(300);
 	textWin.setFont(font);
 	textWin.setString("WIN");
-	textWin.setScale(15, 15);
-	textWin.setOutlineThickness(3);
+	textWin.setOutlineThickness(20);
 	textWin.setOutlineColor(sf::Color::Black);
-	textWin.setPosition(600, 400);
+	textWin.setPosition(500, 250);
 }
 
 void Ekko::printWinMenu(sf::RenderWindow& window) {

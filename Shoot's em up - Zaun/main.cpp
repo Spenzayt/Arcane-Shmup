@@ -339,9 +339,6 @@ int mainGame() {
 #pragma endregion Background
 
 #pragma region Ekko
-            if (!Ekko_Class.getAlive()) {
-                Ekko_Class.printEndMenu(game.window);
-            }
             if (Ekko_Class.getAlive()) {
                 Ekko_Class.ekkoCommand();
                 Ekko_Class.ekkoDontExitFromScreen();
@@ -509,7 +506,6 @@ int mainGame() {
                         Marcus_Class.marcus_SecondPhase_sprite.setTextureRect(sf::IntRect(0, 0, 0, 0));
                         Marcus_Class.marcus_SecondPhase_sprite.setTextureRect(sf::IntRect(0, 0, 0, 0));
                     }
-                    Ekko_Class.printWinMenu(game.window);
                 }
                 if (Marcus_Class.getAlive()) {
                     if (Marcus_Class.moveToFight == true) {
@@ -983,7 +979,7 @@ int mainGame() {
 
 #pragma region Waves        
 
-            if (game.currentPhase == game.WavesPhase && game.currentWave < game.TimeBeforeBoss) {
+            if (game.currentPhase == game.WavesPhase && game.currentWave < game.TimeBeforeBoss && Ekko_Class.getAlive()) {
                 if (!Marcus_Class.marcusApparition) {
                     auto newWaveNowTimeSoldier = chrono::steady_clock::now();
                     if (newWaveNowTimeSoldier >= startNewWaveSoldier + waitNewWaveSoldier) {
@@ -1013,9 +1009,11 @@ int mainGame() {
                     }
                 }
 
-                auto newWaveNowTimeMarcus = chrono::steady_clock::now();
-                if (newWaveNowTimeMarcus >= startNewWaveMarcus + waitNewWaveMarcus) {
-                    Marcus_Class.marcusApparition = true;
+                if (Ekko_Class.getAlive()) {
+                    auto newWaveNowTimeMarcus = chrono::steady_clock::now();
+                    if (newWaveNowTimeMarcus >= startNewWaveMarcus + waitNewWaveMarcus) {
+                        Marcus_Class.marcusApparition = true;
+                    }
                 }
             }
 #pragma endregion Waves 
@@ -1038,7 +1036,12 @@ int mainGame() {
             if (game.score >= game.level * 10 && game.level < game.maxLevel) game.level++;
 
 #pragma endregion Levels
-
+            if (!Ekko_Class.getAlive()) {
+                Ekko_Class.printEndMenu(game.window);
+            }
+            if (!Marcus_Class.getAlive()) {
+                Ekko_Class.printWinMenu(game.window);
+            }
             game.window.display();
         }
     }
