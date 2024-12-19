@@ -1217,6 +1217,7 @@ int resetGame() {
     Ekko_Class.isBoomerangStart = false;
     Ekko_Class.isBoomerangComingBack = false;
     Ekko_Class.isSlowZoneActive = false;
+    Ekko_Class.isTouchByBoom = false;
     Ekko_Class.isDashing = false;
     Ekko_Class.isUlting = false;
     Ekko_Class.bullets.clear();

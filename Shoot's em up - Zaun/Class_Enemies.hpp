@@ -34,11 +34,11 @@ public:
 class Marcus : public Enemies {
 public:
 
-	int m_coordX = 2100;
-	int m_coordY = 500;
-	int m_health = 60;
-	bool m_isAlive = true;
-	bool marcusApparition = false;
+	int m_coordX;
+	int m_coordY;
+	int m_health;
+	bool m_isAlive;
+	bool marcusApparition;
 
 	bool isAttacking;
 	int countAnimAtk;

@@ -112,20 +112,6 @@ public:
 	sf::RectangleShape boutonRestart;
 	sf::Text textRestart;
 
-
-
-	std::string Ekko_name;
-	int Ekko_coordX = 225;
-	int	Ekko_coordY = 800;
-	int Ekko_health = 1;
-	bool Ekko_isAlive = true;
-	bool Ekko_invincibility = false;
-	float Ekko_speed = 1.0f;
-	float Ekko_attackSpeed = 1.0f;
-	int boomerangDamage = 5;
-	bool blueBuffActivated = false;
-	bool redBuffActivated = false;
-
 	int Ekko_coordX;
 	int	Ekko_coordY;
 	int Ekko_health;
@@ -175,10 +161,7 @@ public:
 	sf::Vector2f SlowZoneTargetPosition;
 	sf::Clock SlowZoneTimer;
 
-	bool isTouchByBoom = false;
-	bool isBoomerangActive = false;
-	bool isBoomerangStart = false;
-	bool isBoomerangComingBack = false;
+	bool isTouchByBoom;
 	bool isBoomerangActive;
 	bool isBoomerangStart;
 	bool isBoomerangComingBack;
