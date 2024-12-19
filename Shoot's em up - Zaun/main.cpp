@@ -623,7 +623,7 @@ int mainGame() {
                 }
                 if (Marcus_Class.getAlive()) {
                     if (Marcus_Class.moveToFight == true) {
-                        Marcus_Class.marcus_Auto_Attack_sprite.move(-1, 0);
+                        Marcus_Class.marcus_Auto_Attack_sprite.move(-3, 0);
                     }
                     if (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().x <= 1300) {
                         Marcus_Class.moveToFight = false;
@@ -729,9 +729,9 @@ int mainGame() {
 
                     for (int i = 0; i < Marcus_Class.MarcusBullets.size(); i++) {
                         bool destroyBulletsMarcus = false;
-                        if (Ekko_Class.ekko_walk_sprite.getPosition().y <= 700 && Ekko_Class.ekko_walk_sprite.getPosition().y >= 525) Marcus_Class.MarcusBullets[i].move(-15 * Marcus_Class.bulletSpeed, (Ekko_Class.ekko_walk_sprite.getPosition().x) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y - Ekko_Class.ekko_walk_sprite.getPosition().y));/* / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y / Ekko_Class.ekko_walk_sprite.getPosition().y - 260)*/
-                        else Marcus_Class.MarcusBullets[i].move(-15 * Marcus_Class.bulletSpeed, ((Ekko_Class.ekko_walk_sprite.getPosition().x + Ekko_Class.ekko_walk_sprite.getPosition().y) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y + 128)));
-                        
+                        if(Ekko_Class.ekko_walk_sprite.getPosition().y <= 750) Marcus_Class.MarcusBullets[i].move(-15 * Marcus_Class.bulletSpeed, (Ekko_Class.ekko_walk_sprite.getPosition().x - 128) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y - Ekko_Class.ekko_walk_sprite.getPosition().y - 64));/* / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y / Ekko_Class.ekko_walk_sprite.getPosition().y - 260)*/
+                         else Marcus_Class.MarcusBullets[i].move(-15 * Marcus_Class.bulletSpeed, ((Ekko_Class.ekko_walk_sprite.getPosition().x + Ekko_Class.ekko_walk_sprite.getPosition().y) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y)));
+
                         game.window.draw(Marcus_Class.MarcusBullets[i]);
 
                         if (Marcus_Class.MarcusBullets[i].getGlobalBounds().intersects(Ekko_Class.ekko_walk_sprite.getGlobalBounds()) && !Ekko_Class.Ekko_invincibility && Ekko_Class.getAlive()) {
@@ -754,7 +754,7 @@ int mainGame() {
                     }
 
                     for (int i = 0; i < Marcus_Class.MarcusLaser.size(); i++) {
-                        if (Ekko_Class.ekko_walk_sprite.getPosition().y < 700) Marcus_Class.MarcusLaser[i].move(-10 * Marcus_Class.laserSpeed, (Ekko_Class.ekko_walk_sprite.getPosition().x) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y - Ekko_Class.ekko_walk_sprite.getPosition().y)/* / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y / Ekko_Class.ekko_walk_sprite.getPosition().y - 260)*/);
+                        if (Ekko_Class.ekko_walk_sprite.getPosition().y <= 850) Marcus_Class.MarcusLaser[i].move(-10 * Marcus_Class.laserSpeed, (Ekko_Class.ekko_walk_sprite.getPosition().x) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y - Ekko_Class.ekko_walk_sprite.getPosition().y)/* / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y / Ekko_Class.ekko_walk_sprite.getPosition().y - 260)*/);
                         else Marcus_Class.MarcusLaser[i].move(-10 * Marcus_Class.laserSpeed, ((Ekko_Class.ekko_walk_sprite.getPosition().x + Ekko_Class.ekko_walk_sprite.getPosition().y) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y + 128)));
                         
                         game.window.draw(Marcus_Class.MarcusLaser[i]);
@@ -1194,7 +1194,7 @@ int resetGame() {
     game.MaxEasySoldier = 4;
     game.MaxMediumSoldier = 3;
     game.MaxHardSoldier = 2;
-    game.TimeBeforeBoss = 15; //90
+    game.TimeBeforeBoss = 5; //90
 
     // Menu
     menu.MaxEasySoldierCustom = 4;
