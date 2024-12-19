@@ -222,6 +222,72 @@ void Ekko::ekkoPrintWindow(sf::RenderWindow& window) {
 	}
 }
 
+void Ekko::initEndMenu() {
+	if (!font.loadFromFile("assets/Arcane Nine.otf")) {
+		std::cerr << "Error loading Font!" << std::endl;
+	}
+	font.setSmooth(true);
+	textEnd.setFont(font);
+	textEnd.setCharacterSize(300);
+	textEnd.setString("DEFEAT");
+	textEnd.setOutlineThickness(20);
+	textEnd.setOutlineColor(sf::Color::Black);
+	textEnd.setPosition(560, 250);
+	textEnd.setFillColor(sf::Color::Red);
+
+	boutonRestart.setSize(sf::Vector2f(300.f, 100.f));
+	boutonRestart.setFillColor(sf::Color::Red);
+	boutonRestart.setPosition(800, 760);
+	boutonRestart.setOutlineThickness(2);
+	boutonRestart.setOutlineColor(sf::Color::Black);
+
+	textRestart.setFont(font);
+	textRestart.setCharacterSize(100);
+	textRestart.setString("RESTART");
+	textRestart.setFillColor(sf::Color::Black);
+	textRestart.setOutlineThickness(2);
+	textRestart.setOutlineColor(sf::Color::Black);
+	textRestart.setPosition(830, 760);
+}
+
+void Ekko::printEndMenu(sf::RenderWindow& window) {
+	window.draw(boutonRestart);
+	window.draw(textEnd);
+	window.draw(textRestart);
+}
+
+void Ekko::initWinMenu() {
+	if (!font.loadFromFile("assets/Arcane Nine.otf")) {
+		std::cerr << "Error loading Font!" << std::endl;
+	}
+	font.setSmooth(true);
+	textWin.setCharacterSize(300);
+	textWin.setFont(font);
+	textWin.setString("WIN");
+	textWin.setOutlineThickness(20);
+	textWin.setOutlineColor(sf::Color::Black);
+	textWin.setPosition(500, 250);
+
+	boutonRestart.setSize(sf::Vector2f(300.f, 100.f));
+	boutonRestart.setFillColor(sf::Color::Red);
+	boutonRestart.setPosition(800, 760);
+	boutonRestart.setOutlineThickness(2);
+	boutonRestart.setOutlineColor(sf::Color::Black);
+
+	textRestart.setFont(font);
+	textRestart.setCharacterSize(80);
+	textRestart.setString("RESTART");
+	textRestart.setFillColor(sf::Color::Black);
+	textRestart.setOutlineThickness(2);
+	textRestart.setOutlineColor(sf::Color::Black);
+	textRestart.setPosition(830, 760);
+}
+
+void Ekko::printWinMenu(sf::RenderWindow& window) {
+	window.draw(textWin);
+	window.draw(boutonRestart);
+	window.draw(textRestart);
+}
 struct SpellInfo {
 	float cooldownTime;
 	std::chrono::time_point<std::chrono::high_resolution_clock> lastCastTime;
@@ -403,6 +469,7 @@ void Ekko::SlowZone() {
 
 void Ekko::Boomerang() {
 	isBoomerangActive = true;
+	isTouchByBoom = false;
 	ekko_Boomerang_sprite.setPosition(sf::Vector2f(ekko_walk_sprite.getPosition().x, ekko_walk_sprite.getPosition().y + 0));
 }
 

@@ -51,6 +51,8 @@ int mainGame() {
     Ekko_Class.ekkoInitAnimations();
     Ekko_Class.bulletInit();
     Ekko_Class.initializeSpells();
+    Ekko_Class.initEndMenu();
+    Ekko_Class.initWinMenu();
     cooldown.initCooldown(game.window);
 
     Marcus_Class.marcusInitAnimations();
@@ -606,6 +608,9 @@ int mainGame() {
 
 #pragma region Marcus
             if (Marcus_Class.marcusApparition) {
+                if (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().x > 1920) {
+                    Marcus_Class.m_health = 60;
+                }
                 if (!Marcus_Class.getAlive()) {
                     auto M_nowDying = chrono::steady_clock::now();
                     if (M_nowDying >= M_startDying + M_waitDying) {
@@ -616,14 +621,16 @@ int mainGame() {
                 }
                 if (Marcus_Class.getAlive()) {
                     if (Marcus_Class.moveToFight == true) {
-                        Marcus_Class.marcus_Auto_Attack_sprite.move(-2, 0);
+                        Marcus_Class.marcus_Auto_Attack_sprite.move(-1, 0);
                     }
                     if (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().x <= 1300) {
                         Marcus_Class.moveToFight = false;
                     }
-                    if (Ekko_Class.isBoomerangActive && Ekko_Class.ekko_Boomerang_sprite.getGlobalBounds().intersects(Marcus_Class.marcus_Auto_Attack_sprite.getGlobalBounds())) {
+                    if (Ekko_Class.isBoomerangActive && Ekko_Class.ekko_Boomerang_sprite.getGlobalBounds().intersects(Marcus_Class.marcus_Auto_Attack_sprite.getGlobalBounds()) && !Ekko_Class.isTouchByBoom) {
                         Marcus_Class.losePV(Ekko_Class.boomerangDamage);
+                        Ekko_Class.isTouchByBoom = true;
                     }
+                    
 
                     //ici fait en sorte que le Marcus puisse bouger tout le temps pendant qu'il attaque quand il est en deuxieme phase
                     //fait bouger les trois sprite comme ça pas d'emmerde
@@ -720,7 +727,7 @@ int mainGame() {
 
                     for (int i = 0; i < Marcus_Class.MarcusBullets.size(); i++) {
                         bool destroyBulletsMarcus = false;
-                        if (Ekko_Class.ekko_walk_sprite.getPosition().y <= 700) Marcus_Class.MarcusBullets[i].move(-15 * Marcus_Class.bulletSpeed, (Ekko_Class.ekko_walk_sprite.getPosition().x) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y - Ekko_Class.ekko_walk_sprite.getPosition().y));/* / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y / Ekko_Class.ekko_walk_sprite.getPosition().y - 260)*/
+                        if (Ekko_Class.ekko_walk_sprite.getPosition().y <= 700 && Ekko_Class.ekko_walk_sprite.getPosition().y >= 525) Marcus_Class.MarcusBullets[i].move(-15 * Marcus_Class.bulletSpeed, (Ekko_Class.ekko_walk_sprite.getPosition().x) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y - Ekko_Class.ekko_walk_sprite.getPosition().y));/* / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y / Ekko_Class.ekko_walk_sprite.getPosition().y - 260)*/
                         else Marcus_Class.MarcusBullets[i].move(-15 * Marcus_Class.bulletSpeed, ((Ekko_Class.ekko_walk_sprite.getPosition().x + Ekko_Class.ekko_walk_sprite.getPosition().y) / (Marcus_Class.marcus_Auto_Attack_sprite.getPosition().y + 128)));
                         
                         game.window.draw(Marcus_Class.MarcusBullets[i]);
@@ -778,9 +785,9 @@ int mainGame() {
                 }
                 if (soldier.getAlive()) {
                     if (soldier.moveToFight == true) {
-                        soldier.soldier_walk_sprite.move(-10, 0);
+                        soldier.soldier_walk_sprite.move(-7, 0);
                     }
-                    if (soldier.soldier_walk_sprite.getPosition().x <= 1300) {
+                    if (soldier.soldier_walk_sprite.getPosition().x <= 1200) {
                         soldier.moveToFight = false;
                     }
                     if (Ekko_Class.isBoomerangActive && Ekko_Class.ekko_Boomerang_sprite.getGlobalBounds().intersects(soldier.soldier_walk_sprite.getGlobalBounds())) {
@@ -861,9 +868,9 @@ int mainGame() {
                 }
                 if (mediumSoldier.getAlive()) {
                     if (mediumSoldier.moveToFight == true) {
-                        mediumSoldier.medium_soldier_walk_sprite.move(-8, 0);
+                        mediumSoldier.medium_soldier_walk_sprite.move(-5, 0);
                     }
-                    if (mediumSoldier.medium_soldier_walk_sprite.getPosition().x <= 1400) {
+                    if (mediumSoldier.medium_soldier_walk_sprite.getPosition().x <= 1300) {
                         mediumSoldier.moveToFight = false;
                     }
                     if (Ekko_Class.isBoomerangActive && Ekko_Class.ekko_Boomerang_sprite.getGlobalBounds().intersects(mediumSoldier.medium_soldier_walk_sprite.getGlobalBounds())) {
@@ -944,9 +951,9 @@ int mainGame() {
                 }
                 if (hardSoldier.getAlive()) {
                     if (hardSoldier.moveToFight == true) {
-                        hardSoldier.hard_soldier_walk_sprite.move(-7, 0);
+                        hardSoldier.hard_soldier_walk_sprite.move(-12, 0);
                     }
-                    if (hardSoldier.hard_soldier_walk_sprite.getPosition().x <= 1600) {
+                    if (hardSoldier.hard_soldier_walk_sprite.getPosition().x <= 1150) {
                         hardSoldier.moveToFight = false;
                     }
                     if (Ekko_Class.isBoomerangActive && Ekko_Class.ekko_Boomerang_sprite.getGlobalBounds().intersects(hardSoldier.hard_soldier_walk_sprite.getGlobalBounds())) {
@@ -1086,7 +1093,7 @@ int mainGame() {
 
 #pragma region Waves        
 
-            if (game.currentPhase == game.WavesPhase && game.currentWave < game.TimeBeforeBoss) {
+            if (game.currentPhase == game.WavesPhase && game.currentWave < game.TimeBeforeBoss && Ekko_Class.getAlive()) {
                 if (!Marcus_Class.marcusApparition) {
                     auto newWaveNowTimeSoldier = chrono::steady_clock::now();
                     if (newWaveNowTimeSoldier >= startNewWaveSoldier + waitNewWaveSoldier) {
@@ -1116,9 +1123,11 @@ int mainGame() {
                     }
                 }
 
-                auto newWaveNowTimeMarcus = chrono::steady_clock::now();
-                if (newWaveNowTimeMarcus >= startNewWaveMarcus + waitNewWaveMarcus) {
-                    Marcus_Class.marcusApparition = true;
+                if (Ekko_Class.getAlive()) {
+                    auto newWaveNowTimeMarcus = chrono::steady_clock::now();
+                    if (newWaveNowTimeMarcus >= startNewWaveMarcus + waitNewWaveMarcus) {
+                        Marcus_Class.marcusApparition = true;
+                    }
                 }
             }
 #pragma endregion Waves 
@@ -1141,7 +1150,20 @@ int mainGame() {
             if (game.score >= game.level * 10 && game.level < game.maxLevel) game.level++;
 
 #pragma endregion Levels
-
+            if (!Ekko_Class.getAlive()) {
+                Ekko_Class.printEndMenu(game.window);
+                if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && (sf::Mouse::getPosition().x <= 1100 && sf::Mouse::getPosition().x >= 800) && (sf::Mouse::getPosition().y <= 860 && sf::Mouse::getPosition().y >= 760)) {
+                    resetGame();
+                    startMainMenu();
+                }
+            }
+            if (!Marcus_Class.getAlive()) {
+                Ekko_Class.printWinMenu(game.window);
+                if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && (sf::Mouse::getPosition().x <= 1100 && sf::Mouse::getPosition().x >= 800) && (sf::Mouse::getPosition().y <= 860 && sf::Mouse::getPosition().y >= 760)) {
+                    resetGame();
+                    startMainMenu();
+                }
+            }
             game.window.display();
         }
     }
@@ -1169,7 +1191,7 @@ int resetGame() {
     game.MaxEasySoldier = 4;
     game.MaxMediumSoldier = 3;
     game.MaxHardSoldier = 2;
-    game.TimeBeforeBoss = 90;
+    game.TimeBeforeBoss = 15; //90
 
     // Menu
     menu.MaxEasySoldierCustom = 4;

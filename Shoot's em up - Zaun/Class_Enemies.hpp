@@ -248,7 +248,6 @@ public:
 	void createSoldiers(int little);
 	void deleteHardSoldiers();
 	void bulletCreation();
-	void buffCreation();
 
 	int losePV(int damage) override;
 	int getHealth() override;

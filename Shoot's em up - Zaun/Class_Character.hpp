@@ -106,6 +106,26 @@ public:
 	sf::Texture ekko_Boomerang_texture;
 	sf::Sprite ekko_Boomerang_sprite;
 
+	sf::Text textEnd;
+	sf::Font font;
+	sf::Text textWin;
+	sf::RectangleShape boutonRestart;
+	sf::Text textRestart;
+
+
+
+	std::string Ekko_name;
+	int Ekko_coordX = 225;
+	int	Ekko_coordY = 800;
+	int Ekko_health = 1;
+	bool Ekko_isAlive = true;
+	bool Ekko_invincibility = false;
+	float Ekko_speed = 1.0f;
+	float Ekko_attackSpeed = 1.0f;
+	int boomerangDamage = 5;
+	bool blueBuffActivated = false;
+	bool redBuffActivated = false;
+
 	int Ekko_coordX;
 	int	Ekko_coordY;
 	int Ekko_health;
@@ -123,6 +143,14 @@ public:
 	void initializeSpells();
 	bool canCastSpell(const std::string& spellName);
 	void castSpell(const std::string& spellName);
+
+
+	void initEndMenu();
+	void printEndMenu(sf::RenderWindow& window);
+
+	void initWinMenu();
+	void printWinMenu(sf::RenderWindow& window);
+
 
 	~Ekko();
 
@@ -147,6 +175,10 @@ public:
 	sf::Vector2f SlowZoneTargetPosition;
 	sf::Clock SlowZoneTimer;
 
+	bool isTouchByBoom = false;
+	bool isBoomerangActive = false;
+	bool isBoomerangStart = false;
+	bool isBoomerangComingBack = false;
 	bool isBoomerangActive;
 	bool isBoomerangStart;
 	bool isBoomerangComingBack;
