@@ -1,8 +1,8 @@
 # Zaun: Battle of Nations
 
-![image](https://github.com/user-attachments/assets/62c52d1b-b6c2-4196-9b8d-374198f4f2c2)
-
 ## 1. Quick Overview
+
+![image](https://github.com/user-attachments/assets/62c52d1b-b6c2-4196-9b8d-374198f4f2c2)
 
 **Zaun: Battle of Nations** is a shoot'em up (shmup) inspired by the universe of *Arcane* and *League of Legends*. Developed in 3 weeks as part of a student project, this game allows players to control a character from Zaun and engage in battle against the Pacifiers, the main enemies. The goal is to progress through the levels, defeat enemies and bosses, all while exploring a colorful and detailed pixel art world.
 
@@ -38,6 +38,8 @@ Enemies are classified into three categories, each with different behaviors:
 
 The game currently includes one boss for the first level:
 - **Marcus**: A boss armed with a Pacifier pistol, attacking with waves of shots and heat-seeking missiles.
+
+![image](https://github.com/user-attachments/assets/1eb3bed6-f7e7-4657-955e-a52c24542871)
 
 ### 2.5. Progression
 
