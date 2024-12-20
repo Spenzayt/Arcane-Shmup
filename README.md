@@ -1,3 +1,4 @@
+![image](https://github.com/user-attachments/assets/62c52d1b-b6c2-4196-9b8d-374198f4f2c2)
 # Zaun: Battle of Nations
 
 ## 1. Quick Overview
