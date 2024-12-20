@@ -6,6 +6,8 @@
 
 The game features a progression system with unique abilities for each character and engaging gameplay mechanics, ranging from automatic shooting to special abilities with various effects. Although the game is not finished, it already offers an immersive experience for fans of the *League of Legends* universe.
 
+- Created in 3 weeks by 2 people.
+
 ## 2. Features Implemented
 
 ### 2.1. Gameplay
