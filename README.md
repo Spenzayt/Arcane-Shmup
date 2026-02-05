@@ -6,7 +6,7 @@
 
 The game features a progression system with unique abilities for each character and engaging gameplay mechanics, ranging from automatic shooting to special abilities with various effects. Although the game is not finished, it already offers an immersive experience for fans of the *League of Legends* universe.
 
-- Created in 3 weeks by [Spenza](https://github.com/Spenzayt) and [pikapuche](https://github.com/pikapuche)
+- Created in 3 weeks (December 2024) by [Spenza](https://github.com/Spenzayt) and [pikapuche](https://github.com/pikapuche)
 
 ![image](https://github.com/user-attachments/assets/62c52d1b-b6c2-4196-9b8d-374198f4f2c2)
 
